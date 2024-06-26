@@ -25,6 +25,10 @@ html {
     scroll-behavior: smooth;
 }
 
+body {
+  background-color: $bg-color;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -32,6 +36,7 @@ html {
     box-sizing: border-box;
     font-variation-settings: 'wght' 400;
 }
+
 
 @mixin dFlex($jc: center, $ai: center) {
     display: flex;

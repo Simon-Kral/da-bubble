@@ -1,7 +1,7 @@
 @import '../../../styles.scss';
 
 .header-container {
-  
+
   padding: 24px;
   @include dFlex(space-between, center);
   align-items: center;
@@ -12,6 +12,7 @@
     background-repeat: no-repeat;
     background-position: 95% center;
     border-radius: 42px;
+    border: none;
   }
 
   >.user-avatar {
