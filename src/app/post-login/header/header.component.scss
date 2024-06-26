@@ -1,11 +1,21 @@
 @import '../../../styles.scss';
 
 .header-container {
+  
   padding: 24px;
   @include dFlex(space-between, center);
   align-items: center;
+  >.header-searchbar {
+    padding: 17.5px 45px;
+    width: 989px;
+    background-image: url('../../../assets/img/icons/search.png');
+    background-repeat: no-repeat;
+    background-position: 95% center;
+    border-radius: 42px;
+  }
+
   >.user-avatar {
-    @include dFlex("center", "center" );
+    @include dFlex(center, center );
     gap: 16px;
     >img {
       border-radius: 50%;
@@ -13,8 +23,7 @@
       height: 70px;
     }
     >span {
-      align-self: center;
-    }
 
+    }
   }
 }
