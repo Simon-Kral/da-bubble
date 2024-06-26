@@ -15,7 +15,8 @@
     border-radius: 42px;
     border: none;
     &:focus {
-      border-color: $purple-1;
+      border: 1px solid $purple-3;
+      outline: none
     }
   }
 
