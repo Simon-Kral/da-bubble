@@ -1,1 +1,78 @@
-/* You can add global styles to this file, and also import other style files */
+$bg-color: #ECEEFE;
+$white: #FFFFFF;
+$black: #000000;
+$purple-1: #444DF2;
+$purple-2: #797EF3;
+$purple-3: #535AF1;
+$light-purple-lines: #ADB0D9;
+$menu-color: #42526E;
+$text-gray: #686868;
+$disabled-btn: #BDBDBD;
+$online-green: #92C83E;
+$online-red: #FF0000;
+// below needs to be filled with correct hex-code
+
+// 
+
+// $pink-error: #ECEEFE;
+
+
+
+// example usage
+// background-color: $bg-color;
+
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', Calibri, 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
+    font-variation-settings: 'wght' 400;
+}
+
+@mixin dFlex($jc: center, $ai: center) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;
+}
+
+
+@mixin Nunito ($weight, $size, $line-height, $color) {
+    font-family: 'Nunito', sans-serif;
+    font-variation-settings: 'wght' $weight;
+    font-size: $size;
+    line-height: $line-height;
+    color: $color;
+}
+
+@mixin OpenSans ($weight, $size, $line-height, $color) {
+    font-family: 'Open Sans', sans-serif;
+    font-variation-settings: 'wght' $weight;
+    font-size: $size;
+    line-height: $line-height;
+    color: $color;
+}
+
+//example usage
+
+// @include Nunito(400, 16px, 18.8px, $red);
+
+
+@font-face {
+    font-family: "Nunito";
+    src: url("assets/fonts/Nunito/Nunito-VariableFont_wght.ttf") format("truetype");
+    font-weight: 125 950;
+    font-stretch: 75% 125%;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Open Sans";
+    src: url("assets/fonts/Open_Sans/OpenSans-Variable.ttf") format("truetype");
+    font-weight: 125 950;
+    font-stretch: 75% 125%;
+    font-style: normal;
+}
