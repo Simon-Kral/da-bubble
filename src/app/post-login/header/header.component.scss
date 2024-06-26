@@ -6,6 +6,7 @@
   @include dFlex(space-between, center);
   align-items: center;
   >.header-searchbar {
+    @include Nunito(400, 24px, 18.8px, $text-gray);
     padding: 17.5px 45px;
     width: 989px;
     background-image: url('../../../assets/img/icons/search.png');
@@ -13,6 +14,9 @@
     background-position: 95% center;
     border-radius: 42px;
     border: none;
+    &:focus {
+      border-color: $purple-1;
+    }
   }
 
   >.user-avatar {
@@ -24,6 +28,7 @@
       height: 70px;
     }
     >span {
+      @include Nunito(700, 32px, 18.8px, $black);
 
     }
   }
