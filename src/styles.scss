@@ -12,7 +12,7 @@ $online-green: #92C83E;
 $online-red: #FF0000;
 // below needs to be filled with correct hex-code
 
-// 
+//
 
 // $pink-error: #ECEEFE;
 
@@ -60,7 +60,6 @@ html {
 
 // @include Nunito(400, 16px, 18.8px, $red);
 
-
 @font-face {
     font-family: "Nunito";
     src: url("assets/fonts/Nunito/Nunito-VariableFont_wght.ttf") format("truetype");
@@ -75,4 +74,8 @@ html {
     font-weight: 125 950;
     font-stretch: 75% 125%;
     font-style: normal;
+}
+
+.pointer {
+    cursor: pointer;
 }
