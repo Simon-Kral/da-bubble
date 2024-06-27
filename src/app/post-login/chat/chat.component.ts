@@ -36,4 +36,8 @@ export class ChatComponent {
       profileImg: 'assets/img/character-images/character_3.png'
     },
   ]
+
+  getLeftStyle(index: number): string {
+    return (index * 10).toString();
+  }
 }

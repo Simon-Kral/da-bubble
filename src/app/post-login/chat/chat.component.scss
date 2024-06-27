@@ -36,6 +36,8 @@
       gap: 16px;
       >.user-profile-img-container{
         > img {
+          position: absolute;
+          bottom: calc(50% - 20px);
           width: 40px;
           height: 40px;
           border-radius: 50%;

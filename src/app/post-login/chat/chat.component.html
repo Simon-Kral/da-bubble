@@ -13,7 +13,6 @@
       <div class="user-profile-img-container">
         @for(user of users; track user.id; let index = $index) {
           @if(index < 3) {
-            <img src="{{user.profileImg}}" alt="" />
           }
         }
       </div>
