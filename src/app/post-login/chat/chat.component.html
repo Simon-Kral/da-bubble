@@ -13,11 +13,22 @@
       <div class="user-profile-img-container">
         @for(user of users; track user.id; let index = $index) {
           @if(index < 3) {
+            <img
+              [ngStyle]="{'left': getLeftStyle(index) + 'px'}"
+              class="user-profile-img"
+              src="{{user.profileImg}}"
+              alt=""
+            />
           }
         }
       </div>
       <div class="user-counter">
         <span>{{users.length}}</span>
+      </div>
+      <div class="add-btn">
+        <button class="add-person">
+          <img src="../../../assets/img/icons/person_add.png" alt="Add button">
+        </button>
       </div>
   </div>
 

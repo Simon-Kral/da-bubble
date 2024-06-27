@@ -5,13 +5,13 @@
   height: 88vh;
   width: 1000px;
   border-radius: 30px;
-  background-color: #fff;
+  background-color: $white;
   > .group-display {
     padding: 25px 45px;
     @include dFlex(space-between, center);
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
-    box-shadow: 0px 3px 4px -2px rgba(0, 0, 0, 0.10);
+    box-shadow: 0px 3px 4px -2px rgba(0, 0, 0, 0.1);
     > .active-group-chat {
       @include dFlex(center, center);
       gap: 16px;
@@ -34,16 +34,20 @@
       position: relative;
       @include dFlex(center, center);
       gap: 16px;
-      >.user-profile-img-container{
-        > img {
+      > .user-profile-img-container {
+        width: 92px;
+        > .user-profile-img {
           position: absolute;
           bottom: calc(50% - 20px);
           width: 40px;
           height: 40px;
           border-radius: 50%;
+          border: 3px solid $white;
         }
       }
+      .user-counter {
+        @include Nunito(600, 20px, 27.28px, $black);
+      }
+    }
   }
-  }
-
 }

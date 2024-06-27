@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { last } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
@@ -38,6 +38,6 @@ export class ChatComponent {
   ]
 
   getLeftStyle(index: number): string {
-    return (index * 10).toString();
+    return (index * 28).toString();
   }
 }
