@@ -1,0 +1,73 @@
+@import "../../../styles.scss";
+
+
+// SideNav start
+.sidenav-wrapper {
+  width: 366px;
+  height: 940px;
+  border-radius: 30px;
+  padding: 32px 30px 32px 30px;
+  margin-left: 20px;
+  background-color: $white;
+}
+.sidenav-content {
+    width: 306px;
+    height: 671px;
+    gap: 25px;
+}
+.sidenav-header {
+  width: 100%;
+  margin-bottom: 32px;
+  margin-top: 16px;
+  gap: 4px;
+  @include dFlex(space-between, center);
+  h1 {
+    margin: unset !important;
+    white-space: nowrap;
+    @include Nunito(700, 24px, 32.74px, $black);
+  }
+}
+.sidenav-header-left {
+    @include dFlex(center, center);
+    width: 250px;
+    height: 60px;
+    padding: 0px 20px 0px 0px;
+    gap: 15px;
+}
+.sidenav-logo {
+  height: 60px;
+  width: 60px;
+}
+.channels-headline {
+  @include dFlex(flex-start, center);
+
+  h2 {
+    @include Nunito(700, 20px, 27.28px, $black);
+  }
+}
+.channels-sidenav-wrapper {
+  @include dFlex(flex-start, center);
+
+  span {
+    @include Nunito(700, 20px, 27.28px, $black);
+  }
+}
+.channels-content {
+    span {
+        @include Nunito(400, 18px, 24.55px, $black);
+    }
+}
+
+.add-channel {
+    @include dFlex(flex-start, center);
+    @include Nunito(400, 18px, 24.55px, $black);
+}
+
+.private-conversation-container {
+  @include dFlex(flex-start, center);
+  span {
+    @include Nunito(700, 20px, 27.28px, $black);
+  }
+}
+
+// SideNav end
