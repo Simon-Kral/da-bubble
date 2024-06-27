@@ -1,0 +1,39 @@
+@import "../../../styles.scss";
+
+.group-chat-container {
+  position: relative;
+  padding: 25px 45px;
+  height: 88vh;
+  width: 1000px;
+  border-radius: 30px;
+  background-color: #fff;
+  @include dFlex(space-between, center);
+  > .group-display {
+    > .active-group-chat {
+      @include dFlex(center, center);
+      gap: 16px;
+
+      > img:first-child {
+        width: 22px;
+        height: 23px;
+      }
+
+      > span {
+        @include Nunito(700, 24px, 18.8px, $black);
+      }
+
+      > img:last-child {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+  > .avatar-colection {
+    position: relative;
+    > img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+  }
+}
