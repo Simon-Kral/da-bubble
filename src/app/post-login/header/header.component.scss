@@ -4,6 +4,11 @@
   padding: 24px;
   @include dFlex(space-between, center);
   align-items: center;
+  >.logo-container {
+    @include dFlex(center, center);
+    gap: 16px;
+  }
+
   >.header-searchbar {
     @include Nunito(400, 24px, 18.8px, $text-gray);
     padding: 17.5px 45px;
@@ -28,9 +33,9 @@
       width: 70px;
       height: 70px;
     }
-    >span {
-      @include Nunito(700, 32px, 18.8px, $black);
-      text-wrap: nowrap;
-    }
+  }
+  span {
+    @include Nunito(700, 32px, 18.8px, $black);
+    text-wrap: nowrap;
   }
 }
