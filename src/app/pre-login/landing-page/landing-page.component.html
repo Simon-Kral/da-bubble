@@ -1,9 +1,12 @@
 <app-landing-header></app-landing-header>
-<div class="content">
-    <app-login></app-login>
+<div class="content_wrap">
+    <div class="content">
+        <app-login></app-login>
+    </div>
 </div>
 <app-landing-footer></app-landing-footer>
 <div class="overlay dNone"
     [@fadeOut]="isShown"
     (@fadeOut.start)="$event.element.style.display = 'block'"
-    (@fadeOut.done)="$event.element.style.display = ($event.toState ? 'block' : 'none')"></div>
+    (@fadeOut.done)="$event.element.style.display = ($event.toState ? 'block' : 'none')"
+></div>

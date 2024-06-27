@@ -26,10 +26,8 @@ import { NgIf } from '@angular/common';
       state('false', style({
         opacity: '0'
       })),
-
-      // todo replace animate('500ms 2.5s')
-      transition('* => *', animate('500ms ease'))
-
+      // transition('* => *', animate('500ms 2.5s')) // orig
+      transition('* => *', animate('500ms ease')) // testing
     ])
   ],
   templateUrl: './landing-page.component.html',

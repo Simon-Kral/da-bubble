@@ -10,6 +10,8 @@ $text-gray: #686868;
 $disabled-btn: #BDBDBD;
 $online-green: #92C83E;
 $online-red: #FF0000;
+$header-height: 120px;
+$footer-height: 90px;
 // below needs to be filled with correct hex-code
 
 // 
@@ -39,6 +41,37 @@ html {
     align-items: $ai;
 }
 
+@mixin buttonBlue() {
+    @include Nunito(700, 18px, 24.55px, $white);
+    background-color: $purple-1;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    &:hover {
+        background-color: $purple-2;
+    }
+    &:active {
+        background-color: $purple-1;
+        color: $white;
+    }
+}
+
+@mixin buttonWhite() {
+    @include Nunito(700, 18px, 24.55px, $purple-1);
+    background-color: $white;
+    border: 1px solid $purple-2;
+    padding: 12px 25px;
+    border-radius: 25px;
+    &:hover {
+        background-color: $purple-3;
+        color: $white;
+    }
+    &:active {
+        background-color: $purple-1;
+        color: $white;
+    }
+}
+
 
 @mixin Nunito ($weight, $size, $line-height, $color) {
     font-family: 'Nunito', sans-serif;
@@ -50,6 +83,14 @@ html {
 
 @mixin OpenSans ($weight, $size, $line-height, $color) {
     font-family: 'Open Sans', sans-serif;
+    font-variation-settings: 'wght' $weight;
+    font-size: $size;
+    line-height: $line-height;
+    color: $color;
+}
+
+@mixin Figtree ($weight, $size, $line-height, $color) {
+    font-family: 'Figtree', sans-serif;
     font-variation-settings: 'wght' $weight;
     font-size: $size;
     line-height: $line-height;
@@ -72,6 +113,14 @@ html {
 @font-face {
     font-family: "Open Sans";
     src: url("assets/fonts/Open_Sans/OpenSans-Variable.ttf") format("truetype");
+    font-weight: 125 950;
+    font-stretch: 75% 125%;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Figtree";
+    src: url("assets/fonts/Figtree/Figtree-VariableFont_wght.ttf") format("truetype");
     font-weight: 125 950;
     font-stretch: 75% 125%;
     font-style: normal;
