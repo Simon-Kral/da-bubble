@@ -1,12 +1,18 @@
-<header>
-    <div class="logo" [@move]="moveStarted">
+<header
+    [@intro]="introAnimationStarted"
+    (@intro.done)="onAnimationDone($event)"
+    >
+    <div class="logo_with_text">
         <img src="assets/img/logos/da_bubble_logo.png">
-        <span>DABubble</span>
+        <div class="span_wrap">
+            <span>DABubble</span>
+        </div>
     </div>
     <div>
         <div class="create_account">
-            <span>Neu bei DABubble?</span>
+                <span>Neu bei DABubble?</span>
             <a>Konto erstellen</a>
         </div>
     </div>
+    <div class="overlay" *ngIf="!introAnimationFinished"></div>
 </header>

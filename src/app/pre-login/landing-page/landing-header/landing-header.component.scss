@@ -2,6 +2,7 @@
 
 :host {
     width: 100%;
+    z-index: 1;
 }
 
 header {
@@ -12,19 +13,21 @@ header {
     width: 100%;
     height: $header-height;
     padding: 0 75px;
-    .logo {
+    .logo_with_text {
         @include dFlex($jc: flex-start);
-        z-index: 2;
+        gap: 16px;
         margin-bottom: 11px;
-        height: 140px;
         position: relative;
-        top: calc(50vh - 70px / 2);
-        left: calc(50% - 185.55px / 2);
+        z-index: 3;
         img {
             height: 100%;
         }
-        span {
-            @include Nunito(700, 24px, auto, $black);
+        .span_wrap {
+            overflow-x: hidden;
+            span {
+                position: relative;
+                @include Nunito(700, 24px, normal, $black);
+            }
         }
     }
     .create_account {
@@ -44,4 +47,14 @@ header {
             }
         }
     }
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(#797EF3, #313AE5);
+    z-index: 2;
 }
