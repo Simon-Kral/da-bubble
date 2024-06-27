@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChatComponent } from '../sheard/chat/chat.component';
 
 @Component({
   selector: 'app-channel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ChatComponent],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss'
 })

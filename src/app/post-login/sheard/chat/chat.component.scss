@@ -1,0 +1,57 @@
+@import '../../../../styles.scss';
+
+.user-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.user-name {
+  @include Nunito(700, 18px, 24.55px, $black);
+}
+
+.time {
+  @include Nunito(400, 14px, 19.09px, $text-gray);
+}
+
+
+
+.chat-container {
+  height: 93%;
+  padding: 35px 40px;
+  @include dFlex(center, center);
+  flex-direction: column;
+  gap: 24px;
+  .masseges {
+    @include dFlex(end, end);
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    flex-grow: 1;
+
+    > .get-message {
+      width: 100%;
+      @include dFlex(start, start);
+    }
+
+    > .send-message {
+      width: 100%;
+      @include dFlex(end, end);
+      > .current-user {
+        @include dFlex(center, start);
+        gap: 16px;
+
+        >span {
+          @include Nunito(700, 18px, 24.55px, $black);
+        }
+      }
+    }
+  }
+
+  .input-container {
+    width: 100%;
+    height: 145px;
+    border-radius: 20px;
+    border: 1px solid $purple-2;
+  }
+}
