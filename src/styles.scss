@@ -99,6 +99,19 @@ body {
     color: $color;
 }
 
+@mixin btnHover($color) {
+    background-color: darken($color, 10%);
+    transition: all 175ms ease-in;
+}
+
+@mixin btnActive($color) {
+  background-color: darken($color, 15%);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+  transition: all 175ms ease-in;
+}
+
+
+
 //example usage
 
 // @include Nunito(400, 16px, 18.8px, $red);
