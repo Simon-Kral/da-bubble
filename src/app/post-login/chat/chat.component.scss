@@ -54,6 +54,16 @@
           border-radius: 50%;
           border: none;
           background-color: $bg-color;
+          @include dFlex(center, center);
+        &:hover {
+          background-color: darken($bg-color, 10%);
+          transition: all 175ms ease-in;
+        }
+        &:active {
+          background-color: darken($bg-color, 15%);
+          box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+          transition: all 175ms ease-in;
+        }
       }
     }
   }
