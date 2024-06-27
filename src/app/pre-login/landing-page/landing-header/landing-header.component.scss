@@ -1,0 +1,47 @@
+@import './../../../../styles.scss';
+
+:host {
+    width: 100%;
+}
+
+header {
+    @include dFlex($jc: space-between, $ai: flex-end);
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $header-height;
+    padding: 0 75px;
+    .logo {
+        @include dFlex($jc: flex-start);
+        z-index: 2;
+        margin-bottom: 11px;
+        height: 140px;
+        position: relative;
+        top: calc(50vh - 70px / 2);
+        left: calc(50% - 185.55px / 2);
+        img {
+            height: 100%;
+        }
+        span {
+            @include Nunito(700, 24px, auto, $black);
+        }
+    }
+    .create_account {
+        @include dFlex($ai: flex-end);
+        gap: 10px;
+        flex-direction: column;
+        margin-bottom: 4px;
+        a {
+            @include Figtree(400, 18px, 21.6px, $purple-2);
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            &:hover {
+                border: 1px solid $light-purple-lines;
+                margin: -1px -1px;
+                font-variation-settings: 'wght' 500;
+            }
+        }
+    }
+}

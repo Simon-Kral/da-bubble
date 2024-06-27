@@ -1,0 +1,122 @@
+@import './../../../../styles.scss';
+
+:host {
+    @include dFlex();
+    flex-direction: column;
+    gap: 32px;
+    max-width: 500px;
+}
+
+h1 {
+    @include Nunito(700, 46px, 55.2px, $purple-1);
+}
+
+h2 {
+    @include Nunito(400, 20px, 24px, $black);
+    text-align: center;
+}
+
+.input_box {
+    @include dFlex($jc: flex-start);
+    gap: 32px;
+    background-color: $bg-color;
+    width: 100%;
+    height: 60px;
+    border-radius: 30px;
+    padding: 0 32px;
+    img {
+        max-width: 20px;
+        max-height: 21px;
+    }
+    input {
+        @include Nunito(500, 18px, 21.6px, $text-gray);
+        background-color: transparent;
+        border: none;
+        flex-grow: 1;
+        height: 100%;
+    }
+    &:hover {
+        border: 1px solid $text-gray;
+        padding: 0 31px;
+    }
+    &:focus-within {
+        border: 1px solid $purple-3;
+        padding: 0 31px;
+        img {
+            filter: saturate(0%) brightness(0%);
+        }
+        input {
+            outline: none;
+            color: $black;
+        }
+    }
+}
+
+.separator {
+    @include dFlex($ai: flex-end);
+    width: 100%;
+    height: 1px;
+    background-color: $light-purple-lines;
+    margin-top: 18.55px;
+    span {
+        @include Nunito(400, 18px, 24.55px, $black);
+        margin-bottom: -6px;
+        background-color: $white;
+        padding: 0 15px;
+        line-height: 24.55px;
+    }
+}
+
+.login_with_google {
+    @include dFlex();
+    gap: 20px;
+    background-color: $bg-color;
+    width: 100%;
+    height: 60px;
+    padding: 0 32px;
+    border: none;
+    border-radius: 30px;
+    img {
+        width: 38px;
+    }
+    span {
+        @include Nunito(400, 18px, 21.6px, $purple-1);
+    }
+    &:hover {
+        border: 1px solid $purple-1;
+        span {
+            font-variation-settings: 'wght' 700;
+            margin-right: -6px;
+        }
+    }
+    &:active {
+        border: 1px solid $text-gray;
+        span {
+            font-variation-settings: 'wght' 400;
+            margin-right: 0;
+        }
+    }
+}
+
+.button_wrap {
+    @include dFlex();
+    gap: 30px;
+    .button_blue {
+        @include buttonBlue();
+    }
+    
+    .button_white {
+        @include buttonWhite();
+    }
+}
+
+a {
+    @include Figtree(400, 18px, 21.6px, $purple-2);
+    padding: 10px 15px;
+    border-radius: 30px;
+    cursor: pointer;
+    &:hover {
+        background-color: $bg-color;
+        font-variation-settings: 'wght' 500;
+    }
+}
