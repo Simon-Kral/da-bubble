@@ -10,7 +10,7 @@ import { ThreadComponent } from '../thread/thread.component';
   standalone: true,
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
-  imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent],
+  imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent, CommonModule],
 
 })
 export class HomeComponent {
