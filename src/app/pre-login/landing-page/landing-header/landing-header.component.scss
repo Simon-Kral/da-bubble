@@ -1,0 +1,23 @@
+@import './../../../../styles.scss';
+@import './../landing-page.component.scss';
+
+header {
+    @include dFlex($jc: space-between, $ai: flex-end);
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $header-height;
+    padding: 0 75px;
+    .logo {
+        @include dFlex($jc: flex-start);
+        z-index: 2;
+        margin-bottom: 11px;
+    }
+    .create_account {
+        @include dFlex($ai: flex-end);
+        gap: 10px;
+        flex-direction: column;
+        margin-bottom: 4px;
+    }
+}

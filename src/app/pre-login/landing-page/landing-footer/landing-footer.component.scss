@@ -1,0 +1,19 @@
+@import './../../../../styles.scss';
+@import './../landing-page.component.scss';
+
+footer {
+    @include dFlex();
+    gap: 32px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: $footer-height;
+    a {
+        padding: 10px 15px;
+        border-radius: 30px;
+        &:hover {
+            border: 1px solid $light-purple-lines;
+        }
+    }
+}
