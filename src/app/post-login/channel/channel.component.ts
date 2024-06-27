@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-chat',
+  selector: 'app-channel',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './chat.component.html',
-  styleUrl: './chat.component.scss'
+  templateUrl: './channel.component.html',
+  styleUrl: './channel.component.scss'
 })
-export class ChatComponent {
+export class ChannelComponent {
 
   users = [
     {
@@ -37,7 +37,12 @@ export class ChatComponent {
     },
   ]
 
-  getLeftStyle(index: number): string {
+  /**
+   * Returns the left style value for a chat component item based on the given index.
+   * @param index - The index of the chat component item.
+   * @returns The left style value as a string.
+   */
+  getLeftStyleValue(index: number): string {
     return (index * 28).toString();
   }
 }
