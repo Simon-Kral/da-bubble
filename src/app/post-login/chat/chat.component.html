@@ -9,22 +9,17 @@
         alt=""
       />
     </div>
+    <div class="avatar-colection">
+      <div class="user-profile-img-container">
+        @for(user of users; track user.id; let index = $index) {
+          @if(index < 3) {
+            <img src="{{user.profileImg}}" alt="" />
+          }
+        }
+      </div>
+      <div class="user-counter">
+        <span>{{users.length}}</span>
+      </div>
   </div>
-  <div class="avatar-colection">
-    <img
-      src="../../../assets/img/character-images/character_1.png"
-      alt=""
-    />
-    <img
-      src="../../../assets/img/character-images/character_2.png"
-      alt=""
-    />
-    <img
-      src="../../../assets/img/character-images/character_3.png"
-      alt=""
-    />
-  </div>
-  <div class="chat-container">
 
-  </div>
 </div>
