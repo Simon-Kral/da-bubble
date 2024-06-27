@@ -1,7 +1,18 @@
 <app-header></app-header>
 <div class="home-container">
+  <div class="sidenav-controller pointer" (click)="toggleSidenav()">
+    <span>Workspace-Menü {{ isSidenavVisible ? 'schließen' : 'öffnen' }}</span>
+    <img
+    class="start-conversation"
+    src="../../assets/img/icons/show_menu.png"
+    alt="show-menu-icon"
+    [class.mirrored-icon]="isSidenavVisible"
+  />
+  </div>
   <div class="home-content">
-    <app-sidenav></app-sidenav>
+    <div [ngClass]="{ 'sidenav-visible': isSidenavVisible, 'd-none': !isSidenavVisible }">
+      <app-sidenav></app-sidenav>
+    </div>
     <app-chat></app-chat>
     <app-thread></app-thread>
   </div>
