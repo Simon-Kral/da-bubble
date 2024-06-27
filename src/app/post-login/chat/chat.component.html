@@ -11,25 +11,22 @@
     </div>
     <div class="avatar-colection">
       <div class="user-profile-img-container">
-        @for(user of users; track user.id; let index = $index) {
-          @if(index < 3) {
-            <img
-              [ngStyle]="{'left': getLeftStyle(index) + 'px'}"
-              class="user-profile-img"
-              src="{{user.profileImg}}"
-              alt=""
-            />
-          }
-        }
+        @for(user of users; track user.id; let index = $index) { @if(index < 3)
+        {
+        <img
+          [ngStyle]="{ left: getLeftStyle(index) + 'px' }"
+          class="user-profile-img"
+          src="{{ user.profileImg }}"
+          alt=""
+        />
+        } }
       </div>
       <div class="user-counter">
-        <span>{{users.length}}</span>
+        <span>{{ users.length }}</span>
       </div>
-      <div class="add-btn">
-        <button class="add-person">
-          <img src="../../../assets/img/icons/person_add.png" alt="Add button">
-        </button>
-      </div>
+      <button class="add-btn pointer">
+        <img src="../../../assets/img/icons/person_add.png" alt="Add button" />
+      </button>
+    </div>
   </div>
-
 </div>
