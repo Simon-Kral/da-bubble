@@ -1,34 +1,34 @@
-@import '../../../styles.scss';
+@import "../../../styles.scss";
 
 .header-container {
   padding: 24px;
   @include dFlex(space-between, center);
   align-items: center;
-  >.logo-container {
+  > .logo-container {
     @include dFlex(center, center);
     gap: 16px;
   }
 
-  >.header-searchbar {
+  > .header-searchbar {
     @include Nunito(400, 24px, 18.8px, $text-gray);
     padding: 17.5px 45px;
     margin: 0 24px;
     width: 989px;
-    background-image: url('../../../assets/img/icons/search.png');
+    background-image: url("../../../assets/img/icons/search.png");
     background-repeat: no-repeat;
     background-position: 95% center;
     border-radius: 42px;
     border: none;
     &:focus {
       border: 1px solid $purple-3;
-      outline: none
+      outline: none;
     }
   }
 
-  >.user-avatar {
-    @include dFlex(center, center );
+  > .user-avatar {
+    @include dFlex(center, center);
     gap: 16px;
-    >img {
+    > img {
       border-radius: 50%;
       width: 70px;
       height: 70px;
