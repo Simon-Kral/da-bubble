@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { ChannelComponent } from '../channel/channel.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
@@ -10,5 +11,16 @@ import { ThreadComponent } from '../thread/thread.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent],
+
 })
-export class HomeComponent {}
+export class HomeComponent {
+ //sidenav
+ isSidenavVisible: boolean = true;
+
+ toggleSidenav() {
+    console.log("toggleSidebar");
+    this.isSidenavVisible = !this.isSidenavVisible;
+ }
+
+
+}
