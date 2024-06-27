@@ -3,10 +3,4 @@
 .home-content {
   @include dFlex(space-between, center);
   padding: 17.5px 24px;
-  > .sidebar-placeholder {
-    height: 88svh;
-    width: 400px;
-    background-color: #fff;
-  }
-
 }
