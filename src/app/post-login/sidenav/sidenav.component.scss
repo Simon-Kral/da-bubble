@@ -3,8 +3,9 @@
 
 // SideNav start
 .sidenav-wrapper {
+  position: relative;
   width: 366px;
-  height: 940px;
+  height: 88vh;
   border-radius: 30px;
   padding: 32px 30px 32px 30px;
   margin-left: 20px;
@@ -12,7 +13,7 @@
 }
 .sidenav-content {
     width: 306px;
-    height: 671px;
+    height: 100%;
     gap: 25px;
 }
 .sidenav-header {
@@ -38,6 +39,11 @@
   height: 60px;
   width: 60px;
 }
+.channels-container {
+  @include dFlex(flex-start, flex-start);
+  flex-direction: column;
+  gap: 25px;
+}
 .channels-headline {
   @include dFlex(flex-start, center);
 
@@ -53,6 +59,7 @@
   }
 }
 .channels-content {
+  margin-bottom: 25px;
     span {
         @include Nunito(400, 18px, 24.55px, $black);
     }

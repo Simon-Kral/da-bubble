@@ -13,7 +13,9 @@
     <div [ngClass]="{ 'sidenav-visible': isSidenavVisible, 'd-none': !isSidenavVisible }">
       <app-sidenav></app-sidenav>
     </div>
-    <app-channel></app-channel>
-    <app-thread></app-thread>
+    <div class="router-container">
+      <router-outlet></router-outlet>
+    </div>
   </div>
+
 </div>
