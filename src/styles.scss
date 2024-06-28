@@ -143,3 +143,36 @@ body {
 .pointer {
   cursor: pointer;
 }
+
+
+// global style for the chat / message input field
+
+.input-container {
+  width: 100%;
+  padding: 20px;
+  height: 145px;
+  border-radius: 20px;
+  border: 1px solid $purple-2;
+  > textarea {
+    width: 100%;
+    height: 60%;
+    border: none;
+    outline: none;
+    resize: none;
+    @include Nunito(400, 16px, 21.82px, $black);
+  }
+  >.button-container {
+    @include dFlex(space-between, center);
+    >.left-section {
+      @include dFlex(center, center);
+      gap: 16px;
+      >.icon {
+        width: 24px;
+        height: 24px;
+      }
+      >span {
+        @include Nunito(700, 16px, 21.82px, $text-gray);
+      }
+    }
+  }
+}

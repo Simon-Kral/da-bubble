@@ -14,6 +14,7 @@
               class="start-conversation pointer"
               src="../../assets/img/icons/edit_square.png"
               alt="edit-icon"
+              (click)="navigateToNewMessage()"
             />
           </div>
   
@@ -43,7 +44,7 @@
             <div class="channels-content">
               <!--embedd channel-list app here-->
   
-              <span> # Entwicklerteam</span>
+              <span class="pointer" (click)="navigateToChannel()"> # Entwicklerteam</span>
               <div class="add-channel">
   
                 <img
