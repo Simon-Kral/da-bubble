@@ -49,8 +49,10 @@ body {
     border: none;
     padding: 12px 25px;
     border-radius: 25px;
+    transition: all 0.1s;
     &:hover {
         background-color: $purple-2;
+        cursor: pointer;
     }
     &:active {
         background-color: $purple-1;
@@ -64,9 +66,11 @@ body {
     border: 1px solid $purple-2;
     padding: 12px 25px;
     border-radius: 25px;
+    transition: all 0.1s;
     &:hover {
         background-color: $purple-3;
         color: $white;
+        cursor: pointer;
     }
     &:active {
         background-color: $purple-1;

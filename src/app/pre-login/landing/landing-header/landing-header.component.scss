@@ -30,20 +30,22 @@ header {
             }
         }
     }
-    .create_account {
+    .sign-up {
         @include dFlex($ai: flex-end);
-        gap: 10px;
         flex-direction: column;
+        gap: 10px;
         margin-bottom: 4px;
         a {
             @include Figtree(400, 18px, 21.6px, $purple-2);
             padding: 10px 15px;
             border-radius: 30px;
             cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.1s;
             &:hover {
                 border: 1px solid $light-purple-lines;
-                margin: -1px -1px;
                 font-variation-settings: 'wght' 500;
+                padding: 10px 14.5px;
             }
         }
     }

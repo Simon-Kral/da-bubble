@@ -1,6 +1,9 @@
 import { animate, group, query, state, style, transition, trigger } from '@angular/animations';
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { DynamicComponentService } from '../../../services/dynamic-component/dynamic-component.service';
+import { LoginComponent } from '../login/login.component';
+import { SignUpComponent } from '../sign-up/sign-up.component';
 
 const enterIntro = transition(":enter", [
   group([
@@ -71,12 +74,20 @@ export class LandingHeaderComponent {
   introAnimationStarted: boolean = false;
   introAnimationFinished: boolean = false;
   
-  constructor() {
+  constructor(private dynamicComponentService: DynamicComponentService) {
     this.introAnimationStarted = true;
   }
 
   onAnimationDone(event: any) {
     console.log("onAnimationDone", event);
     this.introAnimationFinished = true;
+  }
+
+  loadLogin() {
+    this.dynamicComponentService.setComponent(LoginComponent);
+  }
+
+  loadSignUp() {
+    this.dynamicComponentService.setComponent(SignUpComponent);
   }
 }
