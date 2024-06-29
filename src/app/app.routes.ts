@@ -6,21 +6,21 @@ import { NewMessageComponent } from './post-login/new-message/new-message.compon
 import { ChannelComponent } from './post-login/channel/channel.component';
 
     // pre-login components
-import { LandingPageComponent } from './pre-login/landing-page/landing-page.component';
+import { LandingComponent } from './pre-login/landing/landing.component';
+import { authGuard } from './services/authentication/auth.guard'
 
 
 
 export const routes: Routes = [
 
     // pre-login components
-    {path: 'login', component: LandingPageComponent },
+    {path: 'login', component: LandingComponent },
 
     // post-login components
-    {path: 'home', component: HomeComponent,
+    {path: 'home', component: HomeComponent, canActivate: [authGuard],
         children: [
             {path:'channel', component: ChannelComponent},
             {path: 'new-message', component: NewMessageComponent},
         ]
     },
-
 ];

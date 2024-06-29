@@ -17,9 +17,12 @@ footer {
         padding: 10px 15px;
         border-radius: 30px;
         cursor: pointer;
+        border: 1px solid transparent;
+        transition: all 0.1s;
         &:hover {
             border: 1px solid $light-purple-lines;
-            margin: -1px -1px;
+            font-variation-settings: 'wght' 500;
+            padding: 10px 14.5px;
         }
     }
 }
