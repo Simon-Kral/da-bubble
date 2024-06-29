@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChatComponent } from '../sheard/chat/chat.component';
+import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
 
 @Component({
   selector: 'app-channel',
   standalone: true,
-  imports: [CommonModule, ChatComponent],
+  imports: [CommonModule, ChatInputComponent],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss'
 })

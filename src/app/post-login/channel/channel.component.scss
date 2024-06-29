@@ -56,15 +56,31 @@
         background-color: $bg-color;
         @include dFlex(center, center);
         &:hover {
-          @include btnHover($bg-color)
+          @include btnHover($bg-color);
         }
         &:active {
-          @include btnActive($bg-color)
+          @include btnActive($bg-color);
         }
       }
     }
   }
-
 }
 
+.chat-container {
+  height: 93%;
+  padding: 35px 40px;
+  @include dFlex(center, center);
+  flex-direction: column;
+  gap: 24px;
+  > .message {
+    @include dFlex(end, end);
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    flex-grow: 1;
+  }
+}
 
+.chat-input {
+  width: 100%;
+}
