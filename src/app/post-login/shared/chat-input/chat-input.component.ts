@@ -58,6 +58,11 @@ export class ChatInputComponent {
     this.messageData.reset();
   }
 
+  /**
+   * Handles the mouse over event for the chat input icons.
+   * Changes the icon source based on the provided image name.
+   * @param imgName - The name of the image being hovered over.
+   */
   onMouseOver(imgName: string): void {
     if (imgName === 'add') {
       this.iconSourceAdd = 'assets/img/icons/add_blue.png';
@@ -69,6 +74,10 @@ export class ChatInputComponent {
     }
   }
 
+  /**
+   * Handles the mouse out event for the specified image.
+   * @param imgName - The name of the image.
+   */
   onMouseOut(imgName: string): void {
     if (imgName === 'add') {
       this.iconSourceAdd = 'assets/img/icons/add_grey.png';
