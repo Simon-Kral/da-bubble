@@ -1,34 +1,49 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-input',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss'
 })
 export class ChatInputComponent {
-  @Output() messageEvent = new EventEmitter<string>();
+  @Output() messageEvent = new EventEmitter<object>();
 
   messageData: FormGroup;
 
   constructor(private fb: FormBuilder) {
     this.messageData = this.fb.group({
-      timestamp: new FormControl(new Date().getTime()),
       message: new FormControl('', [Validators.required, Validators.minLength(1)])
     });
+
+  }
+
+  /**
+   * Returns the current time in milliseconds.
+   *
+   * @returns The current time in milliseconds.
+   */
+  getCurrentTime(): number {
+    return new Date().getTime();
   }
 
   /**
    * Handles the form submission when the user clicks the submit button.
-   * Emits the entered message value and resets the form.
+   * Emits the message to be sent and resets the form.
    */
   onSubmit(): void {
-    if (this.messageData.invalid) {
+    if (this.messageData.invalid){
       return;
     }
-    this.messageEvent.emit(this.messageData.value);
+
+    const messageToSend = {
+      timestamp: this.getCurrentTime(),
+      message: this.messageData.value.message
+    };
+
+    this.messageEvent.emit(messageToSend);
     this.messageData.reset();
   }
 }

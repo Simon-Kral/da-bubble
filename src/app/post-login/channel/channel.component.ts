@@ -47,7 +47,7 @@ export class ChannelComponent {
     return (index * 28).toString();
   }
 
-  handleMessage(message: string): void {
+  handleMessage(message: object): void {
     console.log(message);
   }
 }
