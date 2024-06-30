@@ -1,5 +1,10 @@
 @import "../../../../../styles.scss";
 
+.private-msg-wrapper {
+  @include dFlex(flex-start, flex-start);
+  flex-direction: column;
+}
+
 .private-msg-list {
   @include dFlex(flex-start, flex-start);
   flex-direction: column;
@@ -10,10 +15,11 @@
 
 .private-msg-user {
   @include dFlex(flex-start, center);
-  width: 261px;
+  width: fit-content;
+  padding-left: 16px;
+  padding-right: 16px;
   height: 58px;
   gap: 15px;
-  padding: 0 0 0 25px;
   border-radius: 30px;
 
   img {

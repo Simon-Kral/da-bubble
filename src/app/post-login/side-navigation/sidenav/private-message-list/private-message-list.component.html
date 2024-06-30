@@ -1,22 +1,38 @@
-<div class="private-msg-list" *ngFor="let privateMsg of privateMsgList">
-  <div
-    class="private-msg-user pointer"
-    [ngClass]="{ 'active': selectedConversation === privateMsg.user }"
-    (click)="navigateToPrivateConversation(privateMsg.user)"
-  >
-    <div class="private-msg-user-avatar">
-      <img
-        [src]="privateMsg.avatarUrl"
-        alt="{{ privateMsg.user }}'s avatar"
-      />
-      <div
-        class="private-msg-user-status"
-        [ngClass]="privateMsg.onlineStatus"
-      ></div>
+<div class="private-msg-wrapper">
+  <div class="private-msg-user" *ngFor="let user of currentUser">
+    <div
+      class="private-msg-user pointer"
+      [ngClass]="{ active: selectedConversation === user.user }"
+      (click)="navigateToPrivateConversation(user.user)"
+    >
+      <div class="private-msg-user-avatar">
+        <img [src]="user.avatarUrl" alt="{{ user.user }}'s avatar" />
+        <div
+          class="private-msg-user-status"
+          [ngClass]="user.onlineStatus"
+        ></div>
+      </div>
+      <span>{{ user.user }} (Du)</span>
     </div>
-    <span>{{ privateMsg.user }}</span>
+  </div>
+  <div class="private-msg-list" *ngFor="let privateMsg of privateMsgList">
+    <div
+      class="private-msg-user pointer"
+      [ngClass]="{ active: selectedConversation === privateMsg.user }"
+      (click)="navigateToPrivateConversation(privateMsg.user)"
+    >
+      <div class="private-notes"></div>
+      <div class="private-msg-user-avatar">
+        <img
+          [src]="privateMsg.avatarUrl"
+          alt="{{ privateMsg.user }}'s avatar"
+        />
+        <div
+          class="private-msg-user-status"
+          [ngClass]="privateMsg.onlineStatus"
+        ></div>
+      </div>
+      <span>{{ privateMsg.user }}</span>
+    </div>
   </div>
 </div>
-
-
-

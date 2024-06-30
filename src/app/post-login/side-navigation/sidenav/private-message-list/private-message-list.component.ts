@@ -20,7 +20,12 @@ export class PrivateMessageListComponent {
     { user: 'Karl', avatarUrl: 'assets/img/character-images/character_3.png', onlineStatus: 'online' }
   ];
 
+  currentUser = [
+    { user: 'Sofia', avatarUrl: 'assets/img/character-images/character_3.png', onlineStatus: 'online' }
+  ];
+
   selectedConversation: string | null = null;
+
 
   constructor(private router: Router) { }
 
