@@ -1,20 +1,34 @@
-<form class="input-container" [formGroup]="messageData" (ngSubmit)="onSubmit()" >
+<form class="input-container" [formGroup]="messageData" (ngSubmit)="onSubmit()">
   <textarea
     placeholder="Nachricht an #Office-team"
     formControlName="message"
   ></textarea>
   <div class="button-container">
     <div class="left-section">
-      <img class="pointer" [src]="iconSourceAdd" (mouseover)="onMouseOver('add')" (mouseout)="onMouseOut('add')" alt="" />
+      <img
+        class="pointer"
+        [src]="iconSourceAdd"
+        (mouseover)="onMouseOver('add')"
+        (mouseout)="onMouseOut('add')"
+        alt=""
+      />
       <img
         class="pointer"
         src="assets/img/icons/vertical_line_grey.png"
         alt=""
       />
-      <img class="pointer" [src]="iconSourceSmiley" (mouseover)="onMouseOver('smiley')" (mouseout)="onMouseOut('smiley')" alt="" />
       <img
         class="pointer"
-        [src]="iconSourceAlternateEmail" (mouseover)="onMouseOver('alternate_email')" (mouseout)="onMouseOut('alternate_email')"
+        [src]="iconSourceSmiley"
+        (mouseover)="onMouseOver('smiley')"
+        (mouseout)="onMouseOut('smiley')"
+        alt=""
+      />
+      <img
+        class="pointer"
+        [src]="iconSourceAlternateEmail"
+        (mouseover)="onMouseOver('alternate_email')"
+        (mouseout)="onMouseOut('alternate_email')"
         alt=""
       />
     </div>
