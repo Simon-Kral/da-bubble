@@ -1,4 +1,4 @@
-@import "../../../styles.scss";
+@import "../../../../styles.scss";
 
 
 // SideNav start
@@ -70,9 +70,17 @@
     @include Nunito(400, 18px, 24.55px, $black);
 }
 
-.private-conversation-container {
-  @include dFlex(flex-start, center);
+.private-msg-container {
+  @include dFlex(flex-start, flex-start);
+  flex-direction: column;
   span {
+    @include Nunito(700, 20px, 27.28px, $black);
+  }
+}
+
+.private-msg-headline {
+  @include dFlex(flex-start, center);
+  h2 {
     @include Nunito(700, 20px, 27.28px, $black);
   }
 }

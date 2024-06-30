@@ -1,0 +1,58 @@
+@import "../../../../../styles.scss";
+
+.private-msg-list {
+  @include dFlex(flex-start, flex-start);
+  flex-direction: column;
+  gap: 13px;
+
+
+}
+
+.private-msg-user {
+  @include dFlex(flex-start, center);
+  width: 261px;
+  height: 58px;
+  gap: 15px;
+  padding: 0 0 0 25px;
+  border-radius: 30px;
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  span {
+    @include Nunito(400, 18px, 24.55px, $black);
+  }
+
+  &:hover {
+    background-color: $bg-color;
+  }
+
+  &.active {
+      @include Nunito(700, 18px, 24.55px, $purple-3);
+      background-color: $bg-color;
+  }
+}
+
+.private-msg-user-avatar {
+  position: relative;
+}
+
+.private-msg-user-status {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid $white;
+  position: absolute;
+  top: 28px;
+  left: 24px;
+}
+
+.offline {
+  background-color: $online-red;
+}
+.online {
+  background-color: $online-green;
+}

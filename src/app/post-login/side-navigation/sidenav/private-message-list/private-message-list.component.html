@@ -1,0 +1,22 @@
+<div class="private-msg-list" *ngFor="let privateMsg of privateMsgList">
+  <div
+    class="private-msg-user pointer"
+    [ngClass]="{ 'active': selectedConversation === privateMsg.user }"
+    (click)="navigateToPrivateConversation(privateMsg.user)"
+  >
+    <div class="private-msg-user-avatar">
+      <img
+        [src]="privateMsg.avatarUrl"
+        alt="{{ privateMsg.user }}'s avatar"
+      />
+      <div
+        class="private-msg-user-status"
+        [ngClass]="privateMsg.onlineStatus"
+      ></div>
+    </div>
+    <span>{{ privateMsg.user }}</span>
+  </div>
+</div>
+
+
+

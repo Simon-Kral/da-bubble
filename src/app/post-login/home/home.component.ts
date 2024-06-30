@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { ChannelComponent } from '../channel/channel.component';
-import { SidenavComponent } from '../sidenav/sidenav.component';
+import { SidenavComponent } from '../side-navigation/sidenav/sidenav.component';
 import { ThreadComponent } from '../thread/thread.component';
 import { RouterOutlet } from '@angular/router';
 
