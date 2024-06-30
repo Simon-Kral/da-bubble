@@ -5,16 +5,16 @@
   ></textarea>
   <div class="button-container">
     <div class="left-section">
-      <img class="pointer" src="assets/img/icons/add_grey.png" alt="" />
+      <img class="pointer" [src]="iconSourceAdd" (mouseover)="onMouseOver('add')" (mouseout)="onMouseOut('add')" alt="" />
       <img
         class="pointer"
         src="assets/img/icons/vertical_line_grey.png"
         alt=""
       />
-      <img class="pointer" src="assets/img/icons/smiley_grey.png" alt="" />
+      <img class="pointer" [src]="iconSourceSmiley" (mouseover)="onMouseOver('smiley')" (mouseout)="onMouseOut('smiley')" alt="" />
       <img
         class="pointer"
-        src="assets/img/icons/alternate_email_grey.png"
+        [src]="iconSourceAlternateEmail" (mouseover)="onMouseOver('alternate_email')" (mouseout)="onMouseOut('alternate_email')"
         alt=""
       />
     </div>

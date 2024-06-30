@@ -1,3 +1,4 @@
+
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -12,6 +13,9 @@ export class ChatInputComponent {
   @Output() messageEvent = new EventEmitter<object>();
 
   messageData: FormGroup;
+  iconSourceAdd = 'assets/img/icons/add_grey.png';
+  iconSourceSmiley = 'assets/img/icons/smiley_grey.png';
+  iconSourceAlternateEmail = 'assets/img/icons/alternate_email_grey.png';
 
   constructor(private fb: FormBuilder) {
     this.messageData = this.fb.group({
@@ -45,5 +49,26 @@ export class ChatInputComponent {
 
     this.messageEvent.emit(messageToSend);
     this.messageData.reset();
+  }
+
+  onMouseOver(imgName: string): void {
+    if(imgName === 'add') {
+      this.iconSourceAdd = 'assets/img/icons/add_blue.png';
+    } else if(imgName === 'smiley') {
+      this.iconSourceSmiley = 'assets/img/icons/smiley_blue.png';
+    } else if(imgName === 'alternate_email') {
+      this.iconSourceAlternateEmail = 'assets/img/icons/alternate_email_blue.png';
+    }
+  }
+
+  onMouseOut(imgName: string): void {
+    if(imgName === "add") {
+      this.iconSourceAdd = 'assets/img/icons/add_grey.png';
+    } else if(imgName === 'smiley') {
+      this.iconSourceSmiley = 'assets/img/icons/smiley_grey.png';
+    }
+    else if(imgName === 'alternate_email') {
+      this.iconSourceAlternateEmail = 'assets/img/icons/alternate_email_grey.png';
+    }
   }
 }
