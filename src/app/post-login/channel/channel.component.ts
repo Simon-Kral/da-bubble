@@ -46,4 +46,8 @@ export class ChannelComponent {
   getLeftStyleValue(index: number): string {
     return (index * 28).toString();
   }
+
+  handleMessage(message: string): void {
+    console.log(message);
+  }
 }

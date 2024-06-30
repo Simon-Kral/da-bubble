@@ -26,6 +26,13 @@
           @include Nunito(700, 16px, 21.82px, $text-gray);
         }
       }
+      >.right-section {
+        >button {
+          @include dFlex(center, center);
+          border: none;
+          background-color: $white;
+        }
+      }
     }
   }
 
