@@ -5,32 +5,32 @@
   ></textarea>
   <div class="button-container">
     <div class="left-section">
-      <img
-        class="pointer"
-        [src]="iconSourceAdd"
+      <div
+        class="icon-container pointer"
         (mouseover)="onMouseOver('add')"
         (mouseout)="onMouseOut('add')"
-        alt=""
-      />
+      >
+        <img [src]="iconSourceAdd" alt="" />
+      </div>
       <img
         class="pointer"
         src="assets/img/icons/vertical_line_grey.png"
         alt=""
       />
-      <img
-        class="pointer"
-        [src]="iconSourceSmiley"
+      <div
+        class="icon-container pointer"
         (mouseover)="onMouseOver('smiley')"
         (mouseout)="onMouseOut('smiley')"
-        alt=""
-      />
-      <img
-        class="pointer"
-        [src]="iconSourceAlternateEmail"
+      >
+        <img [src]="iconSourceSmiley" alt="" />
+      </div>
+      <div
+        class="icon-container pointer"
         (mouseover)="onMouseOver('alternate_email')"
         (mouseout)="onMouseOut('alternate_email')"
-        alt=""
-      />
+      >
+        <img [src]="iconSourceAlternateEmail" alt="" />
+      </div>
     </div>
     <div class="right-section">
       <button type="submit">

@@ -36,3 +36,12 @@
     }
   }
 
+.icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  @include dFlex(center, center);
+  &:hover {
+    background-color: $bg-color;
+  }
+}
