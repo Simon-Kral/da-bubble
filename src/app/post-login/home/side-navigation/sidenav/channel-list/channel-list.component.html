@@ -1,10 +1,11 @@
+@for (channel of channelList; track channel.id; let index = $index) {
 <div class="channel-list">
   <span
     class="pointer"
     (click)="navigateToChannel(channel.name)"
     [ngClass]="{ 'active': selectedChannel === channel.name }"
-    *ngFor="let channel of channelList"
   >
     # {{ channel.name }}
   </span>
 </div>
+}

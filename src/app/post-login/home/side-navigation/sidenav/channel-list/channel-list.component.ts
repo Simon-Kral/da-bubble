@@ -12,9 +12,9 @@ import { Router } from '@angular/router';
 export class ChannelListComponent {
 
   channelList = [
-    { name: 'Entwicklerteam'},
-    { name: 'DevOps'},
-    { name: 'Smalltalk'},
+    { name: 'Entwicklerteam', id: '1' },
+    { name: 'DevOps', id: '2' },
+    { name: 'Smalltalk', id: '3' },
   ]
   selectedChannel: string | null = null;
 
