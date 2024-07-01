@@ -11,15 +11,16 @@
     </div>
     <div class="avatar-colection">
       <div class="user-profile-img-container">
-        @for(user of users; track user.id; let index = $index) { @if(index < 3)
-        {
+        @for(user of users; track user.id; let index = $index) {
+          @if(index < 3) {
         <img
           [ngStyle]="{ left: getLeftStyleValue(index) + 'px' }"
           class="user-profile-img"
           src="{{ user.profileImg }}"
           alt=""
         />
-        } }
+        }
+      }
       </div>
       <div class="user-counter">
         <span>{{ users.length }}</span>
