@@ -1,4 +1,4 @@
-import { Channels } from './channels.class';
+import { Channel } from './channel.class';
 
 export class User {
   id: string;
@@ -7,7 +7,7 @@ export class User {
   status: boolean = false;
   avatarURL: string;
   photoURL: string;
-  channels: Channels[] = [];
+  channels: Channel[] = [];
   email: string;
 
   constructor(obj?: any) {
