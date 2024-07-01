@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HomeComponent } from './post-login/home/home.component';
-import { SidenavComponent } from './post-login/side-navigation/sidenav/sidenav.component';
-import { ChannelListComponent } from './post-login/side-navigation/sidenav/channel-list/channel-list.component';
-import { PrivateMessageListComponent } from './post-login/side-navigation/sidenav/private-message-list/private-message-list.component';
+import { SidenavComponent } from './post-login/home/side-navigation/sidenav/sidenav.component';
+import { ChannelListComponent } from './post-login/home/side-navigation/sidenav/channel-list/channel-list.component';
+import { PrivateMessageListComponent } from './post-login/home/side-navigation/sidenav/private-message-list/private-message-list.component';
 import { NewMessageComponent } from './post-login/new-message/new-message.component';
 
 

@@ -34,7 +34,7 @@
         }
       }
     }
-  }
+}
 
 .icon-container {
   width: 40px;
@@ -42,7 +42,7 @@
   border-radius: 50%;
   @include dFlex(center, center);
   &:hover {
-    background-color: $bg-color;
+    @include btnHover($bg-color)
   }
   &:active {
     @include btnActive($bg-color)
