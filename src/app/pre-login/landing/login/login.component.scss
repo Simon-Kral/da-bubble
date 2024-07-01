@@ -16,6 +16,12 @@ h2 {
     text-align: center;
 }
 
+form {
+    @include dFlex();
+    flex-direction: column;
+    gap: 32px;
+}
+
 .input_box {
     @include dFlex($jc: flex-start);
     gap: 32px;

@@ -13,6 +13,7 @@
     width: 100%;
     height: calc(100vh - $header-height - $footer-height);
     .content {
+        position: relative;
         background-color: $white;
         padding: 50px 60px;
         border-radius: 30px;

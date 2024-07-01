@@ -1,9 +1,9 @@
-import { animate, group, query, state, style, transition, trigger } from '@angular/animations';
+import { animate, group, query, style, transition, trigger } from '@angular/animations';
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { DynamicComponentService } from '../../../services/dynamic-component/dynamic-component.service';
 import { LoginComponent } from '../login/login.component';
-import { SignUpComponent } from '../sign-up/sign-up.component';
+import { RegisterComponent } from '../register/register.component';
 
 const enterIntro = transition(":enter", [
   group([
@@ -87,7 +87,7 @@ export class LandingHeaderComponent {
     this.dynamicComponentService.setComponent(LoginComponent);
   }
 
-  loadSignUp() {
-    this.dynamicComponentService.setComponent(SignUpComponent);
+  loadRegister() {
+    this.dynamicComponentService.setComponent(RegisterComponent);
   }
 }

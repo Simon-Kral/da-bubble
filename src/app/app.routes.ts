@@ -7,7 +7,6 @@ import { ChannelComponent } from './post-login/channel/channel.component';
 
     // pre-login components
 import { LandingComponent } from './pre-login/landing/landing.component';
-import { authGuard } from './services/authentication/auth.guard'
 
 
 
@@ -17,7 +16,7 @@ export const routes: Routes = [
     {path: 'login', component: LandingComponent },
 
     // post-login components
-    {path: 'home', component: HomeComponent, canActivate: [authGuard],
+    {path: 'home', component: HomeComponent,
         children: [
             {path:'channel', component: ChannelComponent},
             {path: 'new-message', component: NewMessageComponent},
