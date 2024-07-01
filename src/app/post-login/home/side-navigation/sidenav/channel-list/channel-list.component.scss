@@ -1,9 +1,11 @@
 @import "../../../../../../styles.scss";
 
 .channel-list {
-  @include dFlex(flex-start, flex-start);
+  @include dFlex(row, flex-start, flex-start);
   flex-direction: column;
   gap: 13px;
+  transition: ease-in-out 0.1s;
+  margin-bottom: 24px;
 
   span {
     @include Nunito(400, 18px, 24.55px, $black);

@@ -1,7 +1,7 @@
 @import "../../../../../../styles.scss";
 
 .private-msg-wrapper {
-  @include dFlex(flex-start, flex-start);
+  @include dFlex(row, flex-start, flex-start);
   flex-direction: column;
 }
 

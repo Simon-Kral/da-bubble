@@ -1,6 +1,5 @@
 @import "../../../../../styles.scss";
 
-
 // SideNav start
 .sidenav-wrapper {
   position: relative;
@@ -8,70 +7,130 @@
   height: 88vh;
   border-radius: 30px;
   padding: 32px 30px 32px 30px;
-  margin-left: 20px;
   background-color: $white;
+  margin-left: 24px;
 }
+
 .sidenav-content {
-    width: 306px;
-    height: 100%;
-    gap: 25px;
+  @include dFlex(column, flex-start, flex-start);
+  width: 306px;
+  height: 100%;
+  gap: 25px;
 }
+
 .sidenav-header {
   width: 100%;
   margin-bottom: 32px;
   margin-top: 16px;
   gap: 4px;
-  @include dFlex(space-between, center);
+  @include dFlex(row, space-between, center);
   h1 {
     margin: unset !important;
     white-space: nowrap;
     @include Nunito(700, 24px, 32.74px, $black);
   }
 }
-.sidenav-header-left {
-    @include dFlex(center, center);
-    width: 250px;
-    height: 60px;
-    padding: 0px 20px 0px 0px;
-    gap: 15px;
+
+.sidenav-headline-left {
+  @include dFlex(row, flex-start, center);
+  width: 250px;
+  height: 60px;
+  padding: 0px 20px 0px 0px;
+  gap: 15px;
 }
+
 .sidenav-logo {
   height: 60px;
   width: 60px;
 }
+
+.sidenav-headline-right {
+  @include dFlex(row, center, center);
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 8px;
+  gap: 10px;
+  transition: ease-in-out 0.1s;
+  &:hover {
+    background-color: $bg-color;
+  }
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
 .channels-container {
-  @include dFlex(flex-start, flex-start);
+  @include dFlex(row, flex-start, flex-start);
   flex-direction: column;
   gap: 25px;
+  width: 100%;
 }
-.channels-headline {
-  @include dFlex(flex-start, center);
 
+.channels-headline-wrapper {
+  @include dFlex(row, space-between, center);
+  width: 100%;
   h2 {
     @include Nunito(700, 20px, 27.28px, $black);
   }
 }
-.channels-sidenav-wrapper {
-  @include dFlex(flex-start, center);
 
-  span {
+.channels-sidenav-left {
+  @include dFlex(row, flex-start, center);
+  gap: 10px;
+
+  &:hover {
+    h2 {
+      color: $purple-3;
+    }
+  }
+  h2 {
     @include Nunito(700, 20px, 27.28px, $black);
+  }
+}
+
+.channels-sidenav-right {
+  @include dFlex(row, center, center);
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 8px;
+  gap: 10px;
+  transition: ease-in-out 0.1s;
+
+  &:hover {
+    background-color: $bg-color;
+  }
+  img {
+    width: 24px;
+    height: 24px;
   }
 }
 .channels-content {
   margin-bottom: 25px;
-    span {
-        @include Nunito(400, 18px, 24.55px, $black);
-    }
+  span {
+    @include Nunito(400, 18px, 24.55px, $black);
+  }
 }
 
 .add-channel {
-    @include dFlex(flex-start, center);
+  @include dFlex(row, flex-start, center);
+  gap: 15px;
+
+  span{
     @include Nunito(400, 18px, 24.55px, $black);
+  }
+ 
+  &:hover {
+    span{
+      color: $purple-3;
+    }
+  }
 }
 
 .private-msg-container {
-  @include dFlex(flex-start, flex-start);
+  @include dFlex(row, flex-start, flex-start);
   flex-direction: column;
   span {
     @include Nunito(700, 20px, 27.28px, $black);
@@ -79,9 +138,14 @@
 }
 
 .private-msg-headline {
-  @include dFlex(flex-start, center);
+  @include dFlex(row, flex-start, center);
+
+      &:hover {
+      color: $purple-3;
+    }
   h2 {
     @include Nunito(700, 20px, 27.28px, $black);
+    margin-left: 10px;
   }
 }
 

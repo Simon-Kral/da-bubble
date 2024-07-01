@@ -2,47 +2,82 @@
 <div class="sidenav-wrapper">
   <div class="sidenav-content">
     <div class="sidenav-header">
-      <div class="sidenav-header-left">
-        <img class="sidenav-logo" src="../../assets/img/workspace_logo.png" alt="logo" />
+      <div class="sidenav-headline-left">
+        <img
+          class="sidenav-logo"
+          src="../../assets/img/workspace_logo.png"
+          alt="logo"
+        />
         <h1>Devspace</h1>
       </div>
-      <img class="start-conversation pointer" src="../../assets/img/icons/edit_square.png" alt="edit-icon" (click)="navigateToNewMessage()" />
+      <div class="sidenav-headline-right">
+        <img
+          class="pointer"
+          src="../../assets/img/icons/edit_square.png"
+          alt="edit-icon"
+          (click)="navigateToNewMessage()"
+        />
+      </div>
     </div>
 
     <div class="channels-container">
-      <div class="channels-headline" (click)="toggleChannels()">
-        <img
-          class="pointer"
-          [src]="chanListExpanded ? '../../assets/img/icons/arrow_drop_down_open_blue.png' : '../../assets/img/icons/arrow_drop_down_closed_black.png'"
-          alt="arrow-icon"
-        />
-        <div class="channels-sidenav-wrapper">
-          <img class="" src="../../assets/img/icons/workspaces.png" alt="workspaces-icon" />
+      <div class="channels-headline-wrapper">
+        <div class="pointer channels-sidenav-left"
+        (click)="toggleChannels()"
+          (mouseover)="onMouseOver('channels')"
+          (mouseout)="onMouseOut('channels')">
+          <img
+            class=""
+            [src]="currentIconSourceDownArrowChannels"
+            alt="arrow-icon"
+          />
+          <img
+            class=""
+            [src]="currentIconSourceWorkspace"
+            alt="workspaces-icon"
+          />
           <h2>Channels</h2>
         </div>
-        <img class="pointer" src="../../assets/img/icons/add_black.png" alt="add-icon" />
+        <div class="channels-sidenav-right">
+          <img
+            class="pointer"
+            src="../../assets/img/icons/add_black.png"
+            alt="add-icon"
+          />
+        </div>
       </div>
+      
+      
       <div class="channels-content" *ngIf="chanListExpanded">
         <app-channel-list></app-channel-list>
-        <div class="add-channel">
-          <img class="pointer" src="../../assets/img/icons/add_circle.png" alt="add-icon" />
+        <div class="pointer add-channel">
+          <img
+            class=""
+            src="../../assets/img/icons/add_circle.png"
+            alt="add-icon"
+          />
           <span>Channel hinzufügen</span>
         </div>
       </div>
     </div>
 
     <div class="private-msg-container">
-      <div class="private-msg-headline" 
-      (click)="togglePrivateMessages()">
+      <div class="pointer private-msg-headline" (click)="togglePrivateMessages()"
+      (mouseover)="onMouseOver('privateMessages')"
+      (mouseout)="onMouseOut('privateMessages')">
       <img
-        class="pointer"
-        [src]="privateMsgListExpanded ? '../../assets/img/icons/arrow_drop_down_open_blue.png' : '../../assets/img/icons/arrow_drop_down_closed_black.png'"
-        alt="arrow-icon"
+      class=""
+      [src]="currentIconSourceDownArrowPrivateMessages"
+      alt="arrow-icon"
+    />
+      <img
+        class=""
+        [src]="iconSourceAccountCircle"
+        alt="account-circle-icon"
       />
-      <img class="pointer" src="../../assets/img/icons/account_circle.png" alt="account-circle-icon" />
       <h2>Direktnachrichten</h2>
     </div>
-      <div class="private-messages-content" *ngIf="privateMsgListExpanded">
+      <div class="private-msg-content" *ngIf="privateMsgListExpanded">
         <app-private-message-list></app-private-message-list>
       </div>
     </div>
