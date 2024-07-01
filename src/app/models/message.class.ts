@@ -24,4 +24,5 @@ export class Message {
     this.messageAnswer = obj ? obj.messageAnswer : [];
     this.reactions = obj ? obj.reactions : [];
   }
+
 }

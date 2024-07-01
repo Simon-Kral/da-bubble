@@ -1,9 +1,10 @@
+import { Message } from "./message.class";
 export class Channel {
   id: string;
   chanName: string;
   description: string;
   members: string[];
-  messages: string[];
+  messages: Message[];
   createdAt: number;
   createdBy: string;
 
