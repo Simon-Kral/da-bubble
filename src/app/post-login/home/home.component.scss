@@ -1,7 +1,7 @@
 @import "../../../styles.scss";
 
 .home-content {
-  @include dFlex(space-between, center);
+  @include dFlex(row,space-between, center);
   padding: 17.5px 24px;
   position: relative;
 }
@@ -30,7 +30,7 @@
 //Sidenav
 
 .sidenav-controller {
-  @include dFlex(center, center);
+  @include dFlex(row,center, center);
   width: 60px;
   height: 347px;
   background-color: $white;
