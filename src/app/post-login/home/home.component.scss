@@ -23,11 +23,11 @@
     max-width: 300px;
     opacity: 1;
   }
-  
+
 }
 
 
-//Sidenav 
+//Sidenav
 
 .sidenav-controller {
   @include dFlex(center, center);
@@ -54,7 +54,7 @@
 }
 
 .sidenav-visible app-sidenav {
-  max-width: 300px; 
+  max-width: 300px;
   transition: max-width 0.3s ease-in-out, opacity 0.3s ease-in-out;
   opacity: 1;
 }

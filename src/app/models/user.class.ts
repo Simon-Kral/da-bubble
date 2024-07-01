@@ -19,7 +19,5 @@ export class User {
     this.photoURL = obj ? obj.photoURL : '';
     this.channels = obj ? obj.channels : [];
     this.email = obj ? obj.email : '';
-
-}
-
+  }
 }

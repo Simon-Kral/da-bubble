@@ -1,4 +1,4 @@
-export class PrivateChat{
+export class PrivateChat {
   id: string;
   chatCreator: string;
   chatReciver: string;
