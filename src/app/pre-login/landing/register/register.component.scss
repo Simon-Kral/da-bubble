@@ -16,6 +16,12 @@ h2 {
     text-align: center;
 }
 
+form {
+    @include dFlex();
+    flex-direction: column;
+    gap: 32px;
+}
+
 .input_box {
     @include dFlex($jc: flex-start);
     gap: 32px;
@@ -95,5 +101,28 @@ h2 {
             font-variation-settings: 'wght' 500;
             padding: 2px 3.2px;
         }
+    }
+}
+
+.back-button {
+    @include dFlex();
+    position: absolute;
+    top: 53px;
+    left: 40px;
+    background-color: transparent;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.1s;
+    &:hover {
+        cursor: pointer;
+        background-color: $bg-color;
+        img {
+            filter: invert(38%) sepia(54%) saturate(4920%) hue-rotate(227deg) brightness(95%) contrast(98%);
+        }
+    }
+    img {
+        transition: all 0.1s;
     }
 }

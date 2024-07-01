@@ -4,6 +4,7 @@ import { LandingFooterComponent } from './landing-footer/landing-footer.componen
 import { NgIf } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { DynamicComponentService } from '../../services/dynamic-component/dynamic-component.service';
+import { RegisterComponent } from './register/register.component';
 
 @Component({
   selector: 'app-landing',
@@ -11,6 +12,7 @@ import { DynamicComponentService } from '../../services/dynamic-component/dynami
   imports: [
     LandingHeaderComponent,
     LandingFooterComponent,
+    RegisterComponent,
     NgIf,
   ],
   animations: [],
@@ -29,7 +31,7 @@ export class LandingComponent {
         this.loadComponent(component);
       }
     });
-    this.dynamicComponentService.setComponent(LoginComponent); // Initialer Load der Login-Komponente
+    this.dynamicComponentService.setComponent(LoginComponent);
   }
 
   loadComponent(componentType: any) {
