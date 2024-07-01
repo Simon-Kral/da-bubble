@@ -37,8 +37,9 @@ body {
   font-variation-settings: "wght" 400;
 }
 
-@mixin dFlex($jc: center, $ai: center) {
+@mixin dFlex($fd: row, $jc: center, $ai: center) {
   display: flex;
+  flex-direction: $fd;
   justify-content: $jc;
   align-items: $ai;
 }

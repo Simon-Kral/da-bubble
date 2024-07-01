@@ -1,17 +1,34 @@
-<h1>Konto erstellen</h1>
-<h2>Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto</h2>
+<h1>Avatar</h1>
+<div>
+    <img src="{{ avatar.value }}">
+    <span>Frederick Beck</span>
+</div>
 <form [formGroup]="avatarForm" (ngSubmit)="onSubmit()">
-    <div class="input_box">
-        <img src="assets/img/icons/password.png">
-        <input type="text" placeholder="Passwort" formControlName="password" autocomplete="off">
+    <span>Aus der Liste auswählen</span>
+    <div class="avatar-list">
+        @for (avatar of [1,2,3,4,5,6]; track avatar) {
+            <div class="input-box">
+                <input type="radio" name="avatar" value="assets/img/character-images/character_{{ [avatar] }}.png" formControlName="avatar">
+                <label for="avatar_{{ avatar }}">
+                    <img src="assets/img/character-images/character_{{ [avatar] }}.png" alt="">
+                </label>
+            </div>
+        }
     </div>
     <div *ngIf="errorMessage != ''">
         <span>{{ errorMessage }}</span>
     </div>
-    <div class="button_wrap">
-        <button class="button_blue">Weiter</button>
+    <div class="upload-image">
+        <span>eigenes Bild verwenden</span>
+        <div class="button-wrap">
+            <button class="button-white">Datei hochladen</button>
+        </div>
+    </div>
+
+    <div class="button-wrap">
+        <button class="button-blue" type="submit" [disabled]="!avatarForm.valid">Weiter</button>
     </div>
 </form>
-<button class="back-button" (click)="loadRegister()">
+<button class="back-button" routerLink="/register">
     <img src="assets/img/icons/arrow_back.png">
 </button>

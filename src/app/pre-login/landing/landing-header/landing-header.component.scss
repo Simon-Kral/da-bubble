@@ -13,7 +13,7 @@ header {
     width: 100%;
     height: $header-height;
     padding: 0 75px;
-    .logo_with_text {
+    .logo-with-text {
         @include dFlex($jc: flex-start);
         gap: 16px;
         margin-bottom: 11px;
@@ -22,7 +22,7 @@ header {
         img {
             height: 100%;
         }
-        .span_wrap {
+        .span-wrap {
             overflow-x: hidden;
             span {
                 position: relative;

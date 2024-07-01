@@ -1,18 +1,14 @@
 import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DynamicComponentService } from '../../../services/dynamic-component/dynamic-component.service';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/authentication/auth.service';
-import { RegisterComponent } from '../register/register.component';
-import { getAuth, updateProfile } from '@angular/fire/auth';
-import { from } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-choose-avatar',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, RouterLink, FormsModule],
   templateUrl: './choose-avatar.component.html',
   styleUrl: './choose-avatar.component.scss'
 })
@@ -20,14 +16,15 @@ export class ChooseAvatarComponent {
   fb = inject(FormBuilder);
   authService = inject(AuthService);
   router = inject(Router);
+  avatar = new FormControl('assets/img/profile.png');
 
   avatarForm = this.fb.nonNullable.group({
-    'avatar': ['', Validators.required],
+    'avatar': ['assets/img/profile.png', Validators.required],
   })
 
   errorMessage: string | null = null;
 
-  constructor(private dynamicComponentService: DynamicComponentService) {}
+  constructor() {}
 
   onSubmit(): void {
     const rawForm = this.avatarForm.getRawValue();
@@ -43,7 +40,7 @@ export class ChooseAvatarComponent {
       })
   }
 
-  loadRegister() {
-    this.dynamicComponentService.setComponent(RegisterComponent);
+  updateAvatar(avatar: string) {
+    this.avatar.setValue('Nancy');
   }
 }

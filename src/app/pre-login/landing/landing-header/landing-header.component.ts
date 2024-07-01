@@ -1,13 +1,11 @@
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { DynamicComponentService } from '../../../services/dynamic-component/dynamic-component.service';
-import { LoginComponent } from '../login/login.component';
-import { RegisterComponent } from '../register/register.component';
+import { RouterLink } from '@angular/router';
 
 const enterIntro = transition(":enter", [
   group([
-    query(".logo_with_text > img", [
+    query(".logo-with-text > img", [
       style({
         marginLeft: 'calc(589px / 2 - 70px)',
       }),
@@ -15,7 +13,7 @@ const enterIntro = transition(":enter", [
         marginLeft: '0',
       }))
     ]),
-    query(".span_wrap > span", [
+    query(".span-wrap > span", [
       style({
         marginLeft: '-500px',
       }),
@@ -23,7 +21,7 @@ const enterIntro = transition(":enter", [
         marginLeft: '0%',
       }))
     ]),
-    query(".logo_with_text", [
+    query(".logo-with-text", [
       style({
         height: '140px',
         top: 'calc(50vh - 70px)',
@@ -37,7 +35,7 @@ const enterIntro = transition(":enter", [
         })
       )
     ]),
-    query(".span_wrap > span", [
+    query(".span-wrap > span", [
       style({
         fontSize: '90px',
         color: 'white'
@@ -64,6 +62,7 @@ const intro = trigger("intro", [enterIntro]);
   selector: 'app-landing-header',
   standalone: true,
   imports: [
+    RouterLink,
     NgIf
   ],
   animations: [intro],
@@ -74,20 +73,11 @@ export class LandingHeaderComponent {
   introAnimationStarted: boolean = false;
   introAnimationFinished: boolean = false;
   
-  constructor(private dynamicComponentService: DynamicComponentService) {
+  constructor() {
     this.introAnimationStarted = true;
   }
 
   onAnimationDone(event: any) {
-    console.log("onAnimationDone", event);
     this.introAnimationFinished = true;
-  }
-
-  loadLogin() {
-    this.dynamicComponentService.setComponent(LoginComponent);
-  }
-
-  loadRegister() {
-    this.dynamicComponentService.setComponent(RegisterComponent);
   }
 }

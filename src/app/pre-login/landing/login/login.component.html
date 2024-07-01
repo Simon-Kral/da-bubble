@@ -1,11 +1,11 @@
 <h1>Anmeldung</h1>
 <h2>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</h2>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="input_box">
+    <div class="input-box">
         <img src="assets/img/icons/email.png" alt="">
         <input type="text" placeholder="beispielname@email.com" formControlName="email">
     </div>
-    <div class="input_box">
+    <div class="input-box">
         <img src="assets/img/icons/password.png" alt="">
         <input type="text" placeholder="beispielname@email.com" formControlName="password">
     </div>
@@ -13,13 +13,13 @@
     <div class="separator">
         <span>ODER</span>
     </div>
-    <button class="login_with_google">
+    <button class="login-with-google">
         <img src="assets/img/icons/email.png" alt="">
         <span>Anmelden mit Google</span>
     </button>
-    <div class="button_wrap">
-        <button class="button_blue" type="submit">Anmelden</button>
-        <button class="button_white">Gäste-Login</button>
+    <div class="button-wrap">
+        <button class="button-blue" type="submit">Anmelden</button>
+        <button class="button-white">Gäste-Login</button>
     </div>
     <div *ngIf="errorMessage != ''">
         <span>{{ errorMessage }}</span>

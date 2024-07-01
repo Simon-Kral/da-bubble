@@ -22,7 +22,7 @@ form {
     gap: 32px;
 }
 
-.input_box {
+.input-box {
     @include dFlex($jc: flex-start);
     gap: 32px;
     background-color: $bg-color;
@@ -74,7 +74,7 @@ form {
     }
 }
 
-.login_with_google {
+.login-with-google {
     @include dFlex();
     gap: 20px;
     background-color: $bg-color;
@@ -106,14 +106,14 @@ form {
     }
 }
 
-.button_wrap {
+.button-wrap {
     @include dFlex();
     gap: 30px;
-    .button_blue {
+    .button-blue {
         @include buttonBlue();
     }
     
-    .button_white {
+    .button-white {
         @include buttonWhite();
     }
 }

@@ -2,19 +2,19 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { AuthService } from './../../../services/authentication/auth.service';
-import { DynamicComponentService } from '../../../services/dynamic-component/dynamic-component.service';
-import { ChooseAvatarComponent } from '../choose-avatar/choose-avatar.component';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
   fb = inject(FormBuilder);
   authService = inject(AuthService);
+  router = inject(Router);
 
   registerForm = this.fb.nonNullable.group({
     'username': ['', Validators.required],
@@ -25,7 +25,7 @@ export class RegisterComponent {
 
   errorMessage: string | null = null;
 
-  constructor(private dynamicComponentService: DynamicComponentService) {}
+  constructor() {}
 
   onSubmit(): void {
     const rawForm = this.registerForm.getRawValue()
@@ -33,15 +33,11 @@ export class RegisterComponent {
       .register(rawForm.email, rawForm.username, rawForm.password)
       .subscribe({
         next: () => {
-          this.loadChooseAvatar();
+          this.router.navigateByUrl('/avatar');
         },
         error: (err) => {
           this.errorMessage = err.code;
         }
       })
-  }
-
-  loadChooseAvatar() {
-    this.dynamicComponentService.setComponent(ChooseAvatarComponent);
   }
 }

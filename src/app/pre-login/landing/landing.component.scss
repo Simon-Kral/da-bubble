@@ -8,7 +8,7 @@
     height: 100vh;
 }
 
-.content_wrap {
+.content-wrap {
     @include dFlex();
     width: 100%;
     height: calc(100vh - $header-height - $footer-height);

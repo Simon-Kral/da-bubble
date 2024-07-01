@@ -2,16 +2,16 @@
     [@intro]="introAnimationStarted"
     (@intro.done)="onAnimationDone($event)"
     >
-    <div class="logo_with_text">
+    <div class="logo-with-text">
         <img src="assets/img/logos/da_bubble_logo.png">
-        <div class="span_wrap">
+        <div class="span-wrap">
             <span>DABubble</span>
         </div>
     </div>
     <div>
         <div class="sign-up">
             <span>Neu bei DABubble?</span>
-            <a (click)="loadRegister()">Konto erstellen</a>
+            <a routerLink="/register">Konto erstellen</a>
         </div>
     </div>
     <div class="overlay" *ngIf="!introAnimationFinished"></div>

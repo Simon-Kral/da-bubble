@@ -22,7 +22,7 @@ form {
     gap: 32px;
 }
 
-.input_box {
+.input-box {
     @include dFlex($jc: flex-start);
     gap: 32px;
     background-color: $bg-color;
@@ -59,14 +59,14 @@ form {
     }
 }
 
-.button_wrap {
+.button-wrap {
     @include dFlex();
-    .button_blue {
+    .button-blue {
         @include buttonBlue();
     }
 }
 
-.privacy_wrap {
+.privacy-wrap {
     @include dFlex();
     input[type=checkbox] {
         width: 24px;
