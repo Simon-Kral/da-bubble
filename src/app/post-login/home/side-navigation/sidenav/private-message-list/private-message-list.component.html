@@ -1,21 +1,24 @@
 <div class="private-msg-wrapper">
-  <div class="private-msg-user" *ngFor="let user of currentUser">
+@if (currentUser) {
+  <div class="private-msg-user">
     <div
       class="private-msg-user pointer"
-      [ngClass]="{ active: selectedConversation === user.user }"
-      (click)="navigateToPrivateConversation(user.user)"
+      [ngClass]="{ active: selectedConversation === currentUser[0].user }"
+      (click)="navigateToPrivateConversation(currentUser[0].user)"
     >
       <div class="private-msg-user-avatar">
-        <img [src]="user.avatarUrl" alt="{{ user.user }}'s avatar" />
+        <img [src]="currentUser[0].avatarUrl" alt="{{ currentUser[0].user }}'s avatar" />
         <div
           class="private-msg-user-status"
-          [ngClass]="user.onlineStatus"
+          [ngClass]="currentUser[0].onlineStatus"
         ></div>
       </div>
-      <span>{{ user.user }} (Du)</span>
+      <span>{{ currentUser[0].user }} (Du)</span>
     </div>
   </div>
-  <div class="private-msg-list" *ngFor="let privateMsg of privateMsgList">
+  } @for (privateMsg of privateMsgList; track privateMsg.id; let index = $index)
+  {
+  <div class="private-msg-list">
     <div
       class="private-msg-user pointer"
       [ngClass]="{ active: selectedConversation === privateMsg.user }"
@@ -35,4 +38,5 @@
       <span>{{ privateMsg.user }}</span>
     </div>
   </div>
+  }
 </div>

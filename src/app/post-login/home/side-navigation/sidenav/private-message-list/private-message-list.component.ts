@@ -15,13 +15,13 @@ export class PrivateMessageListComponent {
 
 
   privateMsgList = [
-    { user: 'Hans', avatarUrl: 'assets/img/character-images/character_1.png', onlineStatus: 'online' },
-    { user: 'Otto', avatarUrl: 'assets/img/character-images/character_2.png', onlineStatus: 'offline' },
-    { user: 'Karl', avatarUrl: 'assets/img/character-images/character_3.png', onlineStatus: 'online' }
+    { user: 'Hans', avatarUrl: 'assets/img/character-images/character_1.png', onlineStatus: 'online', id: '1' },
+    { user: 'Otto', avatarUrl: 'assets/img/character-images/character_2.png', onlineStatus: 'offline', id: '2'},
+    { user: 'Karl', avatarUrl: 'assets/img/character-images/character_3.png', onlineStatus: 'online', id: '3' }
   ];
 
   currentUser = [
-    { user: 'Sofia', avatarUrl: 'assets/img/character-images/character_3.png', onlineStatus: 'online' }
+    { user: 'Sofia', avatarUrl: 'assets/img/character-images/character_3.png', onlineStatus: 'online', id: '4'}
   ];
 
   selectedConversation: string | null = null;
