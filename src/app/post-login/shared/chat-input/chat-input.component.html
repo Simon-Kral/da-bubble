@@ -33,8 +33,13 @@
       </div>
     </div>
     <div class="right-section">
-      <button type="submit">
-        <img class="pointer" src="assets/img/icons/send_dark_blue.png" alt="" />
+      <button
+        class="pointer"
+        type="submit"
+        (mouseover)="onMouseOver('send')"
+        (mouseout)="onMouseOut('send')"
+      >
+        <img [src]="iconSourceSend" alt="" />
       </button>
     </div>
   </div>

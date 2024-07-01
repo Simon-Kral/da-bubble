@@ -44,4 +44,7 @@
   &:hover {
     background-color: $bg-color;
   }
+  &:active {
+    @include btnActive($bg-color)
+  }
 }

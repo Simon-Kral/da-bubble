@@ -21,6 +21,7 @@ export class ChatInputComponent {
   iconSourceAdd = 'assets/img/icons/add_grey.png';
   iconSourceSmiley = 'assets/img/icons/smiley_grey.png';
   iconSourceAlternateEmail = 'assets/img/icons/alternate_email_grey.png';
+  iconSourceSend = 'assets/img/icons/send_dark_blue.png';
 
   constructor(private fb: FormBuilder) {
     this.messageData = this.fb.group({
@@ -64,13 +65,21 @@ export class ChatInputComponent {
    * @param imgName - The name of the image being hovered over.
    */
   onMouseOver(imgName: string): void {
-    if (imgName === 'add') {
-      this.iconSourceAdd = 'assets/img/icons/add_blue.png';
-    } else if (imgName === 'smiley') {
-      this.iconSourceSmiley = 'assets/img/icons/smiley_blue.png';
-    } else if (imgName === 'alternate_email') {
-      this.iconSourceAlternateEmail =
-        'assets/img/icons/alternate_email_blue.png';
+    switch (imgName) {
+      case 'add':
+        this.iconSourceAdd = 'assets/img/icons/add_blue.png';
+        break;
+      case 'smiley':
+        this.iconSourceSmiley = 'assets/img/icons/smiley_blue.png';
+        break;
+      case 'alternate_email':
+        this.iconSourceAlternateEmail = 'assets/img/icons/alternate_email_blue.png';
+        break;
+      case 'send':
+        this.iconSourceSend = 'assets/img/icons/send_ligth_blue.png';
+        break;
+      default:
+        break;
     }
   }
 
@@ -79,13 +88,21 @@ export class ChatInputComponent {
    * @param imgName - The name of the image.
    */
   onMouseOut(imgName: string): void {
-    if (imgName === 'add') {
-      this.iconSourceAdd = 'assets/img/icons/add_grey.png';
-    } else if (imgName === 'smiley') {
-      this.iconSourceSmiley = 'assets/img/icons/smiley_grey.png';
-    } else if (imgName === 'alternate_email') {
-      this.iconSourceAlternateEmail =
-        'assets/img/icons/alternate_email_grey.png';
+    switch (imgName) {
+      case 'add':
+        this.iconSourceAdd = 'assets/img/icons/add_grey.png';
+        break;
+      case 'smiley':
+        this.iconSourceSmiley = 'assets/img/icons/smiley_grey.png';
+        break;
+      case 'alternate_email':
+        this.iconSourceAlternateEmail = 'assets/img/icons/alternate_email_grey.png';
+        break;
+      case 'send':
+        this.iconSourceSend = 'assets/img/icons/send_dark_blue.png';
+        break;
+      default:
+        break;
     }
   }
 }
