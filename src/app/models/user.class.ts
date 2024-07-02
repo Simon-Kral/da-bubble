@@ -2,7 +2,6 @@ import { Channel } from './channel.class';
 
 export class User {
   id: string;
-  authUID: string;
   name: string;
   status: boolean = false;
   avatarURL: string;
@@ -12,7 +11,6 @@ export class User {
 
   constructor(obj?: any) {
     this.id = obj ? obj.id : '';
-    this.authUID = obj ? obj.authUID : '';
     this.name = obj ? obj.name : '';
     this.status = obj ? obj.status : false;
     this.avatarURL = obj ? obj.avatarURL : '';

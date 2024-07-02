@@ -1,8 +1,11 @@
+import { User } from './user.class';
+import { Message } from './message.class';
+
 export class PrivateChat {
   id: string;
   chatCreator: string;
   chatReciver: string;
-  messages: string[];
+  messages: Message[];
   createdAt: number;
   createdBy: string;
 
@@ -15,3 +18,4 @@ export class PrivateChat {
     this.createdBy = obj ? obj.createdBy : '';
   }
 }
+

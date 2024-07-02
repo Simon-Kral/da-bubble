@@ -1,16 +1,18 @@
 import { Message } from "./message.class";
+import { User } from "./user.class";
+
 export class Channel {
   id: string;
-  chanName: string;
+  Name: string;
   description: string;
-  members: string[];
+  members: User[];
   messages: Message[];
   createdAt: number;
   createdBy: string;
 
   constructor(obj?: any) {
     this.id = obj ? obj.id : '';
-    this.chanName = obj ? obj.chanName : '';
+    this.Name = obj ? obj.Name : '';
     this.description = obj ? obj.description : '';
     this.members = obj ? obj.users : [];
     this.messages = obj ? obj.messages : [];
