@@ -3,7 +3,7 @@ import { User } from "./user.class";
 
 export class Channel {
   id: string;
-  Name: string;
+  name: string;
   description: string;
   members: User[];
   messages: Message[];
@@ -12,7 +12,7 @@ export class Channel {
 
   constructor(obj?: any) {
     this.id = obj ? obj.id : '';
-    this.Name = obj ? obj.Name : '';
+    this.name = obj ? obj.name : '';
     this.description = obj ? obj.description : '';
     this.members = obj ? obj.users : [];
     this.messages = obj ? obj.messages : [];
