@@ -62,3 +62,13 @@
 .d-none {
   display: none;
 }
+
+//create-new-channel
+
+.create-new-channel-container {
+  @include dFlex(row,center, center);
+  position: absolute;
+  top: 0;
+  width: 100svw;
+  height: 100svh;
+}

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ChannelListComponent } from './channel-list/channel-list.component';
@@ -18,6 +18,9 @@ import { PrivateMessageListComponent } from './private-message-list/private-mess
 export class SidenavComponent {
 
   @Output() messageEvent = new EventEmitter<object>();
+
+  @Input() isCreateChannelVisible: boolean = false;
+  @Output() createChannelVisibilityChange = new EventEmitter<boolean>();
 
   constructor(private router: Router) {}
 
@@ -130,4 +133,10 @@ export class SidenavComponent {
       this.currentIconSourceAccountCircle = this.iconSourceAccountCircle;
     }
   }
+
+    
+    toggleCreateChannelVisibility() {
+      this.isCreateChannelVisible = !this.isCreateChannelVisible;
+      this.createChannelVisibilityChange.emit(this.isCreateChannelVisible);
+    }
 }

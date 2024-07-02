@@ -38,7 +38,7 @@
           />
           <h2>Channels</h2>
         </div>
-        <div class="channels-sidenav-right">
+        <div class="channels-sidenav-right" (click)="toggleCreateChannelVisibility()">
           <img
             class="pointer"
             src="../../assets/img/icons/add_black.png"
@@ -50,7 +50,7 @@
       @if (chanListExpanded) {
       <div class="channels-content">
         <app-channel-list></app-channel-list>
-        <div class="pointer add-channel">
+        <div class="pointer add-channel" (click)="toggleCreateChannelVisibility()">
           <img
             class=""
             src="../../assets/img/icons/add_circle.png"
