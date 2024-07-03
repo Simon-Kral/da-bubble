@@ -1,7 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, updateProfile, user } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
 import { UserInterface } from './user.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class AuthService {
   firebaseAuth = inject(Auth)
   user$ = user(this.firebaseAuth)
   currentUserSig = signal<UserInterface | null | undefined>(undefined)
+  router = inject(Router)
 
   register(email: string, username: string, password: string): Observable<void> {
     const promise = createUserWithEmailAndPassword(
@@ -38,21 +40,36 @@ export class AuthService {
     )
     return from(promise);
   }
-}
 
-// todo in home:
-// implements OnInit
-// authService = inject(AuthService);
-// ngOnInit(): void {
-//   this.authService.user$.subscribe(user =>{
-//     if(user) {
-//       this.authService.currentUserSig.set({
-//         email: user.email!,
-//         username: user.displayName!
-//       });
-//     } else {
-//       this.authService.currentUserSig.set(null);
-//     }
-//     console.log(this.authService.currentUserSig());
-//   });
-// }
+  logout(): Observable<void> {
+    const promise = signOut(this.firebaseAuth);
+    return from(promise);
+  }
+
+  checkUserStatus() {
+    this.user$.subscribe(user =>{
+      if(user) {
+        if(user.photoURL) {
+          this.currentUserSig.set({
+            email: user.email!,
+            username: user.displayName!,
+            avatar: user.photoURL!
+          });
+          console.log(this.currentUserSig())
+          this.router.navigateByUrl('/home');
+        } else {
+          this.currentUserSig.set({
+            email: user.email!,
+            username: user.displayName!
+          });
+          this.router.navigateByUrl('/avatar');
+        }
+
+      } else {
+        this.currentUserSig.set(null);
+        this.router.navigateByUrl('/');
+      }
+    });
+  }
+
+}

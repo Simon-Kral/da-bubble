@@ -1,13 +1,30 @@
 <h1>Anmeldung</h1>
 <h2>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</h2>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="input-box">
-        <img src="assets/img/icons/email.png" alt="">
-        <input type="text" placeholder="beispielname@email.com" formControlName="email">
+    <div>
+        <div class="input-box">
+            <img src="assets/img/icons/email.png" alt="">
+            <input type="text" placeholder="beispielname@email.com" formControlName="email">
+        </div>
+        @if (loginForm.controls.email.invalid && loginForm.controls.email.touched || loginForm.controls.email.dirty) {
+            @if (loginForm.controls.email.errors?.['required']) {
+                <p class="error-message">*Bitte schreiben Sie eine E-Mail-Adresse.</p>
+            }
+            @if (loginForm.controls.email.errors?.['email']) {
+                <p class="error-message">*Dies ist keine gültige E-Mail-Adresse</p>
+            }
+        }
     </div>
-    <div class="input-box">
-        <img src="assets/img/icons/password.png" alt="">
-        <input type="text" placeholder="beispielname@email.com" formControlName="password">
+    <div>
+        <div class="input-box">
+            <img src="assets/img/icons/password.png" alt="">
+            <input type="text" placeholder="beispielname@email.com" formControlName="password">
+        </div>
+        @if (loginForm.controls.password.invalid && loginForm.controls.password.touched || loginForm.controls.password.dirty) {
+            @if (loginForm.controls.password.errors?.['minlength']) {
+                <p class="error-message">*Das Passwort muss mindestens 6 Zeichen lang sein.</p>
+            }
+        }
     </div>
     <a>Passwort vergessen?</a>
     <div class="separator">
@@ -18,10 +35,10 @@
         <span>Anmelden mit Google</span>
     </button>
     <div class="button-wrap">
-        <button class="button-blue" type="submit">Anmelden</button>
+        <button class="button-blue" type="submit" [disabled]="!loginForm.valid">Anmelden</button>
         <button class="button-white">Gäste-Login</button>
     </div>
-    <div *ngIf="errorMessage != ''">
+    @if(errorMessage) {
         <span>{{ errorMessage }}</span>
-    </div>
+    }
 </form>

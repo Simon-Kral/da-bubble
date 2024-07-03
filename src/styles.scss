@@ -10,6 +10,7 @@ $text-gray: #686868;
 $disabled-btn: #bdbdbd;
 $online-green: #92c83e;
 $online-red: #ff0000;
+$rosa-error: #ed1e79;
 $header-height: 120px;
 $footer-height: 90px;
 // below needs to be filled with correct hex-code
@@ -59,6 +60,9 @@ body {
         background-color: $purple-1;
         color: $white;
     }
+    &:disabled {
+      background-color: $text-gray;
+    }
 }
 
 @mixin buttonWhite() {
@@ -77,6 +81,16 @@ body {
         background-color: $purple-1;
         color: $white;
     }
+    &:disabled {
+      color: $text-gray;
+      border: $text-gray;
+    }
+}
+@mixin errorMessage {
+  @include Nunito(400, 14px, 19.1px, $rosa-error);
+  margin-top: 6px;
+  margin-bottom: -6px;
+  height: 0px;
 }
 
 

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LandingHeaderComponent } from './landing-header/landing-header.component';
 import { LandingFooterComponent } from './landing-footer/landing-footer.component';
 import { NgIf } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { AuthService } from '../../services/authentication/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -18,7 +19,11 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './landing.component.scss'
 })
 export class LandingComponent {
+  authService = inject(AuthService);
+  router = inject(Router);
 
-  constructor() {}
+  constructor() {
+    this.authService.checkUserStatus();
+  }
 
 }

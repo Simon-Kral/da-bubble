@@ -1,23 +1,25 @@
 <h1>Avatar</h1>
-<div>
-    <img src="{{ avatar.value }}">
-    <span>Frederick Beck</span>
-</div>
 <form [formGroup]="avatarForm" (ngSubmit)="onSubmit()">
-    <span>Aus der Liste auswählen</span>
-    <div class="avatar-list">
-        @for (avatar of [1,2,3,4,5,6]; track avatar) {
-            <div class="input-box">
-                <input type="radio" name="avatar" value="assets/img/character-images/character_{{ [avatar] }}.png" formControlName="avatar">
-                <label for="avatar_{{ avatar }}">
-                    <img src="assets/img/character-images/character_{{ [avatar] }}.png" alt="">
-                </label>
-            </div>
-        }
+    <div>
+        <img src="{{ avatarSig() }}">
+        <h2>{{ this.authService.currentUserSig()?.username }}</h2>
     </div>
-    <div *ngIf="errorMessage != ''">
+    <div class="select-avatar-from-list">
+        <span>Aus der Liste wählen</span>
+        <div class="avatar-list">
+            @for (avatar of [1,2,3,4,5,6]; track avatar) {
+                <div class="input-box">
+                    <input id="avatar_{{ avatar }}" type="radio" name="avatar" value="assets/img/character-images/character_{{ [avatar] }}.png" formControlName="avatar">
+                    <label for="avatar_{{ avatar }}">
+                        <img src="assets/img/character-images/character_{{ [avatar] }}.png" alt="">
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+    @if(errorMessage) {
         <span>{{ errorMessage }}</span>
-    </div>
+    }
     <div class="upload-image">
         <span>eigenes Bild verwenden</span>
         <div class="button-wrap">
@@ -26,6 +28,7 @@
     </div>
 
     <div class="button-wrap">
+        <!-- <button class="button-blue">Weiter</button> -->
         <button class="button-blue" type="submit" [disabled]="!avatarForm.valid">Weiter</button>
     </div>
 </form>

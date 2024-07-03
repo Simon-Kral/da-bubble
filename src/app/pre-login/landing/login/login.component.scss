@@ -59,6 +59,10 @@ form {
     }
 }
 
+.error-message {
+    @include errorMessage();
+}
+
 .separator {
     @include dFlex($ai: flex-end);
     width: 100%;

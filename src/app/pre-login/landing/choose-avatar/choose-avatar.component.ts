@@ -1,9 +1,13 @@
 import { NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { AbstractControl, FormBuilder, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { Router, RouterLink } from '@angular/router';
 
+export const forbiddenAvatarValidator = (control: AbstractControl): ValidationErrors | null => {
+  const avatars = ['assets/img/profile.png'];
+  return avatars.includes(control.value) ? {forbiddenAvatar: 'Bitte wählen Sie einen Avatar aus.'} : null;
+}
 
 @Component({
   selector: 'app-choose-avatar',
@@ -16,15 +20,21 @@ export class ChooseAvatarComponent {
   fb = inject(FormBuilder);
   authService = inject(AuthService);
   router = inject(Router);
-  avatar = new FormControl('assets/img/profile.png');
-
   avatarForm = this.fb.nonNullable.group({
-    'avatar': ['assets/img/profile.png', Validators.required],
+    'avatar': ['assets/img/profile.png', [Validators.required, forbiddenAvatarValidator]],
   })
+  avatarSig = signal(this.avatarForm.get('avatar')!.value);
 
   errorMessage: string | null = null;
 
-  constructor() {}
+  constructor() {
+    this.authService.checkUserStatus();
+    this.avatarForm.get('avatar')!.valueChanges.subscribe(avatar => {
+      this.avatarSig.set(avatar);
+    });
+    console.log(this.avatarForm)
+    console.log(this.avatarForm.get('avatar')?.value, 'is', this.avatarForm.get('avatar')?.status);
+  }
 
   onSubmit(): void {
     const rawForm = this.avatarForm.getRawValue();
@@ -36,11 +46,8 @@ export class ChooseAvatarComponent {
         },
         error: (err) => {
           this.errorMessage = err.code;
+          console.log(this.errorMessage)
         }
       })
-  }
-
-  updateAvatar(avatar: string) {
-    this.avatar.setValue('Nancy');
   }
 }

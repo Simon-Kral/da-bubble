@@ -12,7 +12,7 @@ h1 {
 }
 
 h2 {
-    @include Nunito(400, 20px, 24px, $black);
+    @include Nunito(700, 32px, 43.65px, $black);
     text-align: center;
 }
 
@@ -48,8 +48,6 @@ form {
         @include buttonWhite();
     }
 }
-
-.upload-image
 
 .back-button {
     @include dFlex();

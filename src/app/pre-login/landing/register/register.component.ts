@@ -17,10 +17,10 @@ export class RegisterComponent {
   router = inject(Router);
 
   registerForm = this.fb.nonNullable.group({
-    'username': ['', Validators.required],
+    'username': ['', [Validators.required, Validators.minLength(5)]],
     'email': ['', [Validators.required, Validators.email]],
-    'password': ['', Validators.required],
-    'privacy': ['', Validators.required]
+    'password': ['', [Validators.required, Validators.minLength(6)]],
+    'privacy': [false, Validators.requiredTrue]
   })
 
   errorMessage: string | null = null;

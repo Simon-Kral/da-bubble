@@ -17,8 +17,8 @@ export class LoginComponent {
   router = inject(Router);
 
   loginForm = this.fb.nonNullable.group({
-    email: ["", [Validators.required, Validators.email]],
-    password: ["", Validators.required],
+    'email': ['', [Validators.required, Validators.email]],
+    'password': ['', [Validators.required, Validators.minLength(6)]],
   })
 
   errorMessage: string | null = null;
@@ -29,7 +29,7 @@ export class LoginComponent {
       .login(rawForm.email, rawForm.password)
       .subscribe({
         next: () => {
-        this.router.navigateByUrl('/home');
+          this.authService.checkUserStatus();
         },
         error: (err) => {
           this.errorMessage = err.code;
