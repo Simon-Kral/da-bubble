@@ -54,13 +54,13 @@ export class CreateNewChannelComponent {
     if (this.channelData.valid) {
       const channelValues = this.channelData.value;
       let newChannel: Channel = {
-        id: '',
+        chanId: '',
         name: channelValues.channelName,
         description: channelValues.channelDescription,
         members: [],
         messages: [],
         createdAt: new Date().getTime(),
-        createdBy: 'test', 
+        createdBy: 'test',
       };
 
       try {

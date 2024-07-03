@@ -7,7 +7,7 @@
       (click)="navigateToPrivateConversation(currentUser[0].name)"
     >
       <div class="private-msg-user-avatar">
-        <img [src]="currentUser[0].avatarUrl" alt="{{ currentUser[0].name }}'s avatar" />
+        <img [src]="currentUser[0].photoURL" alt="{{ currentUser[0].name }}'s avatar" />
         <div
           class="private-msg-user-status"
           [ngClass]="currentUser[0].onlineStatus"
@@ -16,7 +16,7 @@
       <span>{{ currentUser[0].name }} (Du)</span>
     </div>
   </div>
-  } @for (privateMsg of privateMsgList; track privateMsg.id; let index = $index)
+  } @for (privateMsg of privateMsgList; track privateMsg.privatChatId; let index = $index)
   {
   <div class="private-msg-list">
     <div

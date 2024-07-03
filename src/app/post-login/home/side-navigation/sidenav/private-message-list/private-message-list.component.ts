@@ -27,7 +27,7 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   ];
  */
   currentUser = [
-    { name: 'Sofia', avatarUrl: 'assets/img/character-images/character_3.png', onlineStatus: 'online', id: '4'}
+    { name: 'Sofia', photoURL: 'assets/img/character-images/character_3.png', onlineStatus: 'online', id: '4'}
   ];
 
   selectedConversation: string | null = null;
@@ -40,7 +40,7 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
-    
+
   }
 
   navigateToPrivateConversation(conversation: string) {
@@ -67,7 +67,7 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
 
   setPrivateChat(obj: any, id: string,): PrivateChat {
     return {
-      id: id || "",
+      privatChatId: id || "",
       chatCreator: obj.chatCreator || "",
       chatReciver: obj.chatReciver || "",
       messages: obj.messages || [],

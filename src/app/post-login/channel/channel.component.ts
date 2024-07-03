@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
+
 
 @Component({
   selector: 'app-channel',
@@ -10,6 +11,8 @@ import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
   styleUrl: './channel.component.scss'
 })
 export class ChannelComponent {
+
+
 
   users = [
     {

@@ -2,7 +2,7 @@ import { User } from './user.class';
 import { Reaction } from './reaction.class';
 
 export class MessageAnswer {
-  id: string;
+  messageAnswerId: string;
   text: string;
   messageId: string;
   user: User;
@@ -11,7 +11,7 @@ export class MessageAnswer {
   reactions: Reaction[];
 
   constructor(obj?: any) {
-    this.id = obj ? obj.id : '';
+    this.messageAnswerId = obj ? obj.id : '';
     this.text = obj ? obj.text : '';
     this.messageId = obj ? obj.messageId : '';
     this.user = obj ? obj.user : '';

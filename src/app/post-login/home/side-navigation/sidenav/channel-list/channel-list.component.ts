@@ -60,7 +60,7 @@ export class ChannelListComponent implements OnInit, OnDestroy{
 
   setChannel(obj: any, id: string,): Channel {
     return {
-      id: id || "",
+      chanId: id || "",
       name: obj.name || "",
       description: obj.description || "",
       members: obj.members || [],

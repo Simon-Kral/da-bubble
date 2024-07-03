@@ -2,7 +2,7 @@ import { Message } from "./message.class";
 import { User } from "./user.class";
 
 export class Channel {
-  id: string;
+  chanId: string;
   name: string;
   description: string;
   members: User[];
@@ -11,7 +11,7 @@ export class Channel {
   createdBy: string;
 
   constructor(obj?: any) {
-    this.id = obj ? obj.id : '';
+    this.chanId = obj ? obj.id : '';
     this.name = obj ? obj.name : '';
     this.description = obj ? obj.description : '';
     this.members = obj ? obj.users : [];

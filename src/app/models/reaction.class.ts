@@ -1,7 +1,7 @@
 import { User } from './user.class';
 
 export class Reaction {
-  id: string;
+  reactionId: string;
   user: User;
   message_id: string;
   answer_id: string;
@@ -9,7 +9,7 @@ export class Reaction {
   emoji: string;
 
   constructor(obj?: any) {
-    this.id = obj ? obj.id : '';
+    this.reactionId = obj ? obj.id : '';
     this.user = obj ? obj.user : '';
     this.message_id = obj ? obj.post_id : '';
     this.answer_id = obj ? obj.answer_id : '';

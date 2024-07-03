@@ -6,6 +6,8 @@ import { SidenavComponent } from '../home/side-navigation/sidenav/sidenav.compon
 import { ThreadComponent } from '../channel/thread/thread.component';
 import { CreateNewChannelComponent } from '../channel/create-new-channel/create-new-channel.component';
 import { RouterOutlet } from '@angular/router';
+import { FirebaseService } from './../../services/firebase/firebase.service';
+
 
 @Component({
   selector: 'app-home',
@@ -23,6 +25,13 @@ import { RouterOutlet } from '@angular/router';
   ],
 })
 export class HomeComponent {
+
+  firebaseService = inject(FirebaseService);
+
+  constructor() {
+    this.firebaseService.getUserChannels();
+  }
+
   //sidenav variables
   isSidenavVisible: boolean = true;
   //create channel

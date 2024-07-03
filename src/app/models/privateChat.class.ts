@@ -2,7 +2,7 @@ import { User } from './user.class';
 import { Message } from './message.class';
 
 export class PrivateChat {
-  id: string;
+  privatChatId: string;
   chatCreator: string;
   chatReciver: string;
   messages: Message[];
@@ -10,7 +10,7 @@ export class PrivateChat {
   createdBy: string;
 
   constructor(obj?: any) {
-    this.id = obj ? obj.id : '';
+    this.privatChatId = obj ? obj.id : '';
     this.chatCreator = obj ? obj.chatCreator : '';
     this.chatReciver = obj ? obj.chatReciver : '';
     this.messages = obj ? obj.messages : [];
