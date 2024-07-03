@@ -1,38 +1,42 @@
 <div class="private-msg-wrapper">
-  <div class="private-msg-user" *ngFor="let user of currentUser">
+@if (currentUser) {
+  <div class="private-msg-user">
     <div
       class="private-msg-user pointer"
-      [ngClass]="{ active: selectedConversation === user.user }"
-      (click)="navigateToPrivateConversation(user.user)"
+      [ngClass]="{ active: selectedConversation === currentUser[0].name }"
+      (click)="navigateToPrivateConversation(currentUser[0].name)"
     >
       <div class="private-msg-user-avatar">
-        <img [src]="user.avatarUrl" alt="{{ user.user }}'s avatar" />
+        <img [src]="currentUser[0].avatarUrl" alt="{{ currentUser[0].name }}'s avatar" />
         <div
           class="private-msg-user-status"
-          [ngClass]="user.onlineStatus"
+          [ngClass]="currentUser[0].onlineStatus"
         ></div>
       </div>
-      <span>{{ user.user }} (Du)</span>
+      <span>{{ currentUser[0].name }} (Du)</span>
     </div>
   </div>
-  <div class="private-msg-list" *ngFor="let privateMsg of privateMsgList">
+  } @for (privateMsg of privateMsgList; track privateMsg.id; let index = $index)
+  {
+  <div class="private-msg-list">
     <div
       class="private-msg-user pointer"
-      [ngClass]="{ active: selectedConversation === privateMsg.user }"
-      (click)="navigateToPrivateConversation(privateMsg.user)"
+      [ngClass]="{ active: selectedConversation === privateMsg.chatReciver }"
+      (click)="navigateToPrivateConversation(privateMsg.chatReciver)"
     >
       <div class="private-notes"></div>
       <div class="private-msg-user-avatar">
         <img
-          [src]="privateMsg.avatarUrl"
-          alt="{{ privateMsg.user }}'s avatar"
+          [src]=""
+          alt=""
         />
         <div
           class="private-msg-user-status"
-          [ngClass]="privateMsg.onlineStatus"
+          [ngClass]=""
         ></div>
       </div>
-      <span>{{ privateMsg.user }}</span>
+      <span>{{ privateMsg.chatReciver }}</span>
     </div>
   </div>
+  }
 </div>

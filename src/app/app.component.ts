@@ -6,12 +6,12 @@ import { SidenavComponent } from './post-login/home/side-navigation/sidenav/side
 import { ChannelListComponent } from './post-login/home/side-navigation/sidenav/channel-list/channel-list.component';
 import { PrivateMessageListComponent } from './post-login/home/side-navigation/sidenav/private-message-list/private-message-list.component';
 import { NewMessageComponent } from './post-login/new-message/new-message.component';
-
+import { CreateNewChannelComponent } from './post-login/channel/create-new-channel/create-new-channel.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HomeComponent, SidenavComponent, NewMessageComponent, ChannelListComponent, PrivateMessageListComponent],
+  imports: [CommonModule, RouterOutlet, HomeComponent, SidenavComponent, NewMessageComponent, ChannelListComponent, PrivateMessageListComponent, CreateNewChannelComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
