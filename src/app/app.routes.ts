@@ -9,7 +9,7 @@ import { ChannelComponent } from './post-login/channel/channel.component';
 import { LandingComponent } from './pre-login/landing/landing.component';
 import { RegisterComponent } from './pre-login/landing/register/register.component';
 import { ResetPasswordComponent } from './pre-login/landing/reset-password/reset-password.component';
-import { ChooseAvatarComponent } from './pre-login/landing/choose-avatar/choose-avatar.component';
+import { SelectAvatarComponent } from './pre-login/landing/select-avatar/select-avatar.component';
 import { LoginComponent } from './pre-login/landing/login/login.component';
 
 
@@ -21,7 +21,7 @@ export const routes: Routes = [
         children: [
             {path: '', component: LoginComponent },
             {path: 'register', component: RegisterComponent },
-            {path: 'avatar', component: ChooseAvatarComponent },
+            {path: 'avatar', component: SelectAvatarComponent },
             {path: 'reset-password', component: ResetPasswordComponent },
         ]
     },
