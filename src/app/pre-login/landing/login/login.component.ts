@@ -44,8 +44,8 @@ export class LoginComponent {
 	pushUserIdToSessionStorage() {
 		const auth = getAuth();
 		const id = auth.currentUser!.uid;
-		const name = auth.currentUser!.displayName;
+		// const name = auth.currentUser!.displayName;
 		// console.log('user', `'${name}'`, 'was pushed');
-		sessionStorage.setItem(`${name}`, id);
+		sessionStorage.setItem(`currentUserId`, id);
 	}
 }
