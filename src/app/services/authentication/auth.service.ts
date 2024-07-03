@@ -73,6 +73,7 @@ export class AuthService {
 
   setInitialUserSignal(user: User) {
     this.currentUserSig.set({
+      userId: user.uid,
       email: user.email!,
       username: user.displayName!,
     });

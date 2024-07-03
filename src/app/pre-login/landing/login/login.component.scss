@@ -1,135 +1,136 @@
-@import './../../../../styles.scss';
+@import "./../../../../styles.scss";
 
 :host {
-    @include dFlex();
-    flex-direction: column;
-    gap: 32px;
-    max-width: 500px;
+  @include dFlex();
+  flex-direction: column;
+  gap: 32px;
+  max-width: 500px;
 }
 
 h1 {
-    @include Nunito(700, 46px, 55.2px, $purple-1);
+  @include Nunito(700, 46px, 55.2px, $purple-1);
 }
 
 h2 {
-    @include Nunito(400, 20px, 24px, $black);
-    text-align: center;
+  @include Nunito(400, 20px, 24px, $black);
+  text-align: center;
 }
 
 form {
-    @include dFlex();
-    flex-direction: column;
-    gap: 32px;
+  @include dFlex();
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
 }
 
 .input-box {
-    @include dFlex($jc: flex-start);
-    gap: 32px;
-    background-color: $bg-color;
-    width: 100%;
-    height: 60px;
-    border: 1px solid transparent;
-    border-radius: 30px;
-    padding: 0 32px;
+  @include dFlex($jc: flex-start);
+  gap: 32px;
+  background-color: $bg-color;
+  width: 100%;
+  height: 60px;
+  border: 1px solid transparent;
+  border-radius: 30px;
+  padding: 0 32px;
+  transition: all 0.1s;
+  img {
+    max-width: 20px;
+    max-height: 21px;
     transition: all 0.1s;
+  }
+  input {
+    @include Nunito(500, 18px, 21.6px, $text-gray);
+    background-color: transparent;
+    border: none;
+    flex-grow: 1;
+    height: 100%;
+  }
+  &:hover {
+    border: 1px solid $text-gray;
+  }
+  &:focus-within {
+    border: 1px solid $purple-3;
     img {
-        max-width: 20px;
-        max-height: 21px;
-        transition: all 0.1s;
+      filter: saturate(0%) brightness(0%);
     }
     input {
-        @include Nunito(500, 18px, 21.6px, $text-gray);
-        background-color: transparent;
-        border: none;
-        flex-grow: 1;
-        height: 100%;
+      outline: none;
+      color: $black;
     }
-    &:hover {
-        border: 1px solid $text-gray;
-    }
-    &:focus-within {
-        border: 1px solid $purple-3;
-        img {
-            filter: saturate(0%) brightness(0%);
-        }
-        input {
-            outline: none;
-            color: $black;
-        }
-    }
+  }
 }
 
 .error-message {
-    @include errorMessage();
+  @include errorMessage();
 }
 
 .separator {
-    @include dFlex($ai: flex-end);
-    width: 100%;
-    height: 1px;
-    background-color: $light-purple-lines;
-    margin-top: 18.55px;
-    span {
-        @include Nunito(400, 18px, 24.55px, $black);
-        margin-bottom: -6px;
-        background-color: $white;
-        padding: 0 15px;
-        line-height: 24.55px;
-    }
+  @include dFlex($ai: flex-end);
+  width: 100%;
+  height: 1px;
+  background-color: $light-purple-lines;
+  margin-top: 18.55px;
+  span {
+    @include Nunito(400, 18px, 24.55px, $black);
+    margin-bottom: -6px;
+    background-color: $white;
+    padding: 0 15px;
+    line-height: 24.55px;
+  }
 }
 
 .login-with-google {
-    @include dFlex();
-    gap: 20px;
-    background-color: $bg-color;
-    width: 100%;
-    height: 60px;
-    padding: 0 32px;
-    border: 1px solid transparent;
-    border-radius: 30px;
+  @include dFlex();
+  gap: 20px;
+  background-color: $bg-color;
+  width: 100%;
+  height: 60px;
+  padding: 0 32px;
+  border: 1px solid transparent;
+  border-radius: 30px;
+  transition: all 0.1s;
+  cursor: pointer;
+  img {
+    width: 38px;
+  }
+  span {
+    @include Nunito(400, 18px, 21.6px, $purple-1);
     transition: all 0.1s;
-    cursor: pointer;
-    img {
-        width: 38px;
-    }
+  }
+  &:hover {
+    border: 1px solid $purple-1;
     span {
-        @include Nunito(400, 18px, 21.6px, $purple-1);
-        transition: all 0.1s;
+      font-variation-settings: "wght" 700;
     }
-    &:hover {
-        border: 1px solid $purple-1;
-        span {
-            font-variation-settings: 'wght' 700;
-        }
+  }
+  &:active {
+    border: 1px solid $text-gray;
+    span {
+      font-variation-settings: "wght" 400;
     }
-    &:active {
-        border: 1px solid $text-gray;
-        span {
-            font-variation-settings: 'wght' 400;
-        }
-    }
+  }
 }
 
 .button-wrap {
-    @include dFlex();
-    gap: 30px;
-    .button-blue {
-        @include buttonBlue();
-    }
-    
-    .button-white {
-        @include buttonWhite();
-    }
+  @include dFlex();
+  gap: 30px;
+  .button-blue {
+    @include buttonBlue();
+  }
+
+  .button-white {
+    @include buttonWhite();
+  }
 }
 
 a {
-    @include Figtree(400, 18px, 21.6px, $purple-2);
-    padding: 10px 15px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.1s;
-    &:hover {
-        background-color: $bg-color;
-        font-variation-settings: 'wght' 500;
-    }
+  @include Figtree(400, 18px, 21.6px, $purple-2);
+  padding: 10px 15px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.1s;
+  &:hover {
+    background-color: $bg-color;
+    font-variation-settings: "wght" 500;
+  }
 }

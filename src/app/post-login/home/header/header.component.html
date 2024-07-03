@@ -9,17 +9,15 @@
     placeholder="Code learning durchsuchen"
   />
   <button (click)="logout()">test logout</button>
-  <p>
-    {{ this.authService.currentUserSig()?.email }}<br />{{
-      this.authService.currentUserSig()?.username
-    }}
-  </p>
   @if(errorMessage != '') {
   <span>{{ errorMessage }}</span>
   }
   <div class="user-avatar">
-    <span>Max Mustermann</span>
-    <img src="assets/img/character-images/character_1.png" alt="User Image" />
+    <span>{{ this.authService.currentUserSig()?.username }}</span>
+    <img
+      src="{{ this.authService.currentUserSig()?.avatar }}"
+      alt="User Image"
+    />
     <div class="drop-down">
       <img
         class="pointer"
