@@ -6,43 +6,36 @@ import { SidenavComponent } from '../home/side-navigation/sidenav/sidenav.compon
 import { ThreadComponent } from '../channel/thread/thread.component';
 import { CreateNewChannelComponent } from '../channel/create-new-channel/create-new-channel.component';
 import { RouterOutlet } from '@angular/router';
+import { AuthService } from '../../services/authentication/auth.service';
 import { FirebaseService } from './../../services/firebase/firebase.service';
 
-
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
-  imports: [
-    HeaderComponent,
-    ChannelComponent,
-    SidenavComponent,
-    ThreadComponent,
-    CommonModule,
-    RouterOutlet,
-    CreateNewChannelComponent,
-  ],
+	selector: 'app-home',
+	standalone: true,
+	templateUrl: './home.component.html',
+	styleUrl: './home.component.scss',
+	imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent, CommonModule, RouterOutlet, CreateNewChannelComponent],
 })
 export class HomeComponent {
+	authService = inject(AuthService);
+	firebaseService = inject(FirebaseService);
 
-  firebaseService = inject(FirebaseService);
+	constructor() {
+		this.authService.checkUserStatus('home');
+		this.firebaseService.getUserChannels();
+	}
 
-  constructor() {
-    this.firebaseService.getUserChannels();
-  }
+	//sidenav variables
+	isSidenavVisible: boolean = true;
+	//create channel
+	isCreateChannelVisible: boolean = false;
 
-  //sidenav variables
-  isSidenavVisible: boolean = true;
-  //create channel
-  isCreateChannelVisible: boolean = false;
-
-  //sidenav functions
-  toggleSidenav() {
-    this.isSidenavVisible = !this.isSidenavVisible;
-  }
-  //create channel functions
-  onCreateChannelVisibilityChange(visible: boolean) {
-    this.isCreateChannelVisible = visible;
-  }
+	//sidenav functions
+	toggleSidenav() {
+		this.isSidenavVisible = !this.isSidenavVisible;
+	}
+	//create channel functions
+	onCreateChannelVisibilityChange(visible: boolean) {
+		this.isCreateChannelVisible = visible;
+	}
 }
