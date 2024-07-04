@@ -1,5 +1,14 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Auth, User, createUserWithEmailAndPassword, getAdditionalUserInfo, signInWithEmailAndPassword, signOut, updateProfile, user } from '@angular/fire/auth';
+import {
+	Auth,
+	User,
+	createUserWithEmailAndPassword,
+	getAuth,
+	signInWithEmailAndPassword,
+	signOut,
+	updateProfile,
+	user,
+} from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
 import { UserInterface } from './user.interface';
 import { Router } from '@angular/router';
@@ -13,19 +22,34 @@ export class AuthService {
 	currentUserSig = signal<UserInterface | null | undefined>(undefined);
 	router = inject(Router);
 
-	register(email: string, username: string, password: string): Observable<void> {
-		const promise = createUserWithEmailAndPassword(this.firebaseAuth, email, password).then((response) => updateProfile(response.user, { displayName: username }));
+	register(
+		email: string,
+		username: string,
+		password: string
+	): Observable<void> {
+		const promise = createUserWithEmailAndPassword(
+			this.firebaseAuth,
+			email,
+			password
+		).then((response) =>
+			updateProfile(response.user, { displayName: username })
+		);
 		return from(promise);
 	}
 
 	login(email: string, password: string): Observable<void> {
-		const promise = signInWithEmailAndPassword(this.firebaseAuth, email, password).then(() => {});
+		const promise = signInWithEmailAndPassword(
+			this.firebaseAuth,
+			email,
+			password
+		).then(() => {});
 		return from(promise);
 	}
 
 	setAvatar(avatar: string): Observable<void> {
 		const auth = this.firebaseAuth;
 		const promise = updateProfile(auth.currentUser!, { photoURL: avatar });
+		this.addAvatarToSignal(auth.currentUser!, avatar);
 		return from(promise);
 	}
 
@@ -34,19 +58,16 @@ export class AuthService {
 		return from(promise);
 	}
 
-	checkUserStatus(component: string) {
-		// console.log(`${component}:`, 'started validation-process');
-		if (this.currentUserSig()) {
-			// console.log(`${component}:`, 'user-signal already initialized, nothing to do.');
+	checkUserStatus() {
+		if (this.signalIsUp()) {
 		} else {
 			this.user$.subscribe((user) => {
 				if (user) {
-					// console.log(`${component}:`, 'user:', `'${user.displayName}'`, 'was validated');
 					this.setInitialUserSignal(user);
-					if (user.photoURL) this.addAvatarToSignal(user);
+					if (user.photoURL)
+						this.addAvatarToSignal(user, user.photoURL);
 					else this.router.navigateByUrl('/avatar');
 				} else {
-					// console.log('no authenticated user');
 					this.handleUserUnset();
 				}
 			});
@@ -59,19 +80,34 @@ export class AuthService {
 			email: user.email!,
 			username: user.displayName!,
 		});
-		// console.log('Signal for user', `'${this.currentUserSig()?.username}'`, 'was initialized');
 	}
 
-	addAvatarToSignal(user: User) {
-		this.currentUserSig.update((prevUser: UserInterface | null | undefined) => {
-			prevUser!.avatar = user.photoURL!;
-			return prevUser;
-		});
-		this.router.navigateByUrl('/home');
+	addAvatarToSignal(user: User, avatar: string) {
+		this.currentUserSig.update(
+			(prevUser: UserInterface | null | undefined) => {
+				prevUser!.avatar = avatar;
+				return prevUser;
+			}
+		);
+		if (this.signalIsUp()) {
+			this.router.navigateByUrl('/home');
+		} else {
+			this.checkUserStatus();
+		}
 	}
 
 	handleUserUnset() {
 		this.currentUserSig.set(null);
 		this.router.navigateByUrl('/');
+	}
+
+	signalIsUp() {
+		return (
+			this.currentUserSig() &&
+			this.currentUserSig()!.avatar &&
+			this.currentUserSig()!.email &&
+			this.currentUserSig()!.userId &&
+			this.currentUserSig()!.username
+		);
 	}
 }

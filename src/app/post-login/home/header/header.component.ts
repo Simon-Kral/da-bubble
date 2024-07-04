@@ -15,7 +15,7 @@ export class HeaderComponent {
 	errorMessage: string | null = null;
 
 	constructor() {
-		this.authService.checkUserStatus('header');
+		this.authService.checkUserStatus();
 	}
 
 	logout(): void {
