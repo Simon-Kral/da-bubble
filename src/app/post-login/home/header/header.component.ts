@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { Router } from '@angular/router';
-
+import { FirebaseService } from '../../../services/firebase/firebase.service';
 @Component({
 	selector: 'app-header',
 	standalone: true,
@@ -13,6 +13,7 @@ export class HeaderComponent {
 	authService = inject(AuthService);
 	router = inject(Router);
 	errorMessage: string | null = null;
+	firebaseService = inject(FirebaseService);
 
 	constructor() {
 		this.authService.checkUserStatus('header');
@@ -24,5 +25,6 @@ export class HeaderComponent {
 				this.errorMessage = err.code;
 			},
 		});
+		this.firebaseService.clearCurrentUser();
 	}
 }

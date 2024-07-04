@@ -1,6 +1,7 @@
 <div class="private-msg-wrapper">
 @if (this.firebaseService.currentUser) {
   <div class="private-msg-user"
+  [routerLink]="['/home/private-message', this.firebaseService.currentUser.privateNoteRef]"
   (click)="selectMessage()">
     <div
       class="private-msg-user pointer">
@@ -33,7 +34,7 @@
           [ngClass]=""
         ></div>
       </div>
-      <span>{{ privateMsg.chatReciver }}</span>
+      <span>{{ privateMsg.chatCreator }}</span>
     </div>
   </div>
   }
