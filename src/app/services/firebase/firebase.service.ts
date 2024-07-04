@@ -172,7 +172,8 @@ export class FirebaseService implements OnDestroy, OnInit {
       status: obj.status || "",
       photoURL: obj.photoURL || "",
       channels: obj.channels || [],
-      email: obj.email || ""
+      email: obj.email || "",
+      privateNoteRef: obj.privateNoteRef || "",
     }
   }
 
@@ -214,6 +215,7 @@ export class FirebaseService implements OnDestroy, OnInit {
       privatChatId: id || "",
       chatCreator: obj.chatCreator || "",
       chatReciver: obj.chatReciver || "",
+      privateNoteCreator: obj.privateNoteCreator || "",
       messages: obj.messages || [],
       createdAt: obj.createdAt || "",
       createdBy: obj.createdBy || ""
