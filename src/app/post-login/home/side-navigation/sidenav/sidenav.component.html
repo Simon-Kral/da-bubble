@@ -57,10 +57,12 @@
         <div
           class="pointer add-channel"
           (click)="toggleCreateChannelVisibility()"
+          (mouseover)="onMouseOver('addChannelFromList')"
+          (mouseout)="onMouseOut('addChannelFromList')"
         >
           <img
             class=""
-            src="../../assets/img/icons/add_circle.png"
+            [src]="currentIconSourceAddCircle"
             alt="add-icon"
           />
           <span>Channel hinzufügen</span>
@@ -83,7 +85,7 @@
         />
         <img
           class=""
-          [src]="iconSourceAccountCircle"
+          [src]="currentIconSourceAccountCircle"
           alt="account-circle-icon"
         />
         <h2>Direktnachrichten</h2>

@@ -29,24 +29,28 @@ export class SidenavComponent {
 
 
   // Default icon sources
-  iconSourceDownArrowClosed = 'assets/img/icons/arrow_drop_down_closed_black.png';
-  iconSourceDownArrowOpened = 'assets/img/icons/arrow_drop_down_open_black.png';
-  iconSourceWorkspace = 'assets/img/icons/workspaces_black.png';
-  iconSourceAccountCircle = 'assets/img/icons/account_circle_black.png';
+  DownArrowClosed = 'assets/img/icons/arrow_drop_down_closed_black.png';
+  DownArrowOpened = 'assets/img/icons/arrow_drop_down_open_black.png';
+  Workspace = 'assets/img/icons/workspaces_black.png';
+  AccountCircle = 'assets/img/icons/account_circle_black.png';
+  AddCircle = 'assets/img/icons/add_circle_black.png';
 
   // Hover icon sources
-  iconSourceDownArrowClosedHover = 'assets/img/icons/arrow_drop_down_closed_blue.png';
-  iconSourceDownArrowOpenedHover = 'assets/img/icons/arrow_drop_down_open_blue.png';
-  iconSourceWorkspaceHover = 'assets/img/icons/workspaces_blue.png';
-  iconSourceAccountCircleHover = 'assets/img/icons/account_circle_blue.png';
+  DownArrowClosedHover = 'assets/img/icons/arrow_drop_down_closed_blue.png';
+  DownArrowOpenedHover = 'assets/img/icons/arrow_drop_down_open_blue.png';
+  WorkspaceHover = 'assets/img/icons/workspaces_blue.png';
+  AccountCircleHover = 'assets/img/icons/account_circle_blue.png';
+  AddCircleHover = 'assets/img/icons/add_circle_blue.png';
 
-  currentIconSourceDownArrowChannels = this.iconSourceDownArrowClosed;
-  currentIconSourceDownArrowPrivateMessages = this.iconSourceDownArrowClosed;
-  currentIconSourceWorkspace = this.iconSourceWorkspace;
-  currentIconSourceAccountCircle = this.iconSourceAccountCircle;
+  currentIconSourceDownArrowChannels = this.DownArrowClosed;
+  currentIconSourceDownArrowPrivateMessages = this.DownArrowClosed;
+  currentIconSourceWorkspace = this.Workspace;
+  currentIconSourceAccountCircle = this.AccountCircle;
+  currentIconSourceAddCircle = this.AddCircle;
 
   isMouseOverChannels = false;
   isMouseOverPrivateMessages = false;
+  isMouseOveraddChannelFromList = false;
 
   /**
    * Toggles the expansion state of the channel list.
@@ -62,6 +66,7 @@ export class SidenavComponent {
 
   togglePrivateMessages() {
     this.privateMsgListExpanded = !this.privateMsgListExpanded;
+    this.updateIcons();
   }
 
 
@@ -79,6 +84,9 @@ export class SidenavComponent {
       case 'privateMessages':
         this.isMouseOverPrivateMessages = true;
         break;
+        case 'addChannelFromList':
+          this.isMouseOveraddChannelFromList = true;
+          break;
     }
     this.updateIcons();
   }
@@ -95,6 +103,9 @@ export class SidenavComponent {
       case 'privateMessages':
         this.isMouseOverPrivateMessages = false;
         break;
+        case 'addChannelFromList':
+          this.isMouseOveraddChannelFromList = false;
+          break;
     }
     this.updateIcons();
   }
@@ -104,17 +115,25 @@ export class SidenavComponent {
    */
   updateIcons(): void {
     if (this.isMouseOverChannels) {
-      this.currentIconSourceDownArrowChannels = this.chanListExpanded ? this.iconSourceDownArrowOpenedHover : this.iconSourceDownArrowClosedHover;
-      this.currentIconSourceWorkspace = this.iconSourceWorkspaceHover;
+      this.currentIconSourceDownArrowChannels = this.chanListExpanded ? this.DownArrowOpenedHover : this.DownArrowClosedHover;
+      this.currentIconSourceWorkspace = this.WorkspaceHover;
     } else {
-      this.currentIconSourceDownArrowChannels = this.chanListExpanded ? this.iconSourceDownArrowOpened : this.iconSourceDownArrowClosed;
-      this.currentIconSourceWorkspace = this.iconSourceWorkspace;
+      this.currentIconSourceDownArrowChannels = this.chanListExpanded ? this.DownArrowOpened : this.DownArrowClosed;
+      this.currentIconSourceWorkspace = this.Workspace;
     }
 
     if (this.isMouseOverPrivateMessages) {
-      this.currentIconSourceAccountCircle = this.iconSourceAccountCircleHover;
+      this.currentIconSourceDownArrowPrivateMessages = this.privateMsgListExpanded ? this.DownArrowOpenedHover : this.DownArrowClosedHover;
+      this.currentIconSourceAccountCircle = this.AccountCircleHover;
     } else {
-      this.currentIconSourceAccountCircle = this.iconSourceAccountCircle;
+      this.currentIconSourceDownArrowPrivateMessages = this.privateMsgListExpanded ? this.DownArrowOpened : this.DownArrowClosed;
+      this.currentIconSourceAccountCircle = this.AccountCircle;
+    }
+
+    if (this.isMouseOveraddChannelFromList) {
+      this.currentIconSourceAddCircle = this.AddCircleHover;
+    } else {
+      this.currentIconSourceAddCircle = this.AddCircle;
     }
   }
 

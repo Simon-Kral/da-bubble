@@ -3,8 +3,9 @@
 // SideNav start
 .sidenav-wrapper {
   position: relative;
-  width: 366px;
-  height: 88vh;
+  max-width: 366px;
+  width: fit-content;
+  height: 88svh;
   border-radius: 30px;
   padding: 32px 30px 32px 30px;
   background-color: $white;
@@ -82,7 +83,7 @@
 
   &:hover {
     h2 {
-      color: $purple-3;
+      @include Nunito(700, 20px, 27.28px, $purple-3);
     }
   }
   h2 {
@@ -139,13 +140,16 @@
 
 .private-msg-headline {
   @include dFlex(row, flex-start, center);
+  gap: 10px;
 
-      &:hover {
-      color: $purple-3;
-    }
   h2 {
     @include Nunito(700, 20px, 27.28px, $black);
-    margin-left: 10px;
+
+  }
+  &:hover {
+    h2 {
+      @include Nunito(700, 20px, 27.28px, $purple-3);
+    }
   }
 }
 
