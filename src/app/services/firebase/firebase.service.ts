@@ -47,6 +47,8 @@ export class FirebaseService implements OnDestroy, OnInit {
     }
   }
 
+  // get current user
+
   getCurrentUser() {
     this.currenUser = sessionStorage.getItem('currentUserId');
   }
@@ -122,7 +124,7 @@ export class FirebaseService implements OnDestroy, OnInit {
   // private chat
   
   subPrivateChatList() {
-    const q = query(this.getPrivateChatRef(), orderBy('name'));
+    const q = query(this.getPrivateChatRef(), orderBy('chatCreator'));
     this.unsubscribePrivateChatList = onSnapshot(q, (snapshot) => {
       this.privateChatList = [];
       snapshot.forEach(doc => {

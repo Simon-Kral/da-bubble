@@ -4,7 +4,6 @@
     <div
       class="private-msg-user pointer"
       [ngClass]="{ active: selectedConversation === currentUser[0].name }"
-      (click)="navigateToPrivateConversation(currentUser[0].name)"
     >
       <div class="private-msg-user-avatar">
         <img [src]="currentUser[0].photoURL" alt="{{ currentUser[0].name }}'s avatar" />
@@ -16,13 +15,13 @@
       <span>{{ currentUser[0].name }} (Du)</span>
     </div>
   </div>
-  } @for (privateMsg of privateMsgList; track privateMsg.privatChatId; let index = $index)
+  } @for (privateMsg of firebaseService.privateChatList; track privateMsg.privatChatId; let index = $index)
   {
   <div class="private-msg-list">
     <div
       class="private-msg-user pointer"
       [ngClass]="{ active: selectedConversation === privateMsg.chatReciver }"
-      (click)="navigateToPrivateConversation(privateMsg.chatReciver)"
+      [routerLink]="['/home/private-message', privateMsg.privatChatId]"
     >
       <div class="private-notes"></div>
       <div class="private-msg-user-avatar">
