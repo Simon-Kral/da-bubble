@@ -4,7 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { ChannelComponent } from '../channel/channel.component';
 import { SidenavComponent } from '../home/side-navigation/sidenav/sidenav.component';
 import { ThreadComponent } from '../channel/thread/thread.component';
-import { CreateNewChannelComponent } from '../channel/create-new-channel/create-new-channel.component';
+import { CreateNewChannelComponent } from '../channel/create-channel/create-new-channel/create-new-channel.component';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 import { FirebaseService } from './../../services/firebase/firebase.service';
@@ -27,8 +27,9 @@ export class HomeComponent {
 
 	//sidenav variables
 	isSidenavVisible: boolean = true;
-	//create channel
+	//create channel variables
 	isCreateChannelVisible: boolean = false;
+
 
 	//sidenav functions
 	toggleSidenav() {

@@ -1,0 +1,131 @@
+@import "../../../../../styles.scss";
+
+.create-new-channel-form-wrapper {
+    @include dFlex(column, flex-start, flex-start);
+
+    max-width: 872px;
+    height: 514px;
+    background-color: $white;
+    border-radius: 30px;
+    padding: 40px;
+    gap: 20px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+
+    span {
+        @include Nunito(400, 18px, 24.55px, $black);
+    }
+
+    .top-section {
+        @include dFlex(row, space-between, center);
+        width: 100%;
+
+        h1 {
+            @include Nunito(700, 24px, 32.74px, $black);
+        }
+
+        .close-icon {
+            @include dFlex(row, center, center);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: ease-in-out 0.1s;
+
+            &:hover {
+                background-color: $bg-color;
+            }
+        }
+    
+    }
+
+    .create-channel-form {
+        @include dFlex(column, flex-start, flex-start);
+        width: 100%;
+        gap: 20px;
+
+        input {
+            width: 100%;
+            min-height: 60px;
+            border: solid 1px $light-purple-lines;
+            border-radius: 40px;
+            //dosent work - to do
+            &::placeholder {
+                @include Nunito(400, 18px, 24.55px, $text-gray);
+                margin-left: 16px;
+            }
+
+            &:focus {
+                border: solid 1px $purple-1;
+            }
+
+        }
+
+    }    
+    .error-msg {
+        @include Nunito(400, 14px, 19.09px, red);
+    }
+}
+
+
+.submit-btn {
+    @include dFlex(row, center, center);
+    @include Nunito(700, 18px, 24.55px, $white);
+
+    width: 125px;
+    height: 49px;
+    border-radius: 25px;
+    padding: 12px 25px 12px 25px;
+    background-color: $purple-1;
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    border: none;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+.add-member-new-channel-form-wrapper {
+    @include dFlex(column, flex-start, flex-start);
+
+    max-width: 710px;
+    min-height: 279px;
+    max-height: fit-content;
+    background-color: $white;
+    border-radius: 30px;
+    padding: 40px;
+    gap: 20px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+
+    .top-section {
+        @include dFlex(row, space-between, center);
+        width: 100%;
+
+        h1 {
+            @include Nunito(700, 24px, 32.74px, $black);
+        }
+
+        .close-icon {
+            @include dFlex(row, center, center);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: ease-in-out 0.1s;
+
+            &:hover {
+                background-color: $bg-color;
+            }
+        }
+    }
+
+    .add-member-new-channel-form {
+        @include dFlex(column, flex-start, flex-start);
+
+        .checkbox-wrapper {
+            @include dFlex(row, flex-start, center);
+            gap: 10px;
+        }
+    }
+}
