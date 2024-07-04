@@ -26,15 +26,15 @@
       <div class="private-notes"></div>
       <div class="private-msg-user-avatar">
         <img
-          [src]=""
-          alt=""
+        [src]="this.firebaseService.getUserAvatar(privateMsg.chatCreator)"
+          alt="User Avatar"
         />
         <div
           class="private-msg-user-status"
-          [ngClass]=""
+          [ngClass]="{ 'online': this.firebaseService.isUserOnline(privateMsg.chatCreator), 'offline': !this.firebaseService.isUserOnline(privateMsg.chatCreator) }"
         ></div>
       </div>
-      <span>{{ privateMsg.chatCreator }}</span>
+      <span>{{ this.firebaseService.getUserDisplayName(privateMsg.chatCreator) }}</span>
     </div>
   </div>
   }

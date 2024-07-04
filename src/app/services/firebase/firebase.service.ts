@@ -45,7 +45,6 @@ export class FirebaseService implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.setCurrentUserAsObjekt();
     this.subChannelsList();
     this.subUsersList();
     this.subPrivateChatList();
@@ -219,6 +218,65 @@ export class FirebaseService implements OnDestroy, OnInit {
       privateNoteRef: obj.privateNoteRef || '',
     };
   }
+/**
+ * Retrieves the display name of a user based on the provided user ID.
+ * If the user is found in the userList, returns the user's name; otherwise, returns 'Unknown'.
+ * 
+ * @param {string} userId - The ID of the user to retrieve the display name for.
+ * @returns {string} The display name of the user or 'Unknown' if the user is not found.
+ */
+getUserDisplayName(userId: string): string {
+  const user = this.getUserById(userId);
+  return user ? user.name : 'Unknown';
+}
+
+/**
+ * Retrieves the avatar URL of a user based on the provided user ID.
+ * If the user is found in the userList, returns the user's photo URL; otherwise, returns an empty string.
+ * 
+ * @param {string} userId - The ID of the user to retrieve the avatar URL for.
+ * @returns {string} The avatar URL of the user or an empty string if the user is not found.
+ */
+getUserAvatar(userId: string): string {
+  const user = this.getUserById(userId);
+  return user ? user.photoURL : '';
+}
+
+/**
+ * Retrieves the CSS class representing the status (online/offline) of a user based on the provided user ID.
+ * If the user is found in the userList, returns 'online' if the user's status is true, otherwise 'offline'.
+ * If the user is not found, returns an empty string.
+ * 
+ * @param {string} userId - The ID of the user to retrieve the status class for.
+ * @returns {string} The CSS class representing the status of the user ('online' or 'offline') or an empty string if the user is not found.
+ */
+getUserStatusClass(userId: string): string {
+  const user = this.getUserById(userId);
+  return user ? (user.status ? 'online' : 'offline') : '';
+}
+
+/**
+ * Checks if a user is online based on the provided user ID.
+ * If the user is found in the userList, returns true if the user's status is true (online); otherwise, returns false (offline).
+ * If the user is not found, returns false.
+ * 
+ * @param {string} userId - The ID of the user to check the online status for.
+ * @returns {boolean} True if the user is online, false otherwise.
+ */
+isUserOnline(userId: string): boolean {
+  const user = this.getUserById(userId);
+  return user ? user.status : false;
+}
+
+/**
+ * Retrieves a user object from the userList based on the provided user ID.
+ * 
+ * @param {string} userId - The ID of the user to retrieve from the userList.
+ * @returns {User | undefined} The user object if found, otherwise undefined.
+ */
+getUserById(userId: string): User | undefined {
+  return this.userList.find(user => user.userId === userId);
+}
 
   // private chat
   /**

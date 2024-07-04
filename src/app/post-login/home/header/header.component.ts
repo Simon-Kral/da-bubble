@@ -20,11 +20,12 @@ export class HeaderComponent {
 	}
 
 	logout(): void {
+		this.firebaseService.clearCurrentUser();
+		this.firebaseService.ngOnDestroy(); // not working -->To-Do unsub all list before logging-out
 		this.authService.logout().subscribe({
 			error: (err) => {
 				this.errorMessage = err.code;
 			},
 		});
-		this.firebaseService.clearCurrentUser();
 	}
 }
