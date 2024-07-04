@@ -31,7 +31,7 @@ export class RegisterComponent {
 		const rawForm = this.registerForm.getRawValue();
 		this.authService.register(rawForm.email, rawForm.username, rawForm.password).subscribe({
 			next: () => {
-				this.authService.checkUserStatus('register');
+				this.authService.checkUserStatus();
 			},
 			error: (err) => {
 				this.errorMessage = err.code;

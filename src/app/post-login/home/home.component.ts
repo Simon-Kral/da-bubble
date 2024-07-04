@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
 	firebaseService = inject(FirebaseService);
 
 	constructor() {
-		this.authService.checkUserStatus('home');
+		this.authService.checkUserStatus();
 		this.firebaseService.getUserChannels();
 	}
 
@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit {
 	isSidenavVisible: boolean = true;
 	//create channel variables
 	isCreateChannelVisible: boolean = false;
-
 
 	//sidenav functions
 	toggleSidenav() {

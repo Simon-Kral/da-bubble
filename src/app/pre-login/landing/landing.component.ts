@@ -18,6 +18,6 @@ export class LandingComponent {
 	router = inject(Router);
 
 	constructor() {
-		this.authService.checkUserStatus('landing');
+		this.authService.checkUserStatus();
 	}
 }
