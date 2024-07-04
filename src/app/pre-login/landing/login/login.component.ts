@@ -28,7 +28,7 @@ export class LoginComponent {
 		const rawForm = this.loginForm.getRawValue();
 		this.authService.login(rawForm.email, rawForm.password).subscribe({
 			next: () => {
-				this.authService.checkUserStatus('login');
+				this.authService.checkUserStatus();
 				this.pushUserIdToSessionStorage();
 			},
 			error: (err) => {
@@ -44,8 +44,7 @@ export class LoginComponent {
 	pushUserIdToSessionStorage() {
 		const auth = getAuth();
 		const id = auth.currentUser!.uid;
-		// const name = auth.currentUser!.displayName;
-		// console.log('user', `'${name}'`, 'was pushed');
+		const name = auth.currentUser!.displayName;
 		sessionStorage.setItem(`currentUserId`, id);
 	}
 }

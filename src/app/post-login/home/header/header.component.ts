@@ -16,7 +16,7 @@ export class HeaderComponent {
 	firebaseService = inject(FirebaseService);
 
 	constructor() {
-		this.authService.checkUserStatus('header');
+		this.authService.checkUserStatus();
 	}
 
 	logout(): void {
