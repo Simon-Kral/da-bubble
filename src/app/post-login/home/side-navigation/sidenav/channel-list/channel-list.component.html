@@ -4,6 +4,7 @@
     class="pointer"
     [routerLink]="['/home/channel', channel.chanId]"
     [ngClass]="{ 'active': selectedChannel === channel.name }"
+    (click)="this.selectChannel(channel.name)"
   >
     # {{ channel.name }}
   </span>

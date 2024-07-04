@@ -67,7 +67,7 @@ export class CreateNewChannelComponent {
         members: [],
         messages: [],
         createdAt: new Date().getTime(),
-        createdBy: this.firebaseService.currenUser,
+        createdBy: this.firebaseService.currentUserId,
       };
 
       try {
@@ -130,8 +130,9 @@ export class CreateNewChannelComponent {
       this.updateChannelMembers(this.selectedMembers)
         .then(() => {
           console.log('Members added successfully');
-          this.selectedMembers = []; // Reset the selected members
-          this.toggleAddMemberFormVisibility(); // Close the add member form
+          this.selectedMembers = []; 
+          this.newChanId = '';
+          this.toggleAddMemberFormVisibility(); 
         })
         .catch((error) => {
           console.error('Error adding members: ', error);

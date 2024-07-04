@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy, OnInit, inject } from '@angular/core';
-import { query, orderBy, limit, where, Firestore, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc, setDoc, Unsubscribe } from '@angular/fire/firestore';
+import { query, orderBy, limit, where, Firestore, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc, setDoc, Unsubscribe, getDocs } from '@angular/fire/firestore';
 import { AuthService } from '../authentication/auth.service';
 import { getAuth, user } from '@angular/fire/auth';
 import { Channel } from '../../models/channel.class';
@@ -11,7 +11,9 @@ import { PrivateChat } from '../../models/privateChat.class';
 export class FirebaseService implements OnDestroy, OnInit {
 	authService = inject(AuthService);
 	firestore: Firestore = inject(Firestore);
-  currenUser: any;
+
+  currentUserId: any;
+  currentUser: User = new User();
 
   channelList: Channel[] = [];
   userList: User [] = [];
@@ -24,12 +26,13 @@ export class FirebaseService implements OnDestroy, OnInit {
 
   
 	constructor() {
-    this.getCurrentUser();
+    this.getCurrentUserId();
     this.ngOnInit();
-    console.log('Current User:', this.currenUser);
+    console.log('Current User ID:', this.currentUserId);
   }
 
 	ngOnInit(): void {
+    this.setCurrentUserAsObjekt();
     this.subChannelsList();
     this.subUsersList();
     this.subPrivateChatList();
@@ -47,15 +50,50 @@ export class FirebaseService implements OnDestroy, OnInit {
     }
   }
 
-  // get current user
-
-  getCurrentUser() {
-    this.currenUser = sessionStorage.getItem('currentUserId');
+  // current user code 
+  /**
+   * Retrieves the current user ID from the session storage and sets it to the currentUserId variable.
+   */
+  getCurrentUserId() {
+    this.currentUserId = sessionStorage.getItem('currentUserId');
   }
+  /**
+   * Fetches the current user data as an object from the Firestore database.
+   * The user ID is used to query the 'users' collection in Firestore.
+   * 
+   * @returns {Promise<User>} A promise that resolves to a User object containing user data.
+   */
+  async getCurrentUserAsObject() {
+    const userQuery = query(collection(this.firestore, 'users'), where('userId', '==', this.currentUserId));
+    const userSnapshot = await getDocs(userQuery);
 
-
-  // channel 
-
+    const currentUserDoc = userSnapshot.docs[0];
+    const currentUserData = currentUserDoc.data();
+  
+    return {
+      userId: currentUserData['userId'],
+      name: currentUserData['name'],
+      status: currentUserData['status'],
+      photoURL: currentUserData['photoURL'],
+      channels: currentUserData['channels'],
+      email: currentUserData['email'],
+    } as User;
+  }
+  /**
+   * Sets the current user property by fetching the user data as an object from Firestore.
+   * Logs the current user object to the console.
+   */
+  async setCurrentUserAsObjekt() {
+    this.currentUser = await this.getCurrentUserAsObject();
+    console.log('Current User Object',this.currentUser);
+  }
+  // channel code 
+  /**
+   * Subscribes to the channels collection in Firestore and updates the channel list in real-time.
+   * Orders the channels by name.
+   * Logs the updated channel list to the console.
+   * TO-DO implemet filter logic to filter currentUser specific Data
+   */
   subChannelsList() {
     const q = query(this.getChannelsRef(), orderBy('name'));
     this.unsubscribeChannelList = onSnapshot(q, (snapshot) => {
@@ -68,11 +106,21 @@ export class FirebaseService implements OnDestroy, OnInit {
       console.error("Error fetching channels: ", error);
     });
   }
-
+  /**
+   * Returns a reference to the channels collection in Firestore.
+   * 
+   * @returns {CollectionReference} A reference to the channels collection.
+   */
   getChannelsRef() {
     return collection(this.firestore, 'channels');
   }
-
+  /**
+   * Creates a Channel object from Firestore document data.
+   * 
+   * @param {any} obj - The Firestore document data.
+   * @param {string} id - The ID of the Firestore document.
+   * @returns {Channel} A Channel object containing the data from the Firestore document.
+   */
   setChannel(obj: any, id: string,): Channel {
     return {
       chanId: id || "",
@@ -85,11 +133,12 @@ export class FirebaseService implements OnDestroy, OnInit {
     }
   }
 
-
-
-  // user 
-
-  
+  // user code 
+  /**
+   * Subscribes to the users collection in Firestore and updates the user list in real-time.
+   * Orders the users by name.
+   * Logs the updated user list to the console.
+   */
   subUsersList() {
     const q = query(this.getUsersRef(), orderBy('name'));
     this.unsubscribeUserList = onSnapshot(q, (snapshot) => {
@@ -102,11 +151,20 @@ export class FirebaseService implements OnDestroy, OnInit {
       console.error("Error fetching Users: ", error);
     });
   }
-
+   /**
+   * Returns a reference to the users collection in Firestore.
+   * @returns {CollectionReference} A reference to the users collection.
+   */
   getUsersRef() {
     return collection(this.firestore, 'users');
   }
-
+  /**
+   * Creates a User object from Firestore document data.
+   * 
+   * @param {any} obj - The Firestore document data.
+   * @param {string} id - The ID of the Firestore document.
+   * @returns {User} A User object containing the data from the Firestore document.
+   */
   setUser(obj: any, id: string,): User {
     return {
       userId: id || "",
@@ -118,11 +176,13 @@ export class FirebaseService implements OnDestroy, OnInit {
     }
   }
 
-
-
-
   // private chat
-  
+    /**
+   * Subscribes to the privateChats collection in Firestore and updates the private chat list in real-time.
+   * Orders the private chats by chat creator.
+   * Logs the updated private chat list to the console.
+   * TO-DO implemet filter logic to filter currentUser specific Data
+   */
   subPrivateChatList() {
     const q = query(this.getPrivateChatRef(), orderBy('chatCreator'));
     this.unsubscribePrivateChatList = onSnapshot(q, (snapshot) => {
@@ -135,11 +195,20 @@ export class FirebaseService implements OnDestroy, OnInit {
       console.error("Error fetching Private Chats: ", error);
     });
   }
-
+  /**
+   * Returns a reference to the privateChats collection in Firestore.
+   * @returns {CollectionReference} A reference to the privateChats collection.
+   */
   getPrivateChatRef() {
     return collection(this.firestore, 'privateChats');
   }
-
+  /**
+   * Creates a PrivateChat object from Firestore document data.
+   * 
+   * @param {any} obj - The Firestore document data.
+   * @param {string} id - The ID of the Firestore document.
+   * @returns {PrivateChat} A PrivateChat object containing the data from the Firestore document.
+   */
   setPrivateChat(obj: any, id: string,): PrivateChat {
     return {
       privatChatId: id || "",

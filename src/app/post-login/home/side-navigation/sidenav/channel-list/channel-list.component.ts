@@ -28,5 +28,8 @@ export class ChannelListComponent implements OnInit, OnDestroy{
 
   }
  
+  selectChannel(channel: string) {
+    this.selectedChannel= channel;
+  }
 
 }

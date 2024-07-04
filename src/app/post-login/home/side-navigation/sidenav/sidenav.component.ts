@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ChannelListComponent } from './channel-list/channel-list.component';
 import { PrivateMessageListComponent } from './private-message-list/private-message-list.component';
 
@@ -13,7 +13,7 @@ import { PrivateMessageListComponent } from './private-message-list/private-mess
   standalone: true,
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
-  imports: [ChannelListComponent, PrivateMessageListComponent, CommonModule],
+  imports: [ChannelListComponent, PrivateMessageListComponent, CommonModule, RouterModule],
 })
 export class SidenavComponent {
 
@@ -54,11 +54,6 @@ export class SidenavComponent {
   toggleChannels() {
     this.chanListExpanded = !this.chanListExpanded;
     this.updateIcons();
-    if (this.chanListExpanded) {
-      // Implement logic to fetch channels and subscribe to channel list via Service
-    } else {
-      // Implement logic to unsubscribe from channel list via Service
-    }
   }
 
   /**
@@ -67,20 +62,9 @@ export class SidenavComponent {
 
   togglePrivateMessages() {
     this.privateMsgListExpanded = !this.privateMsgListExpanded;
-    if (this.privateMsgListExpanded) {
-      //implement logic to fetch private messages and subscribe to private message list via Service
-    } else {
-      //implement logic to unsubscribe from private message list via Service
-    }
   }
 
-  /**
-   * Navigates to the 'new message' page.
-   */
 
-  navigateToNewMessage() {
-    this.router.navigate(['/home/new-message']);
-  }
 
   /**
    * Handles the mouse over event for the sideNav icons.
