@@ -2,7 +2,8 @@
 	@for (privateMsg of firebaseService.privateChatList; track
 	privateMsg.privatChatId; let index = $index) {
 	<div class="private-msg-top-section">
-		<div class="private-msg-user-avatar">
+		<div class="private-msg-user pointer">
+
 			@if (showPrivateNote) {
 			<img [src]="this.firebaseService.currentUser.photoURL" alt="User Avatar" />
 			} @else {
@@ -21,19 +22,18 @@
 					)
 				}"></div>
 			}
-		</div>
-		@if (showPrivateNote) {
-		<span>{{ this.firebaseService.currentUser.name }}</span>} @else {
+					@if (showPrivateNote) {
+		<span>{{ this.firebaseService.currentUser.name }} (Du)</span>} @else {
 		<span>{{
 			this.firebaseService.getUserDisplayName(privateMsg.chatCreator)
 			}}</span>}
+		</div>
+
 	</div>
 	}
 	<div class="chat-input">
-		<app-chat-input
-		[sourceComponent]="'privateMessage'" 
-		[destinationCollection]="'privateChats'"
-		[destinationDocRef]="'privatChatId'"
-		(messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
+		<app-chat-input [sourceComponent]="'privateMessage'" [destinationCollection]="'privateChats'"
+			[destinationDocRef]="'privatChatId'" [placeholderText]="'Nachricht an chatCreator.name ODER currentUser.name'"
+			(messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
 	</div>
 </div>

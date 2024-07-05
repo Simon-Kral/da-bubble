@@ -11,6 +11,7 @@
     [sourceComponent]="'newMessage'" 
     [destinationCollection]="'channelsORprivateMessages'"
     [destinationDocRef]="'docRef'"
+    [placeholderText]="'Starte eine neue Nachricht'"
 		(messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
   </div>
 

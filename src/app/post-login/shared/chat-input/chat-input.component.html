@@ -1,6 +1,6 @@
 <form class="input-container" [formGroup]="messageData" (ngSubmit)="onSubmit()">
   <textarea
-    placeholder="Nachricht an #Office-team"
+    [placeholder]="placeholderText"
     formControlName="message"
   ></textarea>
   <div class="button-container">

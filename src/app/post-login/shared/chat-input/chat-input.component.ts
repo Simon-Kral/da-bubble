@@ -19,6 +19,7 @@ export class ChatInputComponent {
   @Input() sourceComponent: string =''; // Variable to hold the source component's name or identifier
   @Input() destinationDocRef: string =''; // Variable to hold the destination document reference
   @Input() destinationCollection: string =''; // Variable to hold the destination collection name
+  @Input() placeholderText: string =''; // Variable to hold the placeholder text for the chat input
   @Output() messageEvent = new EventEmitter<{ message: string, source: string, destinationCollection: string, destinationDocRef: string, timestamp: number }>();
 
   messageData: FormGroup;
