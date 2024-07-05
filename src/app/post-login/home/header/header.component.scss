@@ -2,8 +2,8 @@
 
 .header-container {
   padding: 24px;
-  @include dFlex(space-between, center);
-  align-items: center;
+  height: 100px;
+  @include dFlex(row, space-between, center);
   > .logo-container {
     @include dFlex(center, center);
     gap: 16px;
