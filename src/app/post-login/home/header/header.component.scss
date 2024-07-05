@@ -27,6 +27,7 @@
 
   > .user-avatar {
     @include dFlex(center, center);
+    position: relative;
     gap: 16px;
     > img {
       border-radius: 50%;
@@ -38,4 +39,14 @@
     @include Nunito(700, 32px, 18.8px, $black);
     text-wrap: nowrap;
   }
+  .user-status {
+    position: absolute;
+    bottom: 0;
+    right: 48px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: solid 2px white;
+  }
 }
+

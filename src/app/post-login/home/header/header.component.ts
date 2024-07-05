@@ -2,10 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
+import { CommonModule } from '@angular/common';
 @Component({
 	selector: 'app-header',
 	standalone: true,
-	imports: [],
+	imports: [CommonModule],
 	templateUrl: './header.component.html',
 	styleUrl: './header.component.scss',
 })

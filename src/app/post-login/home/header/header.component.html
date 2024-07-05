@@ -1,23 +1,26 @@
 <div class="header-container">
-  <div class="logo-container pointer">
-    <img class="pointer" src="assets/img/logos/da_bubble_logo.png" alt="" />
+  <div class="logo-container">
+    <img class="" src="assets/img/logos/da_bubble_logo.png" alt="" />
     <span>DABubble</span>
   </div>
   <input
     class="header-searchbar"
     type="text"
-    placeholder="Code learning durchsuchen"
+    placeholder="Devspace durchsuchen"
   />
   <button (click)="logout()">test logout</button>
   @if(errorMessage != '') {
   <span>{{ errorMessage }}</span>
   }
   <div class="user-avatar">
-    <span>{{ this.authService.currentUserSig()?.username }}</span>
+    <span>{{ this.firebaseService.currentUser.name }}</span>
     <img
-      src="{{ this.authService.currentUserSig()?.avatar }}"
+      src="{{ this.firebaseService.currentUser.photoURL}}"
       alt="User Image"
     />
+    <div class="user-status"
+    [ngClass]="{ 'online': this.firebaseService.currentUser.status, 'offline': !this.firebaseService.currentUser.status }"
+    ></div>
     <div class="drop-down">
       <img
         class="pointer"

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -15,7 +15,11 @@ import {
   styleUrl: './chat-input.component.scss',
 })
 export class ChatInputComponent {
-  @Output() messageEvent = new EventEmitter<object>();
+ 
+  @Input() sourceComponent: string =''; // Variable to hold the source component's name or identifier
+  @Input() destinationDocRef: string =''; // Variable to hold the destination document reference
+  @Input() destinationCollection: string =''; // Variable to hold the destination collection name
+  @Output() messageEvent = new EventEmitter<{ message: string, source: string, destinationCollection: string, destinationDocRef: string, timestamp: number }>();
 
   messageData: FormGroup;
   iconSourceAdd = 'assets/img/icons/add_grey.png';
@@ -53,6 +57,9 @@ export class ChatInputComponent {
     const messageToSend = {
       timestamp: this.getCurrentTime(),
       message: this.messageData.value.message,
+      source: this.sourceComponent,
+      destinationCollection: this.destinationCollection,
+      destinationDocRef: this.destinationDocRef,
     };
 
     this.messageEvent.emit(messageToSend);

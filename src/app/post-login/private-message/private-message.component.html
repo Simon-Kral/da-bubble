@@ -30,6 +30,10 @@
 	</div>
 	}
 	<div class="chat-input">
-		<app-chat-input></app-chat-input>
+		<app-chat-input
+		[sourceComponent]="'privateMessage'" 
+		[destinationCollection]="'privateChats'"
+		[destinationDocRef]="'privatChatId'"
+		(messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
 	</div>
 </div>

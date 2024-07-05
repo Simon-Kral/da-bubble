@@ -1,6 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
 import { FirebaseService } from '../../services/firebase/firebase.service';
+import { ChatService } from '../../services/chat/chat.service';
 import { Firestore, collection, onSnapshot, orderBy, query } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { PrivateMessageListComponent } from '../home/side-navigation/sidenav/private-message-list/private-message-list.component';
@@ -15,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PrivateMessageComponent implements OnInit{
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
+  chatService = inject(ChatService);
 
   showPrivateNote: boolean = false;
 
@@ -26,4 +28,5 @@ export class PrivateMessageComponent implements OnInit{
       this.showPrivateNote = params['showPrivateNote'] === 'true';
     });
   }
+
 }

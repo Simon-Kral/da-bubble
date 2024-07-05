@@ -7,7 +7,11 @@
 
 
   <div class="chat-input">
-    <app-chat-input></app-chat-input>
+    <app-chat-input
+    [sourceComponent]="'newMessage'" 
+    [destinationCollection]="'channelsORprivateMessages'"
+    [destinationDocRef]="'docRef'"
+		(messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
   </div>
 
 </div>

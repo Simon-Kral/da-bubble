@@ -9,7 +9,8 @@ $menu-color: #42526e;
 $text-gray: #686868;
 $disabled-btn: #bdbdbd;
 $online-green: #92c83e;
-$online-red: #ff0000;
+$offline-gray: #686868;
+$online-red: #f44336;
 $rosa-error: #ed1e79;
 $header-height: 120px;
 $footer-height: 90px;
@@ -198,4 +199,11 @@ body {
 
 .d-none {
   display: none!important;
+}
+
+.offline {
+  background-color: $offline-gray;
+}
+.online {
+  background-color: $online-green;
 }
