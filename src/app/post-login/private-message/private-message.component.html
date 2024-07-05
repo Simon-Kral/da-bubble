@@ -1,1 +1,35 @@
-<p>private-message works!</p>
+<div class="private-msg-wrapper">
+	@for (privateMsg of firebaseService.privateChatList; track
+	privateMsg.privatChatId; let index = $index) {
+	<div class="private-msg-top-section">
+		<div class="private-msg-user-avatar">
+			@if (showPrivateNote) {
+			<img [src]="this.firebaseService.currentUser.photoURL" alt="User Avatar" />
+			} @else {
+			<img [src]="
+					this.firebaseService.getUserAvatar(privateMsg.chatCreator)
+				" alt="User Avatar" />
+			} @if (showPrivateNote) {
+			<div class="private-msg-user-status online"></div>
+			} @else {
+			<div class="private-msg-user-status" [ngClass]="{
+					online: this.firebaseService.isUserOnline(
+						privateMsg.chatCreator
+					),
+					offline: !this.firebaseService.isUserOnline(
+						privateMsg.chatCreator
+					)
+				}"></div>
+			}
+		</div>
+		@if (showPrivateNote) {
+		<span>{{ this.firebaseService.currentUser.name }}</span>} @else {
+		<span>{{
+			this.firebaseService.getUserDisplayName(privateMsg.chatCreator)
+			}}</span>}
+	</div>
+	}
+	<div class="chat-input">
+		<app-chat-input></app-chat-input>
+	</div>
+</div>

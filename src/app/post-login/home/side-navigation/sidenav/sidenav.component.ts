@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ChannelListComponent } from './channel-list/channel-list.component';
 import { PrivateMessageListComponent } from './private-message-list/private-message-list.component';
+import { PrivateMessageComponent } from '../../../private-message/private-message.component';
 
 /**
  * The SidenavComponent provides navigation functionality for the sidebar.
@@ -16,6 +17,7 @@ import { PrivateMessageListComponent } from './private-message-list/private-mess
 	imports: [
 		ChannelListComponent,
 		PrivateMessageListComponent,
+		PrivateMessageComponent,
 		CommonModule,
 		RouterModule,
 	],

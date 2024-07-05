@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Firestore, collection, onSnapshot, orderBy, query } from '@angular/fire/firestore';
 import { PrivateChat } from '../../../../../models/privateChat.class';
 import { FirebaseService } from '../../../../../services/firebase/firebase.service';
 import { User } from '../../../../../models/user.class';
+import { PrivateMessageComponent } from '../../../../private-message/private-message.component';
 @Component({
   selector: 'app-private-message-list',
   standalone: true,
@@ -18,6 +19,7 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   firebaseService = inject(FirebaseService);
 
   selectedMessage: string | null = null;
+
 
   constructor(private router: Router) {
    }
@@ -34,5 +36,4 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   selectMessage() {
 
   }
-  
 }

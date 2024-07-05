@@ -8,13 +8,14 @@ import { CreateNewChannelComponent } from '../channel/create-channel/create-new-
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 import { FirebaseService } from './../../services/firebase/firebase.service';
+import { PrivateMessageComponent } from '../private-message/private-message.component';
 
 @Component({
 	selector: 'app-home',
 	standalone: true,
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss',
-	imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent, CommonModule, RouterOutlet, CreateNewChannelComponent],
+	imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent, CommonModule, RouterOutlet, CreateNewChannelComponent, PrivateMessageComponent],
 })
 export class HomeComponent implements OnInit {
 	authService = inject(AuthService);
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit {
 	//create channel variables
 	isCreateChannelVisible: boolean = false;
 
+
 	//sidenav functions
 	toggleSidenav() {
 		this.isSidenavVisible = !this.isSidenavVisible;
@@ -43,3 +45,4 @@ export class HomeComponent implements OnInit {
 		this.isCreateChannelVisible = visible;
 	}
 }
+
