@@ -1,9 +1,12 @@
 <div [ngClass]="{'d-none': !isCreateChannelVisibleForm}" class="create-new-channel-form-wrapper">
   <div class="top-section">
     <h1>Channel erstellen</h1>
-    <div class="pointer close-icon" (click)="toggleCreateChannelVisibility()">
+    <div class="pointer close-icon" 
+    (click)="toggleCreateChannelVisibility()"
+    (mouseover)="onMouseOver()"
+      (mouseout)="onMouseOut()">
       <img
-        src="../../../../assets/img/icons/close_black.png"
+        [src]="currentIconSourceClose"
         alt="close-icon"
       />
     </div>
@@ -42,9 +45,12 @@
 <div [ngClass]="{'d-none': !isAddMemberVisibleForm}" class="add-member-new-channel-form-wrapper">
   <div class="top-section" (click)="this.toggleAddMemberFormVisibility()">
     <h1>Leute hinzufügen</h1>
-    <div class="pointer close-icon">
+    <div class="pointer close-icon"
+    (click)="toggleCreateChannelVisibility()"
+    (mouseover)="onMouseOver()"
+      (mouseout)="onMouseOut()">
       <img
-        src="../../../../assets/img/icons/close_black.png"
+      [src]="currentIconSourceClose"
         alt="close-icon"
       />
     </div>

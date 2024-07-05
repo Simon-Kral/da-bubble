@@ -21,6 +21,13 @@ export class HomeComponent implements OnInit {
 	authService = inject(AuthService);
 	firebaseService = inject(FirebaseService);
 
+	  // Default icon sources
+	  menu = '../../assets/img/icons/menu_black.png';
+	  // Hover icon sources
+	  menuHover = '../../assets/img/icons/menu_blue.png';
+	  // current Icon Source
+	  currentIconSourceMenu = this.menu;
+
 	constructor() {
 		this.authService.checkUserStatus();
 		this.firebaseService.getUserChannels();
@@ -47,8 +54,21 @@ export class HomeComponent implements OnInit {
 	preventClose(event: MouseEvent) {
 		event.stopPropagation();
 	}
-	  closeCreateChannel() {
+	closeCreateChannel() {
 		this.isCreateChannelVisible = false;
-	  }
+	}
+	/**
+	 * Handles the mouse over event for the sideNav icons.
+	 */
+	onMouseOver(): void {
+		this.currentIconSourceMenu = this.menuHover;
+	}
+		
+	/**
+	* Handles the mouse out event for the specified image.
+	*/
+	onMouseOut(): void {
+		this.currentIconSourceMenu = this.menu;
+	}
 }
 

@@ -40,7 +40,7 @@ export class SidenavComponent {
 	accountCircle = 'assets/img/icons/account_circle_black.png';
 	addCircle = 'assets/img/icons/add_circle_black.png';
 	add = 'assets/img/icons/add_black.png';
-  editSquare ='assets/img/icons/edit_square_black.png';
+  	editSquare ='assets/img/icons/edit_square_black.png';
 
 	// Hover icon sources
 	downArrowClosedHover = 'assets/img/icons/arrow_drop_down_closed_blue.png';
@@ -49,7 +49,7 @@ export class SidenavComponent {
 	accountCircleHover = 'assets/img/icons/account_circle_blue.png';
 	addCircleHover = 'assets/img/icons/add_circle_blue.png';
 	addHover = 'assets/img/icons/add_blue.png';
-  editSquareHover ='assets/img/icons/edit_square_blue.png';
+  	editSquareHover ='assets/img/icons/edit_square_blue.png';
 
 	// current Icon Source
 	currentIconSourceDownArrowChannels = this.downArrowClosed;
@@ -58,13 +58,13 @@ export class SidenavComponent {
 	currentIconSourceAccountCircle = this.accountCircle;
 	currentIconSourceAddCircle = this.addCircle;
 	currentIconSourceAdd = this.add;
-  currentIconSourceEditSquare = this.editSquare;
+  	currentIconSourceEditSquare = this.editSquare;
 
 	isMouseOverChannels = false;
 	isMouseOverPrivateMessages = false;
 	isMouseOveraddChannelFromList = false;
 	isMouseOverAddChannelFromHeadline = false;
-  isMouseOverEditSquare = false;
+  	isMouseOverEditSquare = false;
 	/**
 	 * Toggles the expansion state of the channel list.
 	 */

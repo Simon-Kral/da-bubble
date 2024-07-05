@@ -39,6 +39,13 @@ export class CreateNewChannelComponent {
   selectedMembers: string[] = [];
   newChanId = '';
 
+  // Default icon sources
+	close = '../../../../assets/img/icons/close_black.png';
+  // Hover icon sources
+  closeHover = '../../../../assets/img/icons/close_blue.png';
+  // current Icon Source
+  currentIconSourceClose = this.close;
+
   @Input() isCreateChannelVisible: boolean = false;
   @Output() createChannelVisibilityChange = new EventEmitter<boolean>();
 
@@ -56,6 +63,7 @@ export class CreateNewChannelComponent {
    * Creates a new channel based on the data in `channelData` form group.
    * If form is valid, it adds a new channel document to Firestore and updates the document with its ID.
    * Logs errors if adding or updating fails.
+   * To-do: Check if the channel name already exists before adding a new channel & display error message if it does.
    */
   async createChannel() {
     if (this.channelData.valid) {
@@ -187,6 +195,19 @@ export class CreateNewChannelComponent {
     if (this.isAddMemberVisibleForm === false) {
       this.toggleCreateChannelVisibility();
     }
+  }
+	/**
+	 * Handles the mouse over event for the sideNav icons.
+	 */
+	onMouseOver(): void {
+    this.currentIconSourceClose = this.closeHover;
+	}
+
+	/**
+	 * Handles the mouse out event for the specified image.
+	 */
+	onMouseOut(): void {
+    this.currentIconSourceClose = this.close;
   }
 
 }
