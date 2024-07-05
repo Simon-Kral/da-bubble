@@ -10,10 +10,12 @@
         />
         <h1>Devspace</h1>
       </div>
-      <div class="sidenav-headline-right" [routerLink]="['/home/new-message']">
+      <div class="sidenav-headline-right" [routerLink]="['/home/new-message']"
+      (mouseover)="onMouseOver('editSquare')"
+      (mouseout)="onMouseOut('editSquare')">
         <img
           class="pointer"
-          src="../../assets/img/icons/edit_square.png"
+          [src]="currentIconSourceEditSquare"
           alt="edit-icon"
         />
       </div>
@@ -42,10 +44,12 @@
         <div
           class="channels-sidenav-right"
           (click)="toggleCreateChannelVisibility()"
+          (mouseover)="onMouseOver('addChannelFromHeadline')"
+          (mouseout)="onMouseOut('addChannelFromHeadline')"
         >
           <img
             class="pointer"
-            src="../../assets/img/icons/add_black.png"
+            [src]="currentIconSourceAdd"
             alt="add-icon"
           />
         </div>

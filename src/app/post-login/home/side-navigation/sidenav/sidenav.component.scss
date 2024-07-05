@@ -117,8 +117,8 @@
 
 .add-channel {
   @include dFlex(row, flex-start, center);
-  gap: 15px;
-
+  gap: 10px;
+  margin-left: 12px;
   span{
     @include Nunito(400, 18px, 24.55px, $black);
   }
