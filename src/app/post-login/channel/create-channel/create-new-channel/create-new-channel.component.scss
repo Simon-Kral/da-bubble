@@ -63,6 +63,8 @@
     }    
     .error-msg {
         @include Nunito(400, 14px, 19.09px, red);
+        position: absolute;
+        top: 274px;
     }
 }
 

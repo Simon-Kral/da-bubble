@@ -25,18 +25,22 @@
     />
 
   @if (channelData.get('channelName')?.invalid && channelData.get('channelName')?.touched) {
-    <span class=" error-msg">
-        Bitte geben Sie einen gültigen Channel-Namen ein.
+    <span class="error-msg">
+      {{ errorMsgChanNameInvalid }}
       </span>
     }
-
+    @if (chanNameExists) {
+      <span class=" error-msg">
+        {{ errorMsgChanExists }}
+      </span>
+    }
     <span>Beschreibung</span>
     <input
       placeholder="Dein Text hier..."
       formControlName="channelDescription"
     />
 
-    <button class="pointer submit-btn" type="submit" [disabled]="channelData.invalid">
+    <button class="pointer submit-btn" type="submit" [disabled]="channelData.invalid || chanNameExists">
       Erstellen
     </button>
   </form>

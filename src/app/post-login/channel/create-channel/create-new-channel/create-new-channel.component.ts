@@ -38,6 +38,9 @@ export class CreateNewChannelComponent {
 
   selectedMembers: string[] = [];
   newChanId = '';
+  chanNameExists: boolean = false;
+  errorMsgChanExists: string = 'Channel Name existiert bereits!';
+  errorMsgChanNameInvalid: string = 'Bitte geben Sie einen gültigen Channel-Namen ein.';
 
   // Default icon sources
 	close = '../../../../assets/img/icons/close_black.png';
@@ -63,11 +66,19 @@ export class CreateNewChannelComponent {
    * Creates a new channel based on the data in `channelData` form group.
    * If form is valid, it adds a new channel document to Firestore and updates the document with its ID.
    * Logs errors if adding or updating fails.
-   * To-do: Check if the channel name already exists before adding a new channel & display error message if it does.
    */
   async createChannel() {
     if (this.channelData.valid) {
       const channelValues = this.channelData.value;
+
+      try {
+        const ChanNameExists = await this.firebaseService.checkChannelNameExists(channelValues.channelName);
+
+        if (ChanNameExists) {
+          this.chanNameExists = true;
+          return; 
+        }
+      
       let newChannel: Channel = {
         chanId: '',
         name: channelValues.channelName,
@@ -78,7 +89,6 @@ export class CreateNewChannelComponent {
         createdBy: this.firebaseService.currentUserId,
       };
 
-      try {
         const docRef = await this.addChannel(newChannel);
         await this.updateChannelId(docRef);
         this.channelData.reset(); // Reset the form after adding the channel

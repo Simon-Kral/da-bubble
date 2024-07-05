@@ -170,7 +170,18 @@ export class FirebaseService implements OnDestroy, OnInit {
       createdBy: obj.createdBy || '',
     };
   }
-
+  /**
+   * Checks if a channel with the specified name already exists in the 'channels' collection.
+   *
+   * @param {string} channelName - The name of the channel to check for existence.
+   * @returns {Promise<boolean>} - A promise that resolves to true if a channel with the specified name exists, otherwise false.
+   */
+  async checkChannelNameExists(channelName: string): Promise<boolean> {
+    const channelsRef = collection(this.firestore, 'channels');
+    const q = query(channelsRef, where('name', '==', channelName));
+    const querySnapshot = await getDocs(q);
+    return !querySnapshot.empty;
+  }
   // user code
   /**
    * Subscribes to the users collection in Firestore and updates the user list in real-time.
