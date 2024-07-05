@@ -44,5 +44,11 @@ export class HomeComponent implements OnInit {
 	onCreateChannelVisibilityChange(visible: boolean) {
 		this.isCreateChannelVisible = visible;
 	}
+	preventClose(event: MouseEvent) {
+		event.stopPropagation();
+	}
+	  closeCreateChannel() {
+		this.isCreateChannelVisible = false;
+	  }
 }
 

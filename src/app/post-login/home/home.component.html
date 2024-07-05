@@ -2,39 +2,32 @@
 <div class="home-container">
   <div class="sidenav-controller pointer" (click)="toggleSidenav()">
     <span>Workspace-Menü {{ isSidenavVisible ? "schließen" : "öffnen" }}</span>
-    <img
-      class="start-conversation"
-      src="../../assets/img/icons/show_menu.png"
-      alt="show-menu-icon"
-      [class.mirrored-icon]="isSidenavVisible"
-    />
+    <img class="start-conversation" src="../../assets/img/icons/show_menu.png" alt="show-menu-icon"
+      [class.mirrored-icon]="isSidenavVisible" />
   </div>
   <div class="home-content">
-    <div
-      [ngClass]="{
+    <div [ngClass]="{
         'sidenav-visible': isSidenavVisible,
         'd-none': !isSidenavVisible
-      }"
-    >
-      <app-sidenav
-        [isCreateChannelVisible]="isCreateChannelVisible"
-        (createChannelVisibilityChange)="
+      }">
+      <app-sidenav [isCreateChannelVisible]="isCreateChannelVisible" (createChannelVisibilityChange)="
           onCreateChannelVisibilityChange($event)
-        "
-      ></app-sidenav>
+        "></app-sidenav>
     </div>
     <div class="router-outlet">
       <router-outlet></router-outlet>
     </div>
   </div>
   @if (isCreateChannelVisible) {
-  <div class="create-new-channel-container">
-    <app-create-new-channel
-    [isCreateChannelVisible]="isCreateChannelVisible"
-    (createChannelVisibilityChange)="
+  <div class="create-new-channel-wrapper"
+   (click)="closeCreateChannel()"
+   [ngClass]="{ 'visible': isCreateChannelVisible }"
+   >
+    <div class="create-new-channel-content" (click)="preventClose($event)">
+      <app-create-new-channel [isCreateChannelVisible]="isCreateChannelVisible" (createChannelVisibilityChange)="
       onCreateChannelVisibilityChange($event)
-    "
-    ></app-create-new-channel>
+    "></app-create-new-channel>
+    </div>
   </div>
   }
 </div>

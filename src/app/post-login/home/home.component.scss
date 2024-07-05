@@ -75,10 +75,18 @@
 
 //create-new-channel
 
-.create-new-channel-container {
+.create-new-channel-wrapper {
   @include dFlex(row,center, center);
-  position: absolute;
+  position: fixed;
   top: 0;
+  left: 0;
   width: 100svw;
   height: 100svh;
+  transition: background, ease-in-out 0.3s backdrop-filter;
+  background: rgba(0, 0, 0, 0);
+  z-index: 5;
+  &.visible {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: brightness(0.8);
+  }
 }
