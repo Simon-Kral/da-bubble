@@ -11,12 +11,13 @@ import { FirebaseService } from './../../services/firebase/firebase.service';
 import { PrivateMessageComponent } from '../private-message/private-message.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CurrentUserProfileComponent } from './current-user-profile/current-user-profile.component';
+import { UserMenuComponent } from './user-menu/user-menu.component';
 @Component({
 	selector: 'app-home',
 	standalone: true,
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss',
-	imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent, CommonModule, RouterOutlet, CreateNewChannelComponent, PrivateMessageComponent, UserProfileComponent, CurrentUserProfileComponent],
+	imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent, CommonModule, RouterOutlet, CreateNewChannelComponent, PrivateMessageComponent, UserProfileComponent, CurrentUserProfileComponent, UserMenuComponent],
 })
 export class HomeComponent implements OnInit {
 	authService = inject(AuthService);
@@ -46,25 +47,38 @@ export class HomeComponent implements OnInit {
 	isUserProfileVisible: boolean = false;
 	//current user profile variables
 	isCurrentUserProfileVisible: boolean = false;
+	//user menu variables
+	isUserMenuVisible: boolean = false;
 
 	//sidenav functions
 	toggleSidenav() {
 		this.isSidenavVisible = !this.isSidenavVisible;
 	}
-	//create channel functions
-	onCreateChannelVisibilityChange(visible: boolean) {
-		this.isCreateChannelVisible = visible;
-	}
+  /**
+   * Toggles the visibility of various components based on the given name.
+   * @param name The name of the component to toggle visibility for.
+   * @param visible Boolean flag indicating whether to show or hide the component.
+   */
+  toggleComponentVisibility(name: string, visible: boolean): void {
+    switch (name) {
+      case 'createChannel':
+        this.isCreateChannelVisible = visible;
+        break;
+      case 'userProfile':
+        this.isUserProfileVisible = visible;
+        break;
+      case 'currentUserProfile':
+        this.isCurrentUserProfileVisible = visible;
+        break;
+      case 'userMenu':
+        this.isUserMenuVisible = visible;
+        break;
+      default:
+        console.warn(`Unknown component name: ${name}`);
+        break;
+    }
+  }
 
-	//user profile functions
-	onUserProfileVisibilityChange(visible: boolean) {
-		this.isUserProfileVisible = visible;
-	}
-
-	//current user profile functions
-	onCurrentUserProfileVisibilityChange(visible: boolean) {
-		this.isCurrentUserProfileVisible = visible;
-	}
 	// functions for popup overlay
 	preventClose(event: MouseEvent) {
 		event.stopPropagation();
@@ -84,20 +98,23 @@ export class HomeComponent implements OnInit {
 		  case 'currentUserProfile':
 			this.isCurrentUserProfileVisible = false;
 			break;
+		case 'userMenu':
+			this.isUserMenuVisible = false;
+			break;
 		  default:
 			console.warn(`Unknown popup name: ${name}`);
 			break;
 		}
 	  }
 	/**
-	 * Handles the mouse over event for the sideNav icons.
+	 * Handles the mouse over event for the sideNav Controller icons.
 	 */
 	onMouseOver(): void {
 		this.currentIconSourceMenu = this.menuHover;
 	}
 		
 	/**
-	* Handles the mouse out event for the specified image.
+	* Handles the mouse out event for the sideNav Controller icons.
 	*/
 	onMouseOut(): void {
 		this.currentIconSourceMenu = this.menu;

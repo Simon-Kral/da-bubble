@@ -21,7 +21,7 @@
     <div class="user-status"
     [ngClass]="{ 'online': this.firebaseService.currentUser.status, 'offline': !this.firebaseService.currentUser.status }"
     ></div>
-    <div class="drop-down">
+    <div class="drop-down" (click)="toggleUserProfile(true)">
       <img
         class="pointer"
         src="assets/img/icons/keyboard_arrow_down_inactive.png"

@@ -14,5 +14,8 @@ firebaseService = inject(FirebaseService);
 @Input() isCurrentUserProfileVisible: boolean = false;
 @Output() currentUserProfileVisibilityChange = new EventEmitter<boolean>();
 
+toggleUserProfile(visible: boolean) {
+  this.currentUserProfileVisibilityChange.emit(visible);
+  }
 
 }

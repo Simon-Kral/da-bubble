@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header (userProfileToggle)="toggleComponentVisibility('userMenu',$event)"></app-header>
 <div class="home-container">
   <div class="sidenav-controller pointer" (click)="toggleSidenav()" (mouseover)="onMouseOver()"
     (mouseout)="onMouseOut()">
@@ -12,7 +12,7 @@
         'd-none': !isSidenavVisible
       }">
       <app-sidenav [isCreateChannelVisible]="isCreateChannelVisible" (createChannelVisibilityChange)="
-          onCreateChannelVisibilityChange($event)
+          toggleComponentVisibility('createChannel',$event)
         "></app-sidenav>
     </div>
     <div class="router-outlet">
@@ -25,7 +25,7 @@
     [ngClass]="{ 'visible': isCreateChannelVisible }">
     <div class="popup-content" (click)="preventClose($event)">
       <app-create-new-channel [isCreateChannelVisible]="isCreateChannelVisible" (createChannelVisibilityChange)="
-      onCreateChannelVisibilityChange($event)
+      toggleComponentVisibility('createChannel',$event)
     "></app-create-new-channel>
     </div>
   </div>
@@ -36,7 +36,7 @@
   [ngClass]="{ 'visible': isUserProfileVisible }">
     <div class="popup-content" (click)="preventClose($event)">
       <app-user-profile [isUserProfileVisible]="isUserProfileVisible" (userProfileVisibilityChange)="
-      onUserProfileVisibilityChange($event)
+      toggleComponentVisibility('userProfile',$event)
     "></app-user-profile>
     </div>
   </div>
@@ -48,9 +48,21 @@
     <div class="popup-content-current-user" (click)="preventClose($event)">
       <app-current-user-profile
       [isCurrentUserProfileVisible]="isCurrentUserProfileVisible" (currentUserProfileVisibilityChange)="
-      onCurrentUserProfileVisibilityChange($event)
+      toggleComponentVisibility('currentUserProfile',$event)
     "></app-current-user-profile>
     </div>
   </div>
   }
+  <!-- Popup Overlay User Menu -->
+  @if (isUserMenuVisible) {
+    <div class="popup-wrapper" (click)="closePopupOverlay('userMenu')"
+    [ngClass]="{ 'visible': isUserMenuVisible }">
+      <div class="popup-content" (click)="preventClose($event)">
+        <app-user-menu
+        [isUserMenuVisible]="isUserMenuVisible" (userMenuVisibilityChange)="
+        toggleComponentVisibility('userMenu',$event)
+      "></app-user-menu>
+      </div>
+    </div>
+    }
 </div>
