@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { Firestore, collection, onSnapshot, orderBy, query } from '@angular/fire/firestore';
 import { PrivateChat } from '../../../../../models/privateChat.class';
 import { FirebaseService } from '../../../../../services/firebase/firebase.service';
+import { ChatService } from '../../../../../services/chat/chat.service';
 import { User } from '../../../../../models/user.class';
 import { PrivateMessageComponent } from '../../../../private-message/private-message.component';
 @Component({
@@ -17,9 +18,8 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
 
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
-
-  selectedMessage: string | null = null;
-
+  chatService = inject(ChatService);
+  
 
   constructor(private router: Router) {
    }
@@ -33,7 +33,4 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   }
 
 
-  selectMessage() {
-
-  }
 }

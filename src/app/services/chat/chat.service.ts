@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
+import { PrivateMessageComponent } from '../../post-login/private-message/private-message.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +19,8 @@ export class ChatService {
     console.log('Message timestamp:', event.timestamp);
     // Add logic to handle the sent message
   }
+
+
 
   
 }

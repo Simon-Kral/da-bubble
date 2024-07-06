@@ -1,7 +1,7 @@
 <div class="private-msg-wrapper">
 	@for (privateMsg of firebaseService.privateChatList; track
 	privateMsg.privatChatId; let index = $index) {
-	<div class="private-msg-top-section">
+	<div class="private-msg-top-section" (click)="openProfile()">
 		<div class="private-msg-user pointer">
 
 			@if (showPrivateNote) {

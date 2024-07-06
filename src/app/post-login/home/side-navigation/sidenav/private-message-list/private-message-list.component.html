@@ -2,8 +2,7 @@
 @if (this.firebaseService.currentUser) {
   <div class="private-msg-user"
   [routerLink]="['/home/private-message', this.firebaseService.currentUser.privateNoteRef]"
-  [queryParams]="{ showPrivateNote: true }"
-  (click)="selectMessage()">
+  [queryParams]="{ showPrivateNote: true }">
     <div
       class="private-msg-user pointer">
       <div class="private-msg-user-avatar">
@@ -23,7 +22,7 @@
       class="private-msg-user pointer"
       [routerLink]="['/home/private-message', privateMsg.privatChatId]"
       [queryParams]="{ showPrivateNote: false }"
-      (click)="selectMessage()"
+      (click)="this.firebaseService.getChatCreatorIdByDocRef(privateMsg.privatChatId)"
     >
       <div class="private-notes"></div>
       <div class="private-msg-user-avatar">

@@ -38,6 +38,11 @@ export class FirebaseService implements OnDestroy, OnInit {
   unsubscribeUserList: any;
   unsubscribePrivateChatList: any;
 
+  // variables for private message component
+  selectedPrivateChatId: string = '';
+  selectedPrivateChatCreatorId: string = '';
+
+
   constructor() {
     this.getCurrentUserId();
     this.ngOnInit();
@@ -370,6 +375,17 @@ getUserEmail(userId: string): string {
       createdAt: obj.createdAt || '',
       createdBy: obj.createdBy || '',
     };
+  }
+/**
+ * Retrieves the chat creator ID based on the provided private chat ID.
+ * Searches through the privateChatList to find the entry with the matching privatChatId.
+ * @param {string} privatChatId - The private chat ID to search for.
+ * @returns {string | undefined} The chat creator ID if found, otherwise undefined.
+ */
+  getChatCreatorIdByDocRef(privatChatId: string) {
+    const chatEntry = this.privateChatList.find(chat => chat.privatChatId === privatChatId);
+    this.selectedPrivateChatCreatorId = chatEntry ? chatEntry.chatCreator : '';
+    return chatEntry ? chatEntry.chatCreator : undefined;
   }
 
   // this is the original code

@@ -2,10 +2,11 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
 import { FirebaseService } from '../../services/firebase/firebase.service';
 import { ChatService } from '../../services/chat/chat.service';
-import { Firestore, collection, onSnapshot, orderBy, query } from '@angular/fire/firestore';
+import { Firestore} from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { PrivateMessageListComponent } from '../home/side-navigation/sidenav/private-message-list/private-message-list.component';
 import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-private-message',
   standalone: true,
@@ -20,7 +21,6 @@ export class PrivateMessageComponent implements OnInit{
 
   showPrivateNote: boolean = false;
 
-
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -28,5 +28,18 @@ export class PrivateMessageComponent implements OnInit{
       this.showPrivateNote = params['showPrivateNote'] === 'true';
     });
   }
+
+  openProfile() {
+    if (this.showPrivateNote) {
+      // Show the current user's profile
+      console.log('Show the current user\'s profile');
+    } else {
+      // Show the selected user's profile
+      console.log('Show the selected user\'s profile', this.firebaseService.selectedPrivateChatCreatorId);
+    }
+  }
+
+
+
 
 }
