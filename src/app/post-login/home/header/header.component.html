@@ -8,10 +8,6 @@
     type="text"
     placeholder="Devspace durchsuchen"
   />
-  <button (click)="logout()">test logout</button>
-  @if(errorMessage != '') {
-  <span>{{ errorMessage }}</span>
-  }
   <div class="user-avatar">
     <span>{{ this.firebaseService.currentUser.name }}</span>
     <img

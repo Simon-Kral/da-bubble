@@ -13,7 +13,6 @@ import { CommonModule } from '@angular/common';
 export class HeaderComponent {
 	authService = inject(AuthService);
 	router = inject(Router);
-	errorMessage: string | null = null;
 	firebaseService = inject(FirebaseService);
 
 	//user profile
@@ -29,13 +28,4 @@ export class HeaderComponent {
 		this.userProfileToggle.emit(visible);
 	  }
 	  
-	logout(): void {
-		this.firebaseService.clearCurrentUser();
-		this.firebaseService.ngOnDestroy(); // not working -->To-Do unsub all list before logging-out
-		this.authService.logout().subscribe({
-			error: (err) => {
-				this.errorMessage = err.code;
-			},
-		});
-	}
 }

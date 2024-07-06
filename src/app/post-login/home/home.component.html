@@ -43,7 +43,7 @@
   }
   <!-- Popup Overlay Current User Profile -->
   @if (isCurrentUserProfileVisible) {
-  <div class="popup-wrapper" (click)="closePopupOverlay('currentUserProfile')"
+  <div class="popup-wrapper current-user-popup" (click)="closePopupOverlay('currentUserProfile')"
   [ngClass]="{ 'visible': isCurrentUserProfileVisible }">
     <div class="popup-content-current-user" (click)="preventClose($event)">
       <app-current-user-profile
@@ -57,11 +57,13 @@
   @if (isUserMenuVisible) {
     <div class="popup-wrapper" (click)="closePopupOverlay('userMenu')"
     [ngClass]="{ 'visible': isUserMenuVisible }">
-      <div class="popup-content" (click)="preventClose($event)">
+      <div class="popup-content-current-user" (click)="preventClose($event)">
         <app-user-menu
-        [isUserMenuVisible]="isUserMenuVisible" (userMenuVisibilityChange)="
-        toggleComponentVisibility('userMenu',$event)
-      "></app-user-menu>
+        [isUserMenuVisible]="isUserMenuVisible"
+        [isCurrentUserProfileVisible]="isCurrentUserProfileVisible"
+        (userMenuVisibilityChange)="toggleComponentVisibility('userMenu',$event)"
+        (currentUserProfileVisibilityChange)="toggleComponentVisibility('currentUserProfile', $event)"
+        ></app-user-menu>
       </div>
     </div>
     }

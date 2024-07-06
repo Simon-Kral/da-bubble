@@ -1,1 +1,10 @@
-<p>user-menu works!</p>
+<div class="user-menu-wrapper">
+    <!-- to-do error msg is only for testing, needs to get removed afterwards! -->
+      @if(errorMessage != '') {
+  <span>{{ errorMessage }}</span>
+  } 
+    <div class="menu-content">
+        <p class="pointer" (click)="toggleCurrentUserProfile(true)">Profil</p>
+        <p class="pointer" (click)="logout()">Log out</p>
+    </div>
+</div>

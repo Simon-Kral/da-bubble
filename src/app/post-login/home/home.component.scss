@@ -100,9 +100,14 @@
     backdrop-filter: brightness(0.8);
   }
 
+  // To-Do: change class name its for current user popup & user profile popup used together
   .popup-content-current-user {
     position: absolute;
     top: 96px;
     right: 24px;
   }
+}
+
+.current-user-popup {
+  z-index: 10;
 }
