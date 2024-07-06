@@ -1,0 +1,43 @@
+<div class="user-profile-wrapper">
+    <div class="user-profile-top-section">
+        <h1>Profil</h1>
+        <div class="pointer close-btn">
+            <img src="/assets/img/icons/close_black.png" alt="close-icon">
+        </div>
+    </div>
+
+    <div class="userprofile-avatar">
+        <img src="/assets/img/character-images/character_1.png" alt="user-avatar">
+    </div>
+
+
+    <div class="user-profile-bottom-section">
+
+        <div class="user-profile-name">
+            <h2>{{this.firebaseService.getUserDisplayName(this.showDataOfUser)}}</h2>
+        </div>
+
+        <div class="user-profile-status">
+            <div class="online-status"
+            [ngClass]="{ 'online': this.firebaseService.isUserOnline(this.showDataOfUser), 'offline': !this.firebaseService.isUserOnline(this.showDataOfUser) }"
+            ></div>
+            <p>{{ this.firebaseService.getUserStatusText(showDataOfUser) }}</p>
+        </div>
+
+        <div class="user-profile-email">
+            <div class="email-container">
+                <img src="/assets/img/icons/email_black.png" alt="email-icon">
+                <p>E-Mail-Adresse</p>
+            </div>
+        </div>
+        <div class="user-profile-email-adress">
+            <p>{{this.firebaseService.getUserEmail(this.showDataOfUser)}}</p>
+
+        </div>
+        <div class="user-profile-send-msg">
+            <div class="pointer btn-wrapper">
+                <img src="/assets/img/icons/send_msg_white.png" alt="email-icon">
+                <p>Nachricht</p>
+            </div>
+        </div>
+    </div>

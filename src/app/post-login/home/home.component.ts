@@ -9,13 +9,13 @@ import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 import { FirebaseService } from './../../services/firebase/firebase.service';
 import { PrivateMessageComponent } from '../private-message/private-message.component';
-
+import { UserProfileComponent } from './user-profile/user-profile.component';
 @Component({
 	selector: 'app-home',
 	standalone: true,
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss',
-	imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent, CommonModule, RouterOutlet, CreateNewChannelComponent, PrivateMessageComponent],
+	imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent, CommonModule, RouterOutlet, CreateNewChannelComponent, PrivateMessageComponent, UserProfileComponent],
 })
 export class HomeComponent implements OnInit {
 	authService = inject(AuthService);

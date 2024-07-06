@@ -288,7 +288,28 @@ isUserOnline(userId: string): boolean {
 getUserById(userId: string): User | undefined {
   return this.userList.find(user => user.userId === userId);
 }
-
+/**
+ * Retrieves the email-adress of a user based on the provided user ID.
+ * If the user is found in the userList, returns the user's email; otherwise, returns an empty string.
+ * 
+ * @param {string} userId - The ID of the user to retrieve the email for.
+ * @returns {string} The email of the user or an empty string if the user is not found.
+ */
+getUserEmail(userId: string): string {
+  const user = this.getUserById(userId);
+  return user ? user.email : '';
+}
+  /**
+   * Returns the status text based on the user's online status.
+   * If the user is found in the userList, returns 'Aktiv' if the user's status is true (online); otherwise, returns 'Abwesend'.
+   * If the user is not found, returns an empty string.
+   * 
+   * @param {string} userId - The ID of the user to check the status for.
+   * @returns {string} 'Aktiv' if the user is online, 'Abwesend' otherwise.
+   */
+  getUserStatusText(userId: string): string {
+    return this.isUserOnline(userId) ? 'Aktiv' : 'Abwesend';
+  }
   // private chat
   /**
    * Subscribes to the privateChats collection in Firestore and updates the private chat list in real-time.

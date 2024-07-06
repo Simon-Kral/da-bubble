@@ -1,15 +1,10 @@
 <app-header></app-header>
 <div class="home-container">
-  <div class="sidenav-controller pointer"
-   (click)="toggleSidenav()"
-   (mouseover)="onMouseOver()"
+  <div class="sidenav-controller pointer" (click)="toggleSidenav()" (mouseover)="onMouseOver()"
     (mouseout)="onMouseOut()">
     <span>Workspace-Menü {{ isSidenavVisible ? "schließen" : "öffnen" }}</span>
-    <img class="start-conversation"
-     [src]="currentIconSourceMenu"
-     alt="show-menu-icon"
-      [class.sidenav-open]="isSidenavVisible"
-      [class.sidenav-close]="!isSidenavVisible" />
+    <img class="start-conversation" [src]="currentIconSourceMenu" alt="show-menu-icon"
+      [class.sidenav-open]="isSidenavVisible" [class.sidenav-close]="!isSidenavVisible" />
   </div>
   <div class="home-content">
     <div [ngClass]="{
@@ -25,10 +20,8 @@
     </div>
   </div>
   @if (isCreateChannelVisible) {
-  <div class="create-new-channel-wrapper"
-   (click)="closeCreateChannel()"
-   [ngClass]="{ 'visible': isCreateChannelVisible }"
-   >
+  <div class="create-new-channel-wrapper" (click)="closeCreateChannel()"
+    [ngClass]="{ 'visible': isCreateChannelVisible }">
     <div class="create-new-channel-content" (click)="preventClose($event)">
       <app-create-new-channel [isCreateChannelVisible]="isCreateChannelVisible" (createChannelVisibilityChange)="
       onCreateChannelVisibilityChange($event)
@@ -36,4 +29,9 @@
     </div>
   </div>
   }
+  <div class="user-profile-wrapper create-new-channel-wrapper">
+    <div class="user-profile-content create-new-channel-content">
+      <app-user-profile></app-user-profile>
+    </div>
+  </div>
 </div>
