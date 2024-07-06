@@ -8,6 +8,7 @@ import { CreateNewChannelComponent } from '../channel/create-channel/create-new-
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 import { FirebaseService } from './../../services/firebase/firebase.service';
+import { ChatService } from '../../services/chat/chat.service';
 import { PrivateMessageComponent } from '../private-message/private-message.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CurrentUserProfileComponent } from './current-user-profile/current-user-profile.component';
@@ -22,6 +23,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 export class HomeComponent implements OnInit {
 	authService = inject(AuthService);
 	firebaseService = inject(FirebaseService);
+	chatService = inject(ChatService);
 
 	  // Default icon sources
 	  menu = '../../assets/img/icons/menu_black.png';
@@ -37,6 +39,12 @@ export class HomeComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.firebaseService.setCurrentUserAsObjekt();
+		this.chatService.isCurrentUserProfileVisible$.subscribe(visible => {
+			this.isCurrentUserProfileVisible = visible;
+		  });
+		this.chatService.isUserProfileVisible$.subscribe(visible => {
+			this.isUserProfileVisible = visible;
+		  });
 	}
 
 	//sidenav variables

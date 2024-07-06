@@ -18,6 +18,6 @@ export class UserProfileComponent {
   @Output() userProfileVisibilityChange = new EventEmitter<boolean>();
 
 // To-Do: Implement the function to show the data of the user
-  showDataOfUser: string ='jHPIWLbP5Jcupmn6MQAT'; 
+  showDataOfUser = this.firebaseService.selectedPrivateChatCreatorId; 
 
 }

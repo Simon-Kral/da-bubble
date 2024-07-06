@@ -19,6 +19,7 @@ export class PrivateMessageComponent implements OnInit{
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
 
+  
   showPrivateNote: boolean = false;
 
   constructor(private route: ActivatedRoute) {}
@@ -31,11 +32,9 @@ export class PrivateMessageComponent implements OnInit{
 
   openProfile() {
     if (this.showPrivateNote) {
-      // Show the current user's profile
-      console.log('Show the current user\'s profile');
+      this.chatService.toggleCurrentUserProfileVisibility(true);
     } else {
-      // Show the selected user's profile
-      console.log('Show the selected user\'s profile', this.firebaseService.selectedPrivateChatCreatorId);
+      this.chatService.toggleUserProfileVisibility(true);
     }
   }
 
