@@ -23,7 +23,7 @@
   @if (isCreateChannelVisible) {
   <div class="popup-wrapper" (click)="closePopupOverlay('createChannel')"
     [ngClass]="{ 'visible': isCreateChannelVisible }">
-    <div class="create-new-channel-content" (click)="preventClose($event)">
+    <div class="popup-content" (click)="preventClose($event)">
       <app-create-new-channel [isCreateChannelVisible]="isCreateChannelVisible" (createChannelVisibilityChange)="
       onCreateChannelVisibilityChange($event)
     "></app-create-new-channel>
@@ -34,10 +34,22 @@
   @if (isUserProfileVisible) {
   <div class="popup-wrapper" (click)="closePopupOverlay('userProfile')"
   [ngClass]="{ 'visible': isUserProfileVisible }">
-    <div class="user-profile-content create-new-channel-content" (click)="preventClose($event)">
+    <div class="popup-content" (click)="preventClose($event)">
       <app-user-profile [isUserProfileVisible]="isUserProfileVisible" (userProfileVisibilityChange)="
       onUserProfileVisibilityChange($event)
     "></app-user-profile>
+    </div>
+  </div>
+  }
+  <!-- Popup Overlay Current User Profile -->
+  @if (isCurrentUserProfileVisible) {
+  <div class="popup-wrapper" (click)="closePopupOverlay('currentUserProfile')"
+  [ngClass]="{ 'visible': isCurrentUserProfileVisible }">
+    <div class="popup-content-current-user" (click)="preventClose($event)">
+      <app-current-user-profile
+      [isCurrentUserProfileVisible]="isCurrentUserProfileVisible" (currentUserProfileVisibilityChange)="
+      onCurrentUserProfileVisibilityChange($event)
+    "></app-current-user-profile>
     </div>
   </div>
   }

@@ -99,4 +99,10 @@
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: brightness(0.8);
   }
+
+  .popup-content-current-user {
+    position: absolute;
+    top: 96px;
+    right: 24px;
+  }
 }

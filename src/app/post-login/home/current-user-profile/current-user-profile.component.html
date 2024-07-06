@@ -1,0 +1,48 @@
+<div class="current-user-profile-wrapper">
+
+
+    <div class="profile-top-section">
+        <h1>Profil</h1>
+        <div class="pointer close-btn">
+            <img src="/assets/img/icons/close_black.png" alt="close-icon">
+        </div>
+    </div>
+
+    <div class="profile-avatar">
+        <img [src]="this.firebaseService.currentUser.photoURL" alt="user-avatar">
+    </div>
+
+
+    <div class="profile-bottom-section">
+
+        <div class="profile-name">
+            <h2>{{this.firebaseService.currentUser.name}}</h2>
+            <p class="pointer">Bearbeiten</p>
+        </div>
+
+        <div class="profile-status">
+            <div class="online-status"
+            [ngClass]="{ 'online': this.firebaseService.isUserOnline(this.firebaseService.currentUserId), 'offline': !this.firebaseService.isUserOnline(this.firebaseService.currentUserId) }"
+            ></div>
+            <p>{{ this.firebaseService.getUserStatusText(this.firebaseService.currentUserId) }}</p>
+        </div>
+
+        <div class="profile-email-container">
+            <div class="email-container">
+                <img src="/assets/img/icons/email_black.png" alt="email-icon">
+                <p>E-Mail-Adresse</p>
+            </div>
+        </div>
+        <div class="pointer profile-email-adress">
+            <p>{{this.firebaseService.getUserEmail(this.firebaseService.currentUserId)}}</p>
+
+        </div>
+
+
+
+
+
+
+
+
+</div>

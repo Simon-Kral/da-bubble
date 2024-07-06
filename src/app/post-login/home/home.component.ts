@@ -10,12 +10,13 @@ import { AuthService } from '../../services/authentication/auth.service';
 import { FirebaseService } from './../../services/firebase/firebase.service';
 import { PrivateMessageComponent } from '../private-message/private-message.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { CurrentUserProfileComponent } from './current-user-profile/current-user-profile.component';
 @Component({
 	selector: 'app-home',
 	standalone: true,
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss',
-	imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent, CommonModule, RouterOutlet, CreateNewChannelComponent, PrivateMessageComponent, UserProfileComponent],
+	imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent, CommonModule, RouterOutlet, CreateNewChannelComponent, PrivateMessageComponent, UserProfileComponent, CurrentUserProfileComponent],
 })
 export class HomeComponent implements OnInit {
 	authService = inject(AuthService);
@@ -43,7 +44,8 @@ export class HomeComponent implements OnInit {
 	isCreateChannelVisible: boolean = false;
 	//user profile variables
 	isUserProfileVisible: boolean = false;
-
+	//current user profile variables
+	isCurrentUserProfileVisible: boolean = false;
 
 	//sidenav functions
 	toggleSidenav() {
@@ -58,7 +60,12 @@ export class HomeComponent implements OnInit {
 	onUserProfileVisibilityChange(visible: boolean) {
 		this.isUserProfileVisible = visible;
 	}
-	// functions vor popup overlay
+
+	//current user profile functions
+	onCurrentUserProfileVisibilityChange(visible: boolean) {
+		this.isCurrentUserProfileVisible = visible;
+	}
+	// functions for popup overlay
 	preventClose(event: MouseEvent) {
 		event.stopPropagation();
 	}
@@ -73,6 +80,9 @@ export class HomeComponent implements OnInit {
 			break;
 		  case 'userProfile':
 			this.isUserProfileVisible = false;
+			break;
+		  case 'currentUserProfile':
+			this.isCurrentUserProfileVisible = false;
 			break;
 		  default:
 			console.warn(`Unknown popup name: ${name}`);
