@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
 
@@ -13,6 +13,9 @@ export class UserProfileComponent {
 
   firebaseService = inject(FirebaseService);
 
+ 
+  @Input() isUserProfileVisible: boolean = false;
+  @Output() userProfileVisibilityChange = new EventEmitter<boolean>();
 
 // To-Do: Implement the function to show the data of the user
   showDataOfUser: string ='jHPIWLbP5Jcupmn6MQAT'; 

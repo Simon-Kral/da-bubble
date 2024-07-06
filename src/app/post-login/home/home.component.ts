@@ -41,6 +41,8 @@ export class HomeComponent implements OnInit {
 	isSidenavVisible: boolean = true;
 	//create channel variables
 	isCreateChannelVisible: boolean = false;
+	//user profile variables
+	isUserProfileVisible: boolean = false;
 
 
 	//sidenav functions
@@ -51,12 +53,32 @@ export class HomeComponent implements OnInit {
 	onCreateChannelVisibilityChange(visible: boolean) {
 		this.isCreateChannelVisible = visible;
 	}
+
+	//user profile functions
+	onUserProfileVisibilityChange(visible: boolean) {
+		this.isUserProfileVisible = visible;
+	}
+	// functions vor popup overlay
 	preventClose(event: MouseEvent) {
 		event.stopPropagation();
 	}
-	closeCreateChannel() {
-		this.isCreateChannelVisible = false;
-	}
+	/**
+	 * Closes the specified popup overlay.
+	 * @param {string} name - The name of the popup to close (e.g.'createChannel' or 'userProfile').
+	 */
+	closePopupOverlay(name: string) {
+		switch (name) {
+		  case 'createChannel':
+			this.isCreateChannelVisible = false;
+			break;
+		  case 'userProfile':
+			this.isUserProfileVisible = false;
+			break;
+		  default:
+			console.warn(`Unknown popup name: ${name}`);
+			break;
+		}
+	  }
 	/**
 	 * Handles the mouse over event for the sideNav icons.
 	 */

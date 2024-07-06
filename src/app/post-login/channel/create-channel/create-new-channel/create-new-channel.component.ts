@@ -33,7 +33,7 @@ export class CreateNewChannelComponent {
 
   channelData: FormGroup;
   channel = new Channel();
-  isCreateChannelVisibleForm: boolean = true;
+  isCreateChannelFormVisible: boolean = true;  // TO-DO: Change Variable Name
   isAddMemberVisibleForm: boolean = false;
 
   selectedMembers: string[] = [];
@@ -197,7 +197,7 @@ export class CreateNewChannelComponent {
   }
   // Toggles the visibility of the create channel form
   toggleCreateChannelFormVisibility() {
-    this.isCreateChannelVisibleForm = !this.isCreateChannelVisibleForm;
+    this.isCreateChannelFormVisible = !this.isCreateChannelFormVisible;
   }
   // Toggles the visibility of the add member form
   toggleAddMemberFormVisibility() {

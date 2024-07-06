@@ -19,8 +19,9 @@
       <router-outlet></router-outlet>
     </div>
   </div>
+  <!-- Popup Overlay Create Channel -->
   @if (isCreateChannelVisible) {
-  <div class="create-new-channel-wrapper" (click)="closeCreateChannel()"
+  <div class="popup-wrapper" (click)="closePopupOverlay('createChannel')"
     [ngClass]="{ 'visible': isCreateChannelVisible }">
     <div class="create-new-channel-content" (click)="preventClose($event)">
       <app-create-new-channel [isCreateChannelVisible]="isCreateChannelVisible" (createChannelVisibilityChange)="
@@ -29,9 +30,15 @@
     </div>
   </div>
   }
-  <div class="user-profile-wrapper create-new-channel-wrapper">
-    <div class="user-profile-content create-new-channel-content">
-      <app-user-profile></app-user-profile>
+  <!-- Popup Overlay User Profile -->
+  @if (isUserProfileVisible) {
+  <div class="popup-wrapper" (click)="closePopupOverlay('userProfile')"
+  [ngClass]="{ 'visible': isUserProfileVisible }">
+    <div class="user-profile-content create-new-channel-content" (click)="preventClose($event)">
+      <app-user-profile [isUserProfileVisible]="isUserProfileVisible" (userProfileVisibilityChange)="
+      onUserProfileVisibilityChange($event)
+    "></app-user-profile>
     </div>
   </div>
+  }
 </div>
