@@ -1,8 +1,5 @@
 <h1>Avatar</h1>
-<form
-	[formGroup]="avatarForm"
-	(ngSubmit)="onSubmit()"
->
+<form [formGroup]="avatarForm" (ngSubmit)="onSubmit()">
 	<div class="avatar-preview">
 		<img src="{{ avatarSig() }}" />
 		<h2>{{ this.authService.currentUserSig()?.username }}</h2>
@@ -16,12 +13,16 @@
 					id="avatar_{{ avatar }}"
 					type="radio"
 					name="avatar"
-					value="assets/img/character-images/character_{{ [avatar] }}.png"
+					value="assets/img/character-images/character_{{
+						[avatar]
+					}}.png"
 					formControlName="avatar"
 				/>
 				<label for="avatar_{{ avatar }}">
 					<img
-						src="assets/img/character-images/character_{{ [avatar] }}.png"
+						src="assets/img/character-images/character_{{
+							[avatar]
+						}}.png"
 						alt=""
 					/>
 				</label>
@@ -50,9 +51,6 @@
 		</div>
 	</div>
 </form>
-<button
-	class="back-button"
-	routerLink="/register"
->
+<button class="back-button" routerLink="/register">
 	<img src="assets/img/icons/arrow_back.png" />
 </button>

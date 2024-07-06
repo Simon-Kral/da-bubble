@@ -1,80 +1,88 @@
 <h1>Konto erstellen</h1>
 <h2>
-  Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto
+	Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto
 </h2>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <div class="input-with-error">
-    <div class="input-box">
-      <img src="assets/img/icons/person_filled.png" />
-      <input
-        type="text"
-        placeholder="Name und Nachname"
-        formControlName="username"
-        autocomplete="off"
-      />
-    </div>
-    @if (formInvalid(registerForm.controls.username)) { @if
-    (registerForm.controls.username.errors?.['required']) {
-    <p class="error-message">*Bitte schreiben Sie einen Namen.</p>
-    } @if (registerForm.controls.username.errors?.['minlength']) {
-    <p class="error-message">*Der Name muss mindestens 5 Zeichen lang sein.</p>
-    } }
-  </div>
-  <div class="input-with-error">
-    <div class="input-box">
-      <img src="assets/img/icons/email.png" />
-      <input
-        type="text"
-        placeholder="beispielname@email.com"
-        formControlName="email"
-        autocomplete="off"
-      />
-    </div>
-    @if (formInvalid(registerForm.controls.email)) { @if
-    (registerForm.controls.email.errors?.['required']) {
-    <p class="error-message">*Bitte schreiben Sie eine E-Mail-Adresse.</p>
-    } @if (registerForm.controls.email.errors?.['email']) {
-    <p class="error-message">*Dies ist keine gültige E-Mail-Adresse</p>
-    } }
-  </div>
-  <div class="input-with-error">
-    <div class="input-box">
-      <img src="assets/img/icons/password.png" />
-      <input
-        type="text"
-        placeholder="Passwort"
-        formControlName="password"
-        autocomplete="off"
-        [value]="this.authService.user$"
-      />
-    </div>
-    @if (formInvalid(registerForm.controls.password)) { @if
-    (registerForm.controls.password.errors?.['required']) {
-    <p class="error-message">*Bitte geben Sie ein Passwort ein.</p>
-    } @if (registerForm.controls.password.errors?.['minlength']) {
-    <p class="error-message">
-      *Das Passwort muss mindestens 6 Zeichen lang sein.
-    </p>
-    } }
-  </div>
-  <div class="input-with-error">
-    <div class="privacy-wrap">
-      <input type="checkbox" name="privacy" formControlName="privacy" />
-      <span>Ich stimme der</span>
-      <a href="">Datenschutzerklärung</a>
-      <span>zu.</span>
-    </div>
-    @if (formInvalid(registerForm.controls.privacy)) { @if
-    (registerForm.controls.privacy.errors?.['required']) {
-    <p class="error-message">*Bitte stimmen Sie der Datenschutzerklärung zu.</p>
-    } }
-  </div>
-  <div class="button-wrap">
-    <button class="button-blue" type="submit" [disabled]="!registerForm.valid">
-      Weiter
-    </button>
-  </div>
+	<div class="input-with-error">
+		<div class="input-box">
+			<img src="assets/img/icons/person_filled.png" />
+			<input
+				type="text"
+				placeholder="Name und Nachname"
+				formControlName="username"
+				autocomplete="off"
+			/>
+		</div>
+		@if (formInvalid(registerForm.controls.username)) { @if
+		(registerForm.controls.username.errors?.['required']) {
+		<p class="error-message">*Bitte schreiben Sie einen Namen.</p>
+		} @if (registerForm.controls.username.errors?.['minlength']) {
+		<p class="error-message">
+			*Der Name muss mindestens 5 Zeichen lang sein.
+		</p>
+		} }
+	</div>
+	<div class="input-with-error">
+		<div class="input-box">
+			<img src="assets/img/icons/email.png" />
+			<input
+				type="text"
+				placeholder="beispielname@email.com"
+				formControlName="email"
+				autocomplete="off"
+			/>
+		</div>
+		@if (formInvalid(registerForm.controls.email)) { @if
+		(registerForm.controls.email.errors?.['required']) {
+		<p class="error-message">*Bitte schreiben Sie eine E-Mail-Adresse.</p>
+		} @if (registerForm.controls.email.errors?.['email']) {
+		<p class="error-message">*Dies ist keine gültige E-Mail-Adresse</p>
+		} }
+	</div>
+	<div class="input-with-error">
+		<div class="input-box">
+			<img src="assets/img/icons/password.png" />
+			<input
+				type="text"
+				placeholder="Passwort"
+				formControlName="password"
+				autocomplete="off"
+				[value]="this.authService.user$"
+			/>
+		</div>
+		@if (formInvalid(registerForm.controls.password)) { @if
+		(registerForm.controls.password.errors?.['required']) {
+		<p class="error-message">*Bitte geben Sie ein Passwort ein.</p>
+		} @if (registerForm.controls.password.errors?.['minlength']) {
+		<p class="error-message">
+			*Das Passwort muss mindestens 6 Zeichen lang sein.
+		</p>
+		} }
+	</div>
+	<div class="input-with-error">
+		<div class="privacy-wrap">
+			<input type="checkbox" name="privacy" formControlName="privacy" />
+			<span>Ich stimme der</span>
+			<a href="">Datenschutzerklärung</a>
+			<span>zu.</span>
+		</div>
+		@if (formInvalid(registerForm.controls.privacy)) { @if
+		(registerForm.controls.privacy.errors?.['required']) {
+		<p class="error-message">
+			*Bitte stimmen Sie der Datenschutzerklärung zu.
+		</p>
+		} }
+	</div>
+	<div class="button-wrap">
+		<button
+			class="button-blue"
+			type="submit"
+			[disabled]="!registerForm.valid"
+		>
+			Weiter
+		</button>
+	</div>
 </form>
 <button class="back-button" routerLink="">
-  <img src="assets/img/icons/arrow_back.png" />
+	<img src="assets/img/icons/arrow_back.png" />
 </button>

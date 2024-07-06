@@ -2,16 +2,19 @@ import { Injectable, inject, signal } from '@angular/core';
 import {
 	Auth,
 	User,
+	confirmPasswordReset,
 	createUserWithEmailAndPassword,
 	getAuth,
+	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
 	signOut,
 	updateProfile,
 	user,
+	verifyPasswordResetCode,
 } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
 import { UserInterface } from './user.interface';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
 	providedIn: 'root',
@@ -22,6 +25,8 @@ export class AuthService {
 	currentUserSig = signal<UserInterface | null | undefined>(undefined);
 	router = inject(Router);
 
+	constructor(private route: ActivatedRoute) {}
+
 	register(
 		email: string,
 		username: string,
@@ -31,9 +36,14 @@ export class AuthService {
 			this.firebaseAuth,
 			email,
 			password
-		).then((response) =>
-			updateProfile(response.user, { displayName: username })
-		);
+		)
+			.then((response) => {
+				updateProfile(response.user, { displayName: username });
+				console.log('Konto erfolgreich erstellt');
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 		return from(promise);
 	}
 
@@ -42,7 +52,9 @@ export class AuthService {
 			this.firebaseAuth,
 			email,
 			password
-		).then(() => {});
+		).then(() => {
+			console.log('Anmelden');
+		});
 		return from(promise);
 	}
 
@@ -98,7 +110,9 @@ export class AuthService {
 
 	handleUserUnset() {
 		this.currentUserSig.set(null);
-		this.router.navigateByUrl('/');
+		if (!this.router.url.includes('/reset-password')) {
+			this.router.navigateByUrl('/');
+		}
 	}
 
 	signalIsUp() {
@@ -109,5 +123,32 @@ export class AuthService {
 			this.currentUserSig()!.userId &&
 			this.currentUserSig()!.username
 		);
+	}
+
+	sendResetLink(email: string) {
+		sendPasswordResetEmail(this.firebaseAuth, email)
+			.then(() => {
+				console.log('E-Mail gesendet');
+				this.router.navigateByUrl('/');
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
+	resetPassword(password: string) {
+		this.route.queryParams.subscribe((params) => {
+			const actionCode = params['oobCode'];
+			verifyPasswordResetCode(this.firebaseAuth, actionCode).then(() => {
+				confirmPasswordReset(this.firebaseAuth, actionCode, password)
+					.then(() => {
+						console.log('Passwort geändert');
+						this.router.navigateByUrl('/');
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			});
+		});
 	}
 }

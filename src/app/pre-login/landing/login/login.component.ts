@@ -1,14 +1,19 @@
 import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+	FormBuilder,
+	FormControl,
+	ReactiveFormsModule,
+	Validators,
+} from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { getAuth } from '@angular/fire/auth';
 
 @Component({
 	selector: 'app-login',
 	standalone: true,
-	imports: [ReactiveFormsModule, NgIf],
+	imports: [ReactiveFormsModule, NgIf, RouterLink],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
 })
@@ -38,7 +43,9 @@ export class LoginComponent {
 	}
 
 	formInvalid(formControl: FormControl<string>) {
-		return formControl.invalid && (formControl.touched || formControl.dirty);
+		return (
+			formControl.invalid && (formControl.touched || formControl.dirty)
+		);
 	}
 
 	pushUserIdToSessionStorage() {
