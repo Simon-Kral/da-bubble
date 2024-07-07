@@ -104,7 +104,7 @@
      </div>
      <div class="btn-container">
         <button class="pointer cancel-btn" (click)="onCancel('editAvatar')">Abbrechen</button>
-        <button class="pointer save-btn" (click)="updateAvatar()">Speichern</button>
+        <button class="pointer save-btn" (click)="updateAvatar()" [disabled]="!newAvatarChosen">Speichern</button>
     </div>
 </div>
 }

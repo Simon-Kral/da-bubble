@@ -1,8 +1,8 @@
 <div class="user-profile-wrapper">
     <div class="profile-top-section">
         <h1>Profil</h1>
-        <div class="pointer close-btn">
-            <img src="/assets/img/icons/close_black.png" alt="close-icon">
+        <div class="pointer close-btn" (mouseover)="onMouseOver()" (mouseout)="onMouseOut()" (click)="closeUserProfile()">
+            <img [src]="currentIconSourceClose" alt="close-icon">
         </div>
     </div>
 
@@ -19,8 +19,8 @@
 
         <div class="profile-status">
             <div class="online-status"
-            [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.showDataOfUser), 'offline': !this.firebaseService.getUserOnlineStatus(this.showDataOfUser) }"
-            ></div>
+                [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.showDataOfUser), 'offline': !this.firebaseService.getUserOnlineStatus(this.showDataOfUser) }">
+            </div>
             <p>{{ this.firebaseService.getUserStatusText(showDataOfUser) }}</p>
         </div>
 
@@ -31,7 +31,9 @@
             </div>
         </div>
         <div class="pointer profile-email-adress">
-            <p>{{this.firebaseService.getUserEmail(this.showDataOfUser)}}</p>
+            <a style="text-decoration:none" [href]="'mailto:' + this.firebaseService.getUserEmail(this.showDataOfUser)">
+                <p>{{this.firebaseService.getUserEmail(this.showDataOfUser)}}</p>
+            </a>
 
         </div>
         <div class="profile-send-msg">
