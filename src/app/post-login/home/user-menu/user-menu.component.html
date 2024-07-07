@@ -3,11 +3,11 @@
       @if(errorMessage != '') {
   <span>{{ errorMessage }}</span>
   } 
-    <div class="menu-content">
-        <p class="pointer" (click)="toggleCurrentUserProfile(true)">Profil</p>
+    <div class="pointer menu-content">
+        <p  (click)="toggleCurrentUserProfile(true)">Profil</p>
     </div>
-    <div class="menu-content">
-        <p class="pointer" (click)="logout()">Log out</p>
+    <div class="pointer menu-content">
+        <p  (click)="logout()">Log out</p>
     </div>
 
 </div>
