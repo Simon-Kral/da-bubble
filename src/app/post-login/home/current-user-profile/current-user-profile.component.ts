@@ -27,6 +27,18 @@ export class CurrentUserProfileComponent implements OnInit{
   isEditProfileVisible: boolean = false;
   isEditAvatarVisible: boolean = false;
 
+  newAvatarPath: string = '';
+  newAvatarChosen: boolean = false;
+
+  avatarList: Array<{ index: number, path: string }> = [
+    { index: 0, path: '/assets/img/character-images/character_1.png' },
+    { index: 1, path: '/assets/img/character-images/character_2.png' },
+    { index: 2, path: '/assets/img/character-images/character_3.png' },
+    { index: 3, path: '/assets/img/character-images/character_4.png' },
+    { index: 4, path: '/assets/img/character-images/character_5.png' },
+    { index: 5, path: '/assets/img/character-images/character_6.png' }
+  ];
+
   newUserData: FormGroup;
   currentUserData: UserData;
 
@@ -61,9 +73,36 @@ export class CurrentUserProfileComponent implements OnInit{
       });
   }
 
-  onCancel(): void {
-    this.newUserData.reset(this.currentUserData);
-    this.toggleEditProfile();
+  setNewAvatar(index: number) {
+    console.log('Avatar index: ', index);
+    this.newAvatarPath = this.avatarList[index].path;
+    console.log('New avatar path: ', this.newAvatarPath);
+    this.newAvatarChosen = true;
+  }
+
+  updateAvatar() {
+    if (this.newAvatarChosen) {
+      this.firebaseService.updateUserAvatar(this.newAvatarPath)
+        .then(() => {
+          console.log('User avatar updated successfully');
+          this.toggleEditAvatar();
+        })
+        .catch((error: any) => {
+          console.error('Error updating user avatar: ', error);
+        });
+    }
+  }
+
+  onCancel(name:string): void {
+    if (name === 'editProfile') {
+      this.newUserData.reset(this.currentUserData);
+      this.toggleEditProfile();
+    } else if (name === 'editAvatar') {
+      this.toggleEditAvatar();
+      this.newAvatarChosen = false;
+      this.newAvatarPath = '';
+    }
+
   }
 
 toggleUserProfile(visible: boolean) {

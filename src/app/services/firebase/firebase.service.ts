@@ -324,6 +324,15 @@ getUserEmail(userId: string): string {
     const userDocRef = doc(this.firestore, `users/${this.currentUser.userId}`);
     return updateDoc(userDocRef, updates);
   }
+  /**
+   * Updates the user avatar in the Firestore database.
+   * @param {string} newAvatarPath - The new avatar path to update.
+   * @returns {Promise<void>} A promise that resolves when the user avatar is successfully updated.
+   */
+  updateUserAvatar(newAvatarPath: string): Promise<void> {
+    const userDocRef = doc(this.firestore, `users/${this.currentUser.userId}`);
+    return updateDoc(userDocRef, { photoURL: newAvatarPath });
+  }
   // private chat
   /**
    * Subscribes to the privateChats collection in Firestore and updates the private chat list in real-time.

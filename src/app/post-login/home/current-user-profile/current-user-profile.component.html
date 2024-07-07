@@ -41,13 +41,12 @@
 <div class="current-user-profile-wrapper">
     <div class="profile-top-section">
         <h1>Dein Profil bearbeiten</h1>
-        <div class="pointer close-btn" (click)="toggleUserProfile(false); onCancel()">
+        <div class="pointer close-btn" (click)="toggleUserProfile(false); onCancel('editProfile')">
             <img src="/assets/img/icons/close_black.png" alt="close-icon">
         </div>
     </div>
-    <div class="pointer profile-avatar">
+    <div class="profile-avatar" >
         <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
-        <span>Bearbeiten</span>
     </div>
     <form class="edit-user-form" [formGroup]="newUserData" (ngSubmit)="saveProfile()">
         <div class="edit-input-container">
@@ -65,7 +64,7 @@
             <input formControlName="email" type="text" id="email" name="email">
         </div>
         <div class="btn-container">
-            <button type="button" class="cancel-btn" (click)="onCancel()">Abbrechen</button>
+            <button type="button" class="cancel-btn" (click)="onCancel('editProfile')">Abbrechen</button>
             <button type="submit" class="save-btn">Speichern</button>
         </div>
     </form>
@@ -75,27 +74,27 @@
 <div class="current-user-profile-wrapper">
     <div class="profile-top-section">
         <h1>Avatar wechseln</h1>
-        <div class="pointer close-btn" (click)="toggleUserProfile(false)">
+        <div class="pointer close-btn" (click)="onCancel('editAvatar')">
             <img src="/assets/img/icons/close_black.png" alt="close-icon">
         </div>
     </div>
     <div class="pointer profile-avatar">
+        @if (!newAvatarChosen) {
         <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
-        <span>Bearbeiten</span>
+        } @else {
+        <img [src]="newAvatarPath" alt="user-avatar">
+        }
     </div>
     <div class="avatar-container">
         <div class="avatar-selection">
-            <img src="/assets/img/character-images/character_1.png" alt="avatar1" class="pointer">
-            <img src="/assets/img/character-images/character_2.png" alt="avatar2" class="pointer">
-            <img src="/assets/img/character-images/character_3.png" alt="avatar3" class="pointer">
-            <img src="/assets/img/character-images/character_4.png" alt="avatar4" class="pointer">
-            <img src="/assets/img/character-images/character_5.png" alt="avatar5" class="pointer">
-            <img src="/assets/img/character-images/character_6.png" alt="avatar6" class="pointer">
+            @for (avatar of avatarList; track avatar; let index = $index) {
+            <img [src]="avatar.path" alt="avatar" class="pointer" (click)="setNewAvatar(avatar.index)">
+        }
         </div>
      </div>
      <div class="btn-container">
-        <button class="cancel-btn">Abbrechen</button>
-        <button class="save-btn">Speichern</button>
+        <button class="pointer cancel-btn" (click)="onCancel('editAvatar')">Abbrechen</button>
+        <button class="pointer save-btn" (click)="updateAvatar()">Speichern</button>
     </div>
 </div>
 }
