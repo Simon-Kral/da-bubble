@@ -7,20 +7,20 @@
         </div>
     </div>
     <div class="pointer profile-avatar" (click)="toggleEditAvatar()">
-        <img [src]="this.firebaseService.currentUser.photoURL" alt="user-avatar">
+        <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
         <span>Bearbeiten</span>
     </div>
     <div class="profile-bottom-section">
         <div class="profile-name">
-            <h2>{{this.firebaseService.currentUser.name}}</h2>
+            <h2>{{this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId)}}</h2>
             <p class="pointer" (click)="toggleEditProfile()">Bearbeiten</p>
         </div>
         <div class="profile-status">
             <div class="online-status"
-                [ngClass]="{ 'online': this.firebaseService.isUserOnline(this.firebaseService.currentUserId), 'offline': !this.firebaseService.isUserOnline(this.firebaseService.currentUserId) }">
+                [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId), 'offline': !this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId) }">
             </div>
             <p
-                [ngClass]="{ 'online-text': this.firebaseService.isUserOnline(this.firebaseService.currentUserId), 'offline-text': !this.firebaseService.isUserOnline(this.firebaseService.currentUserId) }">
+                [ngClass]="{ 'online-text': this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId), 'offline-text': !this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId) }">
                 {{ this.firebaseService.getUserStatusText(this.firebaseService.currentUserId) }}</p>
         </div>
         <div class="profile-email-container">
@@ -41,32 +41,32 @@
 <div class="current-user-profile-wrapper">
     <div class="profile-top-section">
         <h1>Dein Profil bearbeiten</h1>
-        <div class="pointer close-btn" (click)="toggleUserProfile(false)">
+        <div class="pointer close-btn" (click)="toggleUserProfile(false); onCancel()">
             <img src="/assets/img/icons/close_black.png" alt="close-icon">
         </div>
     </div>
     <div class="pointer profile-avatar">
-        <img [src]="this.firebaseService.currentUser.photoURL" alt="user-avatar">
+        <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
         <span>Bearbeiten</span>
     </div>
-    <form class="edit-user-form">
+    <form class="edit-user-form" [formGroup]="newUserData" (ngSubmit)="saveProfile()">
         <div class="edit-input-container">
             <div class="input-description">
                 <img src="/assets/img/icons/account_circle_black.png" alt="user-icon">
                 <p>Vollständiger Name</p>
             </div>
-            <input type="text" id="name" name="name" value="{{this.firebaseService.currentUser.name}}">
+            <input formControlName="name" type="text" id="name" name="name">
         </div>
         <div class="edit-input-container">
             <div class="input-description">
                 <img src="/assets/img/icons/email_input_black.png" alt="user-icon">
                 <p>E-Mail-Adresse</p>
             </div>
-            <input type="text" id="email" name="email" value="{{this.firebaseService.currentUser.email}}">
+            <input formControlName="email" type="text" id="email" name="email">
         </div>
         <div class="btn-container">
-            <button class="cancel-btn">Abbrechen</button>
-            <button class="save-btn">Speichern</button>
+            <button type="button" class="cancel-btn" (click)="onCancel()">Abbrechen</button>
+            <button type="submit" class="save-btn">Speichern</button>
         </div>
     </form>
 </div>
@@ -80,7 +80,7 @@
         </div>
     </div>
     <div class="pointer profile-avatar">
-        <img [src]="this.firebaseService.currentUser.photoURL" alt="user-avatar">
+        <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
         <span>Bearbeiten</span>
     </div>
     <div class="avatar-container">

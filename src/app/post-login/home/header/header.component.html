@@ -9,13 +9,13 @@
     placeholder="Devspace durchsuchen"
   />
   <div class="user-avatar">
-    <span>{{ this.firebaseService.currentUser.name }}</span>
+    <span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }}</span>
     <img
-      src="{{ this.firebaseService.currentUser.photoURL}}"
+      src="{{ this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)}}"
       alt="User Image"
     />
     <div class="user-status"
-    [ngClass]="{ 'online': this.firebaseService.currentUser.status, 'offline': !this.firebaseService.currentUser.status }"
+    [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId), 'offline': !this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId) }"
     ></div>
     <div class="drop-down" (click)="toggleUserProfile(true)">
       <img

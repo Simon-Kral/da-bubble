@@ -19,7 +19,7 @@
 
         <div class="profile-status">
             <div class="online-status"
-            [ngClass]="{ 'online': this.firebaseService.isUserOnline(this.showDataOfUser), 'offline': !this.firebaseService.isUserOnline(this.showDataOfUser) }"
+            [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.showDataOfUser), 'offline': !this.firebaseService.getUserOnlineStatus(this.showDataOfUser) }"
             ></div>
             <p>{{ this.firebaseService.getUserStatusText(showDataOfUser) }}</p>
         </div>

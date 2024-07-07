@@ -6,13 +6,13 @@
     <div
       class="private-msg-user pointer">
       <div class="private-msg-user-avatar">
-        <img [src]="this.firebaseService.currentUser.photoURL" alt="{{this.firebaseService.currentUser.name}}'s avatar" />
+        <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="{{this.firebaseService.currentUser.name}}'s avatar" />
         <div
           class="private-msg-user-status"
-          [ngClass]="{ 'online': this.firebaseService.currentUser.status, 'offline': !this.firebaseService.currentUser.status }"
+          [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId), 'offline': !this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId) }"
         ></div>
       </div>
-      <span> {{this.firebaseService.currentUser.name}} (Du)</span>
+      <span> {{this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId)}} (Du)</span>
     </div>
   </div>
   } @for (privateMsg of firebaseService.privateChatList; track privateMsg.privatChatId; let index = $index)
@@ -32,7 +32,7 @@
         />
         <div
           class="private-msg-user-status"
-          [ngClass]="{ 'online': this.firebaseService.isUserOnline(privateMsg.chatCreator), 'offline': !this.firebaseService.isUserOnline(privateMsg.chatCreator) }"
+          [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(privateMsg.chatCreator), 'offline': !this.firebaseService.getUserOnlineStatus(privateMsg.chatCreator) }"
         ></div>
       </div>
       <span>{{ this.firebaseService.getUserDisplayName(privateMsg.chatCreator) }}</span>

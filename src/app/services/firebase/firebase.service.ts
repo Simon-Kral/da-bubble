@@ -279,7 +279,7 @@ getUserStatusClass(userId: string): string {
  * @param {string} userId - The ID of the user to check the online status for.
  * @returns {boolean} True if the user is online, false otherwise.
  */
-isUserOnline(userId: string): boolean {
+getUserOnlineStatus(userId: string): boolean {
   const user = this.getUserById(userId);
   return user ? user.status : false;
 }
@@ -313,7 +313,16 @@ getUserEmail(userId: string): string {
    * @returns {string} 'Aktiv' if the user is online, 'Abwesend' otherwise.
    */
   getUserStatusText(userId: string): string {
-    return this.isUserOnline(userId) ? 'Aktiv' : 'Abwesend';
+    return this.getUserOnlineStatus(userId) ? 'Aktiv' : 'Abwesend';
+  }
+  /**
+   * Updates the user profile in the Firestore database.
+   * @param updates - An object containing the fields to update.
+   * @returns A promise that resolves when the user profile is successfully updated.
+   */
+  updateUserProfile(updates: Partial<any>): Promise<void> { // Verwende Partial<any> für die Updates
+    const userDocRef = doc(this.firestore, `users/${this.currentUser.userId}`);
+    return updateDoc(userDocRef, updates);
   }
   // private chat
   /**

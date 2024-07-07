@@ -5,25 +5,27 @@
 		<div class="private-msg-user pointer">
 
 			@if (showPrivateNote) {
-			<img [src]="this.firebaseService.currentUser.photoURL" alt="User Avatar" />
+			<img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="User Avatar" />
 			} @else {
 			<img [src]="
 					this.firebaseService.getUserAvatar(privateMsg.chatCreator)
 				" alt="User Avatar" />
 			} @if (showPrivateNote) {
-			<div class="private-msg-user-status online"></div>
+				<!-- to do recive current user status with firebasService, currently static green-->
+			<div class="private-msg-user-status"
+			[ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId), 'offline': !this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId) }"></div>
 			} @else {
 			<div class="private-msg-user-status" [ngClass]="{
-					online: this.firebaseService.isUserOnline(
+					online: this.firebaseService.getUserOnlineStatus(
 						privateMsg.chatCreator
 					),
-					offline: !this.firebaseService.isUserOnline(
+					offline: !this.firebaseService.getUserOnlineStatus(
 						privateMsg.chatCreator
 					)
 				}"></div>
 			}
 					@if (showPrivateNote) {
-		<span>{{ this.firebaseService.currentUser.name }} (Du)</span>} @else {
+		<span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }} (Du)</span>} @else {
 		<span>{{
 			this.firebaseService.getUserDisplayName(privateMsg.chatCreator)
 			}}</span>}
