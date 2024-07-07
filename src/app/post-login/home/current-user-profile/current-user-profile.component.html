@@ -2,11 +2,11 @@
 <div class="current-user-profile-wrapper">
     <div class="profile-top-section">
         <h1>Profil</h1>
-        <div class="pointer close-btn" (click)="toggleUserProfile(false)">
-            <img src="/assets/img/icons/close_black.png" alt="close-icon">
+        <div class="pointer close-btn" (click)="toggleUserProfile(false)" (mouseover)="onMouseOver()" (mouseout)="onMouseOut()">
+            <img [src]="currentIconSourceClose" alt="close-icon">
         </div>
     </div>
-    <div class="pointer profile-avatar" (click)="toggleEditAvatar()">
+    <div class="pointer profile-avatar pofile-avatar-hover" (click)="toggleEditAvatar()">
         <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
         <span>Bearbeiten</span>
     </div>
@@ -41,8 +41,8 @@
 <div class="current-user-profile-wrapper">
     <div class="profile-top-section">
         <h1>Dein Profil bearbeiten</h1>
-        <div class="pointer close-btn" (click)="toggleUserProfile(false); onCancel('editProfile')">
-            <img src="/assets/img/icons/close_black.png" alt="close-icon">
+        <div class="pointer close-btn" (click)="toggleUserProfile(false); onCancel('editProfile')" (mouseover)="onMouseOver()" (mouseout)="onMouseOut()">
+            <img [src]="currentIconSourceClose" alt="close-icon">
         </div>
     </div>
     <div class="profile-avatar" >
@@ -55,6 +55,9 @@
                 <p>Vollständiger Name</p>
             </div>
             <input formControlName="name" type="text" id="name" name="name">
+            @if (hasError('name', 'required') || hasError('name', 'fullName')) {
+                <span class="error-msg-name">Vor & Nachnamen eingeben!</span>
+            }
         </div>
         <div class="edit-input-container">
             <div class="input-description">
@@ -62,10 +65,16 @@
                 <p>E-Mail-Adresse</p>
             </div>
             <input formControlName="email" type="text" id="email" name="email">
+            @if (hasError('email', 'required')) {
+                <span class="error-msg-email">Gib eine E-Mail Adresse ein!</span>
+            }
+            @if (hasError('email', 'email')) {
+                <span class="error-msg-email">Adresse ungültig!</span>
+            }
         </div>
         <div class="btn-container">
-            <button type="button" class="cancel-btn" (click)="onCancel('editProfile')">Abbrechen</button>
-            <button type="submit" class="save-btn">Speichern</button>
+            <button type="button" class="pointer cancel-btn" (click)="onCancel('editProfile')">Abbrechen</button>
+            <button type="submit" class="pointer save-btn" [disabled]="newUserData.invalid">Speichern</button>
         </div>
     </form>
 </div>
@@ -74,11 +83,11 @@
 <div class="current-user-profile-wrapper">
     <div class="profile-top-section">
         <h1>Avatar wechseln</h1>
-        <div class="pointer close-btn" (click)="onCancel('editAvatar')">
-            <img src="/assets/img/icons/close_black.png" alt="close-icon">
+        <div class="pointer close-btn" (click)="onCancel('editAvatar')" (mouseover)="onMouseOver()" (mouseout)="onMouseOut()">
+            <img [src]="currentIconSourceClose" alt="close-icon">
         </div>
     </div>
-    <div class="pointer profile-avatar">
+    <div class="profile-avatar">
         @if (!newAvatarChosen) {
         <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
         } @else {
@@ -86,9 +95,10 @@
         }
     </div>
     <div class="avatar-container">
+        <span>Wähle deinen neuen Avatar</span>
         <div class="avatar-selection">
             @for (avatar of avatarList; track avatar; let index = $index) {
-            <img [src]="avatar.path" alt="avatar" class="pointer" (click)="setNewAvatar(avatar.index)">
+            <img [src]="avatar.path" alt="avatar" class="pointer" (click)="setNewAvatar(avatar.id)">
         }
         </div>
      </div>
