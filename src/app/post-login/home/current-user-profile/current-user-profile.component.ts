@@ -14,8 +14,24 @@ firebaseService = inject(FirebaseService);
 @Input() isCurrentUserProfileVisible: boolean = false;
 @Output() currentUserProfileVisibilityChange = new EventEmitter<boolean>();
 
+isEditProfileVisible: boolean = false;
+isEditAvatarVisible: boolean = false;
+
+
+
+
+
+
 toggleUserProfile(visible: boolean) {
   this.currentUserProfileVisibilityChange.emit(visible);
   }
+
+toggleEditProfile() {
+  this.isEditProfileVisible = !this.isEditProfileVisible;
+}
+
+toggleEditAvatar() {
+  this.isEditAvatarVisible = !this.isEditAvatarVisible;
+}
 
 }

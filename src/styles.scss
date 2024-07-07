@@ -195,9 +195,16 @@ body {
   display: none!important;
 }
 
+// global style for user status
 .offline {
   background-color: $offline-gray;
 }
 .online {
   background-color: $online-green;
+}
+.offline-text {
+  color: $offline-gray!important;
+}
+.online-text {
+  color: $online-green!important;
 }

@@ -7,7 +7,7 @@
     height: 500px;
     border-radius: 30px 0 30px 30px;
     padding: 45px 40px 45px 40px;
-    gap: 38px;
+    gap: 24px;
     background-color: $white;
     box-sizing: content-box;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
@@ -26,6 +26,7 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
+        transition: 0.1s ease-in-out;
 
         &:hover {
             background-color: $bg-color;
@@ -37,11 +38,32 @@
     @include dFlex(row, center, center);
     gap: 20px;
     width: 100%;
+    position: relative;
 
-    >img {
+    img {
         border-radius: 50%;
         width: 200px;
         height: 200px;
+        opacity: 1;
+        transition: opacity 0.3s ease-in-out;
+
+    }
+
+    span {
+        @include Nunito(700, 30px, 40px, $white);
+        position: absolute;
+        right: 72px;
+        bottom: 80px;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    &:hover span {
+        opacity: 1;
+    }
+
+    &:hover img {
+        opacity: 0.75;
     }
 }
 
@@ -76,7 +98,7 @@
         }
 
         p {
-            @include Nunito(400, 20px, 27.28px, $offline-gray);
+            @include Nunito(400, 20px, 27.28px, $text-gray);
         }
     }
 
@@ -106,6 +128,124 @@
 
         p {
             @include Nunito(400, 18px, 24.55px, $email-blue);
+        }
+    }
+}
+
+
+// edit user profile
+
+.edit-user-form {
+    width: 100%;
+
+    .edit-input-container {
+        @include dFlex(column, flex-start, flex-start);
+        width: 100%;
+        gap: 7px;
+
+        .input-description {
+            @include dFlex(row, flex-start, center);
+            width: 100%;
+            gap: 20px;
+
+            img {
+                width: 30px;
+                height: 30px;
+            }
+
+            p {
+                @include Nunito(700, 20px, 27.28px, $black);
+            }
+        }
+
+        input {
+            width: 100%;
+            height: 52px;
+            border-radius: 30px;
+            border: 1px solid $purple-2;
+            padding: 15px 20px 15px 20px;
+            outline: none;
+            @include Nunito(400, 16px, 21.82px, $black);
+        }
+    }
+    .btn-container {
+        @include dFlex(row, center, center);
+        gap: 32px;
+        width: 100%;
+        margin-top: 20px;
+
+        .cancel-btn {
+            width: 141px;
+            height: 49px;
+            border-radius: 50px;
+            background-color: $white;
+            border: solid 1px $purple-2;
+            @include Nunito(700, 18px, 24.55px, $purple-1);
+            transition: 0.1s ease-in-out;
+
+            &:hover {
+            }
+        }
+
+        .save-btn {
+            width: 133px;
+            height: 49px;
+            border-radius: 50px;
+            background-color: $purple-1;
+            border: none;
+            @include Nunito(700, 16px, 21.82px, $white);
+            transition: 0.1s ease-in-out;
+
+            &:hover {
+            }
+        }
+    }
+}
+
+// edit user avatar
+.avatar-container {
+    @include dFlex(row, center, center);
+    width: 100%;
+    .avatar-selection {
+        @include dFlex(row, center, center);
+        gap: 8px;
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    }
+}
+.btn-container {
+    @include dFlex(row, center, center);
+    gap: 32px;
+    width: 100%;
+    margin-top: 20px;
+
+    .cancel-btn {
+        width: 141px;
+        height: 49px;
+        border-radius: 50px;
+        background-color: $white;
+        border: solid 1px $purple-2;
+        @include Nunito(700, 18px, 24.55px, $purple-1);
+        transition: 0.1s ease-in-out;
+
+        &:hover {
+        }
+    }
+
+    .save-btn {
+        width: 133px;
+        height: 49px;
+        border-radius: 50px;
+        background-color: $purple-1;
+        border: none;
+        @include Nunito(700, 16px, 21.82px, $white);
+        transition: 0.1s ease-in-out;
+
+        &:hover {
         }
     }
 }

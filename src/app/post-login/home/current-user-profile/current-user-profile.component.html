@@ -1,32 +1,28 @@
+@if (!isEditProfileVisible && !isEditAvatarVisible) {
 <div class="current-user-profile-wrapper">
-
-
     <div class="profile-top-section">
         <h1>Profil</h1>
         <div class="pointer close-btn" (click)="toggleUserProfile(false)">
             <img src="/assets/img/icons/close_black.png" alt="close-icon">
         </div>
     </div>
-
-    <div class="profile-avatar">
+    <div class="pointer profile-avatar" (click)="toggleEditAvatar()">
         <img [src]="this.firebaseService.currentUser.photoURL" alt="user-avatar">
+        <span>Bearbeiten</span>
     </div>
-
-
     <div class="profile-bottom-section">
-
         <div class="profile-name">
             <h2>{{this.firebaseService.currentUser.name}}</h2>
-            <p class="pointer">Bearbeiten</p>
+            <p class="pointer" (click)="toggleEditProfile()">Bearbeiten</p>
         </div>
-
         <div class="profile-status">
             <div class="online-status"
-            [ngClass]="{ 'online': this.firebaseService.isUserOnline(this.firebaseService.currentUserId), 'offline': !this.firebaseService.isUserOnline(this.firebaseService.currentUserId) }"
-            ></div>
-            <p>{{ this.firebaseService.getUserStatusText(this.firebaseService.currentUserId) }}</p>
+                [ngClass]="{ 'online': this.firebaseService.isUserOnline(this.firebaseService.currentUserId), 'offline': !this.firebaseService.isUserOnline(this.firebaseService.currentUserId) }">
+            </div>
+            <p
+                [ngClass]="{ 'online-text': this.firebaseService.isUserOnline(this.firebaseService.currentUserId), 'offline-text': !this.firebaseService.isUserOnline(this.firebaseService.currentUserId) }">
+                {{ this.firebaseService.getUserStatusText(this.firebaseService.currentUserId) }}</p>
         </div>
-
         <div class="profile-email-container">
             <div class="email-container">
                 <img src="/assets/img/icons/email_black.png" alt="email-icon">
@@ -34,15 +30,72 @@
             </div>
         </div>
         <div class="pointer profile-email-adress">
-            <p>{{this.firebaseService.getUserEmail(this.firebaseService.currentUserId)}}</p>
-
+            <a [href]="'mailto:' + this.firebaseService.getUserEmail(this.firebaseService.currentUserId)">
+                <p>{{this.firebaseService.getUserEmail(this.firebaseService.currentUserId)}}</p>
+            </a>
         </div>
-
-
-
-
-
-
-
-
+    </div>
 </div>
+}
+@if (isEditProfileVisible) {
+<div class="current-user-profile-wrapper">
+    <div class="profile-top-section">
+        <h1>Dein Profil bearbeiten</h1>
+        <div class="pointer close-btn" (click)="toggleUserProfile(false)">
+            <img src="/assets/img/icons/close_black.png" alt="close-icon">
+        </div>
+    </div>
+    <div class="pointer profile-avatar">
+        <img [src]="this.firebaseService.currentUser.photoURL" alt="user-avatar">
+        <span>Bearbeiten</span>
+    </div>
+    <form class="edit-user-form">
+        <div class="edit-input-container">
+            <div class="input-description">
+                <img src="/assets/img/icons/account_circle_black.png" alt="user-icon">
+                <p>Vollständiger Name</p>
+            </div>
+            <input type="text" id="name" name="name" value="{{this.firebaseService.currentUser.name}}">
+        </div>
+        <div class="edit-input-container">
+            <div class="input-description">
+                <img src="/assets/img/icons/email_input_black.png" alt="user-icon">
+                <p>E-Mail-Adresse</p>
+            </div>
+            <input type="text" id="email" name="email" value="{{this.firebaseService.currentUser.email}}">
+        </div>
+        <div class="btn-container">
+            <button class="cancel-btn">Abbrechen</button>
+            <button class="save-btn">Speichern</button>
+        </div>
+    </form>
+</div>
+}
+@if (isEditAvatarVisible) {
+<div class="current-user-profile-wrapper">
+    <div class="profile-top-section">
+        <h1>Avatar wechseln</h1>
+        <div class="pointer close-btn" (click)="toggleUserProfile(false)">
+            <img src="/assets/img/icons/close_black.png" alt="close-icon">
+        </div>
+    </div>
+    <div class="pointer profile-avatar">
+        <img [src]="this.firebaseService.currentUser.photoURL" alt="user-avatar">
+        <span>Bearbeiten</span>
+    </div>
+    <div class="avatar-container">
+        <div class="avatar-selection">
+            <img src="/assets/img/character-images/character_1.png" alt="avatar1" class="pointer">
+            <img src="/assets/img/character-images/character_2.png" alt="avatar2" class="pointer">
+            <img src="/assets/img/character-images/character_3.png" alt="avatar3" class="pointer">
+            <img src="/assets/img/character-images/character_4.png" alt="avatar4" class="pointer">
+            <img src="/assets/img/character-images/character_5.png" alt="avatar5" class="pointer">
+            <img src="/assets/img/character-images/character_6.png" alt="avatar6" class="pointer">
+        </div>
+     </div>
+     <div class="btn-container">
+        <button class="cancel-btn">Abbrechen</button>
+        <button class="save-btn">Speichern</button>
+    </div>
+</div>
+}
