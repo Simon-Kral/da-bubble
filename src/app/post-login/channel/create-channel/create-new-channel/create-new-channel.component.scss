@@ -35,7 +35,7 @@
                 background-color: $bg-color;
             }
         }
-    
+
     }
 
     .create-channel-form {
@@ -48,6 +48,7 @@
             min-height: 60px;
             border: solid 1px $light-purple-lines;
             border-radius: 40px;
+
             //dosent work - to do
             &::placeholder {
                 @include Nunito(400, 18px, 24.55px, $text-gray);
@@ -60,7 +61,8 @@
 
         }
 
-    }    
+    }
+
     .error-msg {
         @include Nunito(400, 14px, 19.09px, red);
         position: absolute;
@@ -88,12 +90,11 @@
     }
 }
 
-.add-member-new-channel-form-wrapper {
+.add-member-wrapper {
     @include dFlex(column, flex-start, flex-start);
 
-    max-width: 710px;
-    min-height: 279px;
-    max-height: fit-content;
+    width: 710px;
+    height: 450px;
     background-color: $white;
     border-radius: 30px;
     padding: 40px;
@@ -122,12 +123,60 @@
         }
     }
 
-    .add-member-new-channel-form {
+    .add-member-container {
         @include dFlex(column, flex-start, flex-start);
-
-        .checkbox-wrapper {
+        width: 100%;
+        gap: 24px;
+        .selector-container {
             @include dFlex(row, flex-start, center);
-            gap: 10px;
+            width: 100%;
+            gap: 24px;
+
+            span {
+                @include Nunito(400, 18px, 24.55px, $black);
+            }
+
+            .checkbox-outside {
+                @include dFlex(column, center, center);
+                width: 20px;
+                height: 20px;
+                border: solid 1px $light-purple-lines;
+                border-radius: 50%;
+
+                .checkbox-inside {
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                    background-color: $purple-1;
+                }
+            }
+        }
+        .searchbar-container {
+            @include dFlex(row, flex-start, center);
+            width: 100%;
+            gap: 24px;
+
+            span {
+                @include Nunito(400, 18px, 24.55px, $black);
+            }
+
+            input {
+                width: 100%;
+                min-height: 60px;
+                border: solid 1px $light-purple-lines;
+                border-radius: 40px;
+
+                //dosent work - to do
+                &::placeholder {
+                    @include Nunito(400, 18px, 24.55px, $text-gray);
+                    margin-left: 16px;
+                }
+
+                &:focus {
+                    border: solid 1px $purple-1;
+                }
+
+            }
         }
     }
 }

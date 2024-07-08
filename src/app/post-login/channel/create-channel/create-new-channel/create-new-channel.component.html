@@ -1,82 +1,90 @@
 <div [ngClass]="{'d-none': !isCreateChannelFormVisible}" class="create-new-channel-form-wrapper">
   <div class="top-section">
     <h1>Channel erstellen</h1>
-    <div class="pointer close-icon" 
-    (click)="toggleCreateChannelVisibility()"
-    (mouseover)="onMouseOver()"
+    <div class="pointer close-icon" (click)="toggleCreateChannelVisibility()" (mouseover)="onMouseOver()"
       (mouseout)="onMouseOut()">
-      <img
-        [src]="currentIconSourceClose"
-        alt="close-icon"
-      />
+      <img [src]="currentIconSourceClose" alt="close-icon" />
     </div>
   </div>
-  <span
-    >Channels dienen deinem Team zur Kommunikation. Am besten sollten sie
-    themenbezogen sein #marketing zum Beispiel.</span
-  >
-  <form class="create-channel-form"
-    [formGroup]="channelData" (ngSubmit)="createChannel()" 
-    *ngIf="channelData">
+  <span>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie
+    themenbezogen sein #marketing zum Beispiel.</span>
+  <form class="create-channel-form" [formGroup]="channelData" (ngSubmit)="createChannel()" *ngIf="channelData">
     <span>Channel-Name</span>
-    <input
-      placeholder="# z.B. Kooperationsprojekte"
-      formControlName="channelName"
-    />
+    <input placeholder="# z.B. Kooperationsprojekte" formControlName="channelName" />
 
-  @if (channelData.get('channelName')?.invalid && channelData.get('channelName')?.touched) {
+    @if (channelData.get('channelName')?.invalid && channelData.get('channelName')?.touched) {
     <span class="error-msg">
       {{ errorMsgChanNameInvalid }}
-      </span>
+    </span>
     }
     @if (chanNameExists) {
-      <span class=" error-msg">
-        {{ errorMsgChanExists }}
-      </span>
+    <span class=" error-msg">
+      {{ errorMsgChanExists }}
+    </span>
     }
     <span>Beschreibung</span>
-    <input
-      placeholder="Dein Text hier..."
-      formControlName="channelDescription"
-    />
+    <input placeholder="Dein Text hier..." formControlName="channelDescription" />
 
     <button class="pointer submit-btn" type="submit" [disabled]="channelData.invalid || chanNameExists">
       Erstellen
     </button>
   </form>
 </div>
-
-<div [ngClass]="{'d-none': !isAddMemberVisibleForm}" class="add-member-new-channel-form-wrapper">
+<!--add Member to channel code-->
+<div [ngClass]="{'d-none': !isAddMemberVisibleForm}" class="add-member-wrapper">
   <div class="top-section" (click)="this.toggleAddMemberFormVisibility()">
     <h1>Leute hinzufügen</h1>
-    <div class="pointer close-icon"
-    (click)="toggleCreateChannelVisibility()"
-    (mouseover)="onMouseOver()"
+    <div class="pointer close-icon" (click)="toggleCreateChannelVisibility()" (mouseover)="onMouseOver()"
       (mouseout)="onMouseOut()">
-      <img
-      [src]="currentIconSourceClose"
-        alt="close-icon"
-      />
+      <img [src]="currentIconSourceClose" alt="close-icon" />
     </div>
   </div>
-  <form class="add-member-new-channel-form">
-    <div class="checkbox-wrapper">
-      <input type="checkbox" />
-      <label for="add-member-new-channel"
-        >Alle Mitglieder von OfficeTeam hinzufügen</label
-      >
+  <div class="add-member-container">
+
+
+
+    <div class="selector-container">
+      <div class="checkbox-outside" (click)="toggleSearchInput('channel')">
+        <div class="checkbox-inside" [ngClass]="{ 'd-none': !showChannelSerach }">
+        </div>
+      </div>
+      <span>Alle Mitglieder eines Channels hinzufügen</span>
     </div>
-    <div class="checkbox-wrapper">
-      <input type="checkbox" />
-      <label for="add-member-new-channel">Bestimmte Leute hinzufügen</label>
+
+    @if (showChannelSerach) {
+    <form class="searchbar-container">
+      <input class="searchbar" type="text" placeholder="Channel Namen eingeben"/>
+    </form>
+  }
+
+    <div class="selector-container">
+      <div class="checkbox-outside" (click)="toggleSearchInput('user')">
+        <div class="checkbox-inside"[ngClass]="{ 'd-none': !showUserSearch }">
+        </div>
+      </div>
+      <span>Bestimmte Leute hinzufügen</span>
     </div>
-    <button class="pointer submit-btn" type="button" (click)="addMemberToChannel()" >
-      Erstellen
-    </button>
-    
-  </form>
-  @for (user of this.firebaseService.userList; track user.userId; let index = $index) {
+
+    @if (showUserSearch) {
+    <form class="searchbar-container">
+      <input class="searchbar" type="text" placeholder="Namen eingeben"
+         />
+    </form>
+  }
+
+
+
+
+
+
+  </div>
+
+  <button class="pointer submit-btn" type="button" (click)="addMemberToChannel()">
+    Erstellen
+  </button>
+  <!--  @for (user of this.firebaseService.userList; track user.userId; let index = $index) {
     <span (click)="this.pushSelectedUserToArray(user.userId)">{{user.name}}
       {{ user.userId }}</span>
   }
+      -->
 </div>
