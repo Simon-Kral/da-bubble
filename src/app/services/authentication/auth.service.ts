@@ -11,7 +11,7 @@ import {
 	verifyPasswordResetCode,
 } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable({
 	providedIn: 'root',
@@ -20,7 +20,7 @@ export class AuthService {
 	firebaseAuth = inject(Auth);
 	router = inject(Router);
 
-	constructor(private route: ActivatedRoute) {}
+	constructor() {}
 
 	register(
 		email: string,
@@ -77,29 +77,27 @@ export class AuthService {
 		}
 	}
 
-	sendResetLink(email: string) {
-		sendPasswordResetEmail(this.firebaseAuth, email)
-			.then(() => {
-				this.router.navigateByUrl('/');
-			})
+	sendResetLink(email: string): Observable<void> {
+		const promise = sendPasswordResetEmail(this.firebaseAuth, email)
+			.then(() => {})
 			.catch((error) => {
 				console.log(error);
 			});
+		return from(promise);
 	}
 
-	resetPassword(password: string) {
-		this.route.queryParams.subscribe((params) => {
-			const actionCode = params['oobCode'];
-			verifyPasswordResetCode(this.firebaseAuth, actionCode).then(() => {
-				confirmPasswordReset(this.firebaseAuth, actionCode, password)
-					.then(() => {
-						this.router.navigateByUrl('/');
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-			});
+	resetPassword(actionCode: string, password: string): Observable<void> {
+		const promise = verifyPasswordResetCode(
+			this.firebaseAuth,
+			actionCode
+		).then(() => {
+			confirmPasswordReset(this.firebaseAuth, actionCode, password)
+				.then(() => {})
+				.catch((error) => {
+					console.log(error);
+				});
 		});
+		return from(promise);
 	}
 
 	changeEmail(newEmail: string) {
