@@ -1,30 +1,54 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject, output } from '@angular/core';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { Router } from '@angular/router';
+import { FirebaseService } from '../../../services/firebase/firebase.service';
+import { CommonModule } from '@angular/common';
+import { SearchService } from '../../../services/search/search.service';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+	selector: 'app-header',
+	standalone: true,
+	imports: [CommonModule, ReactiveFormsModule],
+	templateUrl: './header.component.html',
+	styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
-  authService = inject(AuthService);
-  router = inject(Router);
-  errorMessage: string | null = null;
+export class HeaderComponent implements OnInit{
+	authService = inject(AuthService);
+	router = inject(Router);
+	firebaseService = inject(FirebaseService);
+	searchService = inject(SearchService);
 
-  constructor() {
-    this.authService.checkUserStatus();
+	searchText: FormGroup;
+	//user profile
+	@Output() userProfileToggle = new EventEmitter<boolean>();
+	
+
+	constructor(private fb: FormBuilder) {
+		this.searchText = this.fb.group({
+			search: ['']
+		});
+		this.authService.checkUserStatus();
+	}
+
+	ngOnInit() {
+
+	}
+
+/**
+ * Executes when the search input changes.
+ * Retrieves the current search value from the form and
+ * notifies the SearchService with the updated search text.
+ */
+onSearch() {
+    let searchValue = this.searchText.get('search')?.value;
+    let source = 'headerComponent'; 
+    this.searchService.onSearch(searchValue, source);
   }
 
-  logout(): void {
-    this.authService
-    .logout()
-    .subscribe({
-      error: (err) => {
-        this.errorMessage = err.code;
-      }
-    });
-  }
+	//user profile functions
+	toggleUserProfile(visible: boolean) {
+		this.userProfileToggle.emit(visible);
+	  }
+	  
 }

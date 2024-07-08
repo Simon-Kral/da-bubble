@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
-
+import { ChatService } from '../../services/chat/chat.service';
 
 @Component({
   selector: 'app-channel',
@@ -12,7 +12,7 @@ import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
 })
 export class ChannelComponent {
 
-
+  chatService = inject(ChatService);
 
   users = [
     {

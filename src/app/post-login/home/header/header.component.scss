@@ -2,14 +2,17 @@
 
 .header-container {
   padding: 24px;
-  @include dFlex(space-between, center);
-  align-items: center;
-  > .logo-container {
+  height: 100px;
+  @include dFlex(row, space-between, center);
+
+  >.logo-container {
     @include dFlex(center, center);
     gap: 16px;
   }
 
-  > .header-searchbar {
+  .searchbar-container {
+
+  >.header-searchbar {
     @include Nunito(400, 24px, 18.8px, $text-gray);
     padding: 17.5px 45px;
     margin: 0 24px;
@@ -19,23 +22,38 @@
     background-position: 95% center;
     border-radius: 42px;
     border: none;
+
     &:focus {
       border: 1px solid $purple-3;
       outline: none;
     }
   }
+}
 
-  > .user-avatar {
-    @include dFlex(center, center);
-    gap: 16px;
-    > img {
-      border-radius: 50%;
-      width: 70px;
-      height: 70px;
-    }
+>.user-avatar {
+  @include dFlex(center, center);
+  position: relative;
+  gap: 16px;
+
+  >img {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
   }
-  span {
-    @include Nunito(700, 32px, 18.8px, $black);
-    text-wrap: nowrap;
-  }
+}
+
+span {
+  @include Nunito(700, 32px, 18.8px, $black);
+  text-wrap: nowrap;
+}
+
+.user-status {
+  position: absolute;
+  bottom: 0;
+  right: 48px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: solid 2px white;
+}
 }

@@ -1,26 +1,18 @@
 <div class="new-message-wrapper">
 
-    <div class="new-message-top">
-        <h1>Neue Nachricht</h1>
-        <input
-        placeholder="An: #channel oder @jemanden oder E-Mail Adresse"
-      />
-    </div>
+  <div class="new-message-top">
+    <h1>Neue Nachricht</h1>
+    <form class="searchbar-container" [formGroup]="searchText">
+      <input class="searchbar" type="text" placeholder="An: #channel oder @jemanden oder E-Mail Adresse"
+        formControlName="search" (input)="this.onSearch()" />
+    </form>
+  </div>
 
 
-    <div class="input-container">
-        <textarea name="msg" placeholder="Starte eine neue Nachricht"></textarea>
-        <div class="button-container">
-          <div class="left-section">
-            <img class="pointer" src="../../../../assets/img/icons/add_grey.png" alt="">
-            <img class="pointer" src="../../../../assets/img/icons/vertical_line_grey.png" alt="">
-            <img class="pointer" src="../../../../assets/img/icons/smiley_grey.png" alt="">
-            <img class="pointer" src="../../../../assets/img/icons/alternate_email_grey.png" alt="">
-          </div>
-          <div class="right-section">
-            <img class="pointer" src="../../../../assets/img/icons/send_dark_blue.png" alt="">
-          </div>
-      </div>
-    </div>
+  <div class="chat-input">
+    <app-chat-input [sourceComponent]="'newMessage'" [destinationCollection]="'channelsORprivateMessages'"
+      [destinationDocRef]="'docRef'" [placeholderText]="'Starte eine neue Nachricht'"
+      (messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
+  </div>
 
 </div>

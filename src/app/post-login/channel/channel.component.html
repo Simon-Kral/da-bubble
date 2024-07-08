@@ -37,7 +37,12 @@
     </div>
 
     <div class="chat-input">
-      <app-chat-input (messageEvent)="handleMessage($event)" ></app-chat-input>
+      <app-chat-input 
+      [sourceComponent]="'channel'" 
+      [destinationCollection]="'channels'"
+      [destinationDocRef]="'docRef'"
+      [placeholderText]="'Nachricht an #channel.name'"
+      (messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
     </div>
 
   </div>

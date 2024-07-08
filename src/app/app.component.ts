@@ -6,7 +6,7 @@ import { SidenavComponent } from './post-login/home/side-navigation/sidenav/side
 import { ChannelListComponent } from './post-login/home/side-navigation/sidenav/channel-list/channel-list.component';
 import { PrivateMessageListComponent } from './post-login/home/side-navigation/sidenav/private-message-list/private-message-list.component';
 import { NewMessageComponent } from './post-login/new-message/new-message.component';
-import { CreateNewChannelComponent } from './post-login/channel/create-new-channel/create-new-channel.component';
+import { CreateNewChannelComponent } from './post-login/channel/create-channel/create-new-channel/create-new-channel.component';
 
 @Component({
   selector: 'app-root',

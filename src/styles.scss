@@ -1,3 +1,5 @@
+@import '@ctrl/ngx-emoji-mart/picker';
+
 $bg-color: #eceefe;
 $white: #ffffff;
 $black: #000000;
@@ -9,19 +11,14 @@ $menu-color: #42526e;
 $text-gray: #686868;
 $disabled-btn: #bdbdbd;
 $online-green: #92c83e;
-$online-red: #ff0000;
+$offline-gray: #686868;
+$online-red: #f44336;
 $rosa-error: #ed1e79;
-$header-height: 120px;
-$footer-height: 90px;
-// below needs to be filled with correct hex-code
-
-//
-
-// $pink-error: #ECEEFE;
-
+$email-blue: #1381FF;
 // example usage
 // background-color: $bg-color;
-
+$header-height: 120px;
+$footer-height: 90px;
 html {
   scroll-behavior: smooth;
 }
@@ -194,4 +191,22 @@ body {
       }
     }
   }
+}
+
+.d-none {
+  display: none!important;
+}
+
+// global style for user status
+.offline {
+  background-color: $offline-gray;
+}
+.online {
+  background-color: $online-green;
+}
+.offline-text {
+  color: $offline-gray!important;
+}
+.online-text {
+  color: $online-green!important;
 }

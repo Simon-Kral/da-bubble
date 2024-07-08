@@ -1,6 +1,6 @@
 <form class="input-container" [formGroup]="messageData" (ngSubmit)="onSubmit()">
   <textarea
-    placeholder="Nachricht an #Office-team"
+    [placeholder]="placeholderText"
     formControlName="message"
   ></textarea>
   <div class="button-container">
@@ -21,6 +21,7 @@
         class="icon-container pointer"
         (mouseover)="onMouseOver('smiley')"
         (mouseout)="onMouseOut('smiley')"
+        (click)="toggleEmojiPicker()"
       >
         <img [src]="iconSourceSmiley" alt="" />
       </div>
@@ -44,3 +45,8 @@
     </div>
   </div>
 </form>
+
+<!-- to-do needs right position-->
+@if (showEmojiPicker) {
+  <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
+}

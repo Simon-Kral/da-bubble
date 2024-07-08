@@ -1,0 +1,13 @@
+<div class="user-menu-wrapper">
+    <!-- to-do error msg is only for testing, needs to get removed afterwards! -->
+      @if(errorMessage != '') {
+  <span>{{ errorMessage }}</span>
+  } 
+    <div class="pointer menu-content">
+        <p  (click)="toggleCurrentUserProfile(true)">Profil</p>
+    </div>
+    <div class="pointer menu-content">
+        <p  (click)="logout()">Log out</p>
+    </div>
+
+</div>

@@ -7,6 +7,7 @@ export class User {
   photoURL: string;
   channels: Channel[] = [];
   email: string;
+  privateNoteRef: string;
 
   constructor(obj?: any) {
     this.userId = obj ? obj.id : '';
@@ -15,5 +16,6 @@ export class User {
     this.photoURL = obj ? obj.photoURL : '';
     this.channels = obj ? obj.channels : [];
     this.email = obj ? obj.email : '';
+    this.privateNoteRef = obj ? obj.privateNoteRef : '';
   }
 }

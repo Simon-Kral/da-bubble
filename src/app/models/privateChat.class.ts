@@ -5,6 +5,7 @@ export class PrivateChat {
   privatChatId: string;
   chatCreator: string;
   chatReciver: string;
+  privateNoteCreator: string;
   messages: Message[];
   createdAt: number;
   createdBy: string;
@@ -13,6 +14,7 @@ export class PrivateChat {
     this.privatChatId = obj ? obj.id : '';
     this.chatCreator = obj ? obj.chatCreator : '';
     this.chatReciver = obj ? obj.chatReciver : '';
+    this.privateNoteCreator = obj ? obj.privateNote : '';
     this.messages = obj ? obj.messages : [];
     this.createdAt = obj ? obj.createdAt : 0;
     this.createdBy = obj ? obj.createdBy : '';

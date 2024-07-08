@@ -10,22 +10,25 @@
         />
         <h1>Devspace</h1>
       </div>
-      <div class="sidenav-headline-right">
+      <div class="sidenav-headline-right" [routerLink]="['/home/new-message']"
+      (mouseover)="onMouseOver('editSquare')"
+      (mouseout)="onMouseOut('editSquare')">
         <img
           class="pointer"
-          src="../../assets/img/icons/edit_square.png"
+          [src]="currentIconSourceEditSquare"
           alt="edit-icon"
-          (click)="navigateToNewMessage()"
         />
       </div>
     </div>
 
     <div class="channels-container">
       <div class="channels-headline-wrapper">
-        <div class="pointer channels-sidenav-left"
-        (click)="toggleChannels()"
+        <div
+          class="pointer channels-sidenav-left"
+          (click)="toggleChannels()"
           (mouseover)="onMouseOver('channels')"
-          (mouseout)="onMouseOut('channels')">
+          (mouseout)="onMouseOut('channels')"
+        >
           <img
             class=""
             [src]="currentIconSourceDownArrowChannels"
@@ -38,51 +41,64 @@
           />
           <h2>Channels</h2>
         </div>
-        <div class="channels-sidenav-right" (click)="toggleCreateChannelVisibility()">
+        <div
+          class="channels-sidenav-right"
+          (click)="toggleCreateChannelVisibility()"
+          (mouseover)="onMouseOver('addChannelFromHeadline')"
+          (mouseout)="onMouseOut('addChannelFromHeadline')"
+        >
           <img
             class="pointer"
-            src="../../assets/img/icons/add_black.png"
+            [src]="currentIconSourceAdd"
             alt="add-icon"
           />
         </div>
       </div>
-      
+
       @if (chanListExpanded) {
       <div class="channels-content">
         <app-channel-list></app-channel-list>
-        <div class="pointer add-channel" (click)="toggleCreateChannelVisibility()">
+        <div
+          class="pointer add-channel"
+          (click)="toggleCreateChannelVisibility()"
+          (mouseover)="onMouseOver('addChannelFromList')"
+          (mouseout)="onMouseOut('addChannelFromList')"
+        >
           <img
             class=""
-            src="../../assets/img/icons/add_circle.png"
+            [src]="currentIconSourceAddCircle"
             alt="add-icon"
           />
           <span>Channel hinzufügen</span>
         </div>
       </div>
-    }
+      }
     </div>
 
     <div class="private-msg-container">
-      <div class="pointer private-msg-headline" (click)="togglePrivateMessages()"
-      (mouseover)="onMouseOver('privateMessages')"
-      (mouseout)="onMouseOut('privateMessages')">
-      <img
-      class=""
-      [src]="currentIconSourceDownArrowPrivateMessages"
-      alt="arrow-icon"
-    />
-      <img
-        class=""
-        [src]="iconSourceAccountCircle"
-        alt="account-circle-icon"
-      />
-      <h2>Direktnachrichten</h2>
-    </div>
-    @if (privateMsgListExpanded) {
+      <div
+        class="pointer private-msg-headline"
+        (click)="togglePrivateMessages()"
+        (mouseover)="onMouseOver('privateMessages')"
+        (mouseout)="onMouseOut('privateMessages')"
+      >
+        <img
+          class=""
+          [src]="currentIconSourceDownArrowPrivateMessages"
+          alt="arrow-icon"
+        />
+        <img
+          class=""
+          [src]="currentIconSourceAccountCircle"
+          alt="account-circle-icon"
+        />
+        <h2>Direktnachrichten</h2>
+      </div>
+      @if (privateMsgListExpanded) {
       <div class="private-msg-content">
         <app-private-message-list></app-private-message-list>
       </div>
-    }
+      }
     </div>
   </div>
 </div>

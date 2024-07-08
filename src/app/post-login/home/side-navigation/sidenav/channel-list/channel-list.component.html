@@ -1,9 +1,10 @@
-@for (channel of channelList; track channel.chanId; let index = $index) {
+@for (channel of firebaseService.channelList; track channel.chanId; let index = $index) {
 <div class="channel-list">
   <span
     class="pointer"
-    (click)="navigateToChannel(channel.name)"
+    [routerLink]="['/home/channel', channel.chanId]"
     [ngClass]="{ 'active': selectedChannel === channel.name }"
+    (click)="this.selectChannel(channel.name)"
   >
     # {{ channel.name }}
   </span>

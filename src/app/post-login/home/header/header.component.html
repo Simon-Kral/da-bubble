@@ -1,29 +1,20 @@
 <div class="header-container">
-  <div class="logo-container pointer">
-    <img class="pointer" src="assets/img/logos/da_bubble_logo.png" alt="" />
+  <div class="logo-container">
+    <img class="" src="assets/img/logos/da_bubble_logo.png" alt="" />
     <span>DABubble</span>
   </div>
-  <input
-    class="header-searchbar"
-    type="text"
-    placeholder="Code learning durchsuchen"
-  />
-  <button (click)="logout()">test logout</button>
-  @if(errorMessage != '') {
-  <span>{{ errorMessage }}</span>
-  }
+  <form class="searchbar-container" [formGroup]="searchText">
+    <input class="header-searchbar" type="text" placeholder="Devspace durchsuchen" formControlName="search"
+      (input)="this.onSearch()" />
+  </form>
   <div class="user-avatar">
-    <span>{{ this.authService.currentUserSig()?.username }}</span>
-    <img
-      src="{{ this.authService.currentUserSig()?.avatar }}"
-      alt="User Image"
-    />
-    <div class="drop-down">
-      <img
-        class="pointer"
-        src="assets/img/icons/keyboard_arrow_down_inactive.png"
-        alt="Dropdown Arrow"
-      />
+    <span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }}</span>
+    <img src="{{ this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)}}" alt="User Image" />
+    <div class="user-status"
+      [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId), 'offline': !this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId) }">
+    </div>
+    <div class="drop-down" (click)="toggleUserProfile(true)">
+      <img class="pointer" src="assets/img/icons/keyboard_arrow_down_inactive.png" alt="Dropdown Arrow" />
     </div>
   </div>
 </div>
