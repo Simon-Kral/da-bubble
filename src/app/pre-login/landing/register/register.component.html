@@ -47,7 +47,6 @@
 				placeholder="Passwort"
 				formControlName="password"
 				autocomplete="off"
-				[value]="this.authService.user$"
 			/>
 		</div>
 		@if (formInvalid(registerForm.controls.password)) { @if

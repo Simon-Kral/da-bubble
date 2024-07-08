@@ -56,38 +56,51 @@ export class SelectAvatarComponent {
 		const rawForm = this.avatarForm.getRawValue();
 		this.authService.setAvatar(rawForm.avatar).subscribe({
 			next: () => {
-				const auth = this.firebaseAuth;
-				const user = {
-					userId: auth.currentUser!.uid,
-					name: auth.currentUser!.displayName,
-					status: true,
-					photoURL: auth.currentUser!.photoURL,
-					channels: [],
-					email: auth.currentUser!.email,
-					privateNoteRef: auth.currentUser!.uid,
-				};
-				const privateChat = {
-					privatChatId: auth.currentUser!.uid,
-					chatCreator: auth.currentUser!.uid,
-					chatReciver: '',
-					privateNoteCreator: auth.currentUser!.uid,
-					messages: [],
-					createdAt: new Date().getTime(),
-					createdBy: auth.currentUser!.uid,
-				};
-				setDoc(
-					doc(this.firestore, 'users', auth.currentUser!.uid),
-					user
-				);
-				setDoc(
-					doc(this.firestore, 'privateChats', auth.currentUser!.uid),
-					privateChat
-				);
-				this.router.navigateByUrl('/home');
+				this.setUserDatabaseEntries();
+				this.router.navigateByUrl('/');
 			},
 			error: (err) => {
 				this.errorMessage = err.code;
 			},
 		});
+	}
+
+	setUserDatabaseEntries() {
+		setDoc(
+			doc(this.firestore, 'users', this.firebaseAuth.currentUser!.uid),
+			this.setUserObject()
+		);
+		setDoc(
+			doc(
+				this.firestore,
+				'privateChats',
+				this.firebaseAuth.currentUser!.uid
+			),
+			this.setprivateChatObject()
+		);
+	}
+
+	setUserObject() {
+		return {
+			userId: this.firebaseAuth.currentUser!.uid,
+			name: this.firebaseAuth.currentUser!.displayName,
+			status: true,
+			photoURL: this.firebaseAuth.currentUser!.photoURL,
+			channels: [],
+			email: this.firebaseAuth.currentUser!.email,
+			privateNoteRef: this.firebaseAuth.currentUser!.uid,
+		};
+	}
+
+	setprivateChatObject() {
+		return {
+			privatChatId: this.firebaseAuth.currentUser!.uid,
+			chatCreator: this.firebaseAuth.currentUser!.uid,
+			chatReciver: '',
+			privateNoteCreator: this.firebaseAuth.currentUser!.uid,
+			messages: [],
+			createdAt: new Date().getTime(),
+			createdBy: this.firebaseAuth.currentUser!.uid,
+		};
 	}
 }

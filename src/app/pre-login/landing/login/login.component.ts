@@ -33,8 +33,8 @@ export class LoginComponent {
 		const rawForm = this.loginForm.getRawValue();
 		this.authService.login(rawForm.email, rawForm.password).subscribe({
 			next: () => {
-				this.authService.checkUserStatus();
 				this.pushUserIdToSessionStorage();
+				this.authService.checkUserStatus();
 			},
 			error: (err) => {
 				this.errorMessage = err.code;
