@@ -28,7 +28,14 @@ export class PasswordResetRequestComponent {
 
 	onSubmit(): void {
 		const rawForm = this.pwResetForm.getRawValue();
-		this.authService.sendResetLink(rawForm.email);
+		this.authService.sendResetLink(rawForm.email).subscribe({
+			next: () => {
+				this.router.navigateByUrl('/');
+			},
+			error: (err) => {
+				this.errorMessage = err.code;
+			},
+		});
 	}
 
 	formInvalid(formControl: FormControl<string>) {

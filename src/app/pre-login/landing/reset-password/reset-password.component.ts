@@ -8,7 +8,7 @@ import {
 	Validators,
 } from '@angular/forms';
 import { AuthService } from '../../../services/authentication/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export let comparePasswords = (
 	control: AbstractControl
@@ -41,9 +41,23 @@ export class ResetPasswordComponent {
 
 	errorMessage: string | null = null;
 
+	constructor(private route: ActivatedRoute) {}
+
 	onSubmit(): void {
 		const rawForm = this.pwResetForm.getRawValue();
-		this.authService.resetPassword(rawForm.password);
+		this.route.queryParams.subscribe((params) => {
+			const actionCode = params['oobCode'];
+			this.authService
+				.resetPassword(actionCode, rawForm.password)
+				.subscribe({
+					next: () => {
+						this.router.navigateByUrl('/');
+					},
+					error: (err) => {
+						this.errorMessage = err.code;
+					},
+				});
+		});
 	}
 
 	formInvalid(formControl: FormControl<string>) {
@@ -52,6 +66,3 @@ export class ResetPasswordComponent {
 		);
 	}
 }
-//mode=resetPassword
-//oobCode=8W7Nq8nbHKu3D1MwPd0T-dz0tIKXZNWxid3T2z2NesgAAAGQhFhg5Q
-//apiKey=AIzaSyDlnzbLdBSdYINIBM1v4OcfHW2Pr-LPBH4
