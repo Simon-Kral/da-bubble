@@ -8,6 +8,7 @@ import {
 	signOut,
 	updateEmail,
 	updateProfile,
+	user,
 	verifyPasswordResetCode,
 } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
@@ -18,6 +19,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 	firebaseAuth = inject(Auth);
+	user$ = user(this.firebaseAuth);
 	router = inject(Router);
 
 	constructor() {}
@@ -55,8 +57,9 @@ export class AuthService {
 	}
 
 	setAvatar(avatar: string): Observable<void> {
-		const auth = this.firebaseAuth;
-		const promise = updateProfile(auth.currentUser!, { photoURL: avatar });
+		const promise = updateProfile(this.firebaseAuth.currentUser!, {
+			photoURL: avatar,
+		});
 		return from(promise);
 	}
 
@@ -66,15 +69,17 @@ export class AuthService {
 	}
 
 	checkUserStatus() {
-		if (this.firebaseAuth.currentUser) {
-			if (this.firebaseAuth.currentUser.photoURL) {
-				this.router.navigateByUrl('/home');
-			} else {
+		this.user$.subscribe((user) => {
+			if (user) {
+				if (user.photoURL) {
+					this.router.navigateByUrl('/home');
+				} else {
+					this.router.navigateByUrl('/avatar');
+				}
+			} else if (!this.router.url.includes('/reset-password')) {
 				this.router.navigateByUrl('/');
 			}
-		} else if (!this.router.url.includes('/reset-password')) {
-			this.router.navigateByUrl('/');
-		}
+		});
 	}
 
 	sendResetLink(email: string): Observable<void> {
