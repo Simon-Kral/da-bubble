@@ -39,7 +39,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	constructor() {
 		this.getCurrentUserId();
 		this.ngOnInit();
-		console.log('Current User ID:', this.currentUserId);
+		console.log('Current User ID:', this.currentUserId);   // to-do remove after developement is finished
 	}
 
 	ngOnInit(): void {
@@ -70,7 +70,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Fetches the current user data as an object from the Firestore database.
 	 * The user ID is used to query the 'users' collection in Firestore.
-	 *
+	 * // to-do remove after developement is finished
 	 * @returns {Promise<User>} A promise that resolves to a User object containing user data.
 	 */
 	async getCurrentUserAsObject() {
@@ -96,7 +96,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Sets the current user property by fetching the user data as an object from Firestore.
 	 * Logs the current user object to the console.
-	 */
+	 */ // to-do remove after developement is finished
 	async setCurrentUserAsObjekt() {
 		this.currentUser = await this.getCurrentUserAsObject();
 		console.log('Current User Object', this.currentUser);
@@ -104,7 +104,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Clears the current user property by setting it to a new instance of User.
 	 * Logs that the current user has been cleared.
-	 */
+	 */ // to-do remove after developement is finished
 	clearCurrentUser() {
 		this.currentUser = new User();
 		console.log('Current User has been cleared');

@@ -33,7 +33,7 @@ export class CreateNewChannelComponent {
 
   channelData: FormGroup;
   channel = new Channel();
-  isCreateChannelFormVisible: boolean = false;  // TO-DO: Change Variable Name
+  isCreateChannelFormVisible: boolean = false;  // to-do: Change Variable Name
   isAddMemberVisibleForm: boolean = true;
 
   showChannelSerach: boolean = false;
