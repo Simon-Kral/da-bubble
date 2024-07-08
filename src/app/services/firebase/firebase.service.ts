@@ -114,6 +114,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * Subscribes to the channels collection in Firestore and updates the channel list in real-time.
 	 * Orders the channels by name.
 	 * Logs the updated channel list to the console.
+	 * to-do remove filter, all channels should be displayed
 	 */
 	subChannelsList() {
 		const q = query(this.getChannelsRef(), orderBy('name'));
@@ -332,7 +333,18 @@ export class FirebaseService implements OnDestroy, OnInit {
 		);
 		return updateDoc(userDocRef, { photoURL: newAvatarPath });
 	}
-
+	/**
+	 * Updates the user status in the Firestore database.
+	 * @param {boolean} newStatus - The new status to update.
+	 * @returns {Promise<void>} A promise that resolves when the user status is successfully updated.
+	 */
+	updateUserStatus(newStatus: boolean): Promise<void> {
+		const userDocRef = doc(
+			this.firestore,
+			`users/${this.currentUser.userId}`
+		);
+		return updateDoc(userDocRef, { status: newStatus });
+	}
 	// private chat
 	/**
 	 * Subscribes to the privateChats collection in Firestore and updates the private chat list in real-time.

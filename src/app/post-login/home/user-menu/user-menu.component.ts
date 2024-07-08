@@ -24,9 +24,10 @@ export class UserMenuComponent {
   errorMessage: string | null = null; // to-do remove after testing is finished
 
   logout(): void {
+    // to-do OPTIONAL update user status to offline when close tab
+    this.firebaseService.updateUserStatus(false);
 		this.firebaseService.clearCurrentUser(); // to-do remove after developement is finished
 		this.firebaseService.ngOnDestroy(); 
-    // to-do update user status to offline
 		this.authService.logout().subscribe({
 			error: (err) => {
 				this.errorMessage = err.code;
