@@ -314,7 +314,6 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * @returns A promise that resolves when the user profile is successfully updated.
 	 */
 	updateUserProfile(updates: Partial<any>): Promise<void> {
-		// Verwende Partial<any> für die Updates
 		const userDocRef = doc(
 			this.firestore,
 			`users/${this.currentUser.userId}`
@@ -412,21 +411,5 @@ export class FirebaseService implements OnDestroy, OnInit {
 			: '';
 		return chatEntry ? chatEntry.chatCreator : undefined;
 	}
-
-	// this is the original code
-
-	changeEmail(newEmail: string) {
-		this.authService.changeEmail(newEmail).subscribe({
-			next: () => {
-				const uid = this.authService.firebaseAuth.currentUser!.uid;
-				const userDocRef = doc(this.firestore, `users/${uid}/`);
-				return updateDoc(userDocRef, { email: newEmail });
-			},
-			error: (err) => {
-				console.log(err.code);
-			},
-		});
-	}
-
 
 }

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
 import { Firestore, collection, onSnapshot, orderBy, query, addDoc,  doc, updateDoc } from '@angular/fire/firestore';
 import { User } from '../../../models/user.class';
-
+import { AuthService } from '../../../services/authentication/auth.service';
 interface UserData {
   name: string;
   email: string;
@@ -20,6 +20,7 @@ interface UserData {
 export class CurrentUserProfileComponent implements OnInit{
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
+  authService = inject(AuthService);
 
   @Input() isCurrentUserProfileVisible: boolean = false;
   @Output() currentUserProfileVisibilityChange = new EventEmitter<boolean>();
@@ -93,6 +94,9 @@ export class CurrentUserProfileComponent implements OnInit{
     this.firebaseService.updateUserProfile(updates)
       .then(() => {
         console.log('User profile updated successfully');
+        console.log('New user data for auth service: ', this.newUserData.value.email);
+        //this.authService.changeEmail(this.newUserData.value.email); to-do verfiy new email, if new email is verfied then update the email
+
         this.toggleUserProfile(false);
       })
       .catch(error => {
