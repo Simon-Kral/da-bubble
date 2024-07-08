@@ -1,42 +1,31 @@
 <div class="private-msg-wrapper">
-@if (this.firebaseService.currentUser) {
-  <div class="private-msg-user"
-  [routerLink]="['/home/private-message', this.firebaseService.currentUser.privateNoteRef]"
-  [queryParams]="{ showPrivateNote: true }">
-    <div
-      class="private-msg-user pointer">
-      <div class="private-msg-user-avatar">
-        <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="{{this.firebaseService.currentUser.name}}'s avatar" />
-        <div
-          class="private-msg-user-status"
-          [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId), 'offline': !this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId) }"
-        ></div>
+  @if (this.firebaseService.currentUser) {
+  <div class="private-msg-container pointer" (click)="onMessageClick(this.firebaseService.currentUser.privateNoteRef)"
+    [ngClass]="{ 'active': clickedMessageId === (this.firebaseService.currentUser.privateNoteRef) }"
+    [routerLink]="['/home/private-message', this.firebaseService.currentUser.privateNoteRef]"
+    [queryParams]="{ showPrivateNote: true }">
+    <div class="user-avatar">
+      <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)"
+        alt="{{this.firebaseService.currentUser.name}}'s avatar" />
+      <div class="user-status"
+        [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId), 'offline': !this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId) }">
       </div>
-      <span> {{this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId)}} (Du)</span>
     </div>
+    <span> {{this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId)}} (Du)</span>
   </div>
   } @for (privateMsg of firebaseService.privateChatList; track privateMsg.privatChatId; let index = $index)
   {
-  <div class="private-msg-list">
-    <div
-      class="private-msg-user pointer"
-      [routerLink]="['/home/private-message', privateMsg.privatChatId]"
-      [queryParams]="{ showPrivateNote: false }"
-      (click)="this.firebaseService.getChatCreatorIdByDocRef(privateMsg.privatChatId)"
-    >
-      <div class="private-notes"></div>
-      <div class="private-msg-user-avatar">
-        <img
-        [src]="this.firebaseService.getUserAvatar(privateMsg.chatCreator)"
-          alt="User Avatar"
-        />
-        <div
-          class="private-msg-user-status"
-          [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(privateMsg.chatCreator), 'offline': !this.firebaseService.getUserOnlineStatus(privateMsg.chatCreator) }"
-        ></div>
+  <div class="private-msg-container pointer" [routerLink]="['/home/private-message', privateMsg.privatChatId]"
+    [queryParams]="{ showPrivateNote: false }"
+    (click)="this.firebaseService.getChatCreatorIdByDocRef(privateMsg.privatChatId);onMessageClick(privateMsg.privatChatId)"
+    [ngClass]="{ 'active': clickedMessageId === privateMsg.privatChatId }">
+    <div class="user-avatar">
+      <img [src]="this.firebaseService.getUserAvatar(privateMsg.chatCreator)" alt="User Avatar" />
+      <div class="user-status"
+        [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(privateMsg.chatCreator), 'offline': !this.firebaseService.getUserOnlineStatus(privateMsg.chatCreator) }">
       </div>
-      <span>{{ this.firebaseService.getUserDisplayName(privateMsg.chatCreator) }}</span>
     </div>
+    <span>{{ this.firebaseService.getUserDisplayName(privateMsg.chatCreator) }}</span>
   </div>
   }
 </div>
