@@ -459,7 +459,7 @@ export class FirebaseService implements OnDestroy, OnInit {
    * Retrieves a Firestore query to get the channels where the current user is a member.
    * @returns {Query} The Firestore query to get the user's channels.
    */
-  getUserChannelsFilter() {
+/*   getUserChannelsFilter() {
     return query(
       this.getChannelsCollection(),
       where(
@@ -468,7 +468,7 @@ export class FirebaseService implements OnDestroy, OnInit {
         this.authService.currentUserSig()?.userId
       )
     );
-  }
+  } */
 
   /**
    * Retrieves a specific user from the database based on the provided user ID.
@@ -489,21 +489,21 @@ export class FirebaseService implements OnDestroy, OnInit {
    * Retrieves a Firestore query for private messages filtered by the current user.
    * @returns {Query} The Firestore query for private messages.
    */
-  getPrivateMessagesFilter() {
+/*   getPrivateMessagesFilter() {
     return query(
       this.getMessagesCollection(),
       where('chatCreator', '==', this.authService.currentUserSig()?.userId)
     );
-  }
+  } */
 
   /**
    * Retrieves private messages from the database.
    */
-  getPrivetMessages() {
+/*   getPrivetMessages() {
     onSnapshot(this.getPrivateMessagesFilter(), (snapshot) => {
       snapshot.forEach((doc) => {
         const data = doc.data();
       });
     });
-  }
+  } */
 }
