@@ -34,7 +34,6 @@ export class HomeComponent implements OnInit {
 
 	constructor() {
 		this.authService.checkUserStatus();
-		this.firebaseService.getUserChannels();
 	}
 
 	ngOnInit(): void {
