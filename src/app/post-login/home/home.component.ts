@@ -29,7 +29,8 @@ export class HomeComponent {
   firebaseService = inject(FirebaseService);
 
   constructor() {
-    this.firebaseService.getUserChannels();
+    //this.firebaseService.getUserChannels();
+    this.firebaseService.getSpecificUser('BDMyD47mKgDw0c24Hdei');
   }
 
   //sidenav variables
