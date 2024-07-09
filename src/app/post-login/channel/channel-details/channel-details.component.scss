@@ -1,0 +1,27 @@
+@import "../../../../styles.scss";
+
+.channel-details {
+	width: 872px;
+	height: 616px;
+	background-color: $white;
+	padding: 30px;
+	border-radius: 0 30px 30px 30px;
+	
+}
+
+.left-section {
+	display: flex;
+	align-items: center;
+}
+
+.headline {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.light-grey-center-item {
+	position: absolute;
+	top: 0;
+	left: 0;
+}

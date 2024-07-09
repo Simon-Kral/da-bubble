@@ -101,6 +101,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 		this.currentUser = await this.getCurrentUserAsObject();
 		console.log('Current User Object', this.currentUser);
 	}
+
 	/**
 	 * Clears the current user property by setting it to a new instance of User.
 	 * Logs that the current user has been cleared.
@@ -109,6 +110,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 		this.currentUser = new User();
 		console.log('Current User has been cleared');
 	}
+
 	// channel code
 	/**
 	 * Subscribes to the channels collection in Firestore and updates the channel list in real-time.
@@ -134,6 +136,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 			}
 		);
 	}
+
 	/**
 	 * Checks if the current user is a member of the channel.
 	 * @param {Channel} channel - The channel object to check.
@@ -142,6 +145,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	isCurrentUserInChannel(channel: Channel): boolean {
 		return channel.members.includes(this.currentUserId);
 	}
+
 	/**
 	 * Returns a reference to the channels collection in Firestore.
 	 *
@@ -150,6 +154,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	getChannelsRef() {
 		return collection(this.firestore, 'channels');
 	}
+
 	/**
 	 * Creates a Channel object from Firestore document data.
 	 *
@@ -168,6 +173,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 			createdBy: obj.createdBy || '',
 		};
 	}
+
 	/**
 	 * Checks if a channel with the specified name already exists in the 'channels' collection.
 	 *
@@ -180,6 +186,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 		const querySnapshot = await getDocs(q);
 		return !querySnapshot.empty;
 	}
+
 	// user code
 	/**
 	 * Subscribes to the users collection in Firestore and updates the user list in real-time.
@@ -202,6 +209,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 			}
 		);
 	}
+
 	/**
 	 * Returns a reference to the users collection in Firestore.
 	 * @returns {CollectionReference} A reference to the users collection.
@@ -209,6 +217,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	getUsersRef() {
 		return collection(this.firestore, 'users');
 	}
+
 	/**
 	 * Creates a User object from Firestore document data.
 	 *
@@ -227,6 +236,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 			privateNoteRef: obj.privateNoteRef || '',
 		};
 	}
+
 	/**
 	 * Retrieves the display name of a user based on the provided user ID.
 	 * If the user is found in the userList, returns the user's name; otherwise, returns 'Unknown'.
@@ -286,6 +296,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	getUserById(userId: string): User | undefined {
 		return this.userList.find((user) => user.userId === userId);
 	}
+
 	/**
 	 * Retrieves the email-adress of a user based on the provided user ID.
 	 * If the user is found in the userList, returns the user's email; otherwise, returns an empty string.
@@ -297,6 +308,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 		const user = this.getUserById(userId);
 		return user ? user.email : '';
 	}
+
 	/**
 	 * Returns the status text based on the user's online status.
 	 * If the user is found in the userList, returns 'Aktiv' if the user's status is true (online); otherwise, returns 'Abwesend'.
@@ -308,6 +320,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	getUserStatusText(userId: string): string {
 		return this.getUserOnlineStatus(userId) ? 'Aktiv' : 'Abwesend';
 	}
+
 	/**
 	 * Updates the user profile in the Firestore database.
 	 * @param updates - An object containing the fields to update.
@@ -321,6 +334,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 		);
 		return updateDoc(userDocRef, updates);
 	}
+
 	/**
 	 * Updates the user avatar in the Firestore database.
 	 * @param {string} newAvatarPath - The new avatar path to update.
@@ -379,6 +393,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	getPrivateChatRef() {
 		return collection(this.firestore, 'privateChats');
 	}
+
 	/**
 	 * Creates a PrivateChat object from Firestore document data.
 	 *
@@ -397,6 +412,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 			createdBy: obj.createdBy || '',
 		};
 	}
+	
 	/**
 	 * Retrieves the chat creator ID based on the provided private chat ID.
 	 * Searches through the privateChatList to find the entry with the matching privatChatId.
@@ -427,6 +443,4 @@ export class FirebaseService implements OnDestroy, OnInit {
 			},
 		});
 	}
-
-
 }

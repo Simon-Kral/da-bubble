@@ -1,49 +1,52 @@
 <div class="group-chat-container">
-  <div class="group-display">
-    <div class="active-group-chat">
-      <img src="assets/img/icons/hashtag-chat.png" alt="" />
-      <span>Entwicklerteam</span>
-      <img
-        class="pointer"
-        src="assets/img/icons/keyboard_arrow_down_inactive.png"
-        alt=""
-      />
-    </div>
-    <div class="avatar-collection">
-      <div class="user-profile-img-container">
-        @for(user of users; track user.id; let index = $index) {
-          @if(index < 3) {
-        <img
-          [ngStyle]="{ left: getLeftStyleValue(index) + 'px' }"
-          class="user-profile-img"
-          src="{{ user.profileImg }}"
-          alt=""
-        />
-        }
-      }
-      </div>
-      <div class="user-counter">
-        <span>{{ users.length }}</span>
-      </div>
-      <button class="add-btn pointer">
-        <img src="assets/img/icons/person_add.png" alt="Add button" />
-      </button>
-    </div>
-  </div>
+	<div class="group-display">
+		<div
+			class="active-group-chat"
+			(mouseover)="toggleImgSrc()"
+			(mouseout)="toggleImgSrc()"
+			(click)="toggleShowChannelDetails()"
+		>
+			<img [src]="hashtag" alt="" />
+			<span>Entwicklerteam</span>
+			<img class="pointer" [src]="dropdownArrow" alt="" />
+		</div>
+		<div class="avatar-collection">
+			<div class="user-profile-img-container">
+				@for(user of users; track user.id; let index = $index) {
+				@if(index < 3) {
+				<img
+					[ngStyle]="{ left: getLeftStyleValue(index) + 'px' }"
+					class="user-profile-img"
+					src="{{ user.profileImg }}"
+					alt=""
+				/>
+				} }
+			</div>
+			<div class="user-counter">
+				<span>{{ users.length }}</span>
+			</div>
+			<button class="add-btn pointer">
+				<img src="assets/img/icons/person_add.png" alt="Add button" />
+			</button>
+		</div>
+	</div>
 
-  <div class="chat-container">
-    <div class="message">
+	<div class="chat-container">
+		@if(this.showChannelDetails) {
+		<div class="channel-detail-position">
+			<app-channel-details></app-channel-details>
+		</div>
+		}
+		<div class="message"></div>
 
-    </div>
-
-    <div class="chat-input">
-      <app-chat-input 
-      [sourceComponent]="'channel'" 
-      [destinationCollection]="'channels'"
-      [destinationDocRef]="'docRef'"
-      [placeholderText]="'Nachricht an #channel.name'"
-      (messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
-    </div>
-
-  </div>
+		<div class="chat-input">
+			<app-chat-input
+				[sourceComponent]="'channel'"
+				[destinationCollection]="'channels'"
+				[destinationDocRef]="'docRef'"
+				[placeholderText]="'Nachricht an #channel.name'"
+				(messageEvent)="this.chatService.onMessageSent($event)"
+			></app-chat-input>
+		</div>
+	</div>
 </div>

@@ -2,17 +2,21 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
 import { ChatService } from '../../services/chat/chat.service';
+import { ChannelDetailsComponent } from './channel-details/channel-details.component';
 
 @Component({
   selector: 'app-channel',
   standalone: true,
-  imports: [CommonModule, ChatInputComponent],
+  imports: [CommonModule, ChatInputComponent, ChannelDetailsComponent],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss'
 })
 export class ChannelComponent {
 
   chatService = inject(ChatService);
+  showChannelDetails = false;
+  hashtag = 'assets/img/icons/hashtag_chat_inactive.png';
+  dropdownArrow = 'assets/img/icons/keyboard_arrow_down_inactive.png';
 
   users = [
     {
@@ -53,4 +57,14 @@ export class ChannelComponent {
   handleMessage(message: object): void {
     console.log(message);
   }
+
+  toggleShowChannelDetails() {
+	this.showChannelDetails = !this.showChannelDetails;
+  }
+
+  toggleImgSrc() {
+	this.hashtag = this.hashtag === 'assets/img/icons/hashtag_chat_inactive.png' ? 'assets/img/icons/hashtag_chat_active.png' : 'assets/img/icons/hashtag_chat_inactive.png';
+	this.dropdownArrow = this.dropdownArrow === 'assets/img/icons/keyboard_arrow_down_inactive.png' ? 'assets/img/icons/keyboard_arrow_up_active.png' : 'assets/img/icons/keyboard_arrow_down_inactive.png';
+  }
+
 }
