@@ -28,6 +28,12 @@ isCurrentUserProfileVisibleSource = new BehaviorSubject<boolean>(false);
 isCurrentUserProfileVisible$ = this.isCurrentUserProfileVisibleSource.asObservable();  
 isUserProfileVisibleSource = new BehaviorSubject<boolean>(false);
 isUserProfileVisible$ = this.isUserProfileVisibleSource.asObservable();
+isChannelDetailsVisibleSource = new BehaviorSubject<boolean>(false);
+isChannelDetailsVisible$ = this.isChannelDetailsVisibleSource.asObservable();
+
+toggleChannelDetailsVisibility(visible: boolean) {
+	  this.isChannelDetailsVisibleSource.next(visible);
+}
 
 toggleCurrentUserProfileVisibility(visible: boolean) {
   this.isCurrentUserProfileVisibleSource.next(visible);

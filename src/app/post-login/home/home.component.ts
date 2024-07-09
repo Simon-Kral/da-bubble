@@ -13,38 +13,38 @@ import { PrivateMessageComponent } from '../private-message/private-message.comp
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CurrentUserProfileComponent } from './current-user-profile/current-user-profile.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
+import { ChannelDetailsComponent } from './channel/channel-details/channel-details.component';
 @Component({
 	selector: 'app-home',
 	standalone: true,
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss',
-	imports: [HeaderComponent, ChannelComponent, SidenavComponent, ThreadComponent, CommonModule, RouterOutlet, CreateNewChannelComponent, PrivateMessageComponent, UserProfileComponent, CurrentUserProfileComponent, UserMenuComponent],
+	imports: [
+		HeaderComponent,
+		ChannelComponent,
+		SidenavComponent,
+		ThreadComponent,
+		CommonModule,
+		RouterOutlet,
+		CreateNewChannelComponent,
+		PrivateMessageComponent,
+		UserProfileComponent,
+		CurrentUserProfileComponent,
+		UserMenuComponent,
+		ChannelDetailsComponent,
+	],
 })
 export class HomeComponent implements OnInit {
 	authService = inject(AuthService);
 	firebaseService = inject(FirebaseService);
 	chatService = inject(ChatService);
 
-	  // Default icon sources
-	  menu = '../../assets/img/icons/menu_black.png';
-	  // Hover icon sources
-	  menuHover = '../../assets/img/icons/menu_blue.png';
-	  // current Icon Source
-	  currentIconSourceMenu = this.menu;
-
-	constructor() {
-		this.authService.checkUserStatus(); // to-do is that necessary?
-	}
-
-	ngOnInit(): void {
-		this.firebaseService.setCurrentUserAsObjekt(); // to-do remove after developement is finished
-		this.chatService.isCurrentUserProfileVisible$.subscribe(visible => {
-			this.isCurrentUserProfileVisible = visible;
-		  });
-		this.chatService.isUserProfileVisible$.subscribe(visible => {
-			this.isUserProfileVisible = visible;
-		  });
-	}
+	// Default icon sources
+	menu = '../../assets/img/icons/menu_black.png';
+	// Hover icon sources
+	menuHover = '../../assets/img/icons/menu_blue.png';
+	// current Icon Source
+	currentIconSourceMenu = this.menu;
 
 	//sidenav variables
 	isSidenavVisible: boolean = true;
@@ -56,35 +56,55 @@ export class HomeComponent implements OnInit {
 	isCurrentUserProfileVisible: boolean = false;
 	//user menu variables
 	isUserMenuVisible: boolean = false;
+	//channel details variables
+	isChannelDetailsVisible: boolean = false;
+
+	constructor() {
+		this.authService.checkUserStatus(); // to-do is that necessary?
+	}
+
+	ngOnInit(): void {
+		this.firebaseService.setCurrentUserAsObjekt(); // to-do remove after developement is finished
+		this.chatService.isCurrentUserProfileVisible$.subscribe((visible) => {
+			this.isCurrentUserProfileVisible = visible;
+		});
+		this.chatService.isUserProfileVisible$.subscribe((visible) => {
+			this.isUserProfileVisible = visible;
+		});
+
+		this.chatService.isChannelDetailsVisible$.subscribe((visible) => {
+			this.isChannelDetailsVisible = visible;
+		});
+	}
 
 	//sidenav functions
 	toggleSidenav() {
 		this.isSidenavVisible = !this.isSidenavVisible;
 	}
-  /**
-   * Toggles the visibility of various components based on the given name.
-   * @param name The name of the component to toggle visibility for.
-   * @param visible Boolean flag indicating whether to show or hide the component.
-   */
-  toggleComponentVisibility(name: string, visible: boolean): void {
-    switch (name) {
-      case 'createChannel':
-        this.isCreateChannelVisible = visible;
-        break;
-      case 'userProfile':
-        this.isUserProfileVisible = visible;
-        break;
-      case 'currentUserProfile':
-        this.isCurrentUserProfileVisible = visible;
-        break;
-      case 'userMenu':
-        this.isUserMenuVisible = visible;
-        break;
-      default:
-        console.warn(`Unknown component name: ${name}`);
-        break;
-    }
-  }
+	/**
+	 * Toggles the visibility of various components based on the given name.
+	 * @param name The name of the component to toggle visibility for.
+	 * @param visible Boolean flag indicating whether to show or hide the component.
+	 */
+	toggleComponentVisibility(name: string, visible: boolean): void {
+		switch (name) {
+			case 'createChannel':
+				this.isCreateChannelVisible = visible;
+				break;
+			case 'userProfile':
+				this.isUserProfileVisible = visible;
+				break;
+			case 'currentUserProfile':
+				this.isCurrentUserProfileVisible = visible;
+				break;
+			case 'userMenu':
+				this.isUserMenuVisible = visible;
+				break;
+			default:
+				console.warn(`Unknown component name: ${name}`);
+				break;
+		}
+	}
 
 	// functions for popup overlay
 	preventClose(event: MouseEvent) {
@@ -96,35 +116,34 @@ export class HomeComponent implements OnInit {
 	 */
 	closePopupOverlay(name: string) {
 		switch (name) {
-		  case 'createChannel':
-			this.isCreateChannelVisible = false;
-			break;
-		  case 'userProfile':
-			this.isUserProfileVisible = false;
-			break;
-		  case 'currentUserProfile':
-			this.isCurrentUserProfileVisible = false;
-			break;
-		case 'userMenu':
-			this.isUserMenuVisible = false;
-			break;
-		  default:
-			console.warn(`Unknown popup name: ${name}`);
-			break;
+			case 'createChannel':
+				this.isCreateChannelVisible = false;
+				break;
+			case 'userProfile':
+				this.isUserProfileVisible = false;
+				break;
+			case 'currentUserProfile':
+				this.isCurrentUserProfileVisible = false;
+				break;
+			case 'userMenu':
+				this.isUserMenuVisible = false;
+				break;
+			default:
+				console.warn(`Unknown popup name: ${name}`);
+				break;
 		}
-	  }
+	}
 	/**
 	 * Handles the mouse over event for the sideNav Controller icons.
 	 */
 	onMouseOver(): void {
 		this.currentIconSourceMenu = this.menuHover;
 	}
-		
+
 	/**
-	* Handles the mouse out event for the sideNav Controller icons.
-	*/
+	 * Handles the mouse out event for the sideNav Controller icons.
+	 */
 	onMouseOut(): void {
 		this.currentIconSourceMenu = this.menu;
 	}
 }
-
