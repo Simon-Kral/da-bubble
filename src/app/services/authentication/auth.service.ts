@@ -88,9 +88,7 @@ export class AuthService {
 			} else {
 				this.user$.subscribe((user) => {
 					if (user) {
-						if (user.photoURL) {
-							this.router.navigateByUrl('/home');
-						} else {
+						if (!user.photoURL) {
 							this.router.navigateByUrl('/avatar');
 						}
 					} else {
