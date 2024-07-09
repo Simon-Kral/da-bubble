@@ -6,12 +6,21 @@
 	background-color: $white;
 	padding: 30px;
 	border-radius: 0 30px 30px 30px;
-	
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 
 .left-section {
-	display: flex;
-	align-items: center;
+	@include dFlex(row, center, center);
+	gap: 8px;
+	> img {
+		width: 20px;
+		height: 20px;
+	}
+	> span {
+		@include Nunito(700, 24px, 20px, $black);
+	}
 }
 
 .headline {
@@ -20,22 +29,75 @@
 	justify-content: space-between;
 }
 
-.light-grey-center-item {
-	position: absolute;
-	top: 0;
-	left: 0;
+.close-btn {
+	@include dFlex(center, center);
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	&:hover {
+		@include btnHover($bg-color);
+	}
+	&:active {
+		@include btnActive($bg-color);
+	}
 }
 
-.channel-detail-position {
-	width: 1440px;
-	height: 1024px;
-	display: flex;
-	justify-content: center;
-	>div {
-		width: 872px;
-		height: 616px;
-		background-color: $white;
-		padding: 30px;
-		border-radius: 0 30px 30px 30px;
+.channel-name-container {
+	padding: 20px;
+	border-radius: 20px;
+	border: 1px solid $purple-2;
+	transition: all 0.175s ease;
+	> .channel-name {
+		@include dFlex(column, flex-start, center);
+		gap: 20px;
+		> .top-section {
+			width: 100%;
+			@include dFlex(row, space-between, center);
+			gap: 20px;
+			> img {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+			}
+			> span:first-child {
+				@include Nunito(700, 18px, 20px, $black);
+			}
+			>.save-button {
+				@include Nunito(600, 18px, 20px, $email-blue);
+				&:hover {
+					@include Nunito(700, 18px, 20px, $email-blue);
+				}
+			}
+		}
+		>.current-channel-name {
+			width: 100%;
+			@include dFlex(row, none, center);
+			gap: 4px;
+			> span {
+				@include Nunito(400, 18px, 20px, $black);
+			}
+		}
 	}
+}
+
+.channel-name-input {
+	background-image: url("../../../../../assets/img/icons/hashtag_chat_inactive.png");
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	padding: 15px 35px;
+	border-radius: 25px;
+	border: 1px solid $purple-2;
+	width: 100%;
+	outline: none;
+
+
+	::-webkit-input-placeholder{
+		color: $text-gray;
+	}
+}
+
+.change-channel-name-active {
+	border: none;
+	padding: 0;
+	transition: all 0.175s ease;
 }

@@ -1,12 +1,45 @@
-<div class="light-grey-center-item">
-	<div class="channel-details">
-		<div class="headline">
-			<div class="left-section">
-				<img src="../../../../../assets/img/icons/hashtag_chat_inactive.png" alt="Hashtag icon" />
-				<span>Channel Details</span>
-			</div>
+<div class="channel-details">
+	<div class="headline">
+		<div class="left-section">
+			<img
+				src="assets/img/icons/hashtag_chat_inactive.png"
+				alt="Hashtag icon"
+			/>
+			<span>Channel Details</span>
+		</div>
+		<div class="close-btn pointer">
 			<img src="assets/img/icons/close_black.png" alt="Close icon" />
 		</div>
 	</div>
-</div>
 
+	<div class="channel-name-container" [ngClass]="{'change-channel-name-active': isChannelNameEditable}">
+		<div class="channel-name">
+			<div class="top-section">
+				<span>Channel-Name</span>
+				@if(!isChannelNameEditable) {
+				<span class="save-button pointer" (click)="toggleIsChannelNameEditable()"
+					>Bearbeiten</span
+				>
+				} @else {
+				<span class="save-button pointer" (click)="saveChannelName()"
+					>Speichern</span
+				>
+				}
+			</div>
+			<div class="current-channel-name">
+				@if(!isChannelNameEditable){
+				<img src="assets/img/icons/hashtag_chat_inactive.png" alt="" />
+				<span>Channel-Name</span>
+				} @else {
+				<input
+					class="channel-name-input"
+					type="text"
+					placeholder="Channel-Name"
+					minlength="2"
+					required
+				/>
+				}
+			</div>
+		</div>
+	</div>
+</div>
