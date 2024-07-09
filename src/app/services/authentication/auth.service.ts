@@ -75,38 +75,35 @@ export class AuthService {
 		console.log(this.router.url);
 		console.log(this.router.url.includes('resetPassword'));
 		this.route.queryParams.subscribe((params) => {
+			console.log(params);
 			if (this.router.url.includes('resetPassword')) {
 				this.router.navigate(['/reset-password'], {
 					queryParams: params,
 				});
 			}
 			if (this.router.url.includes('verifyEmail')) {
-				applyActionCode(this.firebaseAuth, params['oobCode']);
+				this.verifyEmail(params['oobCode']).subscribe((test) => {
+					console.log('test ist:', test);
+				});
+			} else {
+				this.user$.subscribe((user) => {
+					if (user) {
+						if (user.photoURL) {
+							this.router.navigateByUrl('/home');
+						} else {
+							this.router.navigateByUrl('/avatar');
+						}
+					} else {
+						this.router.navigateByUrl('/');
+					}
+				});
 			}
 		});
+	}
 
-		// console.log(this.router.url);
-		// if (this.router.url.includes('resetPassword')) {
-		// 	this.route.queryParams.subscribe((params) => {
-		// 		console.log(params);
-		// 	});
-		// 	// this.router.navigateByUrl('/reset-password');
-		// }
-		// if (this.router.url.includes('verifyEmail')) {
-		// 	// this.router.navigateByUrl('/');
-		// } else {
-		// 	this.user$.subscribe((user) => {
-		// 		if (user) {
-		// 			if (user.photoURL) {
-		// 				this.router.navigateByUrl('/home');
-		// 			} else {
-		// 				this.router.navigateByUrl('/avatar');
-		// 			}
-		// 		} else {
-		// 			this.router.navigateByUrl('/');
-		// 		}
-		// 	});
-		// }
+	verifyEmail(actionCode: string) {
+		const promise = applyActionCode(this.firebaseAuth, actionCode);
+		return from(promise);
 	}
 
 	// this.route.queryParams.subscribe((params) => {
