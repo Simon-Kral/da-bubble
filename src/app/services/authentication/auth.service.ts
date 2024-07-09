@@ -1,8 +1,9 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import {
 	Auth,
 	confirmPasswordReset,
 	createUserWithEmailAndPassword,
+	sendEmailVerification,
 	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
 	signOut,
@@ -12,7 +13,7 @@ import {
 	verifyPasswordResetCode,
 } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
 	providedIn: 'root',
@@ -22,7 +23,7 @@ export class AuthService {
 	user$ = user(this.firebaseAuth);
 	router = inject(Router);
 
-	constructor() {}
+	constructor(private route: ActivatedRoute) {}
 
 	register(
 		email: string,
@@ -36,6 +37,7 @@ export class AuthService {
 		)
 			.then((response) => {
 				updateProfile(response.user, { displayName: username });
+				sendEmailVerification(response.user);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -69,20 +71,53 @@ export class AuthService {
 	}
 
 	checkUserStatus() {
-		this.user$.subscribe((user) => {
-			if (user) {
-				if (user.photoURL) {
-					this.router.navigateByUrl('/home');
-				} else {
-					this.router.navigateByUrl('/avatar');
-				}
-			} else if (!this.router.url.includes('/reset-password')) {
-				this.router.navigateByUrl('/');
+		console.log(this.router.url);
+
+		this.route.queryParams.subscribe((params) => {
+			if (params && params['mode'] === 'resetPassword') {
 			}
 		});
+
+		// console.log(this.router.url);
+		// if (this.router.url.includes('resetPassword')) {
+		// 	this.route.queryParams.subscribe((params) => {
+		// 		console.log(params);
+		// 	});
+		// 	// this.router.navigateByUrl('/reset-password');
+		// }
+		// if (this.router.url.includes('verifyEmail')) {
+		// 	// this.router.navigateByUrl('/');
+		// } else {
+		// 	this.user$.subscribe((user) => {
+		// 		if (user) {
+		// 			if (user.photoURL) {
+		// 				this.router.navigateByUrl('/home');
+		// 			} else {
+		// 				this.router.navigateByUrl('/avatar');
+		// 			}
+		// 		} else {
+		// 			this.router.navigateByUrl('/');
+		// 		}
+		// 	});
+		// }
 	}
 
-	sendResetLink(email: string): Observable<void> {
+	// this.route.queryParams.subscribe((params) => {
+	// 	const actionCode = params['oobCode'];
+	// 	this.authService
+	// 		.resetPassword(actionCode, rawForm.password)
+	// 		.subscribe({
+	// 			next: () => {
+	// 				console.log('password changed')
+	// 				this.router.navigateByUrl('/');
+	// 			},
+	// 			error: (err) => {
+	// 				this.errorMessage = err.code;
+	// 			},
+	// 		});
+	// });
+
+	sendPasswordResetLink(email: string): Observable<void> {
 		const promise = sendPasswordResetEmail(this.firebaseAuth, email)
 			.then(() => {})
 			.catch((error) => {
@@ -105,7 +140,16 @@ export class AuthService {
 		return from(promise);
 	}
 
-	changeEmail(newEmail: string) {
+	sendEmailResetLink(newEmail: string): Observable<void> {
+		const promise = sendEmailVerification(this.firebaseAuth.currentUser!)
+			.then(() => {})
+			.catch((error) => {
+				console.log(error);
+			});
+		return from(promise);
+	}
+
+	resetEmail(newEmail: string): Observable<void> {
 		const promise = updateEmail(this.firebaseAuth.currentUser!, newEmail)
 			.then(() => {})
 			.catch((error) => {
@@ -113,4 +157,13 @@ export class AuthService {
 			});
 		return from(promise);
 	}
+
+	// changeEmail(newEmail: string) {
+	// 	const promise = updateEmail(this.firebaseAuth.currentUser!, newEmail)
+	// 		.then(() => {})
+	// 		.catch((error) => {
+	// 			console.log(error);
+	// 		});
+	// 	return from(promise);
+	// }
 }
