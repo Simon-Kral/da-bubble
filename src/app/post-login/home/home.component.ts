@@ -58,6 +58,8 @@ export class HomeComponent implements OnInit {
 	isCurrentUserProfileVisible: boolean = false;
 	//user menu variables
 	isUserMenuVisible: boolean = false;
+	//thread variables
+	isThreadVisible: boolean = false;
 
 	//Dragan: channel details variables
 	isChannelDetailsVisible: boolean = false;

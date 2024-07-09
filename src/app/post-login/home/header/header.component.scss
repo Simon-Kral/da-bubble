@@ -1,9 +1,10 @@
 @import "../../../../styles.scss";
 
-.header-container {
+.header-wrapper {
+  width: 100svw;
   padding: 24px;
   height: 100px;
-  @include dFlex(row, space-between, center);
+  @include dFlex(row, space-evenly, center);
 
   >.logo-container {
     @include dFlex(center, center);
@@ -11,12 +12,12 @@
   }
 
   .searchbar-container {
-
+    width: 100%;
+    margin: 0 24px;
   >.header-searchbar {
     @include Nunito(400, 24px, 18.8px, $text-gray);
+    width: 100%;
     padding: 17.5px 45px;
-    margin: 0 24px;
-    width: 989px;
     background-image: url("../../../../assets/img/icons/search.png");
     background-repeat: no-repeat;
     background-position: 95% center;
