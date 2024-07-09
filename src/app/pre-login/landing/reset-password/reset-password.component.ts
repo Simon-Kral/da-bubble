@@ -51,6 +51,7 @@ export class ResetPasswordComponent {
 				.resetPassword(actionCode, rawForm.password)
 				.subscribe({
 					next: () => {
+						console.log('password changed');
 						this.router.navigateByUrl('/');
 					},
 					error: (err) => {

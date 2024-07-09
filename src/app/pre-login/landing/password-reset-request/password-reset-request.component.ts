@@ -28,7 +28,7 @@ export class PasswordResetRequestComponent {
 
 	onSubmit(): void {
 		const rawForm = this.pwResetForm.getRawValue();
-		this.authService.sendResetLink(rawForm.email).subscribe({
+		this.authService.sendPasswordResetLink(rawForm.email).subscribe({
 			next: () => {
 				this.router.navigateByUrl('/');
 			},
