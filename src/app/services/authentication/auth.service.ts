@@ -11,6 +11,7 @@ import {
 	updateEmail,
 	updateProfile,
 	user,
+	UserCredential,
 	verifyPasswordResetCode,
 } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
@@ -37,13 +38,17 @@ export class AuthService {
 			password
 		)
 			.then((response) => {
-				updateProfile(response.user, { displayName: username });
+				this.setUsername(response, username);
 				sendEmailVerification(response.user);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 		return from(promise);
+	}
+
+	setUsername(response: UserCredential, username: string) {
+		const promise = updateProfile(response.user, { displayName: username });
 	}
 
 	login(email: string, password: string): Observable<void> {
@@ -72,19 +77,14 @@ export class AuthService {
 	}
 
 	checkUserStatus() {
-		console.log(this.router.url);
-		console.log(this.router.url.includes('resetPassword'));
 		this.route.queryParams.subscribe((params) => {
-			console.log(params);
 			if (this.router.url.includes('resetPassword')) {
 				this.router.navigate(['/reset-password'], {
 					queryParams: params,
 				});
 			}
 			if (this.router.url.includes('verifyEmail')) {
-				this.verifyEmail(params['oobCode']).subscribe((test) => {
-					console.log('test ist:', test);
-				});
+				this.verifyEmail(params['oobCode']).subscribe((test) => {});
 			} else {
 				this.user$.subscribe((user) => {
 					if (user) {
@@ -105,21 +105,6 @@ export class AuthService {
 		const promise = applyActionCode(this.firebaseAuth, actionCode);
 		return from(promise);
 	}
-
-	// this.route.queryParams.subscribe((params) => {
-	// 	const actionCode = params['oobCode'];
-	// 	this.authService
-	// 		.resetPassword(actionCode, rawForm.password)
-	// 		.subscribe({
-	// 			next: () => {
-	// 				console.log('password changed')
-	// 				this.router.navigateByUrl('/');
-	// 			},
-	// 			error: (err) => {
-	// 				this.errorMessage = err.code;
-	// 			},
-	// 		});
-	// });
 
 	sendPasswordResetLink(email: string): Observable<void> {
 		const promise = sendPasswordResetEmail(this.firebaseAuth, email)
@@ -143,31 +128,4 @@ export class AuthService {
 		});
 		return from(promise);
 	}
-
-	// sendEmailResetLink(newEmail: string): Observable<void> {
-	// 	const promise = sendEmailVerification(this.firebaseAuth.currentUser!)
-	// 		.then(() => {})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 		});
-	// 	return from(promise);
-	// }
-
-	// resetEmail(newEmail: string): Observable<void> {
-	// 	const promise = updateEmail(this.firebaseAuth.currentUser!, newEmail)
-	// 		.then(() => {})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 		});
-	// 	return from(promise);
-	// }
-
-	// changeEmail(newEmail: string) {
-	// 	const promise = updateEmail(this.firebaseAuth.currentUser!, newEmail)
-	// 		.then(() => {})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 		});
-	// 	return from(promise);
-	// }
 }
