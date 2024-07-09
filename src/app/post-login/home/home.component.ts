@@ -14,6 +14,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CurrentUserProfileComponent } from './current-user-profile/current-user-profile.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { ChannelDetailsComponent } from './channel/channel-details/channel-details.component';
+import { CommunicationService } from '../../services/communication/communication.service';
 @Component({
 	selector: 'app-home',
 	standalone: true,
@@ -38,6 +39,7 @@ export class HomeComponent implements OnInit {
 	authService = inject(AuthService);
 	firebaseService = inject(FirebaseService);
 	chatService = inject(ChatService);
+	communicationService = inject(CommunicationService);
 
 	// Default icon sources
 	menu = '../../assets/img/icons/menu_black.png';
@@ -66,10 +68,10 @@ export class HomeComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.firebaseService.setCurrentUserAsObjekt(); // to-do remove after developement is finished
-		this.chatService.isCurrentUserProfileVisible$.subscribe((visible) => {
+		this.communicationService.isCurrentUserProfileVisible$.subscribe((visible) => {
 			this.isCurrentUserProfileVisible = visible;
 		});
-		this.chatService.isUserProfileVisible$.subscribe((visible) => {
+		this.communicationService.isUserProfileVisible$.subscribe((visible) => {
 			this.isUserProfileVisible = visible;
 		});
 

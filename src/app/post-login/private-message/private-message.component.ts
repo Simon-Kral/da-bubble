@@ -6,7 +6,7 @@ import { Firestore} from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { PrivateMessageListComponent } from '../home/side-navigation/sidenav/private-message-list/private-message-list.component';
 import { ActivatedRoute } from '@angular/router';
-
+import { CommunicationService } from '../../services/communication/communication.service';
 @Component({
   selector: 'app-private-message',
   standalone: true,
@@ -18,20 +18,18 @@ export class PrivateMessageComponent implements OnInit{
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
-
+  communicationService = inject(CommunicationService);
   
-  showPrivateNote: boolean = false;
+
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.showPrivateNote = params['showPrivateNote'] === 'true';
-    });
+
   }
 
   openProfile() {
-    if (this.showPrivateNote) {
+    if (this.communicationService.showPrivateNote) {
       this.chatService.toggleCurrentUserProfileVisibility(true);
     } else {
       this.chatService.toggleUserProfileVisibility(true);

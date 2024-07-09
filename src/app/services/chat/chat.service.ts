@@ -22,13 +22,6 @@ export class ChatService {
   }
 
 
-// to-do awaiting team feedback this code might be outsource into an seperate service since its not possible to communicate between child to parent when child is embedded due to the router-outlet
-
-isCurrentUserProfileVisibleSource = new BehaviorSubject<boolean>(false);
-isCurrentUserProfileVisible$ = this.isCurrentUserProfileVisibleSource.asObservable();  
-isUserProfileVisibleSource = new BehaviorSubject<boolean>(false);
-isUserProfileVisible$ = this.isUserProfileVisibleSource.asObservable();
-
 //Dragan: channel details variables
 isChannelDetailsVisibleSource = new BehaviorSubject<boolean>(false);
 isChannelDetailsVisible$ = this.isChannelDetailsVisibleSource.asObservable();
@@ -38,10 +31,4 @@ toggleChannelDetailsVisibility(visible: boolean) {
 	  this.isChannelDetailsVisibleSource.next(visible);
 }
 
-toggleCurrentUserProfileVisibility(visible: boolean) {
-  this.isCurrentUserProfileVisibleSource.next(visible);
-}
-toggleUserProfileVisibility(visible: boolean) {
-  this.isUserProfileVisibleSource.next(visible);
-}
 }

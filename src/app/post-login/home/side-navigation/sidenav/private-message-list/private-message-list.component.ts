@@ -7,6 +7,7 @@ import { FirebaseService } from '../../../../../services/firebase/firebase.servi
 import { ChatService } from '../../../../../services/chat/chat.service';
 import { User } from '../../../../../models/user.class';
 import { PrivateMessageComponent } from '../../../../private-message/private-message.component';
+import { CommunicationService } from '../../../../../services/communication/communication.service';
 @Component({
   selector: 'app-private-message-list',
   standalone: true,
@@ -19,7 +20,8 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
-
+  communicationService = inject(CommunicationService);
+  
   selectedMessageId: string | null = null;
   
 
