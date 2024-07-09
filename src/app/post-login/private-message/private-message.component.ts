@@ -30,9 +30,9 @@ export class PrivateMessageComponent implements OnInit{
 
   openProfile() {
     if (this.communicationService.showPrivateNote) {
-      this.chatService.toggleCurrentUserProfileVisibility(true);
+      this.communicationService.toggleCurrentUserProfileVisibility(true);
     } else {
-      this.chatService.toggleUserProfileVisibility(true);
+      this.communicationService.toggleUserProfileVisibility(true);
     }
   }
 
