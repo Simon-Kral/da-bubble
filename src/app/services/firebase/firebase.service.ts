@@ -39,7 +39,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	constructor() {
 		this.getCurrentUserId();
 		this.ngOnInit();
-		console.log('Current User ID:', this.currentUserId);
+		console.log('Current User ID:', this.currentUserId);   // to-do remove after developement is finished
 	}
 
 	ngOnInit(): void {
@@ -70,7 +70,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Fetches the current user data as an object from the Firestore database.
 	 * The user ID is used to query the 'users' collection in Firestore.
-	 *
+	 * // to-do remove after developement is finished
 	 * @returns {Promise<User>} A promise that resolves to a User object containing user data.
 	 */
 	async getCurrentUserAsObject() {
@@ -96,7 +96,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Sets the current user property by fetching the user data as an object from Firestore.
 	 * Logs the current user object to the console.
-	 */
+	 */ // to-do remove after developement is finished
 	async setCurrentUserAsObjekt() {
 		this.currentUser = await this.getCurrentUserAsObject();
 		console.log('Current User Object', this.currentUser);
@@ -105,7 +105,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Clears the current user property by setting it to a new instance of User.
 	 * Logs that the current user has been cleared.
-	 */
+	 */ // to-do remove after developement is finished
 	clearCurrentUser() {
 		this.currentUser = new User();
 		console.log('Current User has been cleared');
@@ -116,6 +116,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * Subscribes to the channels collection in Firestore and updates the channel list in real-time.
 	 * Orders the channels by name.
 	 * Logs the updated channel list to the console.
+	 * to-do remove filter, all channels should be displayed
 	 */
 	subChannelsList() {
 		const q = query(this.getChannelsRef(), orderBy('name'));
@@ -327,7 +328,6 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * @returns A promise that resolves when the user profile is successfully updated.
 	 */
 	updateUserProfile(updates: Partial<any>): Promise<void> {
-		// Verwende Partial<any> für die Updates
 		const userDocRef = doc(
 			this.firestore,
 			`users/${this.currentUser.userId}`
@@ -347,7 +347,18 @@ export class FirebaseService implements OnDestroy, OnInit {
 		);
 		return updateDoc(userDocRef, { photoURL: newAvatarPath });
 	}
-
+	/**
+	 * Updates the user status in the Firestore database.
+	 * @param {boolean} newStatus - The new status to update.
+	 * @returns {Promise<void>} A promise that resolves when the user status is successfully updated.
+	 */
+	updateUserStatus(newStatus: boolean): Promise<void> {
+		const userDocRef = doc(
+			this.firestore,
+			`users/${this.currentUser.userId}`
+		);
+		return updateDoc(userDocRef, { status: newStatus });
+	}
 	// private chat
 	/**
 	 * Subscribes to the privateChats collection in Firestore and updates the private chat list in real-time.
@@ -429,18 +440,4 @@ export class FirebaseService implements OnDestroy, OnInit {
 		return chatEntry ? chatEntry.chatCreator : undefined;
 	}
 
-	// this is the original code
-
-	changeEmail(newEmail: string) {
-		this.authService.changeEmail(newEmail).subscribe({
-			next: () => {
-				const uid = this.authService.firebaseAuth.currentUser!.uid;
-				const userDocRef = doc(this.firestore, `users/${uid}/`);
-				return updateDoc(userDocRef, { email: newEmail });
-			},
-			error: (err) => {
-				console.log(err.code);
-			},
-		});
-	}
 }

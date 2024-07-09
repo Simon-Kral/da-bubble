@@ -33,8 +33,11 @@ export class CreateNewChannelComponent {
 
   channelData: FormGroup;
   channel = new Channel();
-  isCreateChannelFormVisible: boolean = true;  // TO-DO: Change Variable Name
-  isAddMemberVisibleForm: boolean = false;
+  isCreateChannelFormVisible: boolean = false;  // to-do: Change Variable Name
+  isAddMemberVisibleForm: boolean = true;
+
+  showChannelSerach: boolean = false;
+  showUserSearch: boolean = false;
 
   selectedMembers: string[] = [];
   newChanId = '';
@@ -187,6 +190,14 @@ export class CreateNewChannelComponent {
     if (!this.selectedMembers.includes(userId)) {
       this.selectedMembers.push(userId);
       console.log('Selected Members:', this.selectedMembers);
+    }
+  }
+
+  toggleSearchInput(name: string) {
+    if (name === 'channel') {
+      this.showChannelSerach = !this.showChannelSerach;
+    } else if (name === 'user') {
+      this.showUserSearch = !this.showUserSearch;
     }
   }
 

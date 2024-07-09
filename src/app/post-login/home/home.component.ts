@@ -33,11 +33,11 @@ export class HomeComponent implements OnInit {
 	  currentIconSourceMenu = this.menu;
 
 	constructor() {
-		this.authService.checkUserStatus();
+		this.authService.checkUserStatus(); // to-do is that necessary?
 	}
 
 	ngOnInit(): void {
-		this.firebaseService.setCurrentUserAsObjekt();
+		this.firebaseService.setCurrentUserAsObjekt(); // to-do remove after developement is finished
 		this.chatService.isCurrentUserProfileVisible$.subscribe(visible => {
 			this.isCurrentUserProfileVisible = visible;
 		  });

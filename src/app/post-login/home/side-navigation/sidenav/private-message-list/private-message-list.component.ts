@@ -19,6 +19,8 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
+
+  selectedMessageId: string | null = null;
   
 
   constructor(private router: Router) {
@@ -32,5 +34,8 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
 
   }
 
+  onMessageClick(messageId: string) {
+    this.selectedMessageId = messageId;
+  }
 
 }
