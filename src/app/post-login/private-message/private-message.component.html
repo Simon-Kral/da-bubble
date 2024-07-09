@@ -1,8 +1,8 @@
 <div class="private-msg-wrapper">
 	@for (privateMsg of firebaseService.privateChatList; track
 	privateMsg.privatChatId; let index = $index) {
-	<div class="private-msg-top-section" (click)="openProfile()">
-		<div class="private-msg-user pointer">
+	<div class="top-section" (click)="openProfile()">
+		<div class="user-content pointer">
 
 			@if (this.communicationService.showPrivateNote) {
 			<img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="User Avatar" />
@@ -11,11 +11,11 @@
 					this.firebaseService.getUserAvatar(privateMsg.chatCreator)
 				" alt="User Avatar" />
 			} @if (this.communicationService.showPrivateNote) {
-				<!-- to do recive current user status with firebasService, currently static green-->
-			<div class="private-msg-user-status"
-			[ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId), 'offline': !this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId) }"></div>
+			<div class="user-status"
+				[ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId), 'offline': !this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId) }">
+			</div>
 			} @else {
-			<div class="private-msg-user-status" [ngClass]="{
+			<div class="user-status" [ngClass]="{
 					online: this.firebaseService.getUserOnlineStatus(
 						privateMsg.chatCreator
 					),
@@ -24,18 +24,19 @@
 					)
 				}"></div>
 			}
-					@if (this.communicationService.showPrivateNote) {
-		<span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }} (Du)</span>} @else {
-		<span>{{
-			this.firebaseService.getUserDisplayName(privateMsg.chatCreator)
-			}}</span>}
+			@if (this.communicationService.showPrivateNote) {
+			<span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }} (Du)</span>} @else {
+			<span>{{
+				this.firebaseService.getUserDisplayName(privateMsg.chatCreator)
+				}}</span>}
 		</div>
 
 	</div>
 	}
 	<div class="chat-input">
 		<app-chat-input [sourceComponent]="'privateMessage'" [destinationCollection]="'privateChats'"
-			[destinationDocRef]="'privatChatId'" [placeholderText]="'Nachricht an chatCreator.name ODER currentUser.name'"
+			[destinationDocRef]="'privatChatId'"
+			[placeholderText]="'Nachricht an chatCreator.name ODER currentUser.name'"
 			(messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
 	</div>
 </div>
