@@ -57,7 +57,6 @@ export class HomeComponent implements OnInit {
 	//user menu variables
 	isUserMenuVisible: boolean = false;
 
-
 	//Dragan: channel details variables
 	isChannelDetailsVisible: boolean = false;
 
@@ -104,6 +103,9 @@ export class HomeComponent implements OnInit {
 			case 'userMenu':
 				this.isUserMenuVisible = visible;
 				break;
+			case 'channelDetails':
+				this.isChannelDetailsVisible = visible;
+				break;
 			default:
 				console.warn(`Unknown component name: ${name}`);
 				break;
@@ -131,6 +133,9 @@ export class HomeComponent implements OnInit {
 				break;
 			case 'userMenu':
 				this.isUserMenuVisible = false;
+				break;
+			case 'channelDetails':
+				this.isChannelDetailsVisible = false;
 				break;
 			default:
 				console.warn(`Unknown popup name: ${name}`);

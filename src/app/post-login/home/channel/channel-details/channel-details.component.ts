@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { ChatService } from '../../../../services/chat/chat.service';
 
 @Component({
   selector: 'app-channel-details',
@@ -8,5 +9,11 @@ import { Component } from '@angular/core';
   styleUrl: './channel-details.component.scss'
 })
 export class ChannelDetailsComponent {
+
+	@Input() isChannelDetailsVisible = false;
+	@Output() isChannelDetailsVisibleChange = new EventEmitter<boolean>();
+
+	
+	chatService = inject(ChatService);
 
 }

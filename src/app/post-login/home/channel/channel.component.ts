@@ -59,7 +59,7 @@ export class ChannelComponent {
   }
 
   toggleShowChannelDetails() {
-	this.showChannelDetails = !this.showChannelDetails;
+	this.chatService.toggleChannelDetailsVisibility(!this.showChannelDetails);
   }
 
   toggleImgSrc() {
