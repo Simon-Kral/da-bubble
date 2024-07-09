@@ -17,8 +17,8 @@ import {
   doc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { Channel } from '../../../../models/channel.class';
-import { FirebaseService } from '../../../../services/firebase/firebase.service';
+import { Channel } from '../../../../../models/channel.class';
+import { FirebaseService } from '../../../../../services/firebase/firebase.service';
 
 @Component({
   selector: 'app-create-new-channel',

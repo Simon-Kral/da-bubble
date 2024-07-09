@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 // post-login components
 import { HomeComponent } from './post-login/home/home.component';
 import { NewMessageComponent } from './post-login/new-message/new-message.component';
-import { ChannelComponent } from './post-login/channel/channel.component';
+import { ChannelComponent } from '../app/post-login/home/channel/channel.component'
 import { PrivateMessageComponent } from './post-login/private-message/private-message.component';
 
 // pre-login components

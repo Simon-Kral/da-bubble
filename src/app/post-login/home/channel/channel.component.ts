@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
-import { ChatService } from '../../services/chat/chat.service';
+import { ChatInputComponent } from '../../shared/chat-input/chat-input.component';
+import { ChatService } from '../../../services/chat/chat.service';
 import { ChannelDetailsComponent } from './channel-details/channel-details.component';
 
 @Component({
