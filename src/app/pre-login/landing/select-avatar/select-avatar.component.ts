@@ -31,9 +31,7 @@ export const forbiddenAvatarValidator = (
 })
 export class SelectAvatarComponent {
 	fb = inject(FormBuilder);
-	firebaseAuth = inject(Auth);
 	authService = inject(AuthService);
-	firestore: Firestore = inject(Firestore);
 	router = inject(Router);
 	avatarForm = this.fb.nonNullable.group({
 		avatar: [
@@ -56,51 +54,11 @@ export class SelectAvatarComponent {
 		const rawForm = this.avatarForm.getRawValue();
 		this.authService.setAvatar(rawForm.avatar).subscribe({
 			next: () => {
-				this.setUserDatabaseEntries();
 				this.router.navigateByUrl('/');
 			},
 			error: (err) => {
 				this.errorMessage = err.code;
 			},
 		});
-	}
-
-	setUserDatabaseEntries() {
-		setDoc(
-			doc(this.firestore, 'users', this.firebaseAuth.currentUser!.uid),
-			this.setUserObject()
-		);
-		setDoc(
-			doc(
-				this.firestore,
-				'privateChats',
-				this.firebaseAuth.currentUser!.uid
-			),
-			this.setprivateChatObject()
-		);
-	}
-
-	setUserObject() {
-		return {
-			userId: this.firebaseAuth.currentUser!.uid,
-			name: this.firebaseAuth.currentUser!.displayName,
-			status: true,
-			photoURL: this.firebaseAuth.currentUser!.photoURL,
-			channels: [],
-			email: this.firebaseAuth.currentUser!.email,
-			privateNoteRef: this.firebaseAuth.currentUser!.uid,
-		};
-	}
-
-	setprivateChatObject() {
-		return {
-			privatChatId: this.firebaseAuth.currentUser!.uid,
-			chatCreator: this.firebaseAuth.currentUser!.uid,
-			chatReciver: '',
-			privateNoteCreator: this.firebaseAuth.currentUser!.uid,
-			messages: [],
-			createdAt: new Date().getTime(),
-			createdBy: this.firebaseAuth.currentUser!.uid,
-		};
 	}
 }

@@ -1,5 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import {
+	applyActionCode,
 	Auth,
 	confirmPasswordReset,
 	createUserWithEmailAndPassword,
@@ -72,9 +73,15 @@ export class AuthService {
 
 	checkUserStatus() {
 		console.log(this.router.url);
-
+		console.log(this.router.url.includes('resetPassword'));
 		this.route.queryParams.subscribe((params) => {
-			if (params && params['mode'] === 'resetPassword') {
+			if (this.router.url.includes('resetPassword')) {
+				this.router.navigate(['/reset-password'], {
+					queryParams: params,
+				});
+			}
+			if (this.router.url.includes('verifyEmail')) {
+				applyActionCode(this.firebaseAuth, params['oobCode']);
 			}
 		});
 
@@ -140,23 +147,23 @@ export class AuthService {
 		return from(promise);
 	}
 
-	sendEmailResetLink(newEmail: string): Observable<void> {
-		const promise = sendEmailVerification(this.firebaseAuth.currentUser!)
-			.then(() => {})
-			.catch((error) => {
-				console.log(error);
-			});
-		return from(promise);
-	}
+	// sendEmailResetLink(newEmail: string): Observable<void> {
+	// 	const promise = sendEmailVerification(this.firebaseAuth.currentUser!)
+	// 		.then(() => {})
+	// 		.catch((error) => {
+	// 			console.log(error);
+	// 		});
+	// 	return from(promise);
+	// }
 
-	resetEmail(newEmail: string): Observable<void> {
-		const promise = updateEmail(this.firebaseAuth.currentUser!, newEmail)
-			.then(() => {})
-			.catch((error) => {
-				console.log(error);
-			});
-		return from(promise);
-	}
+	// resetEmail(newEmail: string): Observable<void> {
+	// 	const promise = updateEmail(this.firebaseAuth.currentUser!, newEmail)
+	// 		.then(() => {})
+	// 		.catch((error) => {
+	// 			console.log(error);
+	// 		});
+	// 	return from(promise);
+	// }
 
 	// changeEmail(newEmail: string) {
 	// 	const promise = updateEmail(this.firebaseAuth.currentUser!, newEmail)
