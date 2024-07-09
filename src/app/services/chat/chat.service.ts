@@ -28,9 +28,12 @@ isCurrentUserProfileVisibleSource = new BehaviorSubject<boolean>(false);
 isCurrentUserProfileVisible$ = this.isCurrentUserProfileVisibleSource.asObservable();  
 isUserProfileVisibleSource = new BehaviorSubject<boolean>(false);
 isUserProfileVisible$ = this.isUserProfileVisibleSource.asObservable();
+
+//Dragan: channel details variables
 isChannelDetailsVisibleSource = new BehaviorSubject<boolean>(false);
 isChannelDetailsVisible$ = this.isChannelDetailsVisibleSource.asObservable();
 
+//Dragan
 toggleChannelDetailsVisibility(visible: boolean) {
 	  this.isChannelDetailsVisibleSource.next(visible);
 }

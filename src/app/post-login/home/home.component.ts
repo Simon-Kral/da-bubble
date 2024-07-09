@@ -56,7 +56,9 @@ export class HomeComponent implements OnInit {
 	isCurrentUserProfileVisible: boolean = false;
 	//user menu variables
 	isUserMenuVisible: boolean = false;
-	//channel details variables
+
+
+	//Dragan: channel details variables
 	isChannelDetailsVisible: boolean = false;
 
 	constructor() {
@@ -72,6 +74,8 @@ export class HomeComponent implements OnInit {
 			this.isUserProfileVisible = visible;
 		});
 
+
+		// Dragan: I have added this subscription to the channel details visibility.
 		this.chatService.isChannelDetailsVisible$.subscribe((visible) => {
 			this.isChannelDetailsVisible = visible;
 		});
