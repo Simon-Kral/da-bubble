@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../../shared/chat-input/chat-input.component';
 import { ChatService } from '../../../services/chat/chat.service';
 import { ChannelDetailsComponent } from './channel-details/channel-details.component';
+import { ChatHistoryComponent } from '../../shared/chat-history/chat-history.component';
 
 @Component({
   selector: 'app-channel',
   standalone: true,
-  imports: [CommonModule, ChatInputComponent, ChannelDetailsComponent],
+  imports: [CommonModule, ChatInputComponent, ChannelDetailsComponent, ChatHistoryComponent],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss'
 })

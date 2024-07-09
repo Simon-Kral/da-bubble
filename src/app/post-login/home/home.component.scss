@@ -5,12 +5,14 @@
   position: relative;
   height: calc(100svh - 148px);
   width: 100%;
-  box-sizing: border-box;
-  gap: 40px;  
+  padding: 16px;
+  gap: 24px;
 }
 
 .sidenav-wrapper {
   width: 366px;
+  height: 100%;
+  transition: ease-in-out 0.3s;
 }
 
 .app-wrapper {
@@ -27,6 +29,7 @@
   background-color: $white;
   position: absolute;
   top: 400px;
+  left: 0;
   z-index: 2;
   writing-mode: vertical-rl;
   transform: rotate(180deg);

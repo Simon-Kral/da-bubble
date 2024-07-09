@@ -7,10 +7,11 @@ import { CommonModule } from '@angular/common';
 import { PrivateMessageListComponent } from '../home/side-navigation/sidenav/private-message-list/private-message-list.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommunicationService } from '../../services/communication/communication.service';
+import { ChatHistoryComponent } from '../shared/chat-history/chat-history.component';
 @Component({
   selector: 'app-private-message',
   standalone: true,
-  imports: [ChatInputComponent, CommonModule],
+  imports: [ChatInputComponent, CommonModule, PrivateMessageListComponent, ChatHistoryComponent],
   templateUrl: './private-message.component.html',
   styleUrl: './private-message.component.scss'
 })

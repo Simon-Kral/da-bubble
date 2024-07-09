@@ -7,11 +7,12 @@ import { ChannelListComponent } from './post-login/home/side-navigation/sidenav/
 import { PrivateMessageListComponent } from './post-login/home/side-navigation/sidenav/private-message-list/private-message-list.component';
 import { NewMessageComponent } from './post-login/new-message/new-message.component';
 import { CreateNewChannelComponent } from './post-login/home/channel/create-channel/create-new-channel/create-new-channel.component';
+import { ChatHistoryComponent } from './post-login/shared/chat-history/chat-history.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HomeComponent, SidenavComponent, NewMessageComponent, ChannelListComponent, PrivateMessageListComponent, CreateNewChannelComponent],
+  imports: [CommonModule, RouterOutlet, HomeComponent, SidenavComponent, NewMessageComponent, ChannelListComponent, PrivateMessageListComponent, CreateNewChannelComponent, ChatHistoryComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

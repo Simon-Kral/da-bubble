@@ -11,7 +11,7 @@
 
   <!--  SideNav -->
 @if (isSidenavVisible) {
-  <div class="sidenav-wrapper">
+  <div class="sidenav-wrapper" [ngClass]="{ 'd-none': !isSidenavVisible }">
     <app-sidenav [isCreateChannelVisible]="isCreateChannelVisible" (createChannelVisibilityChange)="
           toggleComponentVisibility('createChannel',$event)"></app-sidenav>
   </div>
