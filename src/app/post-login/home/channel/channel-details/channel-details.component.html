@@ -5,9 +5,9 @@
 				src="assets/img/icons/hashtag_chat_inactive.png"
 				alt="Hashtag icon"
 			/>
-			<span>{{channelToEdit.name}}</span>
+			<span>{{ channelToEdit.name }}</span>
 		</div>
-		<div class="close-btn pointer">
+		<div class="close-btn pointer" (click)="closeDetailsWindow()">
 			<img src="assets/img/icons/close_black.png" alt="Close icon" />
 		</div>
 	</div>
@@ -20,28 +20,31 @@
 			<div class="top-section">
 				<span>Channel-Name</span>
 				@if(!isChannelNameEditable) {
-				<span
+				<button
+					[ngClass]="{ 'disable': !this.checkChannelCreator() }"
 					class="save-button pointer"
 					(click)="toggleIsChannelNameEditable()"
-					>Bearbeiten</span
 				>
+					Bearbeiten
+				</button>
 				} @else {
-				<span class="save-button pointer" (click)="saveChannelName()"
-					>Speichern</span
-				>
+				<button class="save-button pointer" (click)="saveChannelName()">
+					Speichern
+				</button>
 				}
 			</div>
 			<div class="headline-container">
 				@if(!isChannelNameEditable){
 				<img src="assets/img/icons/hashtag_chat_inactive.png" alt="" />
-				<span>{{channelToEdit.name}}</span>
+				<span>{{ channelToEdit.name }}</span>
 				} @else {
 				<input
 					class="channel-name-input input-img"
 					type="text"
-					placeholder={{channelToEdit.name}}
+					placeholder="{{ channelToEdit.name }}"
 					minlength="2"
 					required
+					[(ngModel)]="channelName"
 				/>
 				}
 			</div>
@@ -57,38 +60,44 @@
 		<div class="top-section">
 			<span>Beschreibung</span>
 			@if(!isChannelDescriptionEditable) {
-			<span
+			<button
+				[ngClass]="{ 'disable': !this.checkChannelCreator() }"
 				class="save-button pointer"
 				(click)="toggleChannelDescription()"
-				>Bearbeiten</span
 			>
+				Bearbeiten
+			</button>
 			} @else {
-			<span class="save-button pointer" (click)="saveChannelDescription()"
-				>Speichern</span
+			<button
+				class="save-button pointer"
+				(click)="saveChannelDescription()"
 			>
+				Speichern
+			</button>
 			}
 		</div>
 
 		<div class="headline-container">
 			@if(!isChannelDescriptionEditable){
-			<span>{{channelToEdit.description}}</span>
+			<span>{{ channelToEdit.description }}</span>
 
 			} @else {
 			<input
 				class="channel-name-input"
 				type="text"
-				placeholder="Channel-Name"
+				placeholder="Channel-Beschreibung"
 				minlength="2"
 				required
+				[(ngModel)]="channelDescription"
 			/>
 			}
 		</div>
 		<div class="divider"></div>
 		<div class="top-section d-flex-start">
 			<span>Erstellt von</span>
-			<span class="creator-name-headlight">{{channelCreatorName}}</span>
+			<span class="creator-name-headlight">{{ channelCreatorName }}</span>
 		</div>
 	</div>
 
-	<button class="exit-button">Channel verlassen</button>
+	<button class="exit-button" (click)="closeDetailsWindow()">Channel verlassen</button>
 </div>

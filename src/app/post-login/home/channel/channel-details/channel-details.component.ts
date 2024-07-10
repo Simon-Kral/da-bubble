@@ -1,13 +1,16 @@
+import { FormsModule} from '@angular/forms';
 import { Channel } from './../../../../models/channel.class';
 import { FirebaseService } from './../../../../services/firebase/firebase.service';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ChatService } from '../../../../services/chat/chat.service';
 import { CommonModule } from '@angular/common';
 
+
+
 @Component({
 	selector: 'app-channel-details',
 	standalone: true,
-	imports: [CommonModule],
+	imports: [CommonModule, FormsModule],
 	templateUrl: './channel-details.component.html',
 	styleUrl: './channel-details.component.scss',
 })
@@ -20,13 +23,15 @@ export class ChannelDetailsComponent {
 	isChannelNameEditable = false;
 	isChannelDescriptionEditable = false;
 	channelToEdit: Channel = new Channel();
-	channelCreatorName: string = ''
+	channelCreatorName: string = '';
+	channelDescription = '';
+	channelName = '';
 
 
 	ngOnInit(): void {
 		this.getCurrentChannel();
 		this.channelCreatorName = this.firebaseService.getUserDisplayName(this.channelToEdit.createdBy);
-		
+
 	}
 
 
@@ -59,7 +64,21 @@ export class ChannelDetailsComponent {
 	}
 
 	saveChannelName() {
+		if(this.checkChannelCreator()) {
+			console.log('channel name changed');
+			
+		}
 		this.isChannelNameEditable = !this.isChannelNameEditable;
-		console.log('saved channel name');
+	}
+
+	checkChannelCreator() {
+		return this.channelToEdit.createdBy === this.firebaseService.currentUser.userId;
+	}
+
+	closeDetailsWindow() {
+		this.channelDescription = '';
+		this.channelName = '';
+		this.isChannelDetailsVisible = false;
+		this.isChannelDetailsVisibleChange.emit(this.isChannelDetailsVisible);
 	}
 }

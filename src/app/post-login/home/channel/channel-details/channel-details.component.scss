@@ -1,5 +1,10 @@
 @import "../../../../../styles.scss";
 
+button {
+	border: none;
+	background: none;
+}
+
 .channel-details {
 	width: 872px;
 	height: 616px;
@@ -131,4 +136,10 @@ input::placeholder, textarea::placeholder {
 	@include buttonBlue();
 	width: 30%;
 	align-self: end;
+}
+
+.disable {
+	pointer-events: none;
+	opacity: 0.5;
+	color: $text-gray;
 }

@@ -40,7 +40,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	constructor() {
 		this.getCurrentUserId();
 		this.ngOnInit();
-		console.log('Current User ID:', this.currentUserId);   // to-do remove after developement is finished
+		console.log('Current User ID:', this.currentUserId);   // to-do remove after developement is finished	
 	}
 
 	ngOnInit(): void {
@@ -441,4 +441,5 @@ export class FirebaseService implements OnDestroy, OnInit {
 		return chatEntry ? chatEntry.chatCreator : undefined;
 	}
 
+	
 }
