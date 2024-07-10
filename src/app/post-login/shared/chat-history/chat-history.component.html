@@ -8,20 +8,26 @@
         <div class="seperator"></div>
     </div>
     <!--user-msg-->
-    <div class="pointer user-msg">
+    <div class="user-msg">
         <!--msg-menu-->
         <div class="msg-menu">
-            <div class="menu-content">
+            <div class="pointer menu-content">
                 <img src="assets/img/icons/comment_blue.png" alt="menu-icon"><!--Placeholder for last 2 reaktions-->
             </div>
-            <div class="menu-content">
+            <div class="pointer menu-content">
                 <img src="assets/img/icons/add_reaction_blue.png" alt="menu-icon"><!--Placeholder for last 2 reaktions-->
             </div>
-            <div class="menu-content">
-                <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
+            <div class="pointer menu-content"
+            (mouseover)="onMouseOver('addReaction')"
+            (mouseout)="onMouseOut('addReaction')"
+            >
+                <img [src]="currentIconSourceAddReaction" alt="menu-icon">
             </div>
-            <div class="menu-content">
-                <img src="assets/img/icons/comment_black.png" alt="menu-icon">
+            <div class="pointer menu-content"
+            (mouseover)="onMouseOver('comment')"
+            (mouseout)="onMouseOut('comment')"
+            >
+                <img [src]="currentIconSourceComment" alt="menu-icon">
             </div>
         </div>
         <!--user-avatar-->
@@ -52,27 +58,41 @@
                 <div class="menu-content">
                     <img src="assets/img/icons/comment_blue.png" alt="menu-icon"><!--Placeholder for last 2 reaktions-->
                 </div>
-                <div class="menu-content">
+                <div class="pointer menu-content">
                     <img src="assets/img/icons/add_reaction_blue.png" alt="menu-icon"><!--Placeholder for last 2 reaktions-->
                 </div>
-                <div class="menu-content">
-                    <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
+                <div class="pointer menu-content"
+                (mouseover)="onMouseOver('addReaction')"
+                (mouseout)="onMouseOut('addReaction')"
+                >
+                    <img [src]="currentIconSourceAddReaction" alt="menu-icon">
                 </div>
-                <div class="menu-content">
-                    <img src="assets/img/icons/comment_black.png" alt="menu-icon">
+                <div class="pointer menu-content"
+                (mouseover)="onMouseOver('comment')"
+                (mouseout)="onMouseOut('comment')"
+                >
+                    <img [src]="currentIconSourceComment" alt="menu-icon">
                 </div>
-                <div class="menu-content">
-                    <img src="assets/img/icons/more_vert_black.png" alt="menu-icon">
+                <div class="pointer menu-content"
+                (click)="openEditMsgMenu()"
+                (mouseover)="onMouseOver('moreVert')"
+                (mouseout)="onMouseOut('moreVert')"
+                >
+                    <img [src]="currentIconSourceMoreVert" alt="menu-icon">
+                </div>
+                <div class="edit-msg-menu"
+                [ngClass]="{'d-flex': editMsgMenu}"
+                >
+                    <div class="edit-msg">
+                        <span>Nachricht bearbeiten</span>
+                    </div>
                 </div>
             </div>
-
-
-
             <!--msg-content-->
             <div class="current-user-msg-content">
                 <div class="current-user-msg-top">
                     <p>14:30</p>
-                    <span>CURRENTUSER</span>
+                    <span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }}</span>
                 </div>
     
                 <div class="current-user-msg">
@@ -85,7 +105,7 @@
                 </div>
             </div>
             <div class="current-user-avatar">
-                <img src="assets/img/character-images/character_1.png" alt="user-avatar">
+                <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
             </div>
         </div>
 
