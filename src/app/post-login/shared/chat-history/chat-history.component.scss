@@ -5,10 +5,11 @@
     width: 100%;
     height: 100%;
 }
-//user-msg-->
+//msg date-->
 .msg-date {
     @include dFlex(row,center, center);
     width: 100%;
+    padding: 16px 0;
     .seperator {
         width: 50%;
         border: solid 1px $light-purple-lines;   
@@ -27,16 +28,51 @@
         }
     }
 }
-
+//user-msg-->
 .user-msg {
     @include dFlex(row,flex-start, flex-start);
     width: 100%;
     height: 141px;
     gap: 20px;
     padding: 10px 0px 10px 45px;
+    position: relative;
     &:hover {
         background-color: $bg-color;
     }
+    &:hover .msg-content .msg {
+        background-color: $white;
+    }
+    &:hover .msg-menu {
+        display: flex;
+    }
+
+    .msg-menu {
+        @include dFlex(row,center, center);
+        position: absolute;
+        right: 16px;
+        top: -24px;
+        width: 210px;
+        height: 46px;
+        border-radius: 25px 25px 0 25px;
+        border: solid 1px $light-purple-lines;
+        padding: 3px 15px 3px 20px;
+        gap: 5px;
+        background-color: $white;
+        display: none;
+
+            .menu-content {
+                @include dFlex(row,center, center);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                padding: 10px;
+                gap: 10px;
+
+                &:hover {
+                    background-color: $bg-color;
+                }
+            }
+        }
     .user-avatar {
         @include dFlex(row,flex-end, flex-start);
         width: 15%;
@@ -101,9 +137,40 @@
     height: 141px;
     gap: 20px;
     padding: 10px 45px 10px 0;
+    position: relative;
     &:hover {
         background-color: $bg-color;
     }
+    &:hover .msg-menu {
+        display: flex;
+    }
+    .msg-menu {
+        @include dFlex(row,center, center);
+        position: absolute;
+        left: 16px;
+        top: -24px;
+        width: 255px;
+        height: 46px;
+        border-radius: 25px 25px 0 25px;
+        border: solid 1px $light-purple-lines;
+        padding: 3px 15px 3px 20px;
+        gap: 5px;
+        background-color: $white;
+        display: none;
+
+            .menu-content {
+                @include dFlex(row,center, center);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                padding: 10px;
+                gap: 10px;
+
+                &:hover {
+                    background-color: $bg-color;
+                }
+            }
+        }
     .current-user-avatar {
         @include dFlex(row,flex-start, flex-start);
         width: 15%;
