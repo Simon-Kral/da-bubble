@@ -23,15 +23,17 @@ export class ChannelDetailsComponent {
 	isChannelNameEditable = false;
 	isChannelDescriptionEditable = false;
 	channelToEdit: Channel = new Channel();
-	channelCreatorName: string = '';
+	channelCreatorName = '';
 	channelDescription = '';
 	channelName = '';
+	currentChannelName = this.firebaseService.getChannelName();
 
 
 	ngOnInit(): void {
 		this.getCurrentChannel();
 		this.channelCreatorName = this.firebaseService.getUserDisplayName(this.channelToEdit.createdBy);
-
+		console.log(this.currentChannelName);
+		
 	}
 
 
@@ -47,28 +49,30 @@ export class ChannelDetailsComponent {
 
 	toggleChannelDescription() {
 		this.isChannelDescriptionEditable = !this.isChannelDescriptionEditable;
-		console.log(
-			'isChannelDescriptionEditable',
-			this.isChannelDescriptionEditable
-		);
 	}
 
 	saveChannelDescription() {
-		this.isChannelDescriptionEditable = !this.isChannelDescriptionEditable;
-		console.log('saved channel description');
+		if(this.checkChannelCreator()) {
+			if(this.channelDescription !== '') {
+				this.firebaseService.updateChannelDescription(this.channelDescription);
+				this.channelToEdit.description = this.channelDescription;
+			}
+		}
+		this.toggleChannelDescription();
 	}
 
 	toggleIsChannelNameEditable() {
-		this.isChannelNameEditable = !this.isChannelNameEditable;
-		console.log('isChannelNameEditable', this.isChannelNameEditable);
+		this.isChannelNameEditable = !this.isChannelNameEditable
 	}
 
 	saveChannelName() {
 		if(this.checkChannelCreator()) {
-			console.log('channel name changed');
-			
+			if(this.channelName !== '') {
+				this.firebaseService.updateChannelName(this.channelName);
+				this.channelToEdit.name = this.channelName;
+			}	
 		}
-		this.isChannelNameEditable = !this.isChannelNameEditable;
+		this.toggleIsChannelNameEditable();
 	}
 
 	checkChannelCreator() {
@@ -81,4 +85,6 @@ export class ChannelDetailsComponent {
 		this.isChannelDetailsVisible = false;
 		this.isChannelDetailsVisibleChange.emit(this.isChannelDetailsVisible);
 	}
+
+
 }

@@ -442,4 +442,29 @@ export class FirebaseService implements OnDestroy, OnInit {
 	}
 
 	
+	/**
+	 * Updates the name of the channel.
+	 * 
+	 * @param channelName - The new name for the channel.
+	 */
+	updateChannelName(channelName: string) {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.currentChanId}`
+		);
+		updateDoc(channelDocRef, { name: channelName });
+	}
+
+	getChannelName() {
+		return this.channelList.find((channel) => channel.chanId === this.currentChanId)?.name;
+	}
+
+	updateChannelDescription(channelDescription: string) {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.currentChanId}`
+		);
+		updateDoc(channelDocRef, { description: channelDescription });
+	}
+
 }
