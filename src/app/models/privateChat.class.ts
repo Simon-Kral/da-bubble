@@ -7,7 +7,7 @@ export class PrivateChat {
   chatReciver: string;
   privateNoteCreator: string;
   messages: Message[];
-  createdAt: number;
+  createdAt: string;
   createdBy: string;
 
   constructor(obj?: any) {
@@ -16,7 +16,7 @@ export class PrivateChat {
     this.chatReciver = obj ? obj.chatReciver : '';
     this.privateNoteCreator = obj ? obj.privateNote : '';
     this.messages = obj ? obj.messages : [];
-    this.createdAt = obj ? obj.createdAt : 0;
+    this.createdAt = obj ? obj.createdAt : '';
     this.createdBy = obj ? obj.createdBy : '';
   }
 }

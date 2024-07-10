@@ -28,6 +28,10 @@ export class UserProfileComponent {
     this.userProfileVisibilityChange.emit(false);
   }
 
+  startNewPrivateChat() {
+    this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, this.firebaseService.selectedPrivateChatCreatorId, 'userProfile');
+  }
+
   	/**
 	 * Handles the mouse over event for the sideNav icons.
 	 * Changes the icon source based on the provided image name.

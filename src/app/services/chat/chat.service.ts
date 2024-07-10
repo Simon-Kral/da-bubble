@@ -1,10 +1,10 @@
 import { inject, Injectable, OnInit } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
-import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs } from '@angular/fire/firestore';
+import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc } from '@angular/fire/firestore';
 import { PrivateMessageComponent } from '../../post-login/private-message/private-message.component';
 import { BehaviorSubject } from 'rxjs';
 import { Message } from '../../models/message.class';
-
+import { PrivateChat } from '../../models/privateChat.class';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,11 +16,18 @@ export class ChatService {
   msgList: Message[] = [];  // will get used to store msgs from prvt chats or channels
 
   unsubscribeMsgList: any;
+
+  //variabel for new private chat 
+  newPrivateChatId: string = '';
   
 
   //Dragan: channel details variables to-do: outsource to communiction service
   isChannelDetailsVisibleSource = new BehaviorSubject<boolean>(false);
   isChannelDetailsVisible$ = this.isChannelDetailsVisibleSource.asObservable();
+  //Dragan to-do: outsource to communiction service
+toggleChannelDetailsVisibility(visible: boolean) {
+  this.isChannelDetailsVisibleSource.next(visible);
+}
 
   constructor() { }
 
@@ -38,10 +45,8 @@ export class ChatService {
   }
 
 
-//Dragan to-do: outsource to communiction service
-toggleChannelDetailsVisibility(visible: boolean) {
-	  this.isChannelDetailsVisibleSource.next(visible);
-}
+
+// code for fetching messages from private chat or channels
 /**
  * Subscribes to the messages subcollection and updates the message list in real-time.
  * Orders the messages by the 'time' field.
@@ -96,4 +101,69 @@ setMessage(obj: any, id: string): Message{
   };
 }
 
-}
+//code for privateChats
+/**
+ * Starts a new private chat by creating a new chat document in the Firestore database.
+ *
+ * @param {string} chatCreator - The user ID of the person initiating the chat.
+ * @param {string} chatReceiver - The user ID of the person receiving the chat invitation.
+ * @param {string} component - The component from which the function is called.
+ * @returns {Promise<void>} A promise that resolves when the new chat has been created and updated.
+ * to-do implement logic to wether create a new chat from user profile with empty message or from new-message component with message
+ */
+  async startNewPrivateChat(chatCreator: string, chatReceiver: string, component: string) {
+      
+      let newPrivateChat: PrivateChat = {
+        privatChatId: '',
+        chatCreator: chatCreator,
+        chatReciver: chatReceiver,
+        privateNoteCreator: '',
+        messages:  [],
+        createdAt: '',
+        createdBy: chatCreator
+      };
+
+        const docRef = await this.addPrivateChat(newPrivateChat);
+        await this.updatePrivateChatId(docRef);
+      }
+/**
+ * Adds a new private chat document to the Firestore database.
+ *
+ * @param {PrivateChat} privateChatData - The data for the new private chat.
+ * @returns {Promise<any>} A promise that resolves with the document reference of the newly added chat.
+ * @throws {Error} Throws an error if adding the document fails.
+ */
+    async addPrivateChat(privateChatData: PrivateChat): Promise<any> {
+      try {
+        const docRef = await addDoc(
+           collection(this.firestore, 'privateChats'),
+          privateChatData
+        );
+         console.log('Document added with ID: ', docRef.id);
+         return docRef;
+      } catch (e) {
+         console.error('Error adding document: ', e);
+         throw e;
+       }
+     }
+/**
+ * Updates the private chat document with its own ID in the Firestore database.
+ *
+ * @param {any} docRef - The document reference of the newly added private chat.
+ * @returns {Promise<void>} A promise that resolves when the document has been successfully updated.
+ * @throws {Error} Throws an error if updating the document fails.
+ */
+    async updatePrivateChatId(docRef: any): Promise<void> {
+      try {
+        await updateDoc(doc(this.firestore, 'privateChats', docRef.id), {
+          id: docRef.id,
+        });
+        this.newPrivateChatId = docRef.id;
+        console.log('Document updated with ID: ', docRef.id);
+      } catch (e) {
+        console.error('Error updating document: ', e);
+        throw e;
+      }
+    }
+    
+    }
