@@ -431,7 +431,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 		return chatEntry ? chatEntry.chatCreator : undefined;
 	}
 
-	
+	// to-do: please move to the end of --> //channel code sorted by get / update operations
 	/**
 	 * Updates the name of the channel.
 	 * 
