@@ -57,14 +57,14 @@ toggleChannelDetailsVisibility(visible: boolean) {
 // code for fetching messages from private chat or channels
 /**
  * Subscribes to the messages subcollection and updates the message list in real-time.
- * Orders the messages by the 'time' field.
- * to-do: implemet better orderBy + variabel to subscribe wether to channels or private messages collection
+ * Orders the messages by the 'date' and then 'time' field.
+ * to-do: implemet variabel to subscribe wether to channels or private messages collection
  */
 subscribeMsgList() {
   if (this.unsubscribeMsgList) {
     this.unsubscribeMsgList();
   }
-  const q = query(this.getMsgSubColRef(), orderBy('time'));
+  const q = query(this.getMsgSubColRef(), orderBy('date'), orderBy('time'));
   this.unsubscribeMsgList = onSnapshot(
     q,
     (snapshot) => {
@@ -76,7 +76,7 @@ subscribeMsgList() {
       console.log('Msg List:', this.msgList);
     },
     (error) => {
-      console.error('Error fetching channels: ', error);
+      console.error('Error fetching messages: ', error);
     }
   );
 }
@@ -200,7 +200,7 @@ formatTimeString(timestampStr: string): string {
  * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
  */
 
-  async  sendMessageToPrivateChat(messageText:string, prvtChatRef:string, time:number) {
+  async sendMessageToPrivateChat(messageText:string, prvtChatRef:string, time:number) {
       console.log('Sending message to private chat:', prvtChatRef);
       console.log('Message:', messageText);
       console.log('Time:', time);
@@ -244,7 +244,7 @@ formatTimeString(timestampStr: string): string {
   async updateMessageId(docRef: any): Promise<void> {
     try {
       await updateDoc(doc(this.firestore, 'privateChats', this.firebaseService.selectedPrivateChatId, 'messages', docRef.id), {
-        id: docRef.id,
+        messageId: docRef.id,
       });
       console.log('Message document updated with ID: ', docRef.id);
     } catch (e) {
