@@ -24,9 +24,7 @@
 }
 
 .headline {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	@include dFlex(row, space-between, center);
 }
 
 .close-btn {
@@ -121,13 +119,11 @@ input::placeholder, textarea::placeholder {
 }
 
 .creator-name-headlight {
-	@include Nunito(700, 24px, 20px, $purple-2);
+	@include Nunito(00, 24px, 32.74px, $purple-2);
 }
 
 .d-flex-start {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
+	@include dFlex(column, unset, flex-start);
 	gap: 24px;
 }
 

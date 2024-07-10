@@ -1,3 +1,4 @@
+import { FirebaseService } from './../../../services/firebase/firebase.service';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../../shared/chat-input/chat-input.component';
@@ -15,6 +16,7 @@ import { ChatHistoryComponent } from '../../shared/chat-history/chat-history.com
 export class ChannelComponent {
 
   chatService = inject(ChatService);
+  firebaseService = inject(FirebaseService);
   showChannelDetails = false;
   hashtag = 'assets/img/icons/hashtag_chat_inactive.png';
   dropdownArrow = 'assets/img/icons/keyboard_arrow_down_inactive.png';
@@ -45,6 +47,9 @@ export class ChannelComponent {
       profileImg: 'assets/img/character-images/character_3.png'
     },
   ]
+
+  ngOnInit(): void {
+  }
 
   /**
    * Returns the left style value for a chat component item based on the given index.

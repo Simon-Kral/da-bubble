@@ -21,15 +21,16 @@ export class ChannelListComponent implements OnInit, OnDestroy{
   constructor(private router: Router) { }
 
   ngOnInit(): void{
-
+	
   }
 
   ngOnDestroy(): void{
 
   }
  
-  selectChannel(channel: string) {
+  selectChannel(channel: string, chanId: string) {
     this.selectedChannel= channel;
+	this.firebaseService.currentChanId = chanId;
   }
 
 }

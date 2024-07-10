@@ -25,6 +25,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	currentUser: User = new User();
 
 	channelList: Channel[] = [];
+	currentChanId: string = ''
 	userList: User[] = [];
 	privateChatList: PrivateChat[] = [];
 

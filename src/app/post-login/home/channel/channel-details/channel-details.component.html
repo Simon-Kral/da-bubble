@@ -5,7 +5,7 @@
 				src="assets/img/icons/hashtag_chat_inactive.png"
 				alt="Hashtag icon"
 			/>
-			<span>Channel Details</span>
+			<span>{{channelToEdit.name}}</span>
 		</div>
 		<div class="close-btn pointer">
 			<img src="assets/img/icons/close_black.png" alt="Close icon" />
@@ -34,12 +34,12 @@
 			<div class="headline-container">
 				@if(!isChannelNameEditable){
 				<img src="assets/img/icons/hashtag_chat_inactive.png" alt="" />
-				<span>Channel-Name</span>
+				<span>{{channelToEdit.name}}</span>
 				} @else {
 				<input
 					class="channel-name-input input-img"
 					type="text"
-					placeholder="Channel-Name"
+					placeholder={{channelToEdit.name}}
 					minlength="2"
 					required
 				/>
@@ -71,13 +71,7 @@
 
 		<div class="headline-container">
 			@if(!isChannelDescriptionEditable){
-			<span
-				>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-				Corporis, voluptatem nihil suscipit, dicta corrupti pariatur
-				voluptate necessitatibus natus officiis, temporibus aperiam.
-				Quidem cumque cupiditate totam pariatur explicabo minus fuga
-				libero.</span
-			>
+			<span>{{channelToEdit.description}}</span>
 
 			} @else {
 			<input
@@ -92,7 +86,7 @@
 		<div class="divider"></div>
 		<div class="top-section d-flex-start">
 			<span>Erstellt von</span>
-			<span class="creator-name-headlight">Noha Braun</span>
+			<span class="creator-name-headlight">{{channelCreatorName}}</span>
 		</div>
 	</div>
 
