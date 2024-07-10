@@ -11,14 +11,17 @@ export class FirebaseService implements OnDestroy, OnInit {
 	authService = inject(AuthService);
 	firestore: Firestore = inject(Firestore);
 
+	// place for variables
+	currentChanId: string = ''
 	currentUserId: any;
 	currentUser: User = new User();
 
+	// lists for channels, users and private chats
 	channelList: Channel[] = [];
-	currentChanId: string = ''
 	userList: User[] = [];
 	privateChatList: PrivateChat[] = [];
 
+	// unsubscribe functions for real-time updates
 	unsubscribeChannelList: any;
 	unsubscribeUserList: any;
 	unsubscribePrivateChatList: any;
@@ -431,7 +434,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 		return chatEntry ? chatEntry.chatCreator : undefined;
 	}
 
-	// to-do: please move to the end of --> //channel code sorted by get / update operations
+	// Dragan to-do: please move to the end of --> //channel code sorted by get / update operations
 	/**
 	 * Updates the name of the channel.
 	 * 

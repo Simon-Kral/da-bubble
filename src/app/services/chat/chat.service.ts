@@ -35,13 +35,21 @@ toggleChannelDetailsVisibility(visible: boolean) {
 
 
   onMessageSent(event: { message: string, source: string, destinationCollection:string, destinationDocRef:string, timestamp: number }) {
-    console.log('Message sent from component:', event.source);
+    console.log('Message sent from component:', event.source);                    
     console.log('Message sent by:', this.firebaseService.currentUser.userId );
     console.log('Message content:', event.message);
-    console.log('Message destination collection:', event.destinationCollection);
+    console.log('Message destination collection:', event.destinationCollection);   
     console.log('Message destination document reference:', event.destinationDocRef);
     console.log('Message timestamp:', event.timestamp);
     // Add logic to handle the sent message
+    switch (event.destinationCollection) {
+      case 'privateChats':
+        this.sendMessageToPrivateChat(event.message, event.destinationDocRef, event.timestamp);
+        break;
+        default:
+        console.warn('Invalid destination collection:', event.destinationCollection);
+        break;
+    }
   }
 
 
@@ -96,9 +104,27 @@ setMessage(obj: any, id: string): Message{
     date: obj.date || '',
     time: obj.time || '',
     messageSendBy: obj.messageSendBy || '',
-    messageAnswer: obj.messageAnswer || [],
     reactions: obj.reactions || [],
   };
+}
+
+// general helper functions code display messages
+/**
+ * Formats a Unix timestamp string into the format "HH:mm Uhr".
+ *
+ * @param {string} timestampStr - The Unix timestamp string to be formatted.
+ * @returns {string} The formatted time string in the format "HH:mm Uhr".
+ * @throws {Error} Throws an error if the input format is incorrect.
+ */
+formatTimeString(timestampStr: string): string {
+  const timestamp = parseInt(timestampStr, 10);
+  if (isNaN(timestamp)) {
+    throw new Error('Invalid timestamp format.');
+  }
+  const date = new Date(timestamp);
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes} Uhr`;
 }
 
 //code for privateChats
@@ -165,5 +191,66 @@ setMessage(obj: any, id: string): Message{
         throw e;
       }
     }
-    
+/**
+ * Sends a message to a private chat by creating a new message document in the messages subcollection.
+ *
+ * @param {string} messageText - The text of the message to be sent.
+ * @param {string} prvtChatRef - The reference ID of the private chat.
+ * @param {number} time - The timestamp of the message.
+ * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
+ */
+
+  async  sendMessageToPrivateChat(messageText:string, prvtChatRef:string, time:number) {
+      console.log('Sending message to private chat:', prvtChatRef);
+      console.log('Message:', messageText);
+      console.log('Time:', time);
+
+      let newMessage: Message = {
+        messageId: '',
+        text: messageText,
+        chatId: prvtChatRef,
+        date: new Date().toLocaleDateString(),
+        time: time.toString(),
+        messageSendBy: this.firebaseService.currentUser.userId,
+        reactions: []
+      };
+
+        const docRef = await this.addMessageToPrivateChat(newMessage);
+        await this.updateMessageId(docRef);
     }
+ /**
+ * Adds a new message document to the messages subcollection of a private chat.
+ *
+ * @param {Message} messageData - The data of the new message.
+ * @returns {Promise<any>} A promise that resolves with the document reference of the newly added message.
+ * to-do: implement logic to add message to channels so it can be used for channels aswell
+ */
+    addMessageToPrivateChat(messageData: Message): Promise<any> {
+      try {
+        const collectionRef = collection(this.firestore, 'privateChats', this.firebaseService.selectedPrivateChatId, 'messages');
+        return addDoc(collectionRef, messageData);
+      } catch (e) {
+        console.error('Error adding message document: ', e);
+        throw e;
+      }
+    }
+/**
+ * Updates the message document with its own ID in the messages subcollection of a private chat.
+ *
+ * @param {any} docRef - The document reference of the newly added message.
+ * @returns {Promise<void>} A promise that resolves when the document has been successfully updated.
+ * @throws {Error} Throws an error if updating the document fails.
+ */
+  async updateMessageId(docRef: any): Promise<void> {
+    try {
+      await updateDoc(doc(this.firestore, 'privateChats', this.firebaseService.selectedPrivateChatId, 'messages', docRef.id), {
+        id: docRef.id,
+      });
+      console.log('Message document updated with ID: ', docRef.id);
+    } catch (e) {
+      console.error('Error updating message document: ', e);
+      throw e;
+    }
+  }
+  
+}

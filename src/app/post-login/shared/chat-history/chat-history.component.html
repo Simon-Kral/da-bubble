@@ -40,7 +40,7 @@
         <div class="msg-content">
             <div class="msg-top">
                 <span>{{ this.firebaseService.getUserDisplayName(msg.messageSendBy) }}</span>
-                <p>{{ msg.time }}</p>
+                <p>{{ this.chatService.formatTimeString(msg.time) }}</p>
             </div>
 
             <div class="msg">
@@ -96,7 +96,7 @@
             <!--msg-content-->
             <div class="current-user-msg-content">
                 <div class="current-user-msg-top">
-                    <p>{{ msg.time }}</p>
+                    <p>{{ this.chatService.formatTimeString(msg.time) }}</p>
                     <span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }}</span>
                 </div>
     
