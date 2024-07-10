@@ -197,6 +197,10 @@ body {
   display: none!important;
 }
 
+.d-flex {
+  display: flex!important;
+}
+
 // global style for user status
 .offline {
   background-color: $offline-gray;
