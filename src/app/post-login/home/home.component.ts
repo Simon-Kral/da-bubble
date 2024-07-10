@@ -57,13 +57,8 @@ export class HomeComponent implements OnInit {
 	//user menu variables
 	isUserMenuVisible: boolean = false;
 
-
 	//Dragan: channel details variables
 	isChannelDetailsVisible: boolean = false;
-
-	constructor() {
-		this.authService.checkUserStatus(); // to-do is that necessary?
-	}
 
 	ngOnInit(): void {
 		this.firebaseService.setCurrentUserAsObjekt(); // to-do remove after developement is finished
@@ -73,7 +68,6 @@ export class HomeComponent implements OnInit {
 		this.chatService.isUserProfileVisible$.subscribe((visible) => {
 			this.isUserProfileVisible = visible;
 		});
-
 
 		// Dragan: I have added this subscription to the channel details visibility.
 		this.chatService.isChannelDetailsVisible$.subscribe((visible) => {

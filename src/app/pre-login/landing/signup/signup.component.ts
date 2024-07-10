@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
 	FormBuilder,
@@ -6,39 +5,47 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { NgIf } from '@angular/common';
 import { AuthService } from '../../../services/authentication/auth.service';
+import { Router, RouterLink } from '@angular/router';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Component({
-	selector: 'app-login',
+	selector: 'app-signup',
 	standalone: true,
 	imports: [ReactiveFormsModule, NgIf, RouterLink],
-	templateUrl: './login.component.html',
-	styleUrl: './login.component.scss',
+	templateUrl: './signup.component.html',
+	styleUrl: './signup.component.scss',
 })
-export class LoginComponent {
+export class SignupComponent {
 	authService = inject(AuthService);
 	firestore: Firestore = inject(Firestore);
 	fb = inject(FormBuilder);
 	router = inject(Router);
 
-	loginForm = this.fb.nonNullable.group({
+	registerForm = this.fb.nonNullable.group({
+		username: ['', [Validators.required, Validators.minLength(5)]],
 		email: ['', [Validators.required, Validators.email]],
 		password: ['', [Validators.required, Validators.minLength(6)]],
+		privacy: [false, Validators.requiredTrue],
 	});
 
 	/**
-	 * Submits the login form and attempts to authenticate the user.
+	 * Submits the registration form and attempts to register a new user.
 	 * @returns {void}
 	 */
 	onSubmit(): void {
-		const rawForm = this.loginForm.getRawValue();
-		this.authService.login(rawForm.email, rawForm.password).subscribe({
-			error: (err) => {
-				console.log(err);
-			},
-		});
+		const rawForm = this.registerForm.getRawValue();
+		this.authService
+			.signup(rawForm.email, rawForm.username, rawForm.password)
+			.subscribe({
+				next: () => {
+					this.setInitialDatabaseEntries(rawForm.username);
+				},
+				error: (err) => {
+					console.log(err);
+				},
+			});
 	}
 
 	/**
@@ -46,37 +53,24 @@ export class LoginComponent {
 	 * @param {FormControl<string>} formControl - The form control to check.
 	 * @returns {boolean} True if the form control is invalid and touched or dirty, otherwise false.
 	 */
-	formInvalid(formControl: FormControl<string>): boolean {
+	formInvalid(
+		formControl: FormControl<string> | FormControl<boolean>
+	): boolean {
 		return (
 			formControl.invalid && (formControl.touched || formControl.dirty)
 		);
 	}
 
 	/**
-	 * Logs in the user with Google authentication.
+	 * Sets initial database entries for the newly registered user.
+	 * @param {string} username - The username of the newly registered user.
 	 * @returns {void}
 	 */
-	loginWithGoogle(): void {
-		this.authService.signupWithGoogle().subscribe({
-			next: () => {
-				// sessionStorage.setItem(
-				// 	`currentUserId`,
-				// 	this.authService.firebaseAuth.currentUser!.uid
-				// );
-				this.setInitialDatabaseEntries();
-			},
-		});
-	}
-
-	/**
-	 * Sets initial database entries for the logged-in user.
-	 * @returns {void}
-	 */
-	setInitialDatabaseEntries(): void {
+	setInitialDatabaseEntries(username: string): void {
 		const userId = this.authService.firebaseAuth.currentUser!.uid;
 		const userDoc = doc(this.firestore, 'users', userId);
 		const privateChatDoc = doc(this.firestore, 'privateChats', userId);
-		setDoc(userDoc, this.setUserObject()).then(() => {
+		setDoc(userDoc, this.setUserObject(username)).then(() => {
 			setDoc(privateChatDoc, this.setprivateChatObject());
 		});
 	}

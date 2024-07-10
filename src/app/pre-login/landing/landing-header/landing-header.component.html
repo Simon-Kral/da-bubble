@@ -1,7 +1,4 @@
-<header
-	[@intro]="introAnimationStarted"
-	(@intro.done)="onAnimationDone($event)"
->
+<header [@intro]="introAnimationStarted" (@intro.done)="onAnimationDone()">
 	<div class="logo-with-text">
 		<img src="assets/img/logos/da_bubble_logo.png" />
 		<div class="span-wrap">
