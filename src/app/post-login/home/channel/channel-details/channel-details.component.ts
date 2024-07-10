@@ -18,6 +18,17 @@ export class ChannelDetailsComponent {
 	chatService = inject(ChatService);
 
 	isChannelNameEditable = false;
+	isChannelDescriptionEditable = false;
+
+	toggleChannelDescription() {
+		this.isChannelDescriptionEditable = !this.isChannelDescriptionEditable;
+		console.log('isChannelDescriptionEditable', this.isChannelDescriptionEditable);
+	}
+
+	saveChannelDescription() {
+		this.isChannelDescriptionEditable = !this.isChannelDescriptionEditable;
+		console.log('saved channel description');
+	}
 
 	toggleIsChannelNameEditable() {
 		this.isChannelNameEditable = !this.isChannelNameEditable;

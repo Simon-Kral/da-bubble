@@ -12,12 +12,17 @@
 		</div>
 	</div>
 
-	<div class="channel-name-container" [ngClass]="{'change-channel-name-active': isChannelNameEditable}">
+	<div
+		class="border-style"
+		[ngClass]="{ 'change-channel-name-active': isChannelNameEditable }"
+	>
 		<div class="channel-name">
 			<div class="top-section">
 				<span>Channel-Name</span>
 				@if(!isChannelNameEditable) {
-				<span class="save-button pointer" (click)="toggleIsChannelNameEditable()"
+				<span
+					class="save-button pointer"
+					(click)="toggleIsChannelNameEditable()"
 					>Bearbeiten</span
 				>
 				} @else {
@@ -26,13 +31,13 @@
 				>
 				}
 			</div>
-			<div class="current-channel-name">
+			<div class="headline-container">
 				@if(!isChannelNameEditable){
 				<img src="assets/img/icons/hashtag_chat_inactive.png" alt="" />
 				<span>Channel-Name</span>
 				} @else {
 				<input
-					class="channel-name-input"
+					class="channel-name-input input-img"
 					type="text"
 					placeholder="Channel-Name"
 					minlength="2"
@@ -42,4 +47,54 @@
 			</div>
 		</div>
 	</div>
+
+	<div
+		class="border-style d-flex-col"
+		[ngClass]="{
+			'change-channel-name-active': isChannelDescriptionEditable
+		}"
+	>
+		<div class="top-section">
+			<span>Beschreibung</span>
+			@if(!isChannelDescriptionEditable) {
+			<span
+				class="save-button pointer"
+				(click)="toggleChannelDescription()"
+				>Bearbeiten</span
+			>
+			} @else {
+			<span class="save-button pointer" (click)="saveChannelDescription()"
+				>Speichern</span
+			>
+			}
+		</div>
+
+		<div class="headline-container">
+			@if(!isChannelDescriptionEditable){
+			<span
+				>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				Corporis, voluptatem nihil suscipit, dicta corrupti pariatur
+				voluptate necessitatibus natus officiis, temporibus aperiam.
+				Quidem cumque cupiditate totam pariatur explicabo minus fuga
+				libero.</span
+			>
+
+			} @else {
+			<input
+				class="channel-name-input"
+				type="text"
+				placeholder="Channel-Name"
+				minlength="2"
+				required
+			/>
+			}
+		</div>
+		<div class="divider"></div>
+		<div class="top-section d-flex-start">
+			<span>Erstellt von</span>
+			<span class="creator-name-headlight">Noha Braun</span>
+		</div>
+	</div>
+
+	<button class="exit-button">Channel verlassen</button>
 </div>
