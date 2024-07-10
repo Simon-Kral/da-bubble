@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
-
+import { ChatService } from '../../../services/chat/chat.service';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class UserProfileComponent {
   firebaseService = inject(FirebaseService);
+  chatService = inject(ChatService);
 
   @Input() isUserProfileVisible: boolean = false;
   @Output() userProfileVisibilityChange = new EventEmitter<boolean>();

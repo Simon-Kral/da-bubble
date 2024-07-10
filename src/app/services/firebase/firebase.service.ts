@@ -1,15 +1,5 @@
 import { Injectable, OnDestroy, OnInit, inject } from '@angular/core';
-import {
-	query,
-	orderBy,
-	where,
-	Firestore,
-	collection,
-	doc,
-	onSnapshot,
-	updateDoc,
-	getDocs,
-} from '@angular/fire/firestore';
+import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs } from '@angular/fire/firestore';
 import { AuthService } from '../authentication/auth.service';
 import { Channel } from '../../models/channel.class';
 import { User } from '../../models/user.class';
@@ -33,7 +23,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	unsubscribeUserList: any;
 	unsubscribePrivateChatList: any;
 
-	// variables for private message component
+	// variables for private message component  might be outsourced to chat service
 	selectedPrivateChatId: string = '';
 	selectedPrivateChatCreatorId: string = '';
 

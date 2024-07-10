@@ -23,7 +23,6 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   communicationService = inject(CommunicationService);
   
   selectedMessageId: string | null = null;
-  
 
   constructor(private router: Router) {
    }
@@ -37,7 +36,8 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   }
 
   onMessageClick(messageId: string) {
-    this.selectedMessageId = messageId;
+    this.firebaseService.selectedPrivateChatId = messageId;
+    this.chatService.ngOnInit();
   }
 
 }

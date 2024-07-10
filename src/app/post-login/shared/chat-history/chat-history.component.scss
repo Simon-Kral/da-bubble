@@ -186,7 +186,7 @@
                 display: none;
                 .edit-msg {
                     @include dFlex(row,center, center);
-                    width: 229px;
+                    width: 229px; //to-do adjust width for hover
                     height: 47px;
                     border-radius: 100px;
                     padding: 10px 20px 10px 20px;
@@ -197,11 +197,11 @@
                     }
 
                     &:hover span {
-                        @include Nunito(700, 24px, 32.74px, $purple-3);
+                        @include Nunito(700, 24px, 32.74px, $purple-3); //to-do ist that the right sizing?
                     }
 
                     span {
-                        @include Nunito(600, 24px, 32.74px, $black);
+                        @include Nunito(600, 24px, 32.74px, $black); //to-do ist that the right sizing?
                         text-wrap: nowrap;
                     }
                 }

@@ -6,10 +6,9 @@ export class Message {
   messageId: string;
   text: string;
   chatId: string;
-  user: User;
   date: string;
   time: string;
-  messageSendBy: User;
+  messageSendBy: string;
   messageAnswer: MessageAnswer[];
   reactions: Reaction[];
 
@@ -17,7 +16,6 @@ export class Message {
     this.messageId = obj ? obj.id : '';
     this.text = obj ? obj.text : '';
     this.chatId = obj ? obj.chatId : '';
-    this.user = obj ? obj.user : '';
     this.date = obj ? obj.date : '';
     this.time = obj ? obj.time : '';
     this.messageSendBy = obj ? obj.messageSendBy : '';
