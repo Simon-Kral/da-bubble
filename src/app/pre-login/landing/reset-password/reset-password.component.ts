@@ -39,10 +39,16 @@ export class ResetPasswordComponent {
 		{ validators: comparePasswords }
 	);
 
-	errorMessage: string | null = null;
-
+	/**
+	 * Constructor to initialize the component with the route information.
+	 * @param {ActivatedRoute} route - The activated route to access query parameters.
+	 */
 	constructor(private route: ActivatedRoute) {}
 
+	/**
+	 * Submits the password reset form and resets the user's password using the provided action code.
+	 * @returns {void}
+	 */
 	onSubmit(): void {
 		const rawForm = this.pwResetForm.getRawValue();
 		this.route.queryParams.subscribe((params) => {
@@ -51,17 +57,22 @@ export class ResetPasswordComponent {
 				.resetPassword(actionCode, rawForm.password)
 				.subscribe({
 					next: () => {
-						console.log('password changed');
+						console.log('changed password');
 						this.router.navigateByUrl('/');
 					},
 					error: (err) => {
-						this.errorMessage = err.code;
+						console.log(err);
 					},
 				});
 		});
 	}
 
-	formInvalid(formControl: FormControl<string>) {
+	/**
+	 * Checks if a form control is invalid and has been touched or is dirty.
+	 * @param {FormControl<string>} formControl - The form control to check.
+	 * @returns {boolean} True if the form control is invalid and touched or dirty, otherwise false.
+	 */
+	formInvalid(formControl: FormControl<string>): boolean {
 		return (
 			formControl.invalid && (formControl.touched || formControl.dirty)
 		);

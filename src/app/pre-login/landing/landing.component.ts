@@ -8,7 +8,12 @@ import { AuthService } from '../../services/authentication/auth.service';
 @Component({
 	selector: 'app-landing',
 	standalone: true,
-	imports: [LandingHeaderComponent, LandingFooterComponent, RouterOutlet, NgIf],
+	imports: [
+		LandingHeaderComponent,
+		LandingFooterComponent,
+		RouterOutlet,
+		NgIf,
+	],
 	animations: [],
 	templateUrl: './landing.component.html',
 	styleUrl: './landing.component.scss',
@@ -16,8 +21,4 @@ import { AuthService } from '../../services/authentication/auth.service';
 export class LandingComponent {
 	authService = inject(AuthService);
 	router = inject(Router);
-
-	constructor() {
-		this.authService.checkUserStatus();
-	}
 }

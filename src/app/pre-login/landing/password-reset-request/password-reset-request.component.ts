@@ -24,21 +24,29 @@ export class PasswordResetRequestComponent {
 		email: ['', [Validators.required, Validators.email]],
 	});
 
-	errorMessage: string | null = null;
-
+	/**
+	 * Submits the password reset request form and sends a password reset link to the provided email.
+	 * @returns {void}
+	 */
 	onSubmit(): void {
 		const rawForm = this.pwResetForm.getRawValue();
 		this.authService.sendPasswordResetLink(rawForm.email).subscribe({
 			next: () => {
+				console.log('sent email');
 				this.router.navigateByUrl('/');
 			},
 			error: (err) => {
-				this.errorMessage = err.code;
+				console.log(err);
 			},
 		});
 	}
 
-	formInvalid(formControl: FormControl<string>) {
+	/**
+	 * Checks if a form control is invalid and has been touched or is dirty.
+	 * @param {FormControl<string>} formControl - The form control to check.
+	 * @returns {boolean} True if the form control is invalid and touched or dirty, otherwise false.
+	 */
+	formInvalid(formControl: FormControl<string>): boolean {
 		return (
 			formControl.invalid && (formControl.touched || formControl.dirty)
 		);
