@@ -8,32 +8,24 @@ import { Message } from '../../models/message.class';
 @Injectable({
   providedIn: 'root'
 })
-export class ChatService implements OnInit{
+export class ChatService {
 
   firebaseService = inject(FirebaseService);
   firestore: Firestore = inject(Firestore);
 
-  msgList: Message[] = [];
+  msgList: Message[] = [];  // will get used to store msgs from prvt chats or channels
 
   unsubscribeMsgList: any;
   
 
-  //Dragan: channel details variables
+  //Dragan: channel details variables to-do: outsource to communiction service
   isChannelDetailsVisibleSource = new BehaviorSubject<boolean>(false);
   isChannelDetailsVisible$ = this.isChannelDetailsVisibleSource.asObservable();
 
   constructor() { }
 
-  ngOnInit() {
-    this.subscribeMsgList();
-    console.log('Current Msg List:', this.msgList);
-  }
 
-  ngOnDestroy() {
-    if (this.unsubscribeMsgList) {
-      this.unsubscribeMsgList();
-    }    // to-do: implement unsubscribe to private message list
-  }
+
 
   onMessageSent(event: { message: string, source: string, destinationCollection:string, destinationDocRef:string, timestamp: number }) {
     console.log('Message sent from component:', event.source);
@@ -46,7 +38,7 @@ export class ChatService implements OnInit{
   }
 
 
-//Dragan
+//Dragan to-do: outsource to communiction service
 toggleChannelDetailsVisibility(visible: boolean) {
 	  this.isChannelDetailsVisibleSource.next(visible);
 }
@@ -56,6 +48,9 @@ toggleChannelDetailsVisibility(visible: boolean) {
  * to-do: implemet better orderBy + variabel to subscribe wether to channels or private messages collection
  */
 subscribeMsgList() {
+  if (this.unsubscribeMsgList) {
+    this.unsubscribeMsgList();
+  }
   const q = query(this.getMsgSubColRef(), orderBy('time'));
   this.unsubscribeMsgList = onSnapshot(
     q,

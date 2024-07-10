@@ -37,7 +37,7 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
 
   onMessageClick(messageId: string) {
     this.firebaseService.selectedPrivateChatId = messageId;
-    this.chatService.ngOnInit();   // to-do implement logic to subscribe & unsubscribe when another message is selected
+    this.chatService.subscribeMsgList();  
   }
 
 }
