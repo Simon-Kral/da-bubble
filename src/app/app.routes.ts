@@ -8,7 +8,7 @@ import { PrivateMessageComponent } from './post-login/private-message/private-me
 
 // pre-login components
 import { LandingComponent } from './pre-login/landing/landing.component';
-import { RegisterComponent } from './pre-login/landing/register/register.component';
+import { SignupComponent } from './pre-login/landing/signup/signup.component';
 import { PasswordResetRequestComponent } from './pre-login/landing/password-reset-request/password-reset-request.component';
 import { SelectAvatarComponent } from './pre-login/landing/select-avatar/select-avatar.component';
 import { LoginComponent } from './pre-login/landing/login/login.component';
@@ -21,7 +21,7 @@ export const routes: Routes = [
 		component: LandingComponent,
 		children: [
 			{ path: '', component: LoginComponent },
-			{ path: 'register', component: RegisterComponent },
+			{ path: 'register', component: SignupComponent },
 			{ path: 'avatar', component: SelectAvatarComponent },
 			{
 				path: 'password-reset-request',
