@@ -15,6 +15,7 @@ import { CurrentUserProfileComponent } from './current-user-profile/current-user
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { ChannelDetailsComponent } from './channel/channel-details/channel-details.component';
 import { CommunicationService } from '../../services/communication/communication.service';
+import { AddMembersToChannelComponent } from './channel/add-members-to-channel/add-members-to-channel.component';
 @Component({
 	selector: 'app-home',
 	standalone: true,
@@ -33,6 +34,7 @@ import { CommunicationService } from '../../services/communication/communication
 		CurrentUserProfileComponent,
 		UserMenuComponent,
 		ChannelDetailsComponent,
+		AddMembersToChannelComponent,
 	],
 })
 export class HomeComponent implements OnInit {
@@ -81,6 +83,11 @@ export class HomeComponent implements OnInit {
 		this.communicationService.isChannelDetailsVisible$.subscribe((visible) => {
 			this.isChannelDetailsVisible = visible;
 		});
+
+		// Dragan: I have added this subscription to the add members to channel visibility.
+		this.communicationService.isAddMembersToChannelVisible$.subscribe((visible) => {
+			this.isAddMembersToChannelVisible = visible;
+		});
 	}
 
 	//sidenav functions
@@ -108,6 +115,9 @@ export class HomeComponent implements OnInit {
 				break;
 			case 'channelDetails':
 				this.isChannelDetailsVisible = visible;
+				break;
+			case 'addMembersToChannel':
+				this.isAddMembersToChannelVisible = visible;
 				break;
 			default:
 				console.warn(`Unknown component name: ${name}`);
@@ -139,6 +149,9 @@ export class HomeComponent implements OnInit {
 				break;
 			case 'channelDetails':
 				this.isChannelDetailsVisible = false;
+				break;
+			case 'addMembersToChannel':
+				this.isAddMembersToChannelVisible = false;
 				break;
 			default:
 				console.warn(`Unknown popup name: ${name}`);

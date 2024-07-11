@@ -1,87 +1,158 @@
 <!--Header app-->
-<app-header (userProfileToggle)="toggleComponentVisibility('userMenu',$event)"></app-header>
+<app-header
+	(userProfileToggle)="toggleComponentVisibility('userMenu', $event)"
+></app-header>
 <div class="home-wrapper">
-  <!-- Sidenav Controller -->
-  <div class="sidenav-controller pointer" (click)="toggleSidenav()" (mouseover)="onMouseOver()"
-    (mouseout)="onMouseOut()">
-    <span>Workspace-Menü {{ isSidenavVisible ? "schließen" : "öffnen" }}</span>
-    <img class="start-conversation" [src]="currentIconSourceMenu" alt="show-menu-icon"
-      [class.sidenav-open]="isSidenavVisible" [class.sidenav-close]="!isSidenavVisible" />
-  </div>
+	<!-- Sidenav Controller -->
+	<div
+		class="sidenav-controller pointer"
+		(click)="toggleSidenav()"
+		(mouseover)="onMouseOver()"
+		(mouseout)="onMouseOut()"
+	>
+		<span
+			>Workspace-Menü
+			{{ isSidenavVisible ? "schließen" : "öffnen" }}</span
+		>
+		<img
+			class="start-conversation"
+			[src]="currentIconSourceMenu"
+			alt="show-menu-icon"
+			[class.sidenav-open]="isSidenavVisible"
+			[class.sidenav-close]="!isSidenavVisible"
+		/>
+	</div>
 
-  <!--  SideNav -->
-@if (isSidenavVisible) {
-  <div class="sidenav-wrapper" [ngClass]="{ 'd-none': !isSidenavVisible }">
-    <app-sidenav [isCreateChannelVisible]="isCreateChannelVisible" (createChannelVisibilityChange)="
-          toggleComponentVisibility('createChannel',$event)"></app-sidenav>
-  </div>
-}
-  <!--  router-outlet used for channels / prvt-msg & start-new-msg component -->
+	<!--  SideNav -->
+	@if (isSidenavVisible) {
+	<div class="sidenav-wrapper" [ngClass]="{ 'd-none': !isSidenavVisible }">
+		<app-sidenav
+			[isCreateChannelVisible]="isCreateChannelVisible"
+			(createChannelVisibilityChange)="
+				toggleComponentVisibility('createChannel', $event)
+			"
+		></app-sidenav>
+	</div>
+	}
+	<!--  router-outlet used for channels / prvt-msg & start-new-msg component -->
 
-  <div class="app-wrapper">
-    <router-outlet></router-outlet>
-  </div>
+	<div class="app-wrapper">
+		<router-outlet></router-outlet>
+	</div>
 
-  <!-- threads -->
-  @if (isThreadVisible) {
-  <div class="app-wrapper">
-    <app-thread></app-thread>
-  </div>
-  }
+	<!-- threads -->
+	@if (isThreadVisible) {
+	<div class="app-wrapper">
+		<app-thread></app-thread>
+	</div>
+	}
 
-  <!-- Popup Overlay Create Channel -->
-  @if (isCreateChannelVisible) {
-  <div class="popup-wrapper" (click)="closePopupOverlay('createChannel')"
-    [ngClass]="{ 'visible': isCreateChannelVisible }">
-    <div class="popup-content" (click)="preventClose($event)">
-      <app-create-new-channel [isCreateChannelVisible]="isCreateChannelVisible" (createChannelVisibilityChange)="
-      toggleComponentVisibility('createChannel',$event)
-    "></app-create-new-channel>
-    </div>
-  </div>
-  }
-  <!-- Popup Overlay User Profile -->
-  @if (isUserProfileVisible) {
-  <div class="popup-wrapper" (click)="closePopupOverlay('userProfile')" [ngClass]="{ 'visible': isUserProfileVisible }">
-    <div class="popup-content" (click)="preventClose($event)">
-      <app-user-profile [isUserProfileVisible]="isUserProfileVisible" (userProfileVisibilityChange)="
-      toggleComponentVisibility('userProfile',$event)
-    "></app-user-profile>
-    </div>
-  </div>
-  }
-  <!-- Popup Overlay Current User Profile -->
-  @if (isCurrentUserProfileVisible) {
-  <div class="popup-wrapper current-user-popup" (click)="closePopupOverlay('currentUserProfile')"
-    [ngClass]="{ 'visible': isCurrentUserProfileVisible }">
-    <div class="popup-content-user-profile" (click)="preventClose($event)">
-      <app-current-user-profile [isCurrentUserProfileVisible]="isCurrentUserProfileVisible"
-        (currentUserProfileVisibilityChange)="
-      toggleComponentVisibility('currentUserProfile',$event)
-    "></app-current-user-profile>
-    </div>
-  </div>
-  }
-  <!-- Popup Overlay User Menu -->
-  @if (isUserMenuVisible) {
-  <div class="popup-wrapper" (click)="closePopupOverlay('userMenu')" [ngClass]="{ 'visible': isUserMenuVisible }">
-    <div class="popup-content-user-profile" (click)="preventClose($event)">
-      <app-user-menu [isUserMenuVisible]="isUserMenuVisible" [isCurrentUserProfileVisible]="isCurrentUserProfileVisible"
-        (userMenuVisibilityChange)="toggleComponentVisibility('userMenu',$event)"
-        (currentUserProfileVisibilityChange)="toggleComponentVisibility('currentUserProfile', $event)"></app-user-menu>
-    </div>
-  </div>
-  }
+	<!-- Popup Overlay Create Channel -->
+	@if (isCreateChannelVisible) {
+	<div
+		class="popup-wrapper"
+		(click)="closePopupOverlay('createChannel')"
+		[ngClass]="{ visible: isCreateChannelVisible }"
+	>
+		<div class="popup-content" (click)="preventClose($event)">
+			<app-create-new-channel
+				[isCreateChannelVisible]="isCreateChannelVisible"
+				(createChannelVisibilityChange)="
+					toggleComponentVisibility('createChannel', $event)
+				"
+			></app-create-new-channel>
+		</div>
+	</div>
+	}
+	<!-- Popup Overlay User Profile -->
+	@if (isUserProfileVisible) {
+	<div
+		class="popup-wrapper"
+		(click)="closePopupOverlay('userProfile')"
+		[ngClass]="{ visible: isUserProfileVisible }"
+	>
+		<div class="popup-content" (click)="preventClose($event)">
+			<app-user-profile
+				[isUserProfileVisible]="isUserProfileVisible"
+				(userProfileVisibilityChange)="
+					toggleComponentVisibility('userProfile', $event)
+				"
+			></app-user-profile>
+		</div>
+	</div>
+	}
+	<!-- Popup Overlay Current User Profile -->
+	@if (isCurrentUserProfileVisible) {
+	<div
+		class="popup-wrapper current-user-popup"
+		(click)="closePopupOverlay('currentUserProfile')"
+		[ngClass]="{ visible: isCurrentUserProfileVisible }"
+	>
+		<div class="popup-content-user-profile" (click)="preventClose($event)">
+			<app-current-user-profile
+				[isCurrentUserProfileVisible]="isCurrentUserProfileVisible"
+				(currentUserProfileVisibilityChange)="
+					toggleComponentVisibility('currentUserProfile', $event)
+				"
+			></app-current-user-profile>
+		</div>
+	</div>
+	}
+	<!-- Popup Overlay User Menu -->
+	@if (isUserMenuVisible) {
+	<div
+		class="popup-wrapper"
+		(click)="closePopupOverlay('userMenu')"
+		[ngClass]="{ visible: isUserMenuVisible }"
+	>
+		<div class="popup-content-user-profile" (click)="preventClose($event)">
+			<app-user-menu
+				[isUserMenuVisible]="isUserMenuVisible"
+				[isCurrentUserProfileVisible]="isCurrentUserProfileVisible"
+				(userMenuVisibilityChange)="
+					toggleComponentVisibility('userMenu', $event)
+				"
+				(currentUserProfileVisibilityChange)="
+					toggleComponentVisibility('currentUserProfile', $event)
+				"
+			></app-user-menu>
+		</div>
+	</div>
+	}
 
-  <!-- Popup Overlay Channel Details -->
-  @if (isChannelDetailsVisible) {
-  <div class="popup-wrapper" (click)="closePopupOverlay('channelDetails')"
-    [ngClass]="{ 'visible': isChannelDetailsVisible }">
-    <div class="popup-channel-details" (click)="preventClose($event)">
-      <app-channel-details [isChannelDetailsVisible]="isChannelDetailsVisible" (isChannelDetailsVisibleChange)="
-			toggleComponentVisibility('channelDetails',$event)
-		  "></app-channel-details>
-    </div>
-  </div>
-  }
+	<!-- Popup Overlay Channel Details -->
+	@if (isChannelDetailsVisible) {
+	<div
+		class="popup-wrapper"
+		(click)="closePopupOverlay('channelDetails')"
+		[ngClass]="{ visible: isChannelDetailsVisible }"
+	>
+		<div class="popup-channel-details" (click)="preventClose($event)">
+			<app-channel-details
+				[isChannelDetailsVisible]="isChannelDetailsVisible"
+				(isChannelDetailsVisibleChange)="
+					toggleComponentVisibility('channelDetails', $event)
+				"
+			></app-channel-details>
+		</div>
+	</div>
+	}
+
+	<!-- Popup Overlay Add Members To Channel -->
+	@if (isAddMembersToChannelVisible) {
+	<div
+		class="popup-wrapper"
+		(click)="closePopupOverlay('addMembersToChannel')"
+		[ngClass]="{ visible: isAddMembersToChannelVisible }"
+	>
+		<div class="popup-content" (click)="preventClose($event)">
+			<app-add-members-to-channel
+				[isAddMembersToChannelVisible]="isAddMembersToChannelVisible"
+				(addMembersToChannelVisibilityChange)="
+					toggleComponentVisibility('addMembersToChannel', $event)
+				"
+			></app-add-members-to-channel>
+		</div>
+	</div>
+	}
 </div>

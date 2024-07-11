@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-add-members-to-channel',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './add-members-to-channel.component.scss'
 })
 export class AddMembersToChannelComponent {
-
+	@Input() isAddMembersToChannelVisible = false;
+	@Output() addMembersToChannelVisibilityChange = new EventEmitter<boolean>();
+	
 }
