@@ -360,7 +360,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * Logs the updated private chat list to the console.
 	 */
 	subPrivateChatList() {
-		const q = query(this.getPrivateChatRef(), orderBy('chatCreator'));
+		const q = query(this.getPrivateChatCollectionRef(), orderBy('chatCreator'));
 		this.unsubscribePrivateChatList = onSnapshot(
 			q,
 			(snapshot) => {
@@ -395,7 +395,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * Returns a reference to the privateChats collection in Firestore.
 	 * @returns {CollectionReference} A reference to the privateChats collection.
 	 */
-	getPrivateChatRef() {
+	getPrivateChatCollectionRef() {
 		return collection(this.firestore, 'privateChats');
 	}
 
@@ -433,6 +433,43 @@ export class FirebaseService implements OnDestroy, OnInit {
 			: '';
 		return chatEntry ? chatEntry.chatCreator : undefined;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	// Dragan to-do: please move to the end of --> //channel code sorted by get / update operations
 	/**

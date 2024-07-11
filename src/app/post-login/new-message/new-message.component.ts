@@ -4,7 +4,7 @@ import { ChatService } from '../../services/chat/chat.service';
 import { SearchService } from '../../services/search/search.service';
 import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
-
+import { FirebaseService } from '../../services/firebase/firebase.service';
 @Component({
   selector: 'app-new-message',
   standalone: true,
@@ -15,8 +15,12 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModu
 export class NewMessageComponent {
   chatService = inject(ChatService);
   searchService = inject(SearchService);
+  firebaseService = inject(FirebaseService);
 
   searchText: FormGroup;
+  selectedPrivateChatReciver: string = '';  // will get used to store the id of the selected private chat reciver
+  selectedChanId: string = '';         // will get used to store the id of the selected channel
+  destinationCollection: string = ''; // will get used to store the collection name of the destination (channels or privateChats)
 
   constructor(private fb: FormBuilder) {
 		this.searchText = this.fb.group({
@@ -34,4 +38,7 @@ onSearch() {
   let source = 'newMessageComponent'; 
   this.searchService.onSearch(searchValue, source);
 }
+
+
+
 }

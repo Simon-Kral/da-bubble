@@ -109,7 +109,7 @@ setMessage(obj: any, id: string): Message{
  */
 formatTimeString(timestampStr: string): string {
   const timestamp = parseInt(timestampStr, 10);
-  if (isNaN(timestamp)) {
+  if (isNaN(timestamp)) {                                 // to-do can be removed after development
     throw new Error('Invalid timestamp format.');
   }
   const date = new Date(timestamp);
@@ -124,11 +124,10 @@ formatTimeString(timestampStr: string): string {
  *
  * @param {string} chatCreator - The user ID of the person initiating the chat.
  * @param {string} chatReceiver - The user ID of the person receiving the chat invitation.
- * @param {string} component - The component from which the function is called.
  * @returns {Promise<void>} A promise that resolves when the new chat has been created and updated.
  * to-do implement logic to wether create a new chat from user profile with empty message or from new-message component with message
  */
-  async startNewPrivateChat(chatCreator: string, chatReceiver: string, component: string) {
+  async startNewPrivateChat(chatCreator: string, chatReceiver: string) {
       
       let newPrivateChat: PrivateChat = {
         privatChatId: '',
@@ -244,4 +243,23 @@ formatTimeString(timestampStr: string): string {
     }
   }
   
+  /**
+   * Checks if a private chat between the given chatCreator and chatReceiver exists.
+   * @param {string} chatReceiver - The ID of the chat receiver.
+   * @returns {Promise<boolean>} A promise that resolves to true if the chat exists, otherwise false.
+   */
+  checkIfPrivateChatExists(chatReceiver: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        const currentUserId = this.firebaseService.currentUserId;
+        const chatExists = this.firebaseService.privateChatList.some(chat => 
+          (chat.chatCreator === currentUserId && chat.chatReciver === chatReceiver) ||
+          (chat.chatCreator === chatReceiver && chat.chatReciver === currentUserId)
+        );
+        resolve(chatExists);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }
