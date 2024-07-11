@@ -1,17 +1,20 @@
 <div class="add-members-container">
 	<div class="headline">
 		<span>Leute Hinzufügen</span>
-		<button class="close-button">
-			<img src="assets/img/icons/close_black.png" alt="">
-		</button>
+		<div class="close-button" (click)="closeWindow()">
+			<img src="assets/img/icons/close_black.png" alt="" />
+		</div>
 	</div>
 	<div class="current-channel-name">
-		<img src="assets/img/icons/hashtag_chat_active.png" alt="">
-		<span>{{firebaseService.getChannelName()}}</span>
+		<img src="assets/img/icons/hashtag_chat_active.png" alt="" />
+		<span>{{ firebaseService.getChannelName() }}</span>
 	</div>
 
-	<input [(ngModel)]="userName" class="search-input" type="text" placeholder="Namen eingeben" >
-	<button [disabled]="!userName">
-		Hinzufügen
-	</button>
+	<input
+		[(ngModel)]="userName"
+		class="search-input"
+		type="text"
+		placeholder="Namen eingeben"
+	/>
+	<button [disabled]="!userName">Hinzufügen</button>
 </div>

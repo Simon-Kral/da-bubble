@@ -33,6 +33,10 @@
   &:active {
 	@include btnActive($bg-color);
   }
+  >img {
+	width: 20px;
+	height: 20px;
+  }
 
 }
 

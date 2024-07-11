@@ -19,4 +19,9 @@ export class AddMembersToChannelComponent {
 	userName = '';
 	firebaseService = inject(FirebaseService);
 
+	closeWindow(): void {
+		this.userName = '';
+		this.addMembersToChannelVisibilityChange.emit(false);
+	}
+
 }

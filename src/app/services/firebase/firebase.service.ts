@@ -481,4 +481,5 @@ export class FirebaseService implements OnDestroy, OnInit {
 			members: this.channelList.find((channel) => channel.chanId === this.currentChanId)?.members.filter((member) => member !== this.currentUserId),
 		});
 	}
+
 }
