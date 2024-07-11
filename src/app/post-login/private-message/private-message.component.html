@@ -35,8 +35,10 @@
 	}
 	<app-chat-history></app-chat-history>
 	<div class="chat-input">
-		<app-chat-input [sourceComponent]="'privateMessage'" [destinationCollection]="'privateChats'"
-			[destinationDocRef]="'privatChatId'"
+		<app-chat-input 
+			[sourceComponent]="'privateMessage'" 
+			[destinationCollection]="'privateChats'"
+			[destinationDocRef]="this.firebaseService.selectedPrivateChatId"
 			[placeholderText]="'Nachricht an chatCreator.name ODER currentUser.name'"
 			(messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
 	</div>

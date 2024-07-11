@@ -9,7 +9,6 @@ export class Message {
   date: string;
   time: string;
   messageSendBy: string;
-  messageAnswer: MessageAnswer[];
   reactions: Reaction[];
 
   constructor(obj?: any) {
@@ -19,7 +18,6 @@ export class Message {
     this.date = obj ? obj.date : '';
     this.time = obj ? obj.time : '';
     this.messageSendBy = obj ? obj.messageSendBy : '';
-    this.messageAnswer = obj ? obj.messageAnswer : [];
     this.reactions = obj ? obj.reactions : [];
   }
 

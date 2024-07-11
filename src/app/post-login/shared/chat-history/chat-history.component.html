@@ -1,12 +1,14 @@
 <div class="chat-history-wrapper">
-    <!--msg date seperator-->
+@for (msg of this.chatService.msgList; track msg; let index = $index) {
+    <!--msg date seperator to-do implement logic to check if msg is sent today, or in past days-->
     <div class="msg-date">
         <div class="seperator"></div>
             <div class="date-container">
-                <span>Dienstag, 14 Januar</span>
+                <span>{{ msg.date }}</span>
             </div>
         <div class="seperator"></div>
     </div>
+    @if (msg.messageSendBy !== this.firebaseService.currentUserId) {
     <!--user-msg-->
     <div class="user-msg">
         <!--msg-menu-->
@@ -32,17 +34,17 @@
         </div>
         <!--user-avatar-->
         <div class="user-avatar">
-            <img src="assets/img/character-images/character_1.png" alt="user-avatar">
+            <img [src]="this.firebaseService.getUserAvatar(msg.messageSendBy)" alt="user-avatar">
         </div>
         <!--msg-content-->
         <div class="msg-content">
             <div class="msg-top">
-                <span>USER</span>
-                <p>14:30</p>
+                <span>{{ this.firebaseService.getUserDisplayName(msg.messageSendBy) }}</span>
+                <p>{{ this.chatService.formatTimeString(msg.time) }}</p>
             </div>
 
             <div class="msg">
-                <span>Welche Version ist aktuell von Angular?</span>
+                <span>{{ msg.text }}</span>
             </div>   
 
             <div class="msg-bottom">
@@ -51,7 +53,9 @@
             </div>
         </div>
     </div>
+    }
         <!--current-user-msg-->
+        @if (msg.messageSendBy == this.firebaseService.currentUserId) {
         <div class="current-user-msg"> 
             <!--msg-menu-->
             <div class="msg-menu">
@@ -92,12 +96,12 @@
             <!--msg-content-->
             <div class="current-user-msg-content">
                 <div class="current-user-msg-top">
-                    <p>14:30</p>
+                    <p>{{ this.chatService.formatTimeString(msg.time) }}</p>
                     <span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }}</span>
                 </div>
     
                 <div class="current-user-msg">
-                    <span>Welche Version ist aktuell von Angular?</span>
+                    <span>{{ msg.text }}</span>
                 </div>   
     
                 <div class="current-user-msg-bottom">
@@ -109,6 +113,7 @@
                 <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
             </div>
         </div>
+    }
 
 
 
@@ -124,6 +129,5 @@
 
 
 
-
-
+    }
 </div>

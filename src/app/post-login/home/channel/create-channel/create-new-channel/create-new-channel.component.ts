@@ -69,6 +69,7 @@ export class CreateNewChannelComponent {
    * Creates a new channel based on the data in `channelData` form group.
    * If form is valid, it adds a new channel document to Firestore and updates the document with its ID.
    * Logs errors if adding or updating fails.
+   * to-do use setChannel method from firebase service
    */
   async createChannel() {
     if (this.channelData.valid) {
