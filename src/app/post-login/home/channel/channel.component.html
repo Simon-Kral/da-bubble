@@ -7,7 +7,7 @@
 			(click)="toggleShowChannelDetails()"
 		>
 			<img [src]="hashtag" alt="" />
-			<span>Entwicklerteam</span>
+			<span>{{this.firebaseService.getChannelName()}}</span>
 			<img class="pointer" [src]="dropdownArrow" alt="" />
 		</div>
 		<div class="avatar-collection">

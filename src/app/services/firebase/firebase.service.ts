@@ -445,10 +445,19 @@ export class FirebaseService implements OnDestroy, OnInit {
 		updateDoc(channelDocRef, { name: channelName });
 	}
 
+	/**
+	 * Retrieves the name of the current channel.
+	 * @returns The name of the current channel, or undefined if not found.
+	 */
 	getChannelName() {
 		return this.channelList.find((channel) => channel.chanId === this.currentChanId)?.name;
 	}
 
+	/**
+	 * Updates the description of a channel.
+	 * 
+	 * @param channelDescription - The new description for the channel.
+	 */
 	updateChannelDescription(channelDescription: string) {
 		const channelDocRef = doc(
 			this.firestore,
@@ -457,4 +466,16 @@ export class FirebaseService implements OnDestroy, OnInit {
 		updateDoc(channelDocRef, { description: channelDescription });
 	}
 
+	/**
+	 * Leaves the current channel by removing the current user from the channel's members list.
+	 */
+	leaveChannel() {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.currentChanId}`
+		);
+		updateDoc(channelDocRef, {
+			members: this.channelList.find((channel) => channel.chanId === this.currentChanId)?.members.filter((member) => member !== this.currentUserId),
+		});
+	}
 }

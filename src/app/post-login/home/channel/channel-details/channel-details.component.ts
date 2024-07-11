@@ -93,4 +93,10 @@ export class ChannelDetailsComponent {
 		this.isChannelDetailsVisible = false;
 		this.isChannelDetailsVisibleChange.emit(this.isChannelDetailsVisible);
 	}
+
+	leaveChannel() {
+		this.firebaseService.leaveChannel();
+		this.closeDetailsWindow();
+	}
+
 }
