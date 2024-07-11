@@ -33,9 +33,15 @@ export class ChatService {
     console.log('Message destination document reference:', event.destinationDocRef);
     console.log('Message timestamp:', event.timestamp);
     // Add logic to handle the sent message
-    switch (event.destinationCollection) {
-      case 'privateChats':
+    switch (event.source) {
+      case 'privateMessage':
         this.sendMessageToPrivateChat(event.message, event.destinationDocRef, event.timestamp);
+        break;
+      case 'newMessage':
+        console.log('New message sent:', event.message);
+          //check if chat exists
+          //if chat exists, send message
+          //if chat does not exist, create chat and send message
         break;
         default:
         console.warn('Invalid destination collection:', event.destinationCollection);
