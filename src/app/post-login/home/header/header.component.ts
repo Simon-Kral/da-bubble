@@ -53,8 +53,7 @@ export class HeaderComponent implements OnInit {
 	 */
 	onSearch() {
 		let searchValue = this.searchText.get('search')?.value;
-		let source = 'headerComponent';
-		this.searchService.onSearch(searchValue, source);
+		this.searchService.setSearchText(searchValue);
 	}
 
 	//user profile functions
