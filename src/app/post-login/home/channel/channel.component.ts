@@ -24,6 +24,7 @@ export class ChannelComponent {
 	communicationService = inject(CommunicationService);
 	firebaseService = inject(FirebaseService);
 	showChannelDetails = false;
+	showAddMembersToChannel = false;
 	hashtag = 'assets/img/icons/hashtag_chat_inactive.png';
 	dropdownArrow = 'assets/img/icons/keyboard_arrow_down_inactive.png';
 
@@ -85,5 +86,11 @@ export class ChannelComponent {
 			'assets/img/icons/keyboard_arrow_down_inactive.png'
 				? 'assets/img/icons/keyboard_arrow_up_active.png'
 				: 'assets/img/icons/keyboard_arrow_down_inactive.png';
+	}
+
+	toggleAddMembersToChannel() {
+		this.communicationService.toggleAddMembersToChannelVisibility(
+			!this.showAddMembersToChannel
+		);
 	}
 }

@@ -63,6 +63,8 @@ export class HomeComponent implements OnInit {
 
 	//Dragan: channel details variables
 	isChannelDetailsVisible: boolean = false;
+	//Dragan: add members to channel variables
+	isAddMembersToChannelVisible: boolean = false;
 
 	ngOnInit(): void {
 		this.firebaseService.setCurrentUserAsObjekt(); // to-do remove after developement is finished
