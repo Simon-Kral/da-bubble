@@ -76,7 +76,7 @@ export class HomeComponent implements OnInit {
 		});
 
 		// Dragan: I have added this subscription to the channel details visibility.
-		this.chatService.isChannelDetailsVisible$.subscribe((visible) => {
+		this.communicationService.isChannelDetailsVisible$.subscribe((visible) => {
 			this.isChannelDetailsVisible = visible;
 		});
 	}

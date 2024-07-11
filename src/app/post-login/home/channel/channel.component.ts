@@ -21,6 +21,7 @@ import { ChatHistoryComponent } from '../../shared/chat-history/chat-history.com
 })
 export class ChannelComponent {
 	chatService = inject(ChatService);
+	communicationService = inject(CommunicationService);
 	firebaseService = inject(FirebaseService);
 	showChannelDetails = false;
 	hashtag = 'assets/img/icons/hashtag_chat_inactive.png';
@@ -69,7 +70,7 @@ export class ChannelComponent {
 	}
 
 	toggleShowChannelDetails() {
-		this.chatService.toggleChannelDetailsVisibility(
+		this.communicationService.toggleChannelDetailsVisibility(
 			!this.showChannelDetails
 		);
 	}

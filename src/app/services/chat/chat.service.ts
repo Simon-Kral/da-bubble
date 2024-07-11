@@ -19,15 +19,6 @@ export class ChatService {
 
   //variabel for new private chat 
   newPrivateChatId: string = '';
-  
-
-  //Dragan: channel details variables to-do: outsource to communiction service
-  isChannelDetailsVisibleSource = new BehaviorSubject<boolean>(false);
-  isChannelDetailsVisible$ = this.isChannelDetailsVisibleSource.asObservable();
-  //Dragan to-do: outsource to communiction service
-toggleChannelDetailsVisibility(visible: boolean) {
-  this.isChannelDetailsVisibleSource.next(visible);
-}
 
   constructor() { }
 
