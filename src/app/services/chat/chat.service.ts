@@ -71,15 +71,16 @@ subscribeMsgList() {
     }
   );
 }
+
 /**
  * Gets a reference to the messages subcollection for the currently selected privateChats collection or the channels collection.
  * 
  * to-do: implement variabel  for channels or private messages collection
  */
-
 getMsgSubColRef() {
   return collection(this.firestore,`privateChats/${this.firebaseService.selectedPrivateChatId}/messages`);
 }
+
 /**
  * Formats the message data into a Message object.
  * 
@@ -99,7 +100,7 @@ setMessage(obj: any, id: string): Message{
   };
 }
 
-// general helper functions code display messages
+// general helper functions code to display messages
 /**
  * Formats a Unix timestamp string into the format "HH:mm Uhr".
  *
@@ -109,9 +110,6 @@ setMessage(obj: any, id: string): Message{
  */
 formatTimeString(timestampStr: string): string {
   const timestamp = parseInt(timestampStr, 10);
-  if (isNaN(timestamp)) {                                 // to-do can be removed after development
-    throw new Error('Invalid timestamp format.');
-  }
   const date = new Date(timestamp);
   const hours = date.getHours().toString().padStart(2, '0');
   const minutes = date.getMinutes().toString().padStart(2, '0');
@@ -142,6 +140,7 @@ formatTimeString(timestampStr: string): string {
         const docRef = await this.addPrivateChat(newPrivateChat);
         await this.updatePrivateChatId(docRef);
       }
+
 /**
  * Adds a new private chat document to the Firestore database.
  *
@@ -162,6 +161,7 @@ formatTimeString(timestampStr: string): string {
          throw e;
        }
      }
+
 /**
  * Updates the private chat document with its own ID in the Firestore database.
  *
@@ -181,6 +181,7 @@ formatTimeString(timestampStr: string): string {
         throw e;
       }
     }
+
 /**
  * Sends a message to a private chat by creating a new message document in the messages subcollection.
  *
@@ -189,7 +190,6 @@ formatTimeString(timestampStr: string): string {
  * @param {number} time - The timestamp of the message.
  * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
  */
-
   async sendMessageToPrivateChat(messageText:string, prvtChatRef:string, time:number) {
       console.log('Sending message to private chat:', prvtChatRef);
       console.log('Message:', messageText);
@@ -208,6 +208,7 @@ formatTimeString(timestampStr: string): string {
         const docRef = await this.addMessageToPrivateChat(newMessage);
         await this.updateMessageId(docRef);
     }
+
  /**
  * Adds a new message document to the messages subcollection of a private chat.
  *
@@ -224,6 +225,7 @@ formatTimeString(timestampStr: string): string {
         throw e;
       }
     }
+    
 /**
  * Updates the message document with its own ID in the messages subcollection of a private chat.
  *

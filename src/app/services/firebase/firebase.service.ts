@@ -109,11 +109,11 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Subscribes to the channels collection in Firestore and updates the channel list in real-time.
 	 * Orders the channels by name.
-	 * Logs the updated channel list to the console.
-	 * to-do remove filter, all channels should be displayed
+	 * Logs the updated channel list to the console. to-do remove after developement is finished
 	 */
 	subChannelsList() {
-		const q = query(this.getChannelsRef(), orderBy('name'));
+		const channelsCollection = collection(this.firestore, 'channels');
+		const q = query(channelsCollection, orderBy('name'));
 		this.unsubscribeChannelList = onSnapshot(
 			q,
 			(snapshot) => {
@@ -139,15 +139,6 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 */
 	isCurrentUserInChannel(channel: Channel): boolean {
 		return channel.members.includes(this.currentUserId);
-	}
-
-	/**
-	 * Returns a reference to the channels collection in Firestore.
-	 *
-	 * @returns {CollectionReference} A reference to the channels collection.
-	 */
-	getChannelsRef() {
-		return collection(this.firestore, 'channels');
 	}
 
 	/**
@@ -182,6 +173,52 @@ export class FirebaseService implements OnDestroy, OnInit {
 		return !querySnapshot.empty;
 	}
 
+	/**
+	 * Updates the name of the channel.
+	 * 
+	 * @param channelName - The new name for the channel.
+	 */
+	updateChannelName(channelName: string) {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.currentChanId}`
+		);
+		updateDoc(channelDocRef, { name: channelName });
+	}
+
+	/**
+	* Updates the description of a channel.
+	 * 
+	 * @param channelDescription - The new description for the channel.
+	 */
+	updateChannelDescription(channelDescription: string) {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.currentChanId}`
+		);
+		updateDoc(channelDocRef, { description: channelDescription });
+	}
+		/**
+	 * Retrieves the name of the current channel.
+	 * @returns The name of the current channel, or undefined if not found.
+	 */
+	getChannelName() {
+		return this.channelList.find((channel) => channel.chanId === this.currentChanId)?.name;
+	}
+		
+	/**
+	 * Leaves the current channel by removing the current user from the channel's members list.
+	*/
+	leaveChannel() {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.currentChanId}`
+		);
+		updateDoc(channelDocRef, {
+			members: this.channelList.find((channel) => channel.chanId === this.currentChanId)?.members.filter((member) => member !== this.currentUserId),
+		});
+	}
+
 	// user code
 	/**
 	 * Subscribes to the users collection in Firestore and updates the user list in real-time.
@@ -189,7 +226,8 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * Logs the updated user list to the console.
 	 */
 	subUsersList() {
-		const q = query(this.getUsersRef(), orderBy('name'));
+		const usersCollection = collection(this.firestore, 'users');
+		const q = query(usersCollection, orderBy('name'));
 		this.unsubscribeUserList = onSnapshot(
 			q,
 			(snapshot) => {
@@ -203,14 +241,6 @@ export class FirebaseService implements OnDestroy, OnInit {
 				console.error('Error fetching Users: ', error);
 			}
 		);
-	}
-
-	/**
-	 * Returns a reference to the users collection in Firestore.
-	 * @returns {CollectionReference} A reference to the users collection.
-	 */
-	getUsersRef() {
-		return collection(this.firestore, 'users');
 	}
 
 	/**
@@ -341,6 +371,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 		);
 		return updateDoc(userDocRef, { photoURL: newAvatarPath });
 	}
+
 	/**
 	 * Updates the user status in the Firestore database.
 	 * @param {boolean} newStatus - The new status to update.
@@ -353,6 +384,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 		);
 		return updateDoc(userDocRef, { status: newStatus });
 	}
+
 	// private chat
 	/**
 	 * Subscribes to the privateChats collection in Firestore and updates the private chat list in real-time.
@@ -360,7 +392,8 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * Logs the updated private chat list to the console.
 	 */
 	subPrivateChatList() {
-		const q = query(this.getPrivateChatCollectionRef(), orderBy('chatCreator'));
+		const privateChatCollection = collection(this.firestore, 'privateChats');
+		const q = query(privateChatCollection, orderBy('chatCreator'));
 		this.unsubscribePrivateChatList = onSnapshot(
 			q,
 			(snapshot) => {
@@ -389,14 +422,6 @@ export class FirebaseService implements OnDestroy, OnInit {
 			chat.chatCreator === this.currentUserId ||
 			chat.chatReciver === this.currentUserId
 		);
-	}
-
-	/**
-	 * Returns a reference to the privateChats collection in Firestore.
-	 * @returns {CollectionReference} A reference to the privateChats collection.
-	 */
-	getPrivateChatCollectionRef() {
-		return collection(this.firestore, 'privateChats');
 	}
 
 	/**
@@ -433,90 +458,4 @@ export class FirebaseService implements OnDestroy, OnInit {
 			: '';
 		return chatEntry ? chatEntry.chatCreator : undefined;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// Dragan to-do: please move to the end of --> //channel code sorted by get / update operations
-	/**
-	 * Updates the name of the channel.
-	 * 
-	 * @param channelName - The new name for the channel.
-	 */
-	updateChannelName(channelName: string) {
-		const channelDocRef = doc(
-			this.firestore,
-			`channels/${this.currentChanId}`
-		);
-		updateDoc(channelDocRef, { name: channelName });
-	}
-
-	/**
-	 * Retrieves the name of the current channel.
-	 * @returns The name of the current channel, or undefined if not found.
-	 */
-	getChannelName() {
-		return this.channelList.find((channel) => channel.chanId === this.currentChanId)?.name;
-	}
-
-	/**
-	 * Updates the description of a channel.
-	 * 
-	 * @param channelDescription - The new description for the channel.
-	 */
-	updateChannelDescription(channelDescription: string) {
-		const channelDocRef = doc(
-			this.firestore,
-			`channels/${this.currentChanId}`
-		);
-		updateDoc(channelDocRef, { description: channelDescription });
-	}
-
-	/**
-	 * Leaves the current channel by removing the current user from the channel's members list.
-	 */
-	leaveChannel() {
-		const channelDocRef = doc(
-			this.firestore,
-			`channels/${this.currentChanId}`
-		);
-		updateDoc(channelDocRef, {
-			members: this.channelList.find((channel) => channel.chanId === this.currentChanId)?.members.filter((member) => member !== this.currentUserId),
-		});
-	}
-
 }
