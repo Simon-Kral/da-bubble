@@ -1,4 +1,4 @@
-@import '@ctrl/ngx-emoji-mart/picker';
+@import "@ctrl/ngx-emoji-mart/picker";
 
 $bg-color: #eceefe;
 $white: #ffffff;
@@ -14,203 +14,211 @@ $online-green: #92c83e;
 $offline-gray: #686868;
 $online-red: #f44336;
 $rosa-error: #ed1e79;
-$email-blue: #1381FF;
+$email-blue: #1381ff;
 // example usage
 // background-color: $bg-color;
 $header-height: 120px;
 $footer-height: 90px;
 html {
-  scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
 
 body {
-  background-color: $bg-color;
+	background-color: $bg-color;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  font-family: "Open Sans", Calibri, "Trebuchet MS", sans-serif;
-  box-sizing: border-box;
-  font-variation-settings: "wght" 400;
+	margin: 0;
+	padding: 0;
+	font-family: "Open Sans", Calibri, "Trebuchet MS", sans-serif;
+	box-sizing: border-box;
+	font-variation-settings: "wght" 400;
 }
 
 @mixin dFlex($fd: row, $jc: center, $ai: center) {
-  display: flex;
-  flex-direction: $fd;
-  justify-content: $jc;
-  align-items: $ai;
+	display: flex;
+	flex-direction: $fd;
+	justify-content: $jc;
+	align-items: $ai;
 }
 
 @mixin buttonBlue() {
-    @include Nunito(700, 18px, 24.55px, $white);
-    background-color: $purple-1;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 25px;
-    transition: all 0.1s;
-    &:hover {
-        background-color: $purple-2;
-        cursor: pointer;
-    }
-    &:active {
-        background-color: $purple-1;
-        color: $white;
-    }
-    &:disabled {
-      background-color: $text-gray;
-    }
+	@include Nunito(700, 18px, 24.55px, $white);
+	background-color: $purple-1;
+	border: none;
+	padding: 12px 25px;
+	border-radius: 25px;
+	transition: all 0.1s;
+	&:hover {
+		background-color: $purple-2;
+		cursor: pointer;
+	}
+	&:active {
+		background-color: $purple-1;
+		color: $white;
+	}
+	&:disabled {
+		background-color: $text-gray;
+		pointer-events: none;
+	}
 }
 
 @mixin buttonWhite() {
-    @include Nunito(700, 18px, 24.55px, $purple-1);
-    background-color: $white;
-    border: 1px solid $purple-2;
-    padding: 12px 25px;
-    border-radius: 25px;
-    transition: all 0.1s;
-    &:hover {
-        background-color: $purple-3;
-        color: $white;
-        cursor: pointer;
-    }
-    &:active {
-        background-color: $purple-1;
-        color: $white;
-    }
-    &:disabled {
-      color: $text-gray;
-      border: $text-gray;
-    }
+	@include Nunito(700, 18px, 24.55px, $purple-1);
+	background-color: $white;
+	border: 1px solid $purple-2;
+	padding: 12px 25px;
+	border-radius: 25px;
+	transition: all 0.1s;
+	&:hover {
+		background-color: $purple-3;
+		color: $white;
+		cursor: pointer;
+	}
+	&:active {
+		background-color: $purple-1;
+		color: $white;
+	}
+	&:disabled {
+		color: $text-gray;
+		border: $text-gray;
+		pointer-events: none;
+	}
 }
 @mixin errorMessage {
-  @include Nunito(400, 14px, 19.1px, $rosa-error);
-  margin-top: 6px;
-  margin-bottom: -6px;
-  height: 0px;
+	@include Nunito(400, 14px, 19.1px, $rosa-error);
+	margin-top: 6px;
+	margin-bottom: -6px;
+	height: 0px;
 }
 
+@mixin inputField() {
+	padding: 18px 20px 18px 35px;
+	border-radius: 25px;
+	border: 1px solid $purple-2;
+	width: 100%;
+	@include Nunito(400, 18px, 24.55px, $text-gray);
+	outline: none;
+}
 
-@mixin Nunito ($weight, $size, $line-height, $color) {
-    font-family: 'Nunito', sans-serif;
-    font-variation-settings: 'wght' $weight;
-    font-size: $size;
-    line-height: $line-height;
-    color: $color;
+@mixin Nunito($weight, $size, $line-height, $color) {
+	font-family: "Nunito", sans-serif;
+	font-variation-settings: "wght" $weight;
+	font-size: $size;
+	line-height: $line-height;
+	color: $color;
 }
 
 @mixin OpenSans($weight, $size, $line-height, $color) {
-  font-family: "Open Sans", sans-serif;
-  font-variation-settings: "wght" $weight;
-  font-size: $size;
-  line-height: $line-height;
-  color: $color;
+	font-family: "Open Sans", sans-serif;
+	font-variation-settings: "wght" $weight;
+	font-size: $size;
+	line-height: $line-height;
+	color: $color;
 }
 
-@mixin Figtree ($weight, $size, $line-height, $color) {
-    font-family: 'Figtree', sans-serif;
-    font-variation-settings: 'wght' $weight;
-    font-size: $size;
-    line-height: $line-height;
-    color: $color;
+@mixin Figtree($weight, $size, $line-height, $color) {
+	font-family: "Figtree", sans-serif;
+	font-variation-settings: "wght" $weight;
+	font-size: $size;
+	line-height: $line-height;
+	color: $color;
 }
 
 @mixin btnHover($color) {
-    background-color: darken($color, 10%);
-    transition: all 175ms ease-in;
+	background-color: darken($color, 10%);
+	transition: all 175ms ease-in;
 }
 
 @mixin btnActive($color) {
-  background-color: darken($color, 15%);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
-  transition: all 175ms ease-in;
+	background-color: darken($color, 15%);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+	transition: all 175ms ease-in;
 }
-
-
 
 //example usage
 
 // @include Nunito(400, 16px, 18.8px, $red);
 
 @font-face {
-  font-family: "Nunito";
-  src: url("assets/fonts/Nunito/Nunito-VariableFont_wght.ttf")
-    format("truetype");
-  font-weight: 125 950;
-  font-stretch: 75% 125%;
-  font-style: normal;
+	font-family: "Nunito";
+	src: url("assets/fonts/Nunito/Nunito-VariableFont_wght.ttf")
+		format("truetype");
+	font-weight: 125 950;
+	font-stretch: 75% 125%;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: "Open Sans";
-  src: url("assets/fonts/Open_Sans/OpenSans-Variable.ttf") format("truetype");
-  font-weight: 125 950;
-  font-stretch: 75% 125%;
-  font-style: normal;
+	font-family: "Open Sans";
+	src: url("assets/fonts/Open_Sans/OpenSans-Variable.ttf") format("truetype");
+	font-weight: 125 950;
+	font-stretch: 75% 125%;
+	font-style: normal;
 }
 @font-face {
-    font-family: "Figtree";
-    src: url("assets/fonts/Figtree/Figtree-VariableFont_wght.ttf") format("truetype");
-    font-weight: 125 950;
-    font-stretch: 75% 125%;
-    font-style: normal;
+	font-family: "Figtree";
+	src: url("assets/fonts/Figtree/Figtree-VariableFont_wght.ttf")
+		format("truetype");
+	font-weight: 125 950;
+	font-stretch: 75% 125%;
+	font-style: normal;
 }
 
 .pointer {
-  cursor: pointer;
+	cursor: pointer;
 }
-
 
 // global style for the chat / message input field
 
 .input-container {
-  width: 100%;
-  padding: 20px;
-  height: 145px;
-  border-radius: 20px;
-  border: 1px solid $purple-2;
-  > textarea {
-    width: 100%;
-    height: 60%;
-    border: none;
-    outline: none;
-    resize: none;
-    @include Nunito(400, 16px, 21.82px, $black);
-  }
-  >.button-container {
-    @include dFlex(space-between, center);
-    >.left-section {
-      @include dFlex(center, center);
-      gap: 16px;
-      >.icon {
-        width: 24px;
-        height: 24px;
-      }
-      >span {
-        @include Nunito(700, 16px, 21.82px, $text-gray);
-      }
-    }
-  }
+	width: 100%;
+	padding: 20px;
+	height: 145px;
+	border-radius: 20px;
+	border: 1px solid $purple-2;
+	> textarea {
+		width: 100%;
+		height: 60%;
+		border: none;
+		outline: none;
+		resize: none;
+		@include Nunito(400, 16px, 21.82px, $black);
+	}
+	> .button-container {
+		@include dFlex(space-between, center);
+		> .left-section {
+			@include dFlex(center, center);
+			gap: 16px;
+			> .icon {
+				width: 24px;
+				height: 24px;
+			}
+			> span {
+				@include Nunito(700, 16px, 21.82px, $text-gray);
+			}
+		}
+	}
 }
 
 .d-none {
-  display: none!important;
+	display: none !important;
 }
 
 .d-flex {
-  display: flex!important;
+	display: flex !important;
 }
 
 // global style for user status
 .offline {
-  background-color: $offline-gray;
+	background-color: $offline-gray;
 }
 .online {
-  background-color: $online-green;
+	background-color: $online-green;
 }
 .offline-text {
-  color: $offline-gray!important;
+	color: $offline-gray !important;
 }
 .online-text {
-  color: $online-green!important;
+	color: $online-green !important;
 }

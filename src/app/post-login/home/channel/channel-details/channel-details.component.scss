@@ -79,11 +79,7 @@ button {
 }
 
 .channel-name-input {
-	padding: 18px 20px 18px 35px;
-	border-radius: 25px;
-	border: 1px solid $purple-2;
-	width: 100%;
-	outline: none;
+	@include inputField();
 }
 
 input::placeholder, textarea::placeholder {
