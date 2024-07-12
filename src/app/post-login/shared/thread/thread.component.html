@@ -1,5 +1,26 @@
 <div class="thread-wrapper">
-
-
-    
+    <div class="top-section">
+        <div class="top-section-left">
+            <h1>Thread</h1>
+            <span># Entwicklerteam</span>
+        </div>
+        <div class="top-section-right">
+            <div class="close pointer">
+                <img src="assets/img/icons/close_black.png" alt="close">
+            </div>
+        </div>
+    </div>
+    <div class="chat-history">
+        <app-chat-history></app-chat-history>
+    </div>
+    <div class="chat-input">       
+        <app-chat-input 
+            [sourceComponent]="'thread'" 
+            [destinationCollection]="'threads'"
+            [destinationDocRef]="'this.firebaseService.selectedThreadId'"
+            [placeholderText]="'this.chatService.placeholderName'"
+            (messageEvent)="'this.chatService.onMessageSent($event)'">
+        </app-chat-input>
+    </div>
+     
 </div>

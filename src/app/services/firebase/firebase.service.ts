@@ -342,7 +342,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	}
 
 	/**
-	 * Updates the user status in the Firestore database.
+	 * Updates the user status for the currentUser in the Firestore database.
 	 * @param {boolean} newStatus - The new status to update.
 	 * @returns {Promise<void>} A promise that resolves when the user status is successfully updated.
 	 */
