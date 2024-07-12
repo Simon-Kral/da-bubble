@@ -1,4 +1,4 @@
-import { inject, Injectable, OnInit } from '@angular/core';
+import { inject, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
 import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc } from '@angular/fire/firestore';
 import { PrivateMessageComponent } from '../../post-login/private-message/private-message.component';
@@ -8,14 +8,16 @@ import { PrivateChat } from '../../models/privateChat.class';
 @Injectable({
   providedIn: 'root'
 })
-export class ChatService {
+export class ChatService implements OnInit, OnDestroy{
 
   firebaseService = inject(FirebaseService);
   firestore: Firestore = inject(Firestore);
 
   msgList: Message[] = [];  // will get used to store msgs from prvt chats or channels
+  msgAnswerList: Message[] = []; // will get used to store msgAnswers from prvt chats or channels
 
   unsubscribeMsgList: any;
+  unsubscribeMsgAnswerList: any;
 
   //variabel for new private chat 
   newPrivateChatId: string = '';
@@ -25,7 +27,18 @@ export class ChatService {
 
   constructor() { }
 
+  ngOnInit(): void {
+    this.subscribeMsgList();
+  }
 
+  ngOnDestroy(): void {
+    if (this.unsubscribeMsgList) {
+      this.unsubscribeMsgList();
+    }
+    if (this.unsubscribeMsgAnswerList) {
+      this.unsubscribeMsgAnswerList();
+    }
+  }
 
 
   onMessageSent(event: { message: string, source: string, destinationCollection:string, destinationDocRef:string, timestamp: number }) {
