@@ -48,5 +48,5 @@
 			}
 		}
 	</div>
-	<button [disabled]="!firebaseService.savedUserForChannel">Hinzufügen</button>
+	<button [disabled]="!firebaseService.savedUserForChannel[0]" (click)="firebaseService.addSavedUserToChannel()">Hinzufügen</button>
 </div>

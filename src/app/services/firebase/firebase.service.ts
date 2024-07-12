@@ -1,5 +1,15 @@
 import { Injectable, OnDestroy, OnInit, inject } from '@angular/core';
-import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs } from '@angular/fire/firestore';
+import {
+	query,
+	orderBy,
+	where,
+	Firestore,
+	collection,
+	doc,
+	onSnapshot,
+	updateDoc,
+	getDocs,
+} from '@angular/fire/firestore';
 import { AuthService } from '../authentication/auth.service';
 import { Channel } from '../../models/channel.class';
 import { User } from '../../models/user.class';
@@ -12,7 +22,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	firestore: Firestore = inject(Firestore);
 
 	// place for variables
-	currentChanId: string = ''
+	currentChanId: string = '';
 	currentUserId: any;
 	currentUser: User = new User();
 
@@ -38,7 +48,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	constructor() {
 		this.getCurrentUserId();
 		this.ngOnInit();
-		console.log('Current User ID:', this.currentUserId);   // to-do remove after developement is finished	
+		console.log('Current User ID:', this.currentUserId); // to-do remove after developement is finished
 	}
 
 	ngOnInit(): void {
@@ -351,7 +361,10 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * Logs the updated private chat list to the console.
 	 */
 	subPrivateChatList() {
-		const privateChatCollection = collection(this.firestore, 'privateChats');
+		const privateChatCollection = collection(
+			this.firestore,
+			'privateChats'
+		);
 		const q = query(privateChatCollection, orderBy('chatCreator'));
 		this.unsubscribePrivateChatList = onSnapshot(
 			q,
@@ -401,7 +414,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 			createdBy: obj.createdBy || '',
 		};
 	}
-	
+
 	/**
 	 * Retrieves the chat creator ID based on the provided private chat ID.
 	 * Searches through the privateChatList to find the entry with the matching privatChatId.
@@ -421,7 +434,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	// Dragan to-do: please move to the end of --> //channel code sorted by get / update operations
 	/**
 	 * Updates the name of the channel.
-	 * 
+	 *
 	 * @param channelName - The new name for the channel.
 	 */
 	updateChannelName(channelName: string) {
@@ -437,12 +450,14 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * @returns The name of the current channel, or undefined if not found.
 	 */
 	getChannelName() {
-		return this.channelList.find((channel) => channel.chanId === this.currentChanId)?.name;
+		return this.channelList.find(
+			(channel) => channel.chanId === this.currentChanId
+		)?.name;
 	}
 
 	/**
 	 * Updates the description of a channel.
-	 * 
+	 *
 	 * @param channelDescription - The new description for the channel.
 	 */
 	updateChannelDescription(channelDescription: string) {
@@ -462,22 +477,37 @@ export class FirebaseService implements OnDestroy, OnInit {
 			`channels/${this.currentChanId}`
 		);
 		updateDoc(channelDocRef, {
-			members: this.channelList.find((channel) => channel.chanId === this.currentChanId)?.members.filter((member) => member !== this.currentUserId),
+			members: this.channelList
+				.find((channel) => channel.chanId === this.currentChanId)
+				?.members.filter((member) => member !== this.currentUserId),
 		});
 	}
 
+	/**
+	 * Filters the user list based on the provided name and saves the filtered users in the `filteredUsers` array.
+	 * If the name is empty or undefined, the `filteredUsers` array will be cleared.
+	 *
+	 * @param name - The name to filter the user list by.
+	 */
 	getUserByNameAndSaveInArray(name: string) {
 		if (!name) {
 			this.filteredUsers = [];
 			return;
 		}
 		this.filteredUsers = this.userList.filter((user) => {
-			return !this.savedUserForChannel.includes(user.userId) && user.name.toLowerCase().includes(name.toLowerCase());
+			return (
+				!this.savedUserForChannel.includes(user.userId) &&
+				user.name.toLowerCase().includes(name.toLowerCase())
+			);
 		});
-		console.log('Filtered Users:', this.filteredUsers);	
+		console.log('Filtered Users:', this.filteredUsers);
 	}
 
-
+	/**
+	 * Adds a user to the list of saved users for channels.
+	 * If the user is already in the list, it does nothing.
+	 * @param userId - The ID of the user to add.
+	 */
 	addUserToChannelslist(userId: string) {
 		const checkId = this.savedUserForChannel.includes(userId);
 		if (checkId) {
@@ -487,7 +517,38 @@ export class FirebaseService implements OnDestroy, OnInit {
 		console.log('Saved User:', this.savedUserForChannel);
 	}
 
+	/**
+	 * Deletes a user from the savedUserForChannel array.
+	 * @param userId - The ID of the user to be deleted.
+	 */
 	deleteUserFromSavedUserForChannel(userId: string) {
-		this.savedUserForChannel = this.savedUserForChannel.filter((user) => user !== userId);
+		this.savedUserForChannel = this.savedUserForChannel.filter(
+			(user) => user !== userId
+		);
+	}
+
+	/**
+	 * Adds the saved user to the current channel.
+	 */
+	addSavedUserToChannel() {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.currentChanId}`
+		);
+		updateDoc(channelDocRef, { members: this.combineMembers() });
+		this.savedUserForChannel = [];
+	}
+
+	/**
+	 * Combines the members from the current channel and the saved users for the channel.
+	 * Removes any duplicate IDs and returns an array of strings.
+	 *
+	 * @returns {string[]} An array of unique member IDs.
+	 */
+	combineMembers() {
+		const currentChannel = this.channelList.find((channel) => channel.chanId === this.currentChanId);
+		const currentMembers = currentChannel ? currentChannel.members : [];
+		const uniqueMembers = Array.from(new Set([...currentMembers, ...this.savedUserForChannel]));
+		return uniqueMembers;
 	}
 }
