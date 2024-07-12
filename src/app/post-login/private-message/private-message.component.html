@@ -1,8 +1,8 @@
 <div class="private-msg-wrapper">
 	@for (privateMsg of firebaseService.privateChatList; track
 	privateMsg.privatChatId; let index = $index) {
-	<div class="top-section" (click)="openProfile()">
-		<div class="user-content pointer">
+	<div class="top-section">
+		<div class="user-content pointer" (click)="openProfile()">
 
 			@if (this.communicationService.showPrivateNote) {
 			<img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="User Avatar" />
@@ -33,13 +33,15 @@
 
 	</div>
 	}
-	<app-chat-history></app-chat-history>
+	<div class="chat-history">
+		<app-chat-history></app-chat-history>
+	</div>
 	<div class="chat-input">
 		<app-chat-input 
 			[sourceComponent]="'privateMessage'" 
 			[destinationCollection]="'privateChats'"
 			[destinationDocRef]="this.firebaseService.selectedPrivateChatId"
-			[placeholderText]="'Nachricht an chatCreator.name ODER currentUser.name'"
+			[placeholderText]="this.chatService.placeholderName"
 			(messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
 	</div>
 </div>

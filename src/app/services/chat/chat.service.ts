@@ -20,6 +20,9 @@ export class ChatService {
   //variabel for new private chat 
   newPrivateChatId: string = '';
 
+  //variable for placeholder Name of shared input field
+  placeholderName: string = '';
+
   constructor() { }
 
 
@@ -49,7 +52,9 @@ export class ChatService {
     }
   }
 
-
+setPlaceholderName(name: string) {
+  this.placeholderName = name;
+}
 
 // code for fetching messages from private chat or channels
 /**

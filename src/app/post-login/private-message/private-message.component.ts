@@ -20,7 +20,7 @@ export class PrivateMessageComponent implements OnInit{
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
-  
+  chatReciverName: string = '';
 
 
   constructor(private route: ActivatedRoute) {}
