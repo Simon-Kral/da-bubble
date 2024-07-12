@@ -18,6 +18,7 @@ import {
 	reauthenticateWithPopup,
 	User,
 } from '@angular/fire/auth';
+import { ThreadComponent } from './post-login/shared/thread/thread.component';
 
 @Component({
 	selector: 'app-root',
@@ -32,6 +33,7 @@ import {
 		PrivateMessageListComponent,
 		CreateNewChannelComponent,
 		ChatHistoryComponent,
+		ThreadComponent
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
