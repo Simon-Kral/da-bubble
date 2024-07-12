@@ -14,10 +14,10 @@
         <!--msg-menu-->
         <div class="msg-menu">
             <div class="pointer menu-content">
-                <img src="assets/img/icons/comment_blue.png" alt="menu-icon"><!--Placeholder for last 2 reaktions-->
+                <img src="assets/img/icons/comment_blue.png" alt="menu-icon"><!--Placeholder for last 2 reactions-->
             </div>
             <div class="pointer menu-content">
-                <img src="assets/img/icons/add_reaction_blue.png" alt="menu-icon"><!--Placeholder for last 2 reaktions-->
+                <img src="assets/img/icons/add_reaction_blue.png" alt="menu-icon"><!--Placeholder for last 2 reactions-->
             </div>
             <div class="pointer menu-content"
             (mouseover)="onMouseOver('addReaction')"
@@ -46,8 +46,8 @@
             <div class="msg">
                 <span>{{ msg.text }}</span>
             </div>   
-
-            <div class="msg-bottom">
+                <!--only display if messageAnsers are present-->
+            <div class="msg-bottom pointer" (click)="handleClickOnAnswers()">
                 <span>2 Antworten</span>
                 <p>Letzte Antwort 14:56</p>
             </div>
@@ -57,13 +57,13 @@
         <!--current-user-msg-->
         @if (msg.messageSendBy == this.firebaseService.currentUserId) {
         <div class="current-user-msg"> 
-            <!--msg-menu-->
+            <!--msg-menu only show for current user-->
             <div class="msg-menu">
                 <div class="menu-content">
-                    <img src="assets/img/icons/comment_blue.png" alt="menu-icon"><!--Placeholder for last 2 reaktions-->
+                    <img src="assets/img/icons/comment_blue.png" alt="menu-icon"><!--Placeholder for last 2 reactions-->
                 </div>
                 <div class="pointer menu-content">
-                    <img src="assets/img/icons/add_reaction_blue.png" alt="menu-icon"><!--Placeholder for last 2 reaktions-->
+                    <img src="assets/img/icons/add_reaction_blue.png" alt="menu-icon"><!--Placeholder for last 2 reactions-->
                 </div>
                 <div class="pointer menu-content"
                 (mouseover)="onMouseOver('addReaction')"
@@ -103,8 +103,8 @@
                 <div class="current-user-msg">
                     <span>{{ msg.text }}</span>
                 </div>   
-    
-                <div class="current-user-msg-bottom">
+                    <!--only display if messageAnsers are present-->
+                <div class="current-user-msg-bottom pointer" (click)="handleClickOnAnswers()">
                     <span>2 Antworten</span>
                     <p>Letzte Antwort 14:56</p>
                 </div>
