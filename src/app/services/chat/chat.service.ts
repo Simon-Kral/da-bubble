@@ -33,9 +33,15 @@ export class ChatService {
     console.log('Message destination document reference:', event.destinationDocRef);
     console.log('Message timestamp:', event.timestamp);
     // Add logic to handle the sent message
-    switch (event.destinationCollection) {
-      case 'privateChats':
+    switch (event.source) {
+      case 'privateMessage':
         this.sendMessageToPrivateChat(event.message, event.destinationDocRef, event.timestamp);
+        break;
+      case 'newMessage':
+        console.log('New message sent:', event.message);
+          //check if chat exists
+          //if chat exists, send message
+          //if chat does not exist, create chat and send message
         break;
         default:
         console.warn('Invalid destination collection:', event.destinationCollection);
@@ -71,15 +77,16 @@ subscribeMsgList() {
     }
   );
 }
+
 /**
  * Gets a reference to the messages subcollection for the currently selected privateChats collection or the channels collection.
  * 
  * to-do: implement variabel  for channels or private messages collection
  */
-
 getMsgSubColRef() {
   return collection(this.firestore,`privateChats/${this.firebaseService.selectedPrivateChatId}/messages`);
 }
+
 /**
  * Formats the message data into a Message object.
  * 
@@ -99,7 +106,7 @@ setMessage(obj: any, id: string): Message{
   };
 }
 
-// general helper functions code display messages
+// general helper functions code to display messages
 /**
  * Formats a Unix timestamp string into the format "HH:mm Uhr".
  *
@@ -109,9 +116,6 @@ setMessage(obj: any, id: string): Message{
  */
 formatTimeString(timestampStr: string): string {
   const timestamp = parseInt(timestampStr, 10);
-  if (isNaN(timestamp)) {
-    throw new Error('Invalid timestamp format.');
-  }
   const date = new Date(timestamp);
   const hours = date.getHours().toString().padStart(2, '0');
   const minutes = date.getMinutes().toString().padStart(2, '0');
@@ -124,11 +128,10 @@ formatTimeString(timestampStr: string): string {
  *
  * @param {string} chatCreator - The user ID of the person initiating the chat.
  * @param {string} chatReceiver - The user ID of the person receiving the chat invitation.
- * @param {string} component - The component from which the function is called.
  * @returns {Promise<void>} A promise that resolves when the new chat has been created and updated.
  * to-do implement logic to wether create a new chat from user profile with empty message or from new-message component with message
  */
-  async startNewPrivateChat(chatCreator: string, chatReceiver: string, component: string) {
+  async startNewPrivateChat(chatCreator: string, chatReceiver: string) {
       
       let newPrivateChat: PrivateChat = {
         privatChatId: '',
@@ -143,6 +146,7 @@ formatTimeString(timestampStr: string): string {
         const docRef = await this.addPrivateChat(newPrivateChat);
         await this.updatePrivateChatId(docRef);
       }
+
 /**
  * Adds a new private chat document to the Firestore database.
  *
@@ -163,6 +167,7 @@ formatTimeString(timestampStr: string): string {
          throw e;
        }
      }
+
 /**
  * Updates the private chat document with its own ID in the Firestore database.
  *
@@ -182,6 +187,7 @@ formatTimeString(timestampStr: string): string {
         throw e;
       }
     }
+
 /**
  * Sends a message to a private chat by creating a new message document in the messages subcollection.
  *
@@ -190,7 +196,6 @@ formatTimeString(timestampStr: string): string {
  * @param {number} time - The timestamp of the message.
  * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
  */
-
   async sendMessageToPrivateChat(messageText:string, prvtChatRef:string, time:number) {
       console.log('Sending message to private chat:', prvtChatRef);
       console.log('Message:', messageText);
@@ -209,6 +214,7 @@ formatTimeString(timestampStr: string): string {
         const docRef = await this.addMessageToPrivateChat(newMessage);
         await this.updateMessageId(docRef);
     }
+
  /**
  * Adds a new message document to the messages subcollection of a private chat.
  *
@@ -225,6 +231,7 @@ formatTimeString(timestampStr: string): string {
         throw e;
       }
     }
+    
 /**
  * Updates the message document with its own ID in the messages subcollection of a private chat.
  *
@@ -244,4 +251,23 @@ formatTimeString(timestampStr: string): string {
     }
   }
   
+  /**
+   * Checks if a private chat between the given chatCreator and chatReceiver exists.
+   * @param {string} chatReceiver - The ID of the chat receiver.
+   * @returns {Promise<boolean>} A promise that resolves to true if the chat exists, otherwise false.
+   */
+  checkIfPrivateChatExists(chatReceiver: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        const currentUserId = this.firebaseService.currentUserId;
+        const chatExists = this.firebaseService.privateChatList.some(chat => 
+          (chat.chatCreator === currentUserId && chat.chatReciver === chatReceiver) ||
+          (chat.chatCreator === chatReceiver && chat.chatReciver === currentUserId)
+        );
+        resolve(chatExists);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }

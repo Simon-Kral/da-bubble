@@ -59,10 +59,6 @@ export class LoginComponent {
 	loginWithGoogle(): void {
 		this.authService.signupWithGoogle().subscribe({
 			next: () => {
-				// sessionStorage.setItem(
-				// 	`currentUserId`,
-				// 	this.authService.firebaseAuth.currentUser!.uid
-				// );
 				this.setInitialDatabaseEntries();
 			},
 		});

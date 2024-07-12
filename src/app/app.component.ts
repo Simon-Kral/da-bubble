@@ -9,7 +9,15 @@ import { NewMessageComponent } from './post-login/new-message/new-message.compon
 import { CreateNewChannelComponent } from './post-login/home/channel/create-channel/create-new-channel/create-new-channel.component';
 import { ChatHistoryComponent } from './post-login/shared/chat-history/chat-history.component';
 import { AuthService } from './services/authentication/auth.service';
-import { applyActionCode, User } from '@angular/fire/auth';
+import {
+	applyActionCode,
+	AuthCredential,
+	EmailAuthCredential,
+	EmailAuthProvider,
+	GoogleAuthProvider,
+	reauthenticateWithPopup,
+	User,
+} from '@angular/fire/auth';
 
 @Component({
 	selector: 'app-root',
@@ -44,21 +52,37 @@ export class AppComponent implements OnInit {
 	 * @returns {void}
 	 */
 	ngOnInit(): void {
-		console.log('subbed to user');
-		this.authService.user$.subscribe((user) => {
-			if (user) {
-				console.log('user:', user);
-				this.setUserData(user);
-				this.handleNavigation(user);
-			} else {
-				this.handleNoUser();
-			}
-		});
+		setTimeout(() => {
+			console.log('subbed to params');
+			this.route.queryParams.subscribe({
+				next: (params) => {
+					this.authService.user$.subscribe((user) => {
+						if (this.router.url.includes('?mode=')) {
+							this.handleQueryParams(params);
+						} else if (user) {
+							console.log('subbed to user');
+							console.log('user:', user);
+							this.setUserData(user);
+							this.handleNavigation(user);
+						} else {
+							this.handleNoUser();
+						}
+					});
+				},
+			});
+		}, 1);
+	}
 
-		this.route.queryParams.subscribe((params) => {
-			this.handleResetPasswordAction(params);
-			this.handleVerifyEmailAction(params);
-		});
+	/**
+	 * Handles various query parameters related to user actions.
+	 * @param {Params} params - The URL parameters containing action codes and other relevant information.
+	 * @returns {void}
+	 */
+	handleQueryParams(params: Params): void {
+		this.handleResetPasswordAction(params);
+		this.handleVerifyEmailAction(params);
+		this.handleVerifyNewEmailAction(params);
+		this.handleRecoverEmailAction(params);
 	}
 
 	/**
@@ -176,7 +200,45 @@ export class AppComponent implements OnInit {
 				params['oobCode']
 			).then(() => {
 				console.log('verified email');
-				this.router.navigateByUrl('/home');
+				this.router.navigateByUrl('/').then(() => {
+					setTimeout(() => {
+						this.router.navigateByUrl('/home');
+					}, 1000);
+				});
+			});
+		}
+	}
+
+	/**
+	 * Handles the verify new email action on email change based on the query parameters.
+	 * @param {Params} params - The query parameters.
+	 * @returns {void}
+	 */
+	handleVerifyNewEmailAction(params: Params): void {
+		if (this.router.url.includes('verifyAndChangeEmail')) {
+			applyActionCode(
+				this.authService.firebaseAuth,
+				params['oobCode']
+			).then(() => {
+				console.log('verified new email');
+				this.router.navigateByUrl('/');
+			});
+		}
+	}
+
+	/**
+	 * Handles the recovery of an email adress based on the query parameters.
+	 * @param {Params} params - The query parameters.
+	 * @returns {void}
+	 */
+	handleRecoverEmailAction(params: Params): void {
+		if (this.router.url.includes('recoverEmail')) {
+			applyActionCode(
+				this.authService.firebaseAuth,
+				params['oobCode']
+			).then(() => {
+				console.log('recovered email');
+				this.router.navigateByUrl('/');
 			});
 		}
 	}

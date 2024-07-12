@@ -10,8 +10,8 @@
 
 
   <div class="chat-input">
-    <app-chat-input [sourceComponent]="'newMessage'" [destinationCollection]="'channelsORprivateMessages'"
-      [destinationDocRef]="'docRef'" [placeholderText]="'Starte eine neue Nachricht'"
+    <app-chat-input [sourceComponent]="'newMessage'" [destinationCollection]="this.destinationCollection"
+      [destinationDocRef]="this.destinationDocRef" [placeholderText]="'Starte eine neue Nachricht'"
       (messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
   </div>
 

@@ -1,10 +1,16 @@
 import { Injectable, inject, signal } from '@angular/core';
 import {
 	Auth,
+	AuthCredential,
 	confirmPasswordReset,
 	createUserWithEmailAndPassword,
+	EmailAuthCredential,
+	EmailAuthProvider,
 	getAuth,
 	GoogleAuthProvider,
+	ProviderId,
+	reauthenticateWithCredential,
+	reauthenticateWithPopup,
 	sendEmailVerification,
 	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
@@ -14,6 +20,7 @@ import {
 	updateProfile,
 	user,
 	UserCredential,
+	verifyBeforeUpdateEmail,
 	verifyPasswordResetCode,
 } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
@@ -143,17 +150,78 @@ export class AuthService {
 	}
 
 	/**
-	 * Changes the user's email to a new email.
+	 * Reauthenticates the user and sends an email to verify the new email adress.
 	 * @param {string} newEmail - The new email address.
 	 * @returns {Observable<void>}
 	 */
-	changeEmail(newEmail: string): Observable<void> {
-		const auth = getAuth();
-		const promise = updateEmail(auth.currentUser!, newEmail).catch(
-			(error) => {
-				console.log(error);
-			}
-		);
+	changeEmail(newEmail: string, password: string): Observable<void> {
+		const promise = this.reauthenticateUser(false, password).then(() => {
+			verifyBeforeUpdateEmail(this.firebaseAuth.currentUser!, newEmail)
+				.then(() => {
+					console.log('verify your new email');
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		});
 		return from(promise);
+	}
+
+	/**
+	 * Reauthenticates the current user either using Google authentication
+	 * or email/password credentials, based on the `providerGoogle` parameter.
+	 * @param {boolean} providerGoogle - If true, reauthenticates using Google; otherwise, uses email and password.
+	 * @param {string} password - The user's password, required if not using Google for reauthentication.
+	 * @returns {Promise<void>} A promise that resolves when reauthentication completes.
+	 */
+	reauthenticateUser(
+		providerGoogle: boolean,
+		password: string
+	): Promise<void> {
+		let promise: Promise<void>;
+		if (providerGoogle) {
+			promise = this.reauthGoogle();
+		} else {
+			promise = this.reauthPassword(password);
+		}
+		return promise;
+	}
+
+	/**
+	 * Reauthenticates the current user using a Google popup.
+	 * @returns {Promise<void>} A promise that resolves when reauthentication completes.
+	 */
+	async reauthGoogle(): Promise<void> {
+		return reauthenticateWithPopup(
+			this.firebaseAuth.currentUser!,
+			new GoogleAuthProvider()
+		)
+			.then(() => {
+				console.log('reautchenticated with popup');
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
+	/**
+	 * Reauthenticates the current user using their email and password credentials.
+	 * @param {string} password - The user's password.
+	 * @returns {Promise<void>} A promise that resolves when reauthentication completes.
+	 */
+	async reauthPassword(password: string): Promise<void> {
+		return reauthenticateWithCredential(
+			this.firebaseAuth.currentUser!,
+			EmailAuthProvider.credential(
+				this.firebaseAuth.currentUser!.email!,
+				password
+			)
+		)
+			.then(() => {
+				console.log('reautchenticated with credential');
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}
 }

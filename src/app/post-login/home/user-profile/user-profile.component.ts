@@ -29,7 +29,7 @@ export class UserProfileComponent {
   }
 
   startNewPrivateChat() {
-    this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, this.firebaseService.selectedPrivateChatCreatorId, 'userProfile');
+    this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, this.firebaseService.selectedPrivateChatCreatorId);
   }
 
   	/**
