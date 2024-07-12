@@ -178,52 +178,6 @@ export class FirebaseService implements OnDestroy, OnInit {
 		return !querySnapshot.empty;
 	}
 
-	/**
-	 * Updates the name of the channel.
-	 * 
-	 * @param channelName - The new name for the channel.
-	 */
-	updateChannelName(channelName: string) {
-		const channelDocRef = doc(
-			this.firestore,
-			`channels/${this.currentChanId}`
-		);
-		updateDoc(channelDocRef, { name: channelName });
-	}
-
-	/**
-	* Updates the description of a channel.
-	 * 
-	 * @param channelDescription - The new description for the channel.
-	 */
-	updateChannelDescription(channelDescription: string) {
-		const channelDocRef = doc(
-			this.firestore,
-			`channels/${this.currentChanId}`
-		);
-		updateDoc(channelDocRef, { description: channelDescription });
-	}
-		/**
-	 * Retrieves the name of the current channel.
-	 * @returns The name of the current channel, or undefined if not found.
-	 */
-	getChannelName() {
-		return this.channelList.find((channel) => channel.chanId === this.currentChanId)?.name;
-	}
-		
-	/**
-	 * Leaves the current channel by removing the current user from the channel's members list.
-	*/
-	leaveChannel() {
-		const channelDocRef = doc(
-			this.firestore,
-			`channels/${this.currentChanId}`
-		);
-		updateDoc(channelDocRef, {
-			members: this.channelList.find((channel) => channel.chanId === this.currentChanId)?.members.filter((member) => member !== this.currentUserId),
-		});
-	}
-
 	// user code
 	/**
 	 * Subscribes to the users collection in Firestore and updates the user list in real-time.
