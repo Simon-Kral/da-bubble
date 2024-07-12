@@ -38,7 +38,7 @@ export class AddMembersToChannelComponent {
 		return this.firebaseService.savedUserForChannel.some((user) => user === userId);
 	}
 
-	setDisplayUsers() {
-		this.displayUsers = true;
+	toggleDisplayUsers() {
+		this.displayUsers = !this.displayUsers;
 	}
 }

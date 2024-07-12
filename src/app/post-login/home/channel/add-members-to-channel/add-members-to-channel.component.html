@@ -16,8 +16,17 @@
 		type="text"
 		placeholder="Namen eingeben"
 		(keyup)="firebaseService.getUserByNameAndSaveInArray(userName)"
-		(click)="setDisplayUsers()"
+		(click)="toggleDisplayUsers()"
 	/>
+
+	@if(firebaseService.savedUserForChannel[0]){
+		<div class="show-user deletable-user">
+			<img src="{{ firebaseService.getUserAvatar(firebaseService.savedUserForChannel[firebaseService.savedUserForChannel.length - 1]) }}" alt=""  />
+			<span>{{ firebaseService.getUserDisplayName(firebaseService.savedUserForChannel[firebaseService.savedUserForChannel.length - 1]) }}</span>
+			<img (click)="firebaseService.deleteUserFromSavedUserForChannel(firebaseService.savedUserForChannel[firebaseService.savedUserForChannel.length - 1])" src="assets/img/icons/close_black.png" alt="">
+		</div>
+	}
+
 	<div class="search-results" [ngClass]="{'d-none': !displayUsers}">
 		@if(!firebaseService.filteredUsers[0]) {
 			 @for(user of firebaseService.userList; track user.userId; let index =$index) {

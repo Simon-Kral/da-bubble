@@ -487,6 +487,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 		console.log('Saved User:', this.savedUserForChannel);
 	}
 
-
-
+	deleteUserFromSavedUserForChannel(userId: string) {
+		this.savedUserForChannel = this.savedUserForChannel.filter((user) => user !== userId);
+	}
 }
