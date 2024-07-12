@@ -15,7 +15,8 @@
   height: 58px;
   gap: 15px;
   border-radius: 30px;
-
+  background-color: $white;
+  
   .user-avatar {
     position: relative;
 
@@ -47,4 +48,5 @@
     }
   }
 }
+
 

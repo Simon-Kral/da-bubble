@@ -24,6 +24,8 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   
   selectedMessageId: string | null = null;
 
+
+
   constructor(private router: Router) {
    }
 
@@ -38,6 +40,21 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   onMessageClick(messageId: string) {
     this.firebaseService.selectedPrivateChatId = messageId;
     this.chatService.subscribeMsgList();  
+    console.log('selected message id: ', messageId);
   }
 
+  handleNoteMessageClick(messageId: string) {
+    this.firebaseService.selectedPrivateChatId = messageId;
+    this.chatService.subscribeMsgList();
+    this.communicationService.togglePrivateNote(true); 
+    this.chatService.setPlaceholderName(this.firebaseService.currentUser.name)  
+  }
+
+  handlePrivateMessageClick(messageId: string, chatCreator: string) {
+    this.firebaseService.selectedPrivateChatId = messageId;
+    this.chatService.subscribeMsgList();  
+    this.firebaseService.getChatCreatorIdByDocRef(messageId);
+    this.communicationService.togglePrivateNote(false);
+    this.chatService.setPlaceholderName(this.firebaseService.getUserDisplayName(chatCreator))
+  }
 }

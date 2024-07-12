@@ -51,7 +51,10 @@ export class ChatService {
         break;
     }
   }
-
+  
+/**
+ * Sets the placeholder name for the shared input field.
+ */
 setPlaceholderName(name: string) {
   this.placeholderName = name;
 }

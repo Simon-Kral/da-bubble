@@ -1,6 +1,6 @@
 <div class="private-msg-wrapper">
   @if (this.firebaseService.currentUser) {
-  <div class="private-msg-container pointer" (click)="onMessageClick(this.firebaseService.currentUser.privateNoteRef);this.communicationService.togglePrivateNote(true); this.chatService.setPlaceholderName(this.firebaseService.currentUser.name)"
+  <div class="private-msg-container pointer" (click)="handleNoteMessageClick(this.firebaseService.currentUser.privateNoteRef);"
     [ngClass]="{ 'active': selectedMessageId === (this.firebaseService.currentUser.privateNoteRef) }"
     [routerLink]="['/home/private-message', this.firebaseService.currentUser.privateNoteRef]"
     >
@@ -16,7 +16,7 @@
   } @for (privateMsg of firebaseService.privateChatList; track privateMsg.privatChatId; let index = $index)
   {
   <div class="private-msg-container pointer" [routerLink]="['/home/private-message', privateMsg.privatChatId]"
-    (click)="this.firebaseService.getChatCreatorIdByDocRef(privateMsg.privatChatId);onMessageClick(privateMsg.privatChatId); this.communicationService.togglePrivateNote(false);this.chatService.setPlaceholderName(this.firebaseService.getUserDisplayName(privateMsg.chatCreator))"
+    (click)="handlePrivateMessageClick(privateMsg.privatChatId, privateMsg.chatCreator)"
     [ngClass]="{ 'active': selectedMessageId === privateMsg.privatChatId }">
     <div class="user-avatar">
       <img [src]="this.firebaseService.getUserAvatar(privateMsg.chatCreator)" alt="User Avatar" />
