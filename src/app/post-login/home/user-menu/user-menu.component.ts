@@ -27,9 +27,9 @@ export class UserMenuComponent {
 	@Input() isCurrentUserProfileVisible: boolean = false;
 	@Output() currentUserProfileVisibilityChange = new EventEmitter<boolean>();
 
-	logout(): void {
+	async logout(): Promise<void> {
 		// to-do OPTIONAL update user status to offline when close tab
-		this.firebaseService.updateUserStatus(false);
+		await this.firebaseService.updateUserStatus(false);
 		this.firebaseService.clearCurrentUser(); // to-do remove after developement is finished ?!? check first!
 		this.firebaseService.ngOnDestroy();
 		this.chatService.ngOnDestroy();
