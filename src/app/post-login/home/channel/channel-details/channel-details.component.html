@@ -99,5 +99,5 @@
 		</div>
 	</div>
 
-	<button class="exit-button" (click)="this.firebaseService.leaveChannel()">Channel verlassen</button>
+	<button class="exit-button" [disabled]="checkChannelCreator()" (click)="this.firebaseService.leaveChannel()">Channel verlassen</button>
 </div>

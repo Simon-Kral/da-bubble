@@ -98,5 +98,4 @@ export class ChannelDetailsComponent {
 		this.firebaseService.leaveChannel();
 		this.closeDetailsWindow();
 	}
-
 }

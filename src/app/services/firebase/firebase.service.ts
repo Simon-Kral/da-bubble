@@ -20,11 +20,16 @@ export class FirebaseService implements OnDestroy, OnInit {
 	channelList: Channel[] = [];
 	userList: User[] = [];
 	privateChatList: PrivateChat[] = [];
+	filteredUsers: User[] = [];
 
 	// unsubscribe functions for real-time updates
 	unsubscribeChannelList: any;
 	unsubscribeUserList: any;
 	unsubscribePrivateChatList: any;
+
+	// variables for add members to channel component
+	selectedUser = '';
+	savedUserForChannel: string[] = [];
 
 	// variables for private message component  might be outsourced to chat service
 	selectedPrivateChatId: string = '';
@@ -481,5 +486,28 @@ export class FirebaseService implements OnDestroy, OnInit {
 			members: this.channelList.find((channel) => channel.chanId === this.currentChanId)?.members.filter((member) => member !== this.currentUserId),
 		});
 	}
+
+	getUserByNameAndSaveInArray(name: string) {
+		if (!name) {
+			this.filteredUsers = [];
+			return;
+		}
+		this.filteredUsers = this.userList.filter((user) => {
+			return !this.savedUserForChannel.includes(user.userId) && user.name.toLowerCase().includes(name.toLowerCase());
+		});
+		console.log('Filtered Users:', this.filteredUsers);	
+	}
+
+
+	addUserToChannelslist(userId: string) {
+		const checkId = this.savedUserForChannel.includes(userId);
+		if (checkId) {
+			return;
+		}
+		this.savedUserForChannel.push(userId);
+		console.log('Saved User:', this.savedUserForChannel);
+	}
+
+
 
 }

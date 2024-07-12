@@ -14,7 +14,7 @@ export class CommunicationService {
 	isCurrentUserProfileVisible$ = this.isCurrentUserProfileVisibleSource.asObservable();
 	isUserProfileVisibleSource = new BehaviorSubject<boolean>(false);
 	isUserProfileVisible$ = this.isUserProfileVisibleSource.asObservable();
-	//Dragan: channel details variables to-do: outsource to communiction service
+	
 	isChannelDetailsVisibleSource = new BehaviorSubject<boolean>(false);
 	isChannelDetailsVisible$ =this.isChannelDetailsVisibleSource.asObservable();
 	isAddMembersToChannelVisibleSource = new BehaviorSubject<boolean>(false);
@@ -39,7 +39,6 @@ export class CommunicationService {
 		this.isUserProfileVisibleSource.next(visible);
 	}
 
-	//Dragan to-do: outsource to communiction service
 	toggleChannelDetailsVisibility(visible: boolean) {
 		this.isChannelDetailsVisibleSource.next(visible);
 	}
