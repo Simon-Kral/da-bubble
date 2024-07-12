@@ -40,6 +40,11 @@ export class ChatHistoryComponent {
     console.log('openEditMsgMenu', this.editMsgMenu);
   }
 
+  handleClickOnAnswers() {
+    console.log('handleClickOnAnsers');
+    this.communicationService.toggleThreadVisibility(true);
+  }
+
   onMouseOver(imgName: string) : void {
     switch (imgName) {
       case 'moreVert':
