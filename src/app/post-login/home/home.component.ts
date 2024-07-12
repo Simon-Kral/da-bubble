@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { ChannelComponent } from './channel/channel.component';
 import { SidenavComponent } from '../home/side-navigation/sidenav/sidenav.component';
-import { ThreadComponent } from './channel/thread/thread.component';
 import { CreateNewChannelComponent } from './channel/create-channel/create-new-channel/create-new-channel.component';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
@@ -16,6 +15,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 import { ChannelDetailsComponent } from './channel/channel-details/channel-details.component';
 import { CommunicationService } from '../../services/communication/communication.service';
 import { AddMembersToChannelComponent } from './channel/add-members-to-channel/add-members-to-channel.component';
+import { ThreadComponent } from '../shared/thread/thread.component';
 @Component({
 	selector: 'app-home',
 	standalone: true,
