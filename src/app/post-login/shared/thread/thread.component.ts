@@ -1,12 +1,12 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { ChatHistoryComponent } from '../chat-history/chat-history.component';
+import { ThreadHistoryComponent } from '../thread-history/thread-history.component';
 import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
 import { CommunicationService } from '../../../services/communication/communication.service';
 @Component({
   selector: 'app-thread',
   standalone: true,
-  imports: [ChatHistoryComponent, CommonModule, ChatInputComponent],
+  imports: [ThreadHistoryComponent, CommonModule, ChatInputComponent],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss'
 })
