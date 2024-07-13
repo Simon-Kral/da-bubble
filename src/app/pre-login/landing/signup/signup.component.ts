@@ -101,12 +101,10 @@ export class SignupComponent {
 		const user = this.authService.firebaseAuth.currentUser!;
 		return {
 			privatChatId: user.uid,
-			chatCreator: user.uid,
+			chatCreator: '',
 			chatReciver: '',
 			privateNoteCreator: user.uid,
 			messages: [],
-			createdAt: new Date().getTime(),
-			createdBy: user.uid,
 		};
 	}
 }

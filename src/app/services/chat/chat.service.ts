@@ -217,8 +217,6 @@ formatTimeString(timestampStr: string): string {
         chatCreator: chatCreator,
         chatReciver: chatReceiver,
         privateNoteCreator: '',
-        createdAt: '',
-        createdBy: chatCreator
       };
 
         const docRef = await this.addPrivateChat(newPrivateChat);
@@ -311,11 +309,10 @@ formatTimeString(timestampStr: string): string {
  * @returns {Promise<void>} A promise that resolves when the document has been successfully updated.
  * @throws {Error} Throws an error if updating the document fails.
  * 
- * to-do implement logic to update message in channel
  */
   async updateMessageId(docRef: any): Promise<void> {
     try {
-      await updateDoc(doc(this.firestore, 'privateChats', this.docRef, 'messages', docRef.id), {
+      await updateDoc(doc(this.firestore, this.mainCollection, this.docRef, 'messages', docRef.id), {
         messageId: docRef.id,
       });
       console.log('Message document updated with ID: ', docRef.id);
