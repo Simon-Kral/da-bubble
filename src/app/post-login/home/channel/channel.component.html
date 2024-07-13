@@ -12,12 +12,12 @@
 		</div>
 		<div class="avatar-collection">
 			<div class="user-profile-img-container">
-				@for(user of users; track user.id; let index = $index) {
+				@for(user of users; track user.userId; let index = $index) {
 				@if(index < 3) {
 				<img
 					[ngStyle]="{ left: getLeftStyleValue(index) + 'px' }"
 					class="user-profile-img"
-					src="{{ user.profileImg }}"
+					src="{{ user.photoURL }}"
 					alt=""
 				/>
 				} }

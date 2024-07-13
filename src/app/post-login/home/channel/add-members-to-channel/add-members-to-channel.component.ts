@@ -26,7 +26,7 @@ export class AddMembersToChannelComponent {
 	}
 
 	checkIfUserIsAlreadyAdded(userId: string): boolean {
-		return  this.firebaseService.savedUserForChannel.some((user) => user === userId) || this.firebaseService.channelList.some((channel) => channel.members.some((user) => user.userId === userId));
+		return  this.firebaseService.savedUserForChannel.some((user) => user === userId) || this.firebaseService.channelList.some((channel) => channel.members.some((user) => user === userId));
 	}
 
 	toggleDisplayUsers() {
