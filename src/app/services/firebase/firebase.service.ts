@@ -431,7 +431,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 		return chatEntry ? chatEntry.chatCreator : undefined;
 	}
 
-	// Dragan to-do: please move to the end of --> //channel code sorted by get / update operations
+	//channel code sorted by get / update operations
 	/**
 	 * Updates the name of the channel.
 	 *
@@ -546,9 +546,23 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * @returns {string[]} An array of unique member IDs.
 	 */
 	combineMembers() {
-		const currentChannel = this.channelList.find((channel) => channel.chanId === this.currentChanId);
+		const currentChannel = this.channelList.find(
+			(channel) => channel.chanId === this.currentChanId
+		);
 		const currentMembers = currentChannel ? currentChannel.members : [];
-		const uniqueMembers = Array.from(new Set([...currentMembers, ...this.savedUserForChannel]));
+		const uniqueMembers = Array.from(
+			new Set([...currentMembers, ...this.savedUserForChannel])
+		);
 		return uniqueMembers;
+	}
+
+	/**
+	 * Retrieves the members of the current channel from the channel list.
+	 * @returns An array of channel members, or undefined if the channel is not found.
+	 */
+	getChannelMembersFromDocRef() {
+		return this.channelList.find(
+			(channel) => channel.chanId === this.currentChanId
+		)?.members;
 	}
 }

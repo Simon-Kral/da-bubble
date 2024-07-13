@@ -1,7 +1,7 @@
 <div class="add-members-container">
 	<div class="headline">
 		<span>Leute Hinzufügen</span>
-		<div class="close-button" (click)="closeWindow()">
+		<div class="close-button pointer" (click)="closeWindow()">
 			<img src="assets/img/icons/close_black.png" alt="" />
 		</div>
 	</div>
@@ -23,7 +23,7 @@
 		<div class="show-user deletable-user">
 			<img src="{{ firebaseService.getUserAvatar(firebaseService.savedUserForChannel[firebaseService.savedUserForChannel.length - 1]) }}" alt=""  />
 			<span>{{ firebaseService.getUserDisplayName(firebaseService.savedUserForChannel[firebaseService.savedUserForChannel.length - 1]) }}</span>
-			<img (click)="firebaseService.deleteUserFromSavedUserForChannel(firebaseService.savedUserForChannel[firebaseService.savedUserForChannel.length - 1])" src="assets/img/icons/close_black.png" alt="">
+			<img class="pointer" (click)="firebaseService.deleteUserFromSavedUserForChannel(firebaseService.savedUserForChannel[firebaseService.savedUserForChannel.length - 1])" src="assets/img/icons/close_black.png" alt="">
 		</div>
 	}
 
