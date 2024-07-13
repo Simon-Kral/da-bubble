@@ -24,21 +24,19 @@ export class AddMembersToChannelComponent {
 		this.userName = '';
 		this.addMembersToChannelVisibilityChange.emit(false);
 	}
-	
-	addUserToChannel(userId: string): void {
-		console.log(userId);
-		
-	}
-
-	onUserNameChange(userName: string): void {
-		console.log(this.userName);
-	}
 
 	checkIfUserIsAlreadyAdded(userId: string): boolean {
-		return this.firebaseService.savedUserForChannel.some((user) => user === userId);
+		return  this.firebaseService.savedUserForChannel.some((user) => user === userId) || this.firebaseService.channelList.some((channel) => channel.members.some((user) => user.userId === userId));
 	}
 
 	toggleDisplayUsers() {
 		this.displayUsers = !this.displayUsers;
 	}
+
+	saveAndCloseAddMembersToChannel(): void {
+		this.firebaseService.addSavedUserToChannel();
+		this.closeWindow();
+	}
+
+	
 }
