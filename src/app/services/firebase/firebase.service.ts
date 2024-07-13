@@ -168,7 +168,6 @@ export class FirebaseService implements OnDestroy, OnInit {
 			name: obj.name || '',
 			description: obj.description || '',
 			members: obj.members || [],
-			messages: obj.messages || [],
 			createdAt: obj.createdAt || '',
 			createdBy: obj.createdBy || '',
 		};

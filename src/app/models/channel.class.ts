@@ -6,7 +6,6 @@ export class Channel {
   name: string;
   description: string;
   members: string[];
-  messages: Message[];
   createdAt: number;
   createdBy: string;
 
@@ -15,7 +14,6 @@ export class Channel {
     this.name = obj ? obj.name : '';
     this.description = obj ? obj.description : '';
     this.members = obj ? obj.users : [];
-    this.messages = obj ? obj.messages : [];
     this.createdAt = obj ? obj.createdAt : 0;
     this.createdBy = obj ? obj.createdBy : '';
   }
