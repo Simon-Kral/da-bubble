@@ -30,7 +30,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	channelList: Channel[] = [];
 	userList: User[] = [];
 	privateChatList: PrivateChat[] = [];
-	filteredUsers: User[] = [];
+	filteredUsers: User[] = [];  //to-do move to search service
 
 	// unsubscribe functions for real-time updates
 	unsubscribeChannelList: any;
@@ -38,10 +38,11 @@ export class FirebaseService implements OnDestroy, OnInit {
 	unsubscribePrivateChatList: any;
 
 	// variables for add members to channel component
+	// to-do move to communication & search service
 	selectedUser = '';
 	savedUserForChannel: string[] = [];
 
-	// variables for private message component  might be outsourced to chat service
+	// variables for private message component
 	selectedPrivateChatCreatorId: string = '';
 
 	constructor() {
@@ -443,6 +444,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Retrieves the name of the current channel.
 	 * @returns The name of the current channel, or undefined if not found.
+	 * to-do delete code is redundant
 	 */
 	getChannelName() {
 		return this.channelList.find(
@@ -481,7 +483,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Filters the user list based on the provided name and saves the filtered users in the `filteredUsers` array.
 	 * If the name is empty or undefined, the `filteredUsers` array will be cleared.
-	 *
+	 * to-do move to search service
 	 * @param name - The name to filter the user list by.
 	 */
 	getUserByNameAndSaveInArray(name: string) {
@@ -502,6 +504,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * Adds a user to the list of saved users for channels.
 	 * If the user is already in the list, it does nothing.
 	 * @param userId - The ID of the user to add.
+	 * to-do outsource to search service
 	 */
 	addUserToChannelslist(userId: string) {
 		const checkId = this.savedUserForChannel.includes(userId);
@@ -515,6 +518,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Deletes a user from the savedUserForChannel array.
 	 * @param userId - The ID of the user to be deleted.
+	 * to-do outsource to search service
 	 */
 	deleteUserFromSavedUserForChannel(userId: string) {
 		this.savedUserForChannel = this.savedUserForChannel.filter(
@@ -524,6 +528,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 
 	/**
 	 * Adds the saved user to the current channel.
+	 * to-do might be outsourced to channel component
 	 */
 	addSavedUserToChannel() {
 		const channelDocRef = doc(
@@ -554,6 +559,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Retrieves all members of the current channel.
 	 * @returns An array of members in the current channel.
+	 * to-do delete code is redundant
 	 */
 	getAllMembers() {
 		const currentChannel = this.channelList.find(
@@ -566,6 +572,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	 * Retrieves a channel by its ID.
 	 * @param channelId - The ID of the channel to retrieve.
 	 * @returns The channel object with the specified ID, or undefined if not found.
+	 * to-do delete code is redundant
 	 */
 	getChannelById(channelId: string) {
 		return this.channelList.find((channel) => channel.chanId === channelId);
