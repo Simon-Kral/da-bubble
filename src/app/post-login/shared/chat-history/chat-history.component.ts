@@ -3,10 +3,11 @@ import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { ChatService } from '../../../services/chat/chat.service';
 import { CommunicationService } from '../../../services/communication/communication.service';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 @Component({
   selector: 'app-chat-history',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './chat-history.component.html',
   styleUrl: './chat-history.component.scss'
 })
@@ -32,8 +33,16 @@ export class ChatHistoryComponent {
   currentIconSourceComment = this.comment;
   currentIconSourceAddReaction = this.addReaction;
 
+  editMsgData: FormGroup;
 
-  constructor() { }
+  constructor(private fb: FormBuilder) {
+    this.editMsgData = this.fb.group({
+      text: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
+    });
+  }
 
   openEditMsgMenu() {
     this.editMsgMenu = !this.editMsgMenu;
@@ -74,5 +83,10 @@ export class ChatHistoryComponent {
         this.currentIconSourceAddReaction = this.addReaction;
         break;
     }
+  }
+
+  // edit msg functions
+  editMsg() {
+    console.log('editMsg');
   }
 }
