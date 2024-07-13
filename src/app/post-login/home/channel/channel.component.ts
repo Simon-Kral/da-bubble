@@ -7,6 +7,7 @@ import { ChatService } from '../../../services/chat/chat.service';
 import { ChannelDetailsComponent } from './channel-details/channel-details.component';
 import { ChatHistoryComponent } from '../../shared/chat-history/chat-history.component';
 import { ActivatedRoute } from '@angular/router';
+import { User } from '../../../models/user.class';
 @Component({
 	selector: 'app-channel',
 	standalone: true,
@@ -28,26 +29,22 @@ export class ChannelComponent {
 	channelId: string = '';
 	hashtag = 'assets/img/icons/hashtag_chat_inactive.png';
 	dropdownArrow = 'assets/img/icons/keyboard_arrow_down_inactive.png';
+	currentChannel = this.firebaseService.getChannelById(
+		this.firebaseService.currentChanId
+	);
+	usersId: string[] = [];
 
-	users = [
-		{
-			id: 1,
-			firstname: 'John',
-			lastname: 'Doe',
-			email: 'Ä',
-			phone: '1234567890',
-			profileImg: 'assets/img/character-images/character_1.png',
-		},
-	];
+	users: any[] = [];
 
 	constructor(private route: ActivatedRoute) {
-		this.getChannelUsers();
+		this.usersId = this.firebaseService.getAllMembers();
+		this.getAllUsersDataFromId();
 	}
 
 	ngOnInit(): void {
-		this.route.params.subscribe(params => {
+		this.route.params.subscribe((params) => {
 			this.firebaseService.currentChanId = params['id'];
-		  });
+		});
 	}
 
 	/**
@@ -87,8 +84,13 @@ export class ChannelComponent {
 		);
 	}
 
-	getChannelUsers() {
-		console.log('users Channel',this.firebaseService.getChannelMembersFromDocRef());
-		
+	/**
+	 * Retrieves data of all users from their IDs and adds them to the users array.
+	 */
+	getAllUsersDataFromId() {
+		this.currentChannel?.members.forEach((element) => {
+			let user = this.firebaseService.getUserById(element);
+			this.users.push(user);
+		});
 	}
 }

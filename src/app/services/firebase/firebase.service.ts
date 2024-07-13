@@ -557,12 +557,24 @@ export class FirebaseService implements OnDestroy, OnInit {
 	}
 
 	/**
-	 * Retrieves the members of the current channel from the channel list.
-	 * @returns An array of channel members, or undefined if the channel is not found.
+	 * Retrieves all members of the current channel.
+	 * @returns An array of members in the current channel.
 	 */
-	getChannelMembersFromDocRef() {
-		return this.channelList.find(
+	getAllMembers() {
+		const currentChannel = this.channelList.find(
 			(channel) => channel.chanId === this.currentChanId
-		)?.members;
+		);
+		return currentChannel ? currentChannel.members : [];
 	}
+
+	/**
+	 * Retrieves a channel by its ID.
+	 * @param channelId - The ID of the channel to retrieve.
+	 * @returns The channel object with the specified ID, or undefined if not found.
+	 */
+	getChannelById(channelId: string) {
+		return this.channelList.find((channel) => channel.chanId === channelId);
+	}
+
+	
 }

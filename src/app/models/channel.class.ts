@@ -5,7 +5,7 @@ export class Channel {
   chanId: string;
   name: string;
   description: string;
-  members: User[];
+  members: string[];
   messages: Message[];
   createdAt: number;
   createdBy: string;
