@@ -28,12 +28,9 @@ export class ChatService implements OnInit, OnDestroy{
 	// variabels needed for chathistory (editing msg´s)
 	mainCollection:string = '';  // will get used to store name of maincollection (privateChats or channels)
 
-	docRef:string = '';  // will get used to store the docRef of the currently displayed doc
+	docRef:string = '';  // will get used to store the docRef of the currently displayed doc (privateChats or channels)
 
   editMessageId:string = '';  // will get used to store the id of the message that should get edited
-
-  // variables for private message component  outsourced form firebase 
-	selectedPrivateChatCreatorId: string = '';
 
   constructor() { }
 
@@ -96,7 +93,8 @@ subscribeMsgList() {
   if (this.unsubscribeMsgList) {
     this.unsubscribeMsgList();
   }
-  const q = query(this.getMsgSubColRef(), orderBy('date'), orderBy('time'));
+  const collectionRef = collection(this.firestore, this.mainCollection, this.docRef, 'messages');
+  const q = query(collectionRef, orderBy('date'), orderBy('time'));
   this.unsubscribeMsgList = onSnapshot(
     q,
     (snapshot) => {
@@ -111,15 +109,6 @@ subscribeMsgList() {
       console.error('Error fetching messages: ', error);
     }
   );
-}
-
-/**
- * Gets a reference to the messages subcollection for the currently selected privateChats collection or the channels collection.
- * 
- * to-do: implement variabel  for channels or private messages collection
- */
-getMsgSubColRef() {
-  return collection(this.firestore,`${this.mainCollection}/${this.docRef}/messages`);
 }
 
 /**
@@ -208,7 +197,6 @@ formatTimeString(timestampStr: string): string {
  * @param {string} chatCreator - The user ID of the person initiating the chat.
  * @param {string} chatReceiver - The user ID of the person receiving the chat invitation.
  * @returns {Promise<void>} A promise that resolves when the new chat has been created and updated.
- * to-do implement logic to wether create a new chat from user profile with empty message or from new-message component with message
  */
   async startNewPrivateChat(chatCreator: string, chatReceiver: string) {
       
