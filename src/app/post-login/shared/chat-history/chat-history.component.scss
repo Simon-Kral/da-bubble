@@ -2,6 +2,7 @@
 
 .chat-history-wrapper {
     @include dFlex(column,flex-end, flex-start);
+    position: relative;
 }
 //msg date-->
 .msg-date {
@@ -181,10 +182,11 @@
                 top: 36px;
                 right: -230px;
                 box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1); //to-do adjust shaddow
+                z-index: 2;
                 display: none;
                 .edit-msg {
                     @include dFlex(row,center, center);
-                    width: 229px; //to-do adjust width for hover
+                    width: 229px; 
                     height: 47px;
                     border-radius: 100px;
                     padding: 10px 20px 10px 20px;
@@ -195,11 +197,11 @@
                     }
 
                     &:hover span {
-                        @include Nunito(700, 24px, 32.74px, $purple-3); //to-do ist that the right sizing?
+                        @include Nunito(700, 20px, 27.28px, $purple-3); 
                     }
 
                     span {
-                        @include Nunito(600, 24px, 32.74px, $black); //to-do ist that the right sizing?
+                        @include Nunito(500, 20px, 27.28px, $black); 
                         text-wrap: nowrap;
                     }
                 }
@@ -263,6 +265,140 @@
             p {
                 @include Nunito(400, 14px, 19.1px, $text-gray);
                 text-wrap: nowrap;
+            }
+        }
+    }
+}
+
+//popUp overlay for editing specific current user msg
+
+.edit-msg-overlay {
+    @include dFlex(row,flex-end, flex-start);
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    padding: 10px 45px 10px 45px;
+    gap: 30px;
+    background-color: $bg-color;
+
+    .left-section {
+        @include dFlex(row,flex-start, center);
+        width: 75%;
+        .edit-msg-form {
+            @include dFlex(column,flex-start, center);
+            width: 100%;
+            height: 180px;
+            border-radius: 20px;
+            border: solid 1px $light-purple-lines;
+            padding: 20px;
+            gap: 16px;
+            background-color: $white;
+
+            .top-section {
+                width: 100%;
+                textarea {
+                    @include Nunito(400, 18px, 24.55px, $text-gray);
+                    width: 100%;
+                    height: 75px;
+                    border: none;
+                }
+            }
+
+
+            .bottom-section {
+                @include dFlex(row, space-between, center);
+                width: 100%;
+
+                .bottom-left {
+                    @include dFlex(row, center, center);
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    gap: 5px;
+                    transition: ease-in-out 0.3;
+
+                    &:hover {
+                        background-color: $bg-color;
+                    }
+
+                    img {
+                        width: 24px;
+                        height: 24px;
+                    }
+
+                }
+
+                .bottom-right {
+                    @include dFlex(row, space-between, center);
+                    gap: 32px;
+
+                    .cancel-btn {
+                        @include dFlex(row, space-between, center);
+                        width: 141px;
+                        height: 49px;
+                        border-radius: 50px;
+                        border: solid 1px $purple-2;
+                        padding: 12px 25px 12px 25px;
+                        gap: 10px;
+                        background-color: $white;
+                        transition: ease-in-out 0.3;
+                        span {
+                            @include Nunito(700, 18px, 24.55px, $purple-1);
+                        }
+
+                        &:hover {
+                            background-color: $purple-1;
+                            border: none;
+                        }
+
+                        &:hover span {
+                            @include Nunito(700, 18px, 24.55px, $white);
+                        }
+                    }
+
+                    .save-btn {
+                        @include dFlex(row, space-between, center);
+                        width: 133px;
+                        height: 49px;
+                        border-radius: 50px;
+                        padding: 12px 25px 12px 25px;
+                        gap: 10px;
+                        background-color: $purple-1;
+                        transition: ease-in-out 0.3;
+                        span {
+                            @include Nunito(700, 18px, 24.55px, $white);
+                        }
+                        &:hover {
+                            background-color: $white;
+                            border: solid 1px $purple-2;
+                        }
+
+                        &:hover span {
+                            @include Nunito(700, 18px, 24.55px, $purple-1);
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    .right-section {
+        width: 15%;
+
+
+        .current-user-avatar{
+            @include dFlex(row,flex-start, flex-start);
+            width: 15%;
+            img {
+                transform:scaleX(-1); 
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
             }
         }
     }

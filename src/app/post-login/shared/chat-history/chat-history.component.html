@@ -29,6 +29,7 @@
             <div class="pointer menu-content"    
             (mouseover)="onMouseOver('comment')"
             (mouseout)="onMouseOut('comment')"
+            (click)="handleClickOnAnswers()"
             >
                 <img [src]="currentIconSourceComment" alt="menu-icon">
             </div>
@@ -48,8 +49,8 @@
                 <span>{{ msg.text }}</span>
             </div>   
                 <!--only display if messageAnsers are present-->
-            <div class="msg-bottom pointer" (click)="handleClickOnAnswers()">
-                <span>2 Antworten</span>
+            <div class="msg-bottom" (click)="handleClickOnAnswers()">
+                <span class="pointer">2 Antworten</span>
                 <p>Letzte Antwort 14:56</p>
             </div>
         </div>
@@ -76,6 +77,7 @@
                 <div class="pointer menu-content"
                 (mouseover)="onMouseOver('comment')"
                 (mouseout)="onMouseOut('comment')"
+                (click)="handleClickOnAnswers()"
                 >
                     <img [src]="currentIconSourceComment" alt="menu-icon">
                 </div>
@@ -90,7 +92,7 @@
                 <div class="edit-msg-menu"
                 [ngClass]="{'d-flex': editMsgMenu}"
                 >   <!--add logic to edit msg-->
-                    <div class="edit-msg">
+                    <div class="edit-msg pointer">
                         <span>Nachricht bearbeiten</span>
                     </div>
                 </div>
@@ -106,8 +108,8 @@
                     <span>{{ msg.text }}</span>
                 </div>   
                     <!--only display if messageAnsers are present-->
-                <div class="current-user-msg-bottom pointer" (click)="handleClickOnAnswers()">
-                    <span>2 Antworten</span>
+                <div class="current-user-msg-bottom" (click)="handleClickOnAnswers()">
+                    <span class="pointer">2 Antworten</span>
                     <p>Letzte Antwort 14:56</p>
                 </div>
             </div>
@@ -119,17 +121,36 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    }
+}
+<!--popUp overlay for editing specific current user msg-->
+<div class="edit-msg-overlay">
+    <div class="left-section">
+        <form class="edit-msg-form" [formGroup]="editMsgData" (submit)="editMsg()">
+            <div class="top-section">
+                <textarea placeholder="Nachricht bearbeiten" formControlName="editMsgData"></textarea>
+            </div>
+            <div class="bottom-section">
+                <div class="bottom-left pointer"
+                (mouseover)="onMouseOver('addReaction')"
+                (mouseout)="onMouseOut('addReaction')"
+                >
+                    <img [src]="currentIconSourceAddReaction" alt="add-reaction-icon">
+                </div>
+                <div class="bottom-right">
+                    <div class="cancel-btn pointer">
+                        <span>Abbrechen</span>
+                    </div>
+                    <div class="save-btn pointer">
+                        <span>Speichern</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="right-section">
+        <div class="current-user-avatar">
+            <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
+        </div>
+    </div>
+</div>
 </div>
