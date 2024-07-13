@@ -4,6 +4,12 @@ import { ChatService } from '../../../services/chat/chat.service';
 import { CommunicationService } from '../../../services/communication/communication.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
+interface MsgData {
+  text: string;
+}
+
+
 @Component({
   selector: 'app-chat-history',
   standalone: true,
@@ -33,10 +39,15 @@ export class ChatHistoryComponent {
   currentIconSourceComment = this.comment;
   currentIconSourceAddReaction = this.addReaction;
 
-  editMsgData: FormGroup;
+  // Edit message variables
+  showEditMsgOverlay: boolean = false;
+  currentMsgData: MsgData;
+  newMsgData: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.editMsgData = this.fb.group({
+    this.currentMsgData =  { text: ''}
+
+    this.newMsgData = this.fb.group({
       text: new FormControl('', [
         Validators.required,
         Validators.minLength(1),
@@ -86,7 +97,42 @@ export class ChatHistoryComponent {
   }
 
   // edit msg functions
-  editMsg() {
-    console.log('editMsg');
+
+  handleClickOnEditMsg(messageId: string) {
+    console.log('handleClickOnEditMsg');
+    console.log('edit MessadeId', messageId)
+    this.chatService.editMessageId = messageId;
+     this.loadMessageText();
+    this.showEditMsgOverlay = true;
+  }
+
+  async onSubmitEditMsg() {
+    if (this.newMsgData.valid) {
+      const updatedText = this.newMsgData.value.text;
+      try {
+        await this.chatService.updateMessage(
+          updatedText
+        );
+        console.log('Message text updated successfully');
+        this.showEditMsgOverlay = false;
+      } catch (error) {
+        console.error('Error updating message text:', error);
+      }
+    }
+  }
+  handleClickOnCancel() {
+    console.log('handleClickOnCancel');
+    //reset the form
+    this.showEditMsgOverlay = false;
+  }
+
+  async loadMessageText() {
+    try {
+      const text = await this.chatService.getMessage();
+      this.currentMsgData = { text: text };
+      this.newMsgData.patchValue({ text: text });
+    } catch (error) {
+      console.error('Error loading message text:', error);
+    }
   }
 }

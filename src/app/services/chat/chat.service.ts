@@ -1,6 +1,6 @@
 import { inject, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
-import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc } from '@angular/fire/firestore';
+import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc } from '@angular/fire/firestore';
 import { PrivateMessageComponent } from '../../post-login/private-message/private-message.component';
 import { BehaviorSubject } from 'rxjs';
 import { Message } from '../../models/message.class';
@@ -24,6 +24,14 @@ export class ChatService implements OnInit, OnDestroy{
 
   //variable for placeholder Name of shared input field
   placeholderName: string = '';
+
+	// variabels needed for chathistory (editing msg´s)
+	mainCollection:string = '';  // will get used to store name of maincollection (privateChats or channels)
+
+	docRef:string = '';  // will get used to store the docRef of the currently displayed doc
+
+  editMessageId:string = '';  // will get used to store the id of the message that should get edited
+
 
   constructor() { }
 
@@ -125,6 +133,50 @@ setMessage(obj: any, id: string): Message{
     messageSendBy: obj.messageSendBy || '',
     reactions: obj.reactions || [],
   };
+}
+  /**
+   * Retrieves the text of a message from a specific doc in Firestore.
+   * @param {string} mainCollection - The name of the main collection.
+   * @param {string} docRef - The document reference in the main collection.
+   * @param {string} editMessageId - The ID of the message document in the subcollection.
+   * @returns {Promise<string>} A promise that resolves to the text of the message.
+   */
+  async getMessage(): Promise<string> {
+    try {
+      const messageDocRef = doc(this.firestore, `${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`);
+      const docSnap = await getDoc(messageDocRef);
+      
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        return data['text'] || '';
+      } else {
+        throw new Error('No such document!');
+      }
+    } catch (error) {
+      console.error('Error getting message:', error);
+      throw error;
+    }
+  }
+
+/**
+ * Updates the text of a message in a specific doc in Firestore.
+ * @param {string} mainCollection - The name of the main collection.
+ * @param {string} docRef - The document reference in the main collection.
+ * @param {string} editMessageId - The ID of the message document in the subcollection.
+ * @param {string} newText - The new text to update in the message document.
+ * @returns {Promise<void>} A promise that resolves when the message text is updated.
+ */
+async updateMessage(newText: string): Promise<void> {
+  try {
+    const messageDocRef = doc(this.firestore, `${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`);
+    await updateDoc(messageDocRef, {
+      text: newText
+    });
+    console.log('Message text updated successfully');
+  } catch (error) {
+    console.error('Error updating message text:', error);
+    throw error;
+  }
 }
 
 // general helper functions code to display messages

@@ -26,6 +26,7 @@ export class CommunicationService {
 	isThreadVisible: boolean = false;
 
 
+
 	constructor() {}
 
 	//prvt msg component

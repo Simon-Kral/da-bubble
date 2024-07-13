@@ -42,6 +42,8 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
     this.chatService.subscribeMsgList();
     this.communicationService.togglePrivateNote(true); 
     this.chatService.setPlaceholderName(this.firebaseService.currentUser.name)  
+    this.chatService.mainCollection = 'privateChats';
+    this.chatService.docRef = messageId;
   }
 
   handlePrivateMessageClick(messageId: string, chatCreator: string) {
@@ -50,5 +52,7 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
     this.firebaseService.getChatCreatorIdByDocRef(messageId);
     this.communicationService.togglePrivateNote(false);
     this.chatService.setPlaceholderName(this.firebaseService.getUserDisplayName(chatCreator))
+    this.chatService.mainCollection = 'privateChats';
+    this.chatService.docRef = messageId;
   }
 }
