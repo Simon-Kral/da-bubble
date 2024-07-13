@@ -42,7 +42,6 @@ export class FirebaseService implements OnDestroy, OnInit {
 	savedUserForChannel: string[] = [];
 
 	// variables for private message component  might be outsourced to chat service
-	selectedPrivateChatId: string = '';
 	selectedPrivateChatCreatorId: string = '';
 
 	constructor() {

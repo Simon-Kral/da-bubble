@@ -32,6 +32,8 @@ export class ChatService implements OnInit, OnDestroy{
 
   editMessageId:string = '';  // will get used to store the id of the message that should get edited
 
+  // variables for private message component  outsourced form firebase 
+	selectedPrivateChatCreatorId: string = '';
 
   constructor() { }
 
@@ -49,17 +51,15 @@ export class ChatService implements OnInit, OnDestroy{
   }
 
 
-  onMessageSent(event: { message: string, source: string, destinationCollection:string, destinationDocRef:string, timestamp: number }) {
+  onMessageSent(event: { message: string, source: string, timestamp: number }) {
     console.log('Message sent from component:', event.source);                    
     console.log('Message sent by:', this.firebaseService.currentUser.userId );
     console.log('Message content:', event.message);
-    console.log('Message destination collection:', event.destinationCollection);   
-    console.log('Message destination document reference:', event.destinationDocRef);
     console.log('Message timestamp:', event.timestamp);
     // Add logic to handle the sent message
     switch (event.source) {
       case 'privateMessage':
-        this.sendMessageToPrivateChat(event.message, event.destinationDocRef, event.timestamp);
+        this.sendMessage(event.message, event.timestamp);
         break;
       case 'newMessage':
         console.log('New message sent:', event.message);
@@ -68,7 +68,7 @@ export class ChatService implements OnInit, OnDestroy{
           //if chat does not exist, create chat and send message
         break;
         default:
-        console.warn('Invalid destination collection:', event.destinationCollection);
+        console.warn('Invalid destination collection:');
         break;
     }
   }
@@ -84,7 +84,6 @@ setPlaceholderName(name: string) {
 /**
  * Subscribes to the messages subcollection and updates the message list in real-time.
  * Orders the messages by the 'date' and then 'time' field.
- * to-do: implemet variabel to subscribe wether to channels or private messages collection
  */
 subscribeMsgList() {
   if (this.unsubscribeMsgList) {
@@ -113,7 +112,7 @@ subscribeMsgList() {
  * to-do: implement variabel  for channels or private messages collection
  */
 getMsgSubColRef() {
-  return collection(this.firestore,`privateChats/${this.firebaseService.selectedPrivateChatId}/messages`);
+  return collection(this.firestore,`${this.mainCollection}/${this.docRef}/messages`);
 }
 
 /**
@@ -262,42 +261,36 @@ formatTimeString(timestampStr: string): string {
     }
 
 /**
- * Sends a message to a private chat by creating a new message document in the messages subcollection.
+ * Sends a message to a private chat or channel by creating a new message document in the messages subcollection.
  *
  * @param {string} messageText - The text of the message to be sent.
- * @param {string} prvtChatRef - The reference ID of the private chat.
  * @param {number} time - The timestamp of the message.
  * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
  */
-  async sendMessageToPrivateChat(messageText:string, prvtChatRef:string, time:number) {
-      console.log('Sending message to private chat:', prvtChatRef);
-      console.log('Message:', messageText);
-      console.log('Time:', time);
-
+  async sendMessage(messageText:string, time:number) {
       let newMessage: Message = {
         messageId: '',
         text: messageText,
-        chatId: prvtChatRef,
+        chatId: this.docRef,
         date: new Date().toLocaleDateString(),
         time: time.toString(),
         messageSendBy: this.firebaseService.currentUser.userId,
         reactions: []
       };
 
-        const docRef = await this.addMessageToPrivateChat(newMessage);
+        const docRef = await this.addMessage(newMessage);
         await this.updateMessageId(docRef);
     }
 
  /**
- * Adds a new message document to the messages subcollection of a private chat.
+ * Adds a new message document to the messages subcollection of a private chat or a channel.
  *
  * @param {Message} messageData - The data of the new message.
  * @returns {Promise<any>} A promise that resolves with the document reference of the newly added message.
- * to-do: implement logic to add message to channels so it can be used for channels aswell
  */
-    addMessageToPrivateChat(messageData: Message): Promise<any> {
+    addMessage(messageData: Message): Promise<any> {
       try {
-        const collectionRef = collection(this.firestore, 'privateChats', this.firebaseService.selectedPrivateChatId, 'messages');
+        const collectionRef = collection(this.firestore, this.mainCollection, this.docRef, 'messages');
         return addDoc(collectionRef, messageData);
       } catch (e) {
         console.error('Error adding message document: ', e);
@@ -311,10 +304,12 @@ formatTimeString(timestampStr: string): string {
  * @param {any} docRef - The document reference of the newly added message.
  * @returns {Promise<void>} A promise that resolves when the document has been successfully updated.
  * @throws {Error} Throws an error if updating the document fails.
+ * 
+ * to-do implement logic to update message in channel
  */
   async updateMessageId(docRef: any): Promise<void> {
     try {
-      await updateDoc(doc(this.firestore, 'privateChats', this.firebaseService.selectedPrivateChatId, 'messages', docRef.id), {
+      await updateDoc(doc(this.firestore, 'privateChats', this.docRef, 'messages', docRef.id), {
         messageId: docRef.id,
       });
       console.log('Message document updated with ID: ', docRef.id);

@@ -39,8 +39,6 @@
 	<div class="chat-input">
 		<app-chat-input 
 			[sourceComponent]="'privateMessage'" 
-			[destinationCollection]="'privateChats'"
-			[destinationDocRef]="this.firebaseService.selectedPrivateChatId"
 			[placeholderText]="this.chatService.placeholderName"
 			(messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
 	</div>

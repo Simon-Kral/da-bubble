@@ -57,7 +57,6 @@ export class ChatHistoryComponent {
 
   openEditMsgMenu() {
     this.editMsgMenu = !this.editMsgMenu;
-    console.log('openEditMsgMenu', this.editMsgMenu);
   }
 
   handleClickOnAnswers() {
@@ -99,14 +98,13 @@ export class ChatHistoryComponent {
   // edit msg functions
 
   handleClickOnEditMsg(messageId: string) {
-    console.log('handleClickOnEditMsg');
-    console.log('edit MessadeId', messageId)
     this.chatService.editMessageId = messageId;
      this.loadMessageText();
     this.showEditMsgOverlay = true;
   }
 
   async onSubmitEditMsg() {
+    this.editMsgMenu = false;
     if (this.newMsgData.valid) {
       const updatedText = this.newMsgData.value.text;
       try {
@@ -121,9 +119,8 @@ export class ChatHistoryComponent {
     }
   }
   handleClickOnCancel() {
-    console.log('handleClickOnCancel');
-    //reset the form
     this.showEditMsgOverlay = false;
+    this.editMsgMenu = false;
   }
 
   async loadMessageText() {
