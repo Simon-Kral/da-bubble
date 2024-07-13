@@ -25,7 +25,8 @@
             >
                 <img [src]="currentIconSourceAddReaction" alt="menu-icon">
             </div>
-            <div class="pointer menu-content"
+            <!--show only if thread doesnt exists?!? thats not clear in figma! create new thread for specific msg or open existing thread?!?-->
+            <div class="pointer menu-content"    
             (mouseover)="onMouseOver('comment')"
             (mouseout)="onMouseOut('comment')"
             >
@@ -71,6 +72,7 @@
                 >
                     <img [src]="currentIconSourceAddReaction" alt="menu-icon">
                 </div>
+                <!--show only if thread doesnt exists?!? thats not clear in figma! create new thread for specific msg or open existing thread?!?-->
                 <div class="pointer menu-content"
                 (mouseover)="onMouseOver('comment')"
                 (mouseout)="onMouseOut('comment')"
@@ -87,7 +89,7 @@
                 <!--sub menu "edit-msg"-->
                 <div class="edit-msg-menu"
                 [ngClass]="{'d-flex': editMsgMenu}"
-                >
+                >   <!--add logic to edit msg-->
                     <div class="edit-msg">
                         <span>Nachricht bearbeiten</span>
                     </div>

@@ -43,6 +43,9 @@ export class ChatHistoryComponent {
   handleClickOnAnswers() {
     console.log('handleClickOnAnsers');
     this.communicationService.toggleThreadVisibility(true);
+    // thread present? -> show thread
+    // else -> create thread
+    // subcribe to the thread
   }
 
   onMouseOver(imgName: string) : void {
