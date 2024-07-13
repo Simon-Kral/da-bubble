@@ -217,7 +217,6 @@ formatTimeString(timestampStr: string): string {
         chatCreator: chatCreator,
         chatReciver: chatReceiver,
         privateNoteCreator: '',
-        messages:  [],
         createdAt: '',
         createdBy: chatCreator
       };

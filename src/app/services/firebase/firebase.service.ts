@@ -407,7 +407,6 @@ export class FirebaseService implements OnDestroy, OnInit {
 			chatCreator: obj.chatCreator || '',
 			chatReciver: obj.chatReciver || '',
 			privateNoteCreator: obj.privateNoteCreator || '',
-			messages: obj.messages || [],
 			createdAt: obj.createdAt || '',
 			createdBy: obj.createdBy || '',
 		};
