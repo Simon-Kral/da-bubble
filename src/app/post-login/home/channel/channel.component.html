@@ -31,16 +31,16 @@
 		</div>
 	</div>
 
-	<div class="chat-container">
-
-		<div class="message"></div>
-
-		<div class="chat-input">
-			<app-chat-input
-				[sourceComponent]="'channel'"
-				[placeholderText]="'Nachricht an #channel.name'"
-				(messageEvent)="this.chatService.onMessageSent($event)"
-			></app-chat-input>
-		</div>
+	<div class="chat-history">
+		<app-chat-history></app-chat-history>
 	</div>
+
+	<div class="chat-input">
+		<app-chat-input
+			[sourceComponent]="'channel'"
+			[placeholderText]="this.chatService.placeholderName"
+			(messageEvent)="this.chatService.onMessageSent($event)"
+		></app-chat-input>
+	</div>
+
 </div>

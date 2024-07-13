@@ -28,10 +28,13 @@ export class ChannelListComponent implements OnInit, OnDestroy{
 
   }
  
-  handleChannelClick(channel: string, chanId: string) {
-    this.selectedChannel= channel;
+  handleChannelClick(channelName: string, chanId: string) {
+    this.chatService.mainCollection = 'channels';
+    this.chatService.docRef = chanId;
+    this.selectedChannel= channelName;
 	  this.firebaseService.currentChanId = chanId;
-    this.chatService.setPlaceholderName(channel);
+    this.chatService.subscribeMsgList();
+    this.chatService.setPlaceholderName(channelName);
   }
 
 }

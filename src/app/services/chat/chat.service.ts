@@ -59,14 +59,21 @@ export class ChatService implements OnInit, OnDestroy{
     // Add logic to handle the sent message
     switch (event.source) {
       case 'privateMessage':
-        this.sendMessage(event.message, event.timestamp);
+        this.sendMessage(event.message, event.timestamp);   
         break;
+
+      case 'channel':
+        this.sendMessage(event.message, event.timestamp);   
+        break;  
+
       case 'newMessage':
         console.log('New message sent:', event.message);
           //check if chat exists
           //if chat exists, send message
           //if chat does not exist, create chat and send message
         break;
+
+        
         default:
         console.warn('Invalid destination collection:');
         break;
