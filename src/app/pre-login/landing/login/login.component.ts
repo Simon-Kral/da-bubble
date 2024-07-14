@@ -72,7 +72,7 @@ export class LoginComponent {
 		const userId = this.authService.firebaseAuth.currentUser!.uid;
 		const userDoc = doc(this.firestore, 'users', userId);
 		const privateChatDoc = doc(this.firestore, 'privateChats', userId);
-		setDoc(userDoc, this.setUserObject()).then(() => {
+		setDoc(userDoc, this.setUserObject(), { merge: true }).then(() => {
 			setDoc(privateChatDoc, this.setprivateChatObject());
 		});
 	}

@@ -9,9 +9,10 @@ import { NewMessageComponent } from './post-login/new-message/new-message.compon
 import { CreateNewChannelComponent } from './post-login/home/channel/create-channel/create-new-channel/create-new-channel.component';
 import { ChatHistoryComponent } from './post-login/shared/chat-history/chat-history.component';
 import { AuthService } from './services/authentication/auth.service';
-import { applyActionCode, AuthCredential, EmailAuthCredential, EmailAuthProvider, GoogleAuthProvider, reauthenticateWithPopup, User } from '@angular/fire/auth';
 import { ThreadComponent } from './post-login/shared/thread/thread.component';
 import { ChannelMemberComponent } from './post-login/home/channel/channel-member/channel-member.component';
+import { applyActionCode, User } from '@angular/fire/auth';
+import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 
 @Component({
 	selector: 'app-root',
@@ -27,7 +28,7 @@ import { ChannelMemberComponent } from './post-login/home/channel/channel-member
 		CreateNewChannelComponent,
 		ChatHistoryComponent,
 		ThreadComponent,
-		ChannelMemberComponent
+		ChannelMemberComponent,
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
@@ -35,6 +36,7 @@ import { ChannelMemberComponent } from './post-login/home/channel/channel-member
 export class AppComponent implements OnInit {
 	title = 'da-bubble';
 	authService = inject(AuthService);
+	firestore = inject(Firestore);
 	router = inject(Router);
 
 	/**
@@ -58,8 +60,9 @@ export class AppComponent implements OnInit {
 						} else if (user) {
 							console.log('subbed to user');
 							console.log('user:', user);
-							this.setUserData(user);
-							this.handleNavigation(user);
+							this.setUserData(user).then(() => {
+								this.handleNavigation(user);
+							});
 						} else {
 							this.handleNoUser();
 						}
@@ -86,9 +89,16 @@ export class AppComponent implements OnInit {
 	 * @param {User} user - The authenticated user.
 	 * @returns {void}
 	 */
-	setUserData(user: User): void {
-		// this.setSignal(user);
+	setUserData(user: User): Promise<void> {
+		this.setSignal(user);
 		this.setSessionStorage(user);
+		return updateDoc(
+			doc(
+				this.firestore,
+				`users/${this.authService.firebaseAuth.currentUser!.uid}`
+			),
+			{ status: true }
+		);
 	}
 
 	/**
@@ -97,7 +107,11 @@ export class AppComponent implements OnInit {
 	 * @returns {void}
 	 */
 	handleNavigation(user: User): void {
-		if (!user.photoURL) {
+		if (
+			!user.photoURL ||
+			user.photoURL.includes('googleusercontent') ||
+			user.photoURL.includes('assets/img/profile.png')
+		) {
 			this.navToAvatar();
 		} else if (!user.emailVerified) {
 			this.handleEmailVerification();
@@ -167,7 +181,7 @@ export class AppComponent implements OnInit {
 	 */
 	handleNoUser(): void {
 		console.log('no user');
-		this.authService.currentUserSig.set(null);
+		// this.authService.currentUserSig.set(null);
 		this.router.navigateByUrl('/');
 	}
 
