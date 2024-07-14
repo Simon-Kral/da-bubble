@@ -57,7 +57,11 @@ export class ChatHistoryComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
+    this.route.params.subscribe((params) => {
+			this.chatService.docRef = params['id'];
+		});
+    console.log('chat initialised',this.chatService.docRef);
+      // logic to get the chat history
   }
 
   openEditMsgMenu() {

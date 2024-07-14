@@ -26,7 +26,14 @@ export class PrivateNoteComponent {
 
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+			this.chatService.docRef = params['id'];
+		});
+    console.log('component initialised',this.chatService.docRef);
+    // logic to get the chat history
+ 
   }
+
 
 
   handleClickOnMember(visible: boolean) {
