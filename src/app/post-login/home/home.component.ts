@@ -74,6 +74,7 @@ export class HomeComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.firebaseService.getCurrentUserId();
+		this.firebaseService.subscribeAllLists();
 		this.firebaseService.setCurrentUserAsObjekt(); // to-do remove after developement is finished
 		this.communicationService.isCurrentUserProfileVisible$.subscribe(
 			(visible) => {

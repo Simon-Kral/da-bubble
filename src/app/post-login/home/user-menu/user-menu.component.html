@@ -1,6 +1,6 @@
 <div class="user-menu-wrapper">
 	<div class="pointer menu-content">
-		<p (click)="toggleCurrentUserProfile(true)">Profil</p>
+		<p (click)="this.communicationService.toggleCurrentUserProfileVisibility(true)">Profil</p>
 	</div>
 	<div class="pointer menu-content">
 		<p (click)="logout()">Log out</p>

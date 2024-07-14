@@ -108,12 +108,8 @@
 		<div class="popup-content-user-profile" (click)="preventClose($event)">
 			<app-user-menu
 				[isUserMenuVisible]="isUserMenuVisible"
-				[isCurrentUserProfileVisible]="isCurrentUserProfileVisible"
 				(userMenuVisibilityChange)="
 					toggleComponentVisibility('userMenu', $event)
-				"
-				(currentUserProfileVisibilityChange)="
-					toggleComponentVisibility('currentUserProfile', $event)
 				"
 			></app-user-menu>
 		</div>

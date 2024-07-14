@@ -69,9 +69,9 @@ export class SignupComponent {
 	setInitialDatabaseEntries(username: string): void {
 		const userId = this.authService.firebaseAuth.currentUser!.uid;
 		const userDoc = doc(this.firestore, 'users', userId);
-		const privateChatDoc = doc(this.firestore, 'privateChats', userId);
+		const privateChatDoc = doc(this.firestore, 'privateNotes', userId);
 		setDoc(userDoc, this.setUserObject(username)).then(() => {
-			setDoc(privateChatDoc, this.setprivateChatObject());
+			setDoc(privateChatDoc, this.setPrivateNoteObject());
 		});
 	}
 
@@ -97,14 +97,11 @@ export class SignupComponent {
 	 * Creates a private chat object for Firestore.
 	 * @returns {Object} The private chat object.
 	 */
-	setprivateChatObject(): Object {
+	setPrivateNoteObject(): Object {
 		const user = this.authService.firebaseAuth.currentUser!;
 		return {
 			privatChatId: user.uid,
-			chatCreator: '',
-			chatReciver: '',
 			privateNoteCreator: user.uid,
-			messages: [],
 		};
 	}
 }

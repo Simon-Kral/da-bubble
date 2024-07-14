@@ -29,6 +29,7 @@ import {
 } from '@angular/fire/firestore';
 import { User } from '../../../models/user.class';
 import { AuthService } from '../../../services/authentication/auth.service';
+import { ChatService } from '../../../services/chat/chat.service';
 interface UserData {
 	name: string;
 	email: string;
@@ -45,6 +46,7 @@ export class CurrentUserProfileComponent implements OnInit {
 	firestore: Firestore = inject(Firestore);
 	firebaseService = inject(FirebaseService);
 	authService = inject(AuthService);
+	chatService = inject(ChatService);
 
 	@Input() isCurrentUserProfileVisible: boolean = false;
 	@Output() currentUserProfileVisibilityChange = new EventEmitter<boolean>();
@@ -188,7 +190,8 @@ export class CurrentUserProfileComponent implements OnInit {
 		// to-do OPTIONAL update user status to offline when close tab
 		this.firebaseService.updateUserStatus(false);
 		this.firebaseService.clearCurrentUser(); // to-do remove after developement is finished
-		this.firebaseService.ngOnDestroy();
+		this.firebaseService.unsubscribeAllLists();
+		this.chatService.unsubscribeAllLists();
 		this.authService.logout().subscribe({
 			next: () => {
 				sessionStorage.clear();

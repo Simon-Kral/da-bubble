@@ -5,6 +5,7 @@ import { HomeComponent } from './post-login/home/home.component';
 import { NewMessageComponent } from './post-login/new-message/new-message.component';
 import { ChannelComponent } from '../app/post-login/home/channel/channel.component'
 import { PrivateMessageComponent } from './post-login/private-message/private-message.component';
+import { PrivateNoteComponent } from './post-login/private-note/private-note.component';
 
 // pre-login components
 import { LandingComponent } from './pre-login/landing/landing.component';
@@ -13,6 +14,7 @@ import { PasswordResetRequestComponent } from './pre-login/landing/password-rese
 import { SelectAvatarComponent } from './pre-login/landing/select-avatar/select-avatar.component';
 import { LoginComponent } from './pre-login/landing/login/login.component';
 import { ResetPasswordComponent } from './pre-login/landing/reset-password/reset-password.component';
+
 
 export const routes: Routes = [
 	// pre-login components
@@ -39,6 +41,7 @@ export const routes: Routes = [
 			{ path: 'channel/:id', component: ChannelComponent },
 			{ path: 'private-message/:id', component: PrivateMessageComponent },
 			{ path: 'new-message', component: NewMessageComponent },
+			{ path: 'private-note/:id', component: PrivateNoteComponent },
 		],
 	},
 ];

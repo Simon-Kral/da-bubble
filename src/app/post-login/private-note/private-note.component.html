@@ -1,0 +1,24 @@
+<div class="private-msg-wrapper">
+	<div class="top-section">
+		@for (privateNote of firebaseService.privateNoteList; track privateNote.privatNoteId; let index = $index) {
+			<div class="user-content pointer" (click)="handleClickOnMember(true)">
+				<img [src]="this.firebaseService.getUserAvatar(privateNote.privateNoteCreator)" alt="User Avatar" />
+				<div class="user-status"
+					[ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(privateNote.privateNoteCreator), 'offline': !this.firebaseService.getUserOnlineStatus(privateNote.privateNoteCreator) }">
+				</div>
+				<span>{{ this.firebaseService.getUserDisplayName(privateNote.privateNoteCreator) }} (Du)</span> 
+			</div>
+        }
+	</div>
+
+	<div class="chat-history">
+		<app-chat-history></app-chat-history>
+	</div>
+	
+	<div class="chat-input">
+		<app-chat-input 
+			[sourceComponent]="'privateNote'" 
+			[placeholderText]="this.chatService.placeholderName"
+			(messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
+	</div>
+</div>

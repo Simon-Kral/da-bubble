@@ -12,6 +12,7 @@ export class CommunicationService {
 
 	isCurrentUserProfileVisibleSource = new BehaviorSubject<boolean>(false);
 	isCurrentUserProfileVisible$ = this.isCurrentUserProfileVisibleSource.asObservable();
+
 	isUserProfileVisibleSource = new BehaviorSubject<boolean>(false);
 	isUserProfileVisible$ = this.isUserProfileVisibleSource.asObservable();
 	
@@ -33,14 +34,7 @@ export class CommunicationService {
 
 	constructor() {}
 
-	//prvt msg component
-	togglePrivateNote(visible: boolean) {
-		if (visible) {
-			this.showPrivateNote = true;
-		} else {
-			this.showPrivateNote = false;
-		}
-	}
+
 
 	toggleThreadVisibility(visible: boolean) {
 		this.isThreadVisible = !this.isThreadVisible;

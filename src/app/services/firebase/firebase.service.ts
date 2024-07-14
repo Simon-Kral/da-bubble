@@ -1,13 +1,14 @@
-import { Injectable, OnDestroy, OnInit, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { query,orderBy,where,Firestore,collection,doc,onSnapshot,updateDoc,getDocs } from '@angular/fire/firestore';
 import { AuthService } from '../authentication/auth.service';
 import { Channel } from '../../models/channel.class';
 import { User } from '../../models/user.class';
 import { PrivateChat } from '../../models/privateChat.class';
+import { PrivateNote } from '../../models/privateNote.class';
 @Injectable({
 	providedIn: 'root',
 })
-export class FirebaseService implements OnDestroy, OnInit {
+export class FirebaseService {
 	authService = inject(AuthService);
 	firestore: Firestore = inject(Firestore);
 
@@ -20,34 +21,38 @@ export class FirebaseService implements OnDestroy, OnInit {
 	channelList: Channel[] = [];
 	userList: User[] = [];
 	privateChatList: PrivateChat[] = [];
-	filteredUsers: User[] = [];  //to-do move to search service
+	privateNoteList: PrivateNote[] = [];
+
+	
 
 	// unsubscribe functions for real-time updates
 	unsubscribeChannelList: any;
 	unsubscribeUserList: any;
 	unsubscribePrivateChatList: any;
+	unsubscribePrivateNoteList: any;
 
 	// variables for add members to channel component
 	// to-do move to communication & search service
 	selectedUser = '';
 	savedUserForChannel: string[] = [];
+	filteredUsers: User[] = [];  //to-do move to search service
 
-	// variables for private message component
-	selectedPrivateChatCreatorId: string = '';
 
 	constructor() {
 		this.getCurrentUserId();
-		this.ngOnInit();
 		console.log('Current User ID:', this.currentUserId); // to-do remove after developement is finished
 	}
 
-	ngOnInit(): void {
+
+
+	subscribeAllLists() {
 		this.subChannelsList();
 		this.subUsersList();
 		this.subPrivateChatList();
+		this.subPrivateNoteList();
 	}
 
-	ngOnDestroy(): void {
+	unsubscribeAllLists() {
 		if (this.unsubscribeChannelList) {
 			this.unsubscribeChannelList();
 		}
@@ -56,6 +61,9 @@ export class FirebaseService implements OnDestroy, OnInit {
 		}
 		if (this.unsubscribePrivateChatList) {
 			this.unsubscribePrivateChatList();
+		}
+		if (this.unsubscribePrivateNoteList) {
+			this.unsubscribePrivateNoteList();
 		}
 	}
 
@@ -381,7 +389,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	isCurrentUserInChat(chat: PrivateChat): boolean {
 		return (
 			chat.chatCreator === this.currentUserId ||
-			chat.chatReciver === this.currentUserId
+			chat.chatReciver === this.currentUserId 
 		);
 	}
 
@@ -397,27 +405,74 @@ export class FirebaseService implements OnDestroy, OnInit {
 			privatChatId: id || '',
 			chatCreator: obj.chatCreator || '',
 			chatReciver: obj.chatReciver || '',
+		};
+	}
+	
+	
+// private note
+/**
+ * Subscribes to the privateNotes collection in Firestore and updates the private chat list in real-time.
+ * Logs the updated private chat list to the console.
+ */
+subPrivateNoteList() {
+	const privateChatCollection = collection(this.firestore, 'privateNotes');
+	this.unsubscribePrivateChatList = onSnapshot(
+		privateChatCollection,
+		(snapshot) => {
+			this.privateNoteList = [];
+			snapshot.forEach((doc) => {
+				const note = this.setPrivateNote(doc.data(), doc.id);
+				if (note.privateNoteCreator === this.currentUserId) {
+					this.privateNoteList.push(note);
+				}
+			});
+			console.log('Private Note List:', this.privateNoteList);
+		},
+		(error) => {
+			console.error('Error fetching Private Notes: ', error);
+		}
+	);
+}
+	/**
+	 * Creates a PrivateNote object from Firestore document data.
+	 *
+	 * @param {any} obj - The Firestore document data.
+	 * @param {string} id - The ID of the Firestore document.
+	 * @returns {PrivateNote} A PrivateNote object containing the data from the Firestore document.
+	 */
+	setPrivateNote(obj: any, id: string): PrivateNote {
+		return {
+			privatNoteId: id || '',
 			privateNoteCreator: obj.privateNoteCreator || '',
 		};
 	}
-
-	/**
-	 * Retrieves the chat creator ID based on the provided private chat ID.
-	 * Searches through the privateChatList to find the entry with the matching privatChatId.
-	 * @param {string} privatChatId - The private chat ID to search for.
-	 * @returns {string | undefined} The chat creator ID if found, otherwise undefined.
-	 */
-	getChatCreatorIdByDocRef(privatChatId: string) {
-		const chatEntry = this.privateChatList.find(
-			(chat) => chat.privatChatId === privatChatId
-		);
-		this.selectedPrivateChatCreatorId = chatEntry
-			? chatEntry.chatCreator
-			: '';
-		return chatEntry ? chatEntry.chatCreator : undefined;
-	}
-
-	//channel code sorted by get / update operations
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		//channel code sorted by get / update operations
 	/**
 	 * Updates the name of the channel.
 	 *

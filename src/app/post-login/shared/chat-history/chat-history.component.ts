@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { ChatService } from '../../../services/chat/chat.service';
 import { CommunicationService } from '../../../services/communication/communication.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 interface MsgData {
   text: string;
@@ -17,7 +18,7 @@ interface MsgData {
   templateUrl: './chat-history.component.html',
   styleUrl: './chat-history.component.scss'
 })
-export class ChatHistoryComponent {
+export class ChatHistoryComponent implements OnInit{
 
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
@@ -44,7 +45,7 @@ export class ChatHistoryComponent {
   currentMsgData: MsgData;
   newMsgData: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute) {
     this.currentMsgData =  { text: ''}
 
     this.newMsgData = this.fb.group({
@@ -53,6 +54,10 @@ export class ChatHistoryComponent {
         Validators.minLength(1),
       ]),
     });
+  }
+
+  ngOnInit(): void {
+
   }
 
   openEditMsgMenu() {

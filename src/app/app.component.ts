@@ -12,6 +12,10 @@ import { AuthService } from './services/authentication/auth.service';
 import { applyActionCode, AuthCredential, EmailAuthCredential, EmailAuthProvider, GoogleAuthProvider, reauthenticateWithPopup, User } from '@angular/fire/auth';
 import { ThreadComponent } from './post-login/shared/thread/thread.component';
 import { ChannelMemberComponent } from './post-login/home/channel/channel-member/channel-member.component';
+import { PrivateMessageComponent } from './post-login/private-message/private-message.component';
+import { PrivateNoteComponent } from './post-login/private-note/private-note.component';
+
+
 
 @Component({
 	selector: 'app-root',
@@ -27,7 +31,9 @@ import { ChannelMemberComponent } from './post-login/home/channel/channel-member
 		CreateNewChannelComponent,
 		ChatHistoryComponent,
 		ThreadComponent,
-		ChannelMemberComponent
+		ChannelMemberComponent,
+		PrivateMessageComponent,
+		PrivateNoteComponent
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',

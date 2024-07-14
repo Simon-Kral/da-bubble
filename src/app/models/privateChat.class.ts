@@ -5,13 +5,11 @@ export class PrivateChat {
   privatChatId: string;
   chatCreator: string;
   chatReciver: string;
-  privateNoteCreator: string;
 
   constructor(obj?: any) {
     this.privatChatId = obj ? obj.id : '';
     this.chatCreator = obj ? obj.chatCreator : '';
     this.chatReciver = obj ? obj.chatReciver : '';
-    this.privateNoteCreator = obj ? obj.privateNote : '';
   }
 }
 

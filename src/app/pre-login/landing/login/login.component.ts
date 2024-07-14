@@ -71,9 +71,9 @@ export class LoginComponent {
 	setInitialDatabaseEntries(): void {
 		const userId = this.authService.firebaseAuth.currentUser!.uid;
 		const userDoc = doc(this.firestore, 'users', userId);
-		const privateChatDoc = doc(this.firestore, 'privateChats', userId);
+		const privateChatDoc = doc(this.firestore, 'privateNotes', userId);
 		setDoc(userDoc, this.setUserObject()).then(() => {
-			setDoc(privateChatDoc, this.setprivateChatObject());
+			setDoc(privateChatDoc, this.setPrivateNoteObject());
 		});
 	}
 
@@ -96,19 +96,14 @@ export class LoginComponent {
 	}
 
 	/**
-	 * Creates a private chat object for Firestore.
+	 * Creates a private note object for Firestore.
 	 * @returns {Object} The private chat object.
 	 */
-	setprivateChatObject(): Object {
+	setPrivateNoteObject(): Object {
 		const user = this.authService.firebaseAuth.currentUser!;
 		return {
 			privatChatId: user.uid,
-			chatCreator: user.uid,
-			chatReciver: '',
 			privateNoteCreator: user.uid,
-			messages: [],
-			createdAt: new Date().getTime(),
-			createdBy: user.uid,
 		};
 	}
 }

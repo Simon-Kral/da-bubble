@@ -1,24 +1,22 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Firestore } from '@angular/fire/firestore';
 import { FirebaseService } from '../../services/firebase/firebase.service';
 import { ChatService } from '../../services/chat/chat.service';
-import { Firestore} from '@angular/fire/firestore';
+import { CommunicationService } from '../../services/communication/communication.service';
+import { ActivatedRoute } from '@angular/router';
+import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
 import { CommonModule } from '@angular/common';
 import { PrivateMessageListComponent } from '../home/side-navigation/sidenav/private-message-list/private-message-list.component';
-import { ActivatedRoute } from '@angular/router';
-import { CommunicationService } from '../../services/communication/communication.service';
 import { ChatHistoryComponent } from '../shared/chat-history/chat-history.component';
 
-
-
 @Component({
-  selector: 'app-private-message',
+  selector: 'app-private-note',
   standalone: true,
   imports: [ChatInputComponent, CommonModule, PrivateMessageListComponent, ChatHistoryComponent],
-  templateUrl: './private-message.component.html',
-  styleUrl: './private-message.component.scss'
+  templateUrl: './private-note.component.html',
+  styleUrl: './private-note.component.scss'
 })
-export class PrivateMessageComponent implements OnInit{
+export class PrivateNoteComponent {
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
@@ -27,18 +25,12 @@ export class PrivateMessageComponent implements OnInit{
   constructor(private route: ActivatedRoute) {}
 
 
-
   ngOnInit(): void {
   }
 
 
-  handleClickOnMember(memberId: string) {
-    this.communicationService.toggleUserProfileVisibility(true);
-    this.communicationService.userProfileId = memberId;
-
+  handleClickOnMember(visible: boolean) {
+    this.communicationService.toggleCurrentUserProfileVisibility(visible);
   }
 
 }
-
-
-

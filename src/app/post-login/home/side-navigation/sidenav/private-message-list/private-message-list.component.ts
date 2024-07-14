@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Firestore, collection, onSnapshot, orderBy, query } from '@angular/fire/firestore';
 import { PrivateChat } from '../../../../../models/privateChat.class';
 import { FirebaseService } from '../../../../../services/firebase/firebase.service';
@@ -26,7 +26,8 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
 
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private route: ActivatedRoute) {
+
    }
 
   ngOnInit(): void{
@@ -38,10 +39,9 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   }
 
   handleNoteMessageClick(messageId: string) {
-    this.chatService.mainCollection = 'privateChats';
+    this.chatService.mainCollection = 'privateNotes';
     this.chatService.docRef = messageId;
     this.chatService.subscribeMsgList();
-    this.communicationService.togglePrivateNote(true); 
     this.chatService.setPlaceholderName(this.firebaseService.currentUser.name) ;
   }
 
@@ -50,8 +50,6 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
     this.chatService.docRef = messageId;
     this.communicationService.userProfileId = chatCreator;
     this.chatService.subscribeMsgList();  
-    this.firebaseService.getChatCreatorIdByDocRef(messageId);
-    this.communicationService.togglePrivateNote(false);
     this.chatService.setPlaceholderName(this.firebaseService.getUserDisplayName(chatCreator));   
   }
 }

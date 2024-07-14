@@ -1,15 +1,15 @@
-import { inject, Injectable, OnDestroy, OnInit } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
 import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc } from '@angular/fire/firestore';
 import { PrivateMessageComponent } from '../../post-login/private-message/private-message.component';
 import { BehaviorSubject } from 'rxjs';
 import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class ChatService implements OnInit, OnDestroy{
+export class ChatService {
 
   firebaseService = inject(FirebaseService);
   firestore: Firestore = inject(Firestore);
@@ -36,13 +36,17 @@ export class ChatService implements OnInit, OnDestroy{
   existingChatRef:string = '';  // will get used to store the ref of the existing chat
  
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private route: ActivatedRoute) { 
+  }
 
-  ngOnInit(): void {
+    
+
+
+  subscribeAllLists() {
     this.subscribeMsgList();
   }
 
-  ngOnDestroy(): void {
+  unsubscribeAllLists() {
     if (this.unsubscribeMsgList) {
       this.unsubscribeMsgList();
     }
@@ -62,6 +66,9 @@ export class ChatService implements OnInit, OnDestroy{
       case 'privateMessage':
         this.sendMessage(event.message, event.timestamp);   
         break;
+      case 'privateNote':
+        this.sendMessage(event.message, event.timestamp);   
+        break;
 
       case 'channel':
         this.sendMessage(event.message, event.timestamp);   
@@ -72,9 +79,7 @@ export class ChatService implements OnInit, OnDestroy{
           //check if chat exists
           //if chat exists, send message
           //if chat does not exist, create chat and send message
-        break;
-
-        
+        break; 
         default:
         console.warn('Invalid destination collection:');
         break;
@@ -215,7 +220,6 @@ formatTimeString(timestampStr: string): string {
         privatChatId: '',
         chatCreator: chatCreator,
         chatReciver: chatReceiver,
-        privateNoteCreator: '',
       };
   
       const docRef = await this.addPrivateChat(newPrivateChat);
