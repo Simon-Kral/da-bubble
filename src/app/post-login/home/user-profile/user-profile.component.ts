@@ -30,6 +30,7 @@ export class UserProfileComponent {
     this.userProfileVisibilityChange.emit(false);
   }
 
+  // to-do needs logic to redirect to chat
   startNewPrivateChat() {
     this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, this.communicationService.userProfileId);
     this.userProfileVisibilityChange.emit(false);

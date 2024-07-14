@@ -35,10 +35,18 @@ export class ChannelMemberComponent {
 	onMouseOut(): void {
     this.currentIconSourceClose = this.close;
   }
-
+  /**
+   * Handles the click event on a member ond toggles the visibility of the user profile or the current user profile.
+  *
+  * @param {string} memberId - The ID of the member that was clicked.
+  */
   handleClickOnMember(memberId: string) {
     this.communicationService.toggleChannelMemberVisibility(false);
+  if (this.firebaseService.currentUserId === memberId) {
+    this.communicationService.toggleCurrentUserProfileVisibility(true);
+  } else {
     this.communicationService.toggleUserProfileVisibility(true);
     this.communicationService.userProfileId = memberId;
+  }
   }
 }
