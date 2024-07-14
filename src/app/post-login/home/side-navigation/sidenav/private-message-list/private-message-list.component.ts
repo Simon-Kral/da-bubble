@@ -48,6 +48,7 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   handlePrivateMessageClick(messageId: string, chatCreator: string) {
     this.chatService.mainCollection = 'privateChats';
     this.chatService.docRef = messageId;
+    this.communicationService.userProfileId = chatCreator;
     this.chatService.subscribeMsgList();  
     this.firebaseService.getChatCreatorIdByDocRef(messageId);
     this.communicationService.togglePrivateNote(false);

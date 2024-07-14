@@ -36,4 +36,9 @@ export class ChannelMemberComponent {
     this.currentIconSourceClose = this.close;
   }
 
+  handleClickOnMember(memberId: string) {
+    this.communicationService.toggleChannelMemberVisibility(false);
+    this.communicationService.toggleUserProfileVisibility(true);
+    this.communicationService.userProfileId = memberId;
+  }
 }

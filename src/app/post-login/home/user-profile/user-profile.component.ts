@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
 import { ChatService } from '../../../services/chat/chat.service';
+import { CommunicationService } from '../../../services/communication/communication.service';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
@@ -12,11 +13,12 @@ import { ChatService } from '../../../services/chat/chat.service';
 export class UserProfileComponent {
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
+  communicationService = inject(CommunicationService);
 
   @Input() isUserProfileVisible: boolean = false;
   @Output() userProfileVisibilityChange = new EventEmitter<boolean>();
 
-  showDataOfUser = this.firebaseService.selectedPrivateChatCreatorId; 
+  showDataOfUser = this.communicationService.userProfileId; 
   // Default icon sources
   close = 'assets/img/icons/close_black.png';
   // Hover icon sources

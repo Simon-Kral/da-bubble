@@ -9,7 +9,7 @@
     </div>
  @for (channel of this.firebaseService.channelList; track channel; let index = $index) {
     @for (member of channel.members; track member; let index = $index) {
-    <div class="member-container pointer">
+    <div class="member-container pointer" (click)="handleClickOnMember(member)">
         <div class="user-avatar">
             <img [src]="this.firebaseService.getUserAvatar(member)" alt="User Avatar" />
         <div class="user-status"

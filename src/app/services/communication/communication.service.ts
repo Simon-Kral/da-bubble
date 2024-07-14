@@ -28,7 +28,8 @@ export class CommunicationService {
 	//thread variables
 	isThreadVisible: boolean = false;
 
-
+	// user profile variabels
+	userProfileId: string = ''; // is getting used to store userId of the user whose profile is being viewed
 
 	constructor() {}
 
