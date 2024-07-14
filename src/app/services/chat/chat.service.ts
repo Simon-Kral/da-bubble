@@ -76,9 +76,6 @@ export class ChatService {
 
       case 'newMessage':
         console.log('New message sent:', event.message);
-          //check if chat exists
-          //if chat exists, send message
-          //if chat does not exist, create chat and send message
         break; 
         default:
         console.warn('Invalid destination collection:');
@@ -200,7 +197,7 @@ formatTimeString(timestampStr: string): string {
 }
 
 //code for privateChats
-/** to-do check if logic works, we need to implement openening userprofile somewhere to try out
+/** 
  * Starts a new private chat by creating a new chat document in the Firestore database.
  * Checks if a chat between the chatCreator and chatReceiver already exists.
  * If the chat exists, navigates to the existing chat.
@@ -210,9 +207,9 @@ formatTimeString(timestampStr: string): string {
  */
   async startNewPrivateChat(chatCreator: string, chatReceiver: string) {
     try {
-      const chatExists = await this.checkIfPrivateChatExists(chatReceiver);
-      if (chatExists) {
-        this.router.navigate(['/home/private-message', this.existingChatRef]);
+      const existingChatId = await this.checkIfPrivateChatExists(chatReceiver, chatCreator);
+      if (existingChatId) {
+        this.router.navigate(['/home/private-message', existingChatId]);
         return;
       }
   
@@ -329,27 +326,27 @@ formatTimeString(timestampStr: string): string {
     }
   }
   
-  /**
-   * Checks if a private chat between the given chatCreator and chatReceiver exists.
-   * @param {string} chatReceiver - The ID of the chat receiver.
-   * @returns {Promise<boolean>} A promise that resolves to true if the chat exists, otherwise false.
-   */
-  checkIfPrivateChatExists(chatReceiver: string): Promise<string | null> {
-    return new Promise((resolve, reject) => {
-      try {
-        const currentUserId = this.firebaseService.currentUserId;
-        const existingChat = this.firebaseService.privateChatList.find(chat => 
-          (chat.chatCreator === currentUserId && chat.chatReciver === chatReceiver) ||
-          (chat.chatCreator === chatReceiver && chat.chatReciver === currentUserId)
-        );
-        if (existingChat) {
-          this.existingChatRef = existingChat.privatChatId;
-        } else {
-          resolve(null);
-        }
-      } catch (error) {
-        reject(error);
+/**
+ * Checks if a private chat between the given chatCreator and chatReceiver exists.
+ * @param {string} chatReceiver - The ID of the chat receiver.
+ * @param {string} chatCreator - The ID of the chat creator.
+ * @returns {Promise<string | null>} A promise that resolves to the chat ID if the chat exists, otherwise null.
+ */
+checkIfPrivateChatExists(chatReceiver: string, chatCreator: string): Promise<string | null> {
+  return new Promise((resolve, reject) => {
+    try {
+      const existingChat = this.firebaseService.privateChatList.find(chat => 
+        (chat.chatCreator === chatCreator && chat.chatReciver === chatReceiver) ||
+        (chat.chatCreator === chatReceiver && chat.chatReciver === chatCreator)
+      );
+      if (existingChat) {
+        resolve(existingChat.privatChatId);
+      } else {
+        resolve(null);
       }
-    });
-  }
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
 }
