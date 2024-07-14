@@ -16,6 +16,7 @@ import { ChannelDetailsComponent } from './channel/channel-details/channel-detai
 import { CommunicationService } from '../../services/communication/communication.service';
 import { AddMembersToChannelComponent } from './channel/add-members-to-channel/add-members-to-channel.component';
 import { ThreadComponent } from '../shared/thread/thread.component';
+import { ChannelMemberComponent } from './channel/channel-member/channel-member.component';
 @Component({
 	selector: 'app-home',
 	standalone: true,
@@ -35,6 +36,7 @@ import { ThreadComponent } from '../shared/thread/thread.component';
 		UserMenuComponent,
 		ChannelDetailsComponent,
 		AddMembersToChannelComponent,
+		ChannelMemberComponent
 	],
 })
 export class HomeComponent implements OnInit {
@@ -67,6 +69,8 @@ export class HomeComponent implements OnInit {
 	isChannelDetailsVisible: boolean = false;
 	//Dragan: add members to channel variables
 	isAddMembersToChannelVisible: boolean = false;
+	// channel members
+	isChannelMemberVisible: boolean = false;
 
 	ngOnInit(): void {
 		this.firebaseService.getCurrentUserId();
@@ -88,6 +92,9 @@ export class HomeComponent implements OnInit {
 		// Dragan: I have added this subscription to the add members to channel visibility.
 		this.communicationService.isAddMembersToChannelVisible$.subscribe((visible) => {
 			this.isAddMembersToChannelVisible = visible;
+		});
+		this.communicationService.isChannelMemberVisible$.subscribe((visible) => {
+			this.isChannelMemberVisible = visible;
 		});
 	}
 
@@ -119,6 +126,9 @@ export class HomeComponent implements OnInit {
 				break;
 			case 'addMembersToChannel':
 				this.isAddMembersToChannelVisible = visible;
+				break;
+			case 'channelMember':
+				this.isChannelMemberVisible = visible;
 				break;
 			default:
 				console.warn(`Unknown component name: ${name}`);
@@ -153,6 +163,9 @@ export class HomeComponent implements OnInit {
 				break;
 			case 'addMembersToChannel':
 				this.isAddMembersToChannelVisible = false;
+				break;
+			case 'channelMember':
+				this.isChannelMemberVisible = false;
 				break;
 			default:
 				console.warn(`Unknown popup name: ${name}`);

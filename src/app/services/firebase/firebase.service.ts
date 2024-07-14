@@ -1,15 +1,5 @@
 import { Injectable, OnDestroy, OnInit, inject } from '@angular/core';
-import {
-	query,
-	orderBy,
-	where,
-	Firestore,
-	collection,
-	doc,
-	onSnapshot,
-	updateDoc,
-	getDocs,
-} from '@angular/fire/firestore';
+import { query,orderBy,where,Firestore,collection,doc,onSnapshot,updateDoc,getDocs } from '@angular/fire/firestore';
 import { AuthService } from '../authentication/auth.service';
 import { Channel } from '../../models/channel.class';
 import { User } from '../../models/user.class';
@@ -542,7 +532,7 @@ export class FirebaseService implements OnDestroy, OnInit {
 	/**
 	 * Combines the members from the current channel and the saved users for the channel.
 	 * Removes any duplicate IDs and returns an array of strings.
-	 *
+	 * to-do outsource to search service
 	 * @returns {string[]} An array of unique member IDs.
 	 */
 	combineMembers() {

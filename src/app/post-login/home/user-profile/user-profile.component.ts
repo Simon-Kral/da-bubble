@@ -28,8 +28,10 @@ export class UserProfileComponent {
     this.userProfileVisibilityChange.emit(false);
   }
 
+  // to-do need logic to check if the user is already in a chat with the selected user
   startNewPrivateChat() {
     this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, this.firebaseService.selectedPrivateChatCreatorId);
+    this.userProfileVisibilityChange.emit(false);
   }
 
   	/**

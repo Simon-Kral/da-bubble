@@ -1,0 +1,32 @@
+<div class="channel-member-wrapper">
+    <div class="top-section">
+        <div class="top-section-left">
+            <h1>Mitglieder</h1>
+        </div>
+        <div class="close-icon pointer" (mouseover)="onMouseOver()" (mouseout)="onMouseOut()" (click)="this.communicationService.toggleChannelMemberVisibility(false)" >
+                <img [src]="currentIconSourceClose" alt="close">
+        </div>
+    </div>
+ @for (channel of this.firebaseService.channelList; track channel; let index = $index) {
+    @for (member of channel.members; track member; let index = $index) {
+    <div class="member-container pointer">
+        <div class="user-avatar">
+            <img [src]="this.firebaseService.getUserAvatar(member)" alt="User Avatar" />
+        <div class="user-status"
+            [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(member), 'offline': !this.firebaseService.getUserOnlineStatus(member) }">
+          </div>
+          </div>
+          <span>{{ this.firebaseService.getUserDisplayName(member) }}</span>
+    </div>
+    }
+}   
+<div class="add-member pointer">
+    <div class="add-member-icon">
+        <img src="assets/img/icons/person_add.png" alt="add member" />
+    </div>
+    <span>Mitglied hinzufügen</span>
+
+</div>
+
+
+</div>

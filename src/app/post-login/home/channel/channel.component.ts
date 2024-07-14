@@ -1,6 +1,6 @@
 import { CommunicationService } from './../../../services/communication/communication.service';
 import { FirebaseService } from './../../../services/firebase/firebase.service';
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../../shared/chat-input/chat-input.component';
 import { ChatService } from '../../../services/chat/chat.service';
@@ -8,6 +8,7 @@ import { ChannelDetailsComponent } from './channel-details/channel-details.compo
 import { ChatHistoryComponent } from '../../shared/chat-history/chat-history.component';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../models/user.class';
+import { ChannelMemberComponent } from './channel-member/channel-member.component';
 @Component({
 	selector: 'app-channel',
 	standalone: true,
@@ -16,6 +17,7 @@ import { User } from '../../../models/user.class';
 		ChatInputComponent,
 		ChannelDetailsComponent,
 		ChatHistoryComponent,
+		ChannelMemberComponent
 	],
 	templateUrl: './channel.component.html',
 	styleUrl: './channel.component.scss',
@@ -26,19 +28,14 @@ export class ChannelComponent {
 	firebaseService = inject(FirebaseService);
 	showChannelDetails = false;
 	showAddMembersToChannel = false;
-	channelId: string = '';
 	hashtag = 'assets/img/icons/hashtag_chat_inactive.png';
 	dropdownArrow = 'assets/img/icons/keyboard_arrow_down_inactive.png';
-	currentChannel = this.firebaseService.getChannelById(
-		this.firebaseService.currentChanId
-	);
-	usersId: string[] = [];
 
-	users: any[] = [];
+	
+	@Input() isChannelMemberVisible: boolean = false;
+	@Output() channelMemberVisibilityChange = new EventEmitter<boolean>();
 
 	constructor(private route: ActivatedRoute) {
-		this.usersId = this.firebaseService.getAllMembers();
-		this.getAllUsersDataFromId();
 	}
 
 	ngOnInit(): void {
@@ -84,13 +81,10 @@ export class ChannelComponent {
 		);
 	}
 
-	/**
-	 * Retrieves data of all users from their IDs and adds them to the users array.
-	 */
-	getAllUsersDataFromId() {
-		this.currentChannel?.members.forEach((element) => {
-			let user = this.firebaseService.getUserById(element);
-			this.users.push(user);
-		});
+	handleClickOnMember() {
+		console.log('Member clicked');
+		this.communicationService.toggleChannelMemberVisibility(true);
 	}
+
+
 }

@@ -9,16 +9,9 @@ import { NewMessageComponent } from './post-login/new-message/new-message.compon
 import { CreateNewChannelComponent } from './post-login/home/channel/create-channel/create-new-channel/create-new-channel.component';
 import { ChatHistoryComponent } from './post-login/shared/chat-history/chat-history.component';
 import { AuthService } from './services/authentication/auth.service';
-import {
-	applyActionCode,
-	AuthCredential,
-	EmailAuthCredential,
-	EmailAuthProvider,
-	GoogleAuthProvider,
-	reauthenticateWithPopup,
-	User,
-} from '@angular/fire/auth';
+import { applyActionCode, AuthCredential, EmailAuthCredential, EmailAuthProvider, GoogleAuthProvider, reauthenticateWithPopup, User } from '@angular/fire/auth';
 import { ThreadComponent } from './post-login/shared/thread/thread.component';
+import { ChannelMemberComponent } from './post-login/home/channel/channel-member/channel-member.component';
 
 @Component({
 	selector: 'app-root',
@@ -33,7 +26,8 @@ import { ThreadComponent } from './post-login/shared/thread/thread.component';
 		PrivateMessageListComponent,
 		CreateNewChannelComponent,
 		ChatHistoryComponent,
-		ThreadComponent
+		ThreadComponent,
+		ChannelMemberComponent
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',

@@ -21,6 +21,9 @@ export class CommunicationService {
 	isAddMembersToChannelVisibleSource = new BehaviorSubject<boolean>(false);
 	isAddMembersToChannelVisible$ = this.isAddMembersToChannelVisibleSource.asObservable();
 
+	isChannelMemberVisibleSource = new BehaviorSubject<boolean>(false);
+	isChannelMemberVisible$ = this.isChannelMemberVisibleSource.asObservable();
+
 	// moved from home.component -- variabels thread visibility
 	//thread variables
 	isThreadVisible: boolean = false;
@@ -57,5 +60,9 @@ export class CommunicationService {
 
 	toggleAddMembersToChannelVisibility(visible: boolean) {
 		this.isAddMembersToChannelVisibleSource.next(visible);
+	}
+
+	toggleChannelMemberVisibility(visible: boolean) {
+		this.isChannelMemberVisibleSource.next(visible);
 	}
 }

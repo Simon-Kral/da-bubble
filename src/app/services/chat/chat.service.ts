@@ -5,6 +5,7 @@ import { PrivateMessageComponent } from '../../post-login/private-message/privat
 import { BehaviorSubject } from 'rxjs';
 import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -32,7 +33,10 @@ export class ChatService implements OnInit, OnDestroy{
 
   editMessageId:string = '';  // will get used to store the id of the message that should get edited
 
-  constructor() { }
+  existingChatRef:string = '';  // will get used to store the ref of the existing chat
+ 
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.subscribeMsgList();
@@ -191,25 +195,36 @@ formatTimeString(timestampStr: string): string {
 }
 
 //code for privateChats
-/**
+/** to-do check if logic works, we need to implement openening userprofile somewhere to try out
  * Starts a new private chat by creating a new chat document in the Firestore database.
- *
+ * Checks if a chat between the chatCreator and chatReceiver already exists.
+ * If the chat exists, navigates to the existing chat.
  * @param {string} chatCreator - The user ID of the person initiating the chat.
  * @param {string} chatReceiver - The user ID of the person receiving the chat invitation.
  * @returns {Promise<void>} A promise that resolves when the new chat has been created and updated.
  */
   async startNewPrivateChat(chatCreator: string, chatReceiver: string) {
-      
+    try {
+      const chatExists = await this.checkIfPrivateChatExists(chatReceiver);
+      if (chatExists) {
+        this.router.navigate(['/home/private-message', this.existingChatRef]);
+        return;
+      }
+  
       let newPrivateChat: PrivateChat = {
         privatChatId: '',
         chatCreator: chatCreator,
         chatReciver: chatReceiver,
         privateNoteCreator: '',
       };
-
-        const docRef = await this.addPrivateChat(newPrivateChat);
-        await this.updatePrivateChatId(docRef);
-      }
+  
+      const docRef = await this.addPrivateChat(newPrivateChat);
+      await this.updatePrivateChatId(docRef);
+    } catch (error) {
+      console.error('Error starting new private chat:', error);
+      throw error;
+    }
+  }
 
 /**
  * Adds a new private chat document to the Firestore database.
@@ -315,15 +330,19 @@ formatTimeString(timestampStr: string): string {
    * @param {string} chatReceiver - The ID of the chat receiver.
    * @returns {Promise<boolean>} A promise that resolves to true if the chat exists, otherwise false.
    */
-  checkIfPrivateChatExists(chatReceiver: string): Promise<boolean> {
+  checkIfPrivateChatExists(chatReceiver: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
       try {
         const currentUserId = this.firebaseService.currentUserId;
-        const chatExists = this.firebaseService.privateChatList.some(chat => 
+        const existingChat = this.firebaseService.privateChatList.find(chat => 
           (chat.chatCreator === currentUserId && chat.chatReciver === chatReceiver) ||
           (chat.chatCreator === chatReceiver && chat.chatReciver === currentUserId)
         );
-        resolve(chatExists);
+        if (existingChat) {
+          this.existingChatRef = existingChat.privatChatId;
+        } else {
+          resolve(null);
+        }
       } catch (error) {
         reject(error);
       }
