@@ -54,14 +54,23 @@ export class ChatHistoryComponent implements OnInit{
         Validators.minLength(1),
       ]),
     });
+
+    this.route.url.subscribe(urlSegments => {
+      const mainCollection = urlSegments[0]?.path;
+      const id = urlSegments[1]?.path;
+
+      this.chatService.mainCollection = mainCollection;
+      this.chatService.docRef = id;
+
+      this.chatService.unsubscribeAllLists();
+      this.chatService.subscribeAllLists();
+      console.log('Chat initialisiert', this.chatService.mainCollection, this.chatService.docRef);
+  
+    });
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-			this.chatService.docRef = params['id'];
-		});
-    console.log('chat initialised',this.chatService.docRef);
-      // logic to get the chat history
+    
   }
 
   openEditMsgMenu() {

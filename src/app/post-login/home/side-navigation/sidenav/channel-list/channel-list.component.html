@@ -2,7 +2,7 @@
 <div class="channel-list">
   <span
     class="pointer"
-    [routerLink]="['/home/channel', channel.chanId]"
+    [routerLink]="['/home/channels', channel.chanId]"
     [ngClass]="{ 'active': selectedChannel === channel.name }"
     (click)="this.handleChannelClick(channel.name, channel.chanId)"
   >

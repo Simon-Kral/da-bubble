@@ -209,7 +209,7 @@ formatTimeString(timestampStr: string): string {
     try {
       const existingChatId = await this.checkIfPrivateChatExists(chatReceiver, chatCreator);
       if (existingChatId) {
-        this.router.navigate(['/home/private-message', existingChatId]);
+        this.router.navigate(['/home/privateChats', existingChatId]);
         return;
       }
   

@@ -36,12 +36,17 @@ export class ChannelComponent {
 	@Output() channelMemberVisibilityChange = new EventEmitter<boolean>();
 
 	constructor(private route: ActivatedRoute) {
+		
 	}
 
 	ngOnInit(): void {
 		this.route.params.subscribe((params) => {
 			this.firebaseService.currentChanId = params['id'];
 		});
+		this.route.params.subscribe((params) => {
+			this.chatService.docRef = params['id'];
+		});
+    console.log('component initialised',this.chatService.docRef);
 	}
 
 	/**
