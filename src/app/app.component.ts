@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, Input, input, OnInit } from '@angular/core';
+import { CommonModule, NgStyle } from '@angular/common';
 import { ActivatedRoute, Params, Router, RouterOutlet } from '@angular/router';
 import { HomeComponent } from './post-login/home/home.component';
 import { SidenavComponent } from './post-login/home/side-navigation/sidenav/sidenav.component';
@@ -14,7 +14,6 @@ import { ChannelMemberComponent } from './post-login/home/channel/channel-member
 import { PrivateMessageComponent } from './post-login/private-message/private-message.component';
 import { PrivateNoteComponent } from './post-login/private-note/private-note.component';
 
-
 import { applyActionCode, User } from '@angular/fire/auth';
 import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 
@@ -24,6 +23,7 @@ import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 	imports: [
 		CommonModule,
 		RouterOutlet,
+		NgStyle,
 		HomeComponent,
 		SidenavComponent,
 		NewMessageComponent,
@@ -32,7 +32,7 @@ import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 		CreateNewChannelComponent,
 		ChatHistoryComponent,
 		ThreadComponent,
-		ChannelMemberComponent
+		ChannelMemberComponent,
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
@@ -42,6 +42,8 @@ export class AppComponent implements OnInit {
 	authService = inject(AuthService);
 	firestore = inject(Firestore);
 	router = inject(Router);
+	notificate: boolean = false;
+	notification: string = '';
 
 	/**
 	 * Constructor to initialize the component with the activated route.
@@ -55,15 +57,12 @@ export class AppComponent implements OnInit {
 	 */
 	ngOnInit(): void {
 		setTimeout(() => {
-			console.log('subbed to params');
 			this.route.queryParams.subscribe({
 				next: (params) => {
 					this.authService.user$.subscribe((user) => {
 						if (this.router.url.includes('?mode=')) {
 							this.handleQueryParams(params);
 						} else if (user) {
-							console.log('subbed to user');
-							console.log('user:', user);
 							this.setUserData(user).then(() => {
 								this.handleNavigation(user);
 							});
@@ -94,7 +93,7 @@ export class AppComponent implements OnInit {
 	 * @returns {void}
 	 */
 	setUserData(user: User): Promise<void> {
-		this.setSignal(user);
+		// this.setSignal(user);
 		this.setSessionStorage(user);
 		return updateDoc(
 			doc(
@@ -136,7 +135,6 @@ export class AppComponent implements OnInit {
 			username: user.displayName,
 			avatar: user.photoURL,
 		});
-		console.log('signal:', this.authService.currentUserSig());
 	}
 
 	/**
@@ -145,7 +143,6 @@ export class AppComponent implements OnInit {
 	 * @returns {void}
 	 */
 	setSessionStorage(user: User): void {
-		console.log('sessionStorage was set');
 		if (!(sessionStorage.getItem('currentUserId') === user.uid)) {
 			sessionStorage.setItem('currentUserId', user.uid);
 		}
@@ -156,7 +153,7 @@ export class AppComponent implements OnInit {
 	 * @returns {void}
 	 */
 	navToAvatar(): void {
-		console.log('please set avatar');
+		this.notificateUser('Wählen Sie einen Avatar');
 		this.router.navigateByUrl('/avatar');
 	}
 
@@ -165,7 +162,7 @@ export class AppComponent implements OnInit {
 	 * @returns {void}
 	 */
 	handleEmailVerification(): void {
-		console.log('verify your email');
+		this.notificateUser('Bestätigen Sie Ihre E-Mail-Adresse');
 	}
 
 	/**
@@ -174,7 +171,7 @@ export class AppComponent implements OnInit {
 	 */
 	navToHome(): void {
 		if (this.router.url === '/') {
-			console.log('logged in');
+			this.notificateUser('Angemeldet');
 			this.router.navigateByUrl('/home');
 		}
 	}
@@ -184,7 +181,6 @@ export class AppComponent implements OnInit {
 	 * @returns {void}
 	 */
 	handleNoUser(): void {
-		console.log('no user');
 		// this.authService.currentUserSig.set(null);
 		this.router.navigateByUrl('/');
 	}
@@ -213,9 +209,9 @@ export class AppComponent implements OnInit {
 				this.authService.firebaseAuth,
 				params['oobCode']
 			).then(() => {
-				console.log('verified email');
 				this.router.navigateByUrl('/').then(() => {
 					setTimeout(() => {
+						this.notificateUser('E-Mail-Adresse bestätigt');
 						this.router.navigateByUrl('/home');
 					}, 1000);
 				});
@@ -234,7 +230,7 @@ export class AppComponent implements OnInit {
 				this.authService.firebaseAuth,
 				params['oobCode']
 			).then(() => {
-				console.log('verified new email');
+				this.notificateUser('Neue E-Mail-Adresse bestätigt');
 				this.router.navigateByUrl('/');
 			});
 		}
@@ -251,9 +247,17 @@ export class AppComponent implements OnInit {
 				this.authService.firebaseAuth,
 				params['oobCode']
 			).then(() => {
-				console.log('recovered email');
+				this.notificateUser('E-Mail-Adresse zurückgesetzt');
 				this.router.navigateByUrl('/');
 			});
 		}
+	}
+
+	notificateUser(message: string) {
+		this.notification = message;
+		this.notificate = true;
+		setTimeout(() => {
+			this.notificate = false;
+		}, 5000);
 	}
 }
