@@ -22,10 +22,6 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
   
-  selectedMessageId: string | null = null;
-
-
-
   constructor(private router: Router, private route: ActivatedRoute) {
 
    }
