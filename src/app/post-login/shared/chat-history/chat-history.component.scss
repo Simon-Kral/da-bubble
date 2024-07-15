@@ -267,6 +267,42 @@
                 text-wrap: nowrap;
             }
         }
+
+        .reactions-container {
+            @include dFlex(row,flex-end, center);
+            width: 90%;
+            gap: 16px;
+            .last-reaction {
+                @include dFlex(row, center, center);
+                width: 64px;
+                height: 34px;
+                border-radius: 20px;
+                border: solid 1px $light-purple-lines;
+                padding: 5px 10px 5px 10px;
+                gap: 10px;
+                background-color: $white;
+                    .emoji-container {
+                    @include dFlex(row, center, center);
+                    width: 24px;
+                    height: 24px;
+                    }
+                    .emoji-counter {
+                        @include Nunito(400, 16px, 21.82px, $black);
+                    }
+                }
+            .add-reaction {
+                @include dFlex(row,center, center);
+                width: 36px;
+                height: 34px;
+                border-radius: 50%;
+                padding: 5px;
+                gap: 10px;
+                background-color: $white;
+                &:hover {
+                    background-color: $bg-color;
+                }
+            }
+        }
     }
 }
 

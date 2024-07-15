@@ -112,6 +112,23 @@
                     <span class="pointer">2 Antworten</span>
                     <p>Letzte Antwort 14:56</p>
                 </div>
+                <!--reactions container-->
+                <div class="reactions-container">
+                    <div class="pointer last-reaction">
+                        <div class="emoji-container">👍</div>
+                        <span class="emoji-counter">3</span>
+                    </div>
+                    <div class="pointer last-reaction">
+                        <div class="emoji-container">👍</div>
+                        <span class="emoji-counter">3</span>
+                    </div>
+                    <div class="pointer add-reaction"
+                    (mouseover)="onMouseOver('addReaction')"
+                    (mouseout)="onMouseOut('addReaction')"
+                    >
+                        <img [src]="currentIconSourceAddReaction" alt="menu-icon">
+                    </div>
+                </div>
             </div>
             <div class="current-user-avatar">
                 <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
