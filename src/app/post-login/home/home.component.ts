@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { ChannelComponent } from './channel/channel.component';
@@ -39,7 +39,7 @@ import { ChannelMemberComponent } from './channel/channel-member/channel-member.
 		ChannelMemberComponent
 	],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 	authService = inject(AuthService);
 	firebaseService = inject(FirebaseService);
 	chatService = inject(ChatService);
@@ -76,11 +76,9 @@ export class HomeComponent implements OnInit {
 		this.firebaseService.getCurrentUserId();
 		this.firebaseService.subscribeAllLists();
 		this.firebaseService.setCurrentUserAsObjekt(); // to-do remove after developement is finished
-		this.communicationService.isCurrentUserProfileVisible$.subscribe(
-			(visible) => {
+		this.communicationService.isCurrentUserProfileVisible$.subscribe((visible) => {
 				this.isCurrentUserProfileVisible = visible;
-			}
-		);
+		});
 		this.communicationService.isUserProfileVisible$.subscribe((visible) => {
 			this.isUserProfileVisible = visible;
 		});
@@ -97,6 +95,11 @@ export class HomeComponent implements OnInit {
 		this.communicationService.isChannelMemberVisible$.subscribe((visible) => {
 			this.isChannelMemberVisible = visible;
 		});
+	}
+
+	ngOnDestroy(): void {
+		this.firebaseService.unsubscribeAllLists();
+		this.chatService.unsubscribeAllLists();
 	}
 
 	//sidenav functions

@@ -30,8 +30,6 @@ export class PrivateNoteComponent {
 			this.chatService.docRef = params['id'];
 		});
     console.log('component initialised',this.chatService.docRef);
-    // logic to get the chat history
- 
   }
 
 

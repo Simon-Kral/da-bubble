@@ -274,7 +274,7 @@ checkIfPrivateChatExists(chatReceiver: string, chatCreator: string): Promise<str
 /**
  * Redirects to an existing chat if it exists.
  * @param {string | null} existingChatId - The ID of the existing chat, or null if no chat exists.
- * @returns {boolean} True if redirected, otherwise false.
+ * @returns {boolean} True if redirected, otherwise false and a new chat is created and navigated to.
  */
 redirectIfChatExists(existingChatId: string | null): boolean {
   if (existingChatId) {

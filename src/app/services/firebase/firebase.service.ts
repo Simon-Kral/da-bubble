@@ -45,25 +45,25 @@ export class FirebaseService {
 
 
 
-	subscribeAllLists() {
-		this.subChannelsList();
-		this.subUsersList();
-		this.subPrivateChatList();
-		this.subPrivateNoteList();
+	async subscribeAllLists() {
+		await this.subChannelsList();
+		await this.subUsersList();
+		await this.subPrivateChatList();
+		await this.subPrivateNoteList();
 	}
 
-	unsubscribeAllLists() {
+	async unsubscribeAllLists() {
+		if (this.unsubscribePrivateChatList) {
+			await this.unsubscribePrivateChatList();
+		}
 		if (this.unsubscribeChannelList) {
-			this.unsubscribeChannelList();
+			await this.unsubscribeChannelList();
 		}
 		if (this.unsubscribeUserList) {
-			this.unsubscribeUserList();
-		}
-		if (this.unsubscribePrivateChatList) {
-			this.unsubscribePrivateChatList();
+			await this.unsubscribeUserList();
 		}
 		if (this.unsubscribePrivateNoteList) {
-			this.unsubscribePrivateNoteList();
+			await this.unsubscribePrivateNoteList();
 		}
 	}
 
@@ -86,7 +86,6 @@ export class FirebaseService {
 			where('userId', '==', this.currentUserId)
 		);
 		const userSnapshot = await getDocs(userQuery);
-
 		const currentUserDoc = userSnapshot.docs[0];
 		const currentUserData = currentUserDoc.data();
 
@@ -318,10 +317,7 @@ export class FirebaseService {
 	 * @returns A promise that resolves when the user profile is successfully updated.
 	 */
 	updateUserProfile(updates: Partial<any>): Promise<void> {
-		const userDocRef = doc(
-			this.firestore,
-			`users/${this.currentUser.userId}`
-		);
+		const userDocRef = doc(this.firestore,`users/${this.currentUser.userId}`);
 		return updateDoc(userDocRef, updates);
 	}
 
@@ -331,10 +327,7 @@ export class FirebaseService {
 	 * @returns {Promise<void>} A promise that resolves when the user avatar is successfully updated.
 	 */
 	updateUserAvatar(newAvatarPath: string): Promise<void> {
-		const userDocRef = doc(
-			this.firestore,
-			`users/${this.currentUser.userId}`
-		);
+		const userDocRef = doc(this.firestore,`users/${this.currentUser.userId}`);
 		return updateDoc(userDocRef, { photoURL: newAvatarPath });
 	}
 
@@ -344,10 +337,7 @@ export class FirebaseService {
 	 * @returns {Promise<void>} A promise that resolves when the user status is successfully updated.
 	 */
 	updateUserStatus(newStatus: boolean): Promise<void> {
-		const userDocRef = doc(
-			this.firestore,
-			`users/${this.currentUser.userId}`
-		);
+		const userDocRef = doc(this.firestore,`users/${this.currentUser.userId}`);
 		return updateDoc(userDocRef, { status: newStatus });
 	}
 
@@ -358,10 +348,7 @@ export class FirebaseService {
 	 * Logs the updated private chat list to the console.
 	 */
 	subPrivateChatList() {
-		const privateChatCollection = collection(
-			this.firestore,
-			'privateChats'
-		);
+		const privateChatCollection = collection(this.firestore,'privateChats');
 		const q = query(privateChatCollection, orderBy('chatCreator'));
 		this.unsubscribePrivateChatList = onSnapshot(
 			q,

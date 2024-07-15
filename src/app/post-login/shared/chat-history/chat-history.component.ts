@@ -56,14 +56,14 @@ export class ChatHistoryComponent implements OnInit{
     });
 
     this.route.url.subscribe(urlSegments => {
-      const mainCollection = urlSegments[0]?.path;
-      const id = urlSegments[1]?.path;
+      const mainCollection = urlSegments[0]?.path; // 'channels' or 'privateChats' or 'privateNotes'
+      const id = urlSegments[1]?.path;             // id aka docRef of the channel or privateChat or privateNote
 
-      this.chatService.mainCollection = mainCollection;
-      this.chatService.docRef = id;
+      this.chatService.mainCollection = mainCollection;  //sets the main collection
+      this.chatService.docRef = id;                     //sets the docRef
 
-      this.chatService.unsubscribeAllLists();
-      this.chatService.subscribeAllLists();
+      this.chatService.unsubscribeAllLists();     // unsubscribe from all lists before subscribing to the new one
+      this.chatService.subscribeAllLists();       // subscribe to all lists with Msgs 
       console.log('Chat initialisiert', this.chatService.mainCollection, this.chatService.docRef);
   
     });
@@ -114,38 +114,59 @@ export class ChatHistoryComponent implements OnInit{
   }
 
   // edit msg functions
-
+ /**
+ * Handles the click event for editing a message.
+ * Sets the ID of the message to be edited, loads the message text, and shows the edit message overlay.
+ *
+ * @param {string} messageId - The ID of the message to be edited.
+ */
   handleClickOnEditMsg(messageId: string) {
-    this.chatService.editMessageId = messageId;
-     this.loadMessageText();
-    this.showEditMsgOverlay = true;
+    this.chatService.editMessageId = messageId;  // set the id of the message to be edited into the chatService
+     this.loadMessageText();                     // load the text of the message to be edited
+    this.showEditMsgOverlay = true;             // show the edit message overlay
   }
 
+  /**
+  * Handles the submission of the edited message.
+   * Closes the edit message menu, validates the new message text, updates the message, and closes the edit message overlay.
+  *
+  * @returns {Promise<void>} A promise that resolves when the message text has been successfully updated.
+  */
   async onSubmitEditMsg() {
-    this.editMsgMenu = false;
-    if (this.newMsgData.valid) {
-      const updatedText = this.newMsgData.value.text;
+    this.editMsgMenu = false;                         // close the edit message menu
+    if (this.newMsgData.valid) {                      // check if the new message text is valid
+      const updatedText = this.newMsgData.value.text; // get the new message text
       try {
-        await this.chatService.updateMessage(
+        await this.chatService.updateMessage(         // update the message text
           updatedText
         );
         console.log('Message text updated successfully');
-        this.showEditMsgOverlay = false;
+        this.showEditMsgOverlay = false;              // close the edit message overlay
       } catch (error) {
         console.error('Error updating message text:', error);
       }
     }
   }
+
+  /**
+  * Handles the cancel action for editing a message.
+  * Closes the edit message overlay and the edit message menu.
+  */
   handleClickOnCancel() {
     this.showEditMsgOverlay = false;
     this.editMsgMenu = false;
   }
-
+  
+  /**
+  * Loads the text of the message to be edited.
+  * Fetches the message text from the chat service and sets it in the current message data and form.
+  * @returns {Promise<void>} A promise that resolves when the message text is loaded and set.
+  */
   async loadMessageText() {
     try {
-      const text = await this.chatService.getMessage();
-      this.currentMsgData = { text: text };
-      this.newMsgData.patchValue({ text: text });
+      const text = await this.chatService.getMessage();  // get the text of the message to be edited
+      this.currentMsgData = { text: text };             // set the text of the message to be edited
+      this.newMsgData.patchValue({ text: text });       // set the text of the message to be edited in the form
     } catch (error) {
       console.error('Error loading message text:', error);
     }

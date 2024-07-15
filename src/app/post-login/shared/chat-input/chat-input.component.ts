@@ -42,7 +42,6 @@ export class ChatInputComponent {
 
   /**
    * Returns the current time in milliseconds.
-   *
    * @returns The current time in milliseconds.
    */
   getCurrentTime(): number {
@@ -75,6 +74,7 @@ export class ChatInputComponent {
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
+
   /**
   * Adds the selected emoji to the message text and updates the form control.
   * @param event The event object containing the selected emoji.
@@ -86,6 +86,7 @@ export class ChatInputComponent {
 
     this.messageData.setValue({ message: text });
   }
+  
   /**
    * Handles the mouse over event for the chat input icons.
    * Changes the icon source based on the provided image name.

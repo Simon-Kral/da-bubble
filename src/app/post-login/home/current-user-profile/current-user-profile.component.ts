@@ -1,21 +1,7 @@
-import {
-	Component,
-	EventEmitter,
-	inject,
-	Input,
-	OnInit,
-	Output,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
-import {
-	AbstractControl,
-	FormBuilder,
-	FormGroup,
-	ReactiveFormsModule,
-	ValidationErrors,
-	Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Firestore } from '@angular/fire/firestore';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { ChatService } from '../../../services/chat/chat.service';
@@ -195,7 +181,7 @@ export class CurrentUserProfileComponent implements OnInit {
 			.updateUserProfile(updates)
 			.then(() => {
 				console.log('User profile updated successfully');
-				this.toggleUserProfile(false);
+				this.toggleCurrentUserProfile(false);
 			})
 			.catch((error) => {
 				console.error('Error updating user profile: ', error);
@@ -206,12 +192,12 @@ export class CurrentUserProfileComponent implements OnInit {
 	 * Logs the user out and performs cleanup actions.
 	 * @returns {void}
 	 */
-	logout(): void {
+	async logout(): Promise<void> {
 		// to-do OPTIONAL update user status to offline when close tab
-		this.firebaseService.updateUserStatus(false);
+		await this.firebaseService.unsubscribeAllLists();
+		await this.chatService.unsubscribeAllLists();
+		await this.firebaseService.updateUserStatus(false);
 		this.firebaseService.clearCurrentUser(); // to-do remove after developement is finished
-		this.firebaseService.unsubscribeAllLists();
-		this.chatService.unsubscribeAllLists();
 		this.authService.logout().subscribe({
 			next: () => {
 				sessionStorage.clear();
@@ -221,28 +207,39 @@ export class CurrentUserProfileComponent implements OnInit {
 			},
 		});
 	}
-
+	/**
+ 	* Sets a new avatar path based on the provided index from the avatar list.
+ 	* @param {number} index - The index of the avatar in the avatar list.
+ 	*/
 	setNewAvatar(index: number) {
-		console.log('Avatar index: ', index);
 		this.newAvatarPath = this.avatarList[index].path;
-		console.log('New avatar path: ', this.newAvatarPath);
 		this.newAvatarChosen = true;
 	}
 
+	/**
+ 	* Updates the user's avatar if a new avatar has been chosen.
+ 	* Calls the `updateUserAvatar` method from `firebaseService` to update the photoURL in Firestore users collection.
+ 	* Toggles the edit avatar overlay upon successful avatar update.
+ 	* Logs a warning message if an error occurs during the avatar update. to-do: handle error diffrently?!?
+ 	*/
 	updateAvatar() {
 		if (this.newAvatarChosen) {
 			this.firebaseService
 				.updateUserAvatar(this.newAvatarPath)
 				.then(() => {
-					console.log('User avatar updated successfully');
 					this.toggleEditAvatar();
 				})
 				.catch((error: any) => {
-					console.error('Error updating user avatar: ', error);
+					console.warn('Error updating user avatar: ', error);
 				});
 		}
 	}
 
+	/**
+ 	* Handles cancel actions for different modals.
+	* @param {string} name - The name of the modal to cancel ('editProfile' or 'editAvatar').
+ 	* @returns {void}
+ 	*/
 	onCancel(name: string): void {
 		if (name === 'editProfile') {
 			this.newUserData.reset(this.currentUserData);
@@ -254,14 +251,27 @@ export class CurrentUserProfileComponent implements OnInit {
 		}
 	}
 
-	toggleUserProfile(visible: boolean) {
+	/**
+ 	* Toggles the visibility of the current user's profile.
+ 	* @param {boolean} visible - Indicates whether to show or hide the current user's profile.
+ 	* @returns {void}
+ 	*/
+	toggleCurrentUserProfile(visible: boolean) {
 		this.currentUserProfileVisibilityChange.emit(visible);
 	}
 
+	/**
+ 	* Toggles the visibility of the edit profile interface.
+ 	* @returns {void}
+ 	*/
 	toggleEditProfile() {
 		this.isEditProfileVisible = !this.isEditProfileVisible;
 	}
 
+	/**
+ 	* Toggles the visibility of the avatar editing interface.
+ 	* @returns {void}
+ 	*/
 	toggleEditAvatar() {
 		this.isEditAvatarVisible = !this.isEditAvatarVisible;
 	}

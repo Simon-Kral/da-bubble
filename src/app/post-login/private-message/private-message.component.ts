@@ -33,7 +33,6 @@ export class PrivateMessageComponent implements OnInit{
 			this.chatService.docRef = params['id'];
 		});
     console.log('component initialised',this.chatService.docRef);
-    // logic to get the chat history
   }
 
 
