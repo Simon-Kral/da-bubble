@@ -4,6 +4,7 @@ import { FirebaseService } from './../../../../services/firebase/firebase.servic
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ChatService } from '../../../../services/chat/chat.service';
 import { CommonModule } from '@angular/common';
+import { CommunicationService } from '../../../../services/communication/communication.service';
 
 @Component({
 	selector: 'app-channel-details',
@@ -18,6 +19,7 @@ export class ChannelDetailsComponent {
 
 	chatService = inject(ChatService);
 	firebaseService = inject(FirebaseService);
+	communicationService = inject(CommunicationService);
 	isChannelNameEditable = false;
 	isChannelDescriptionEditable = false;
 	channelToEdit: Channel = new Channel();
@@ -97,5 +99,16 @@ export class ChannelDetailsComponent {
 	leaveChannel() {
 		this.firebaseService.leaveChannel();
 		this.closeDetailsWindow();
+	}
+
+	openUserDetails() {
+		if(!this.checkChannelCreator()) {
+			this.communicationService.toggleChannelDetailsVisibility(false)
+			this.communicationService.toggleUserProfileVisibility(true);
+			this.communicationService.userProfileId = this.firebaseService.currentUser.userId;
+		} else {
+			this.communicationService.toggleChannelDetailsVisibility(false);
+			this.communicationService.toggleCurrentUserProfileVisibility(true);
+		}
 	}
 }
