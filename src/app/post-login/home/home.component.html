@@ -158,7 +158,7 @@
 			(click)="closePopupOverlay('channelMember')"
 			[ngClass]="{ visible: isChannelMemberVisible }"
 		>
-			<div class="popup-content" (click)="preventClose($event)">
+			<div class="popup-content popup-channel-members" (click)="preventClose($event)">
 				<app-channel-member
 					[isChannelMemberVisible]="isChannelMemberVisible"
 					(channelMemberVisibilityChange)="
