@@ -11,25 +11,15 @@ import { CommonModule } from '@angular/common';
 import {
 	AbstractControl,
 	FormBuilder,
-	FormControl,
 	FormGroup,
 	ReactiveFormsModule,
 	ValidationErrors,
 	Validators,
 } from '@angular/forms';
-import {
-	Firestore,
-	collection,
-	onSnapshot,
-	orderBy,
-	query,
-	addDoc,
-	doc,
-	updateDoc,
-} from '@angular/fire/firestore';
-import { User } from '../../../models/user.class';
+import { Firestore } from '@angular/fire/firestore';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { ChatService } from '../../../services/chat/chat.service';
+import { CommunicationService } from '../../../services/communication/communication.service';
 interface UserData {
 	name: string;
 	email: string;
@@ -47,6 +37,7 @@ export class CurrentUserProfileComponent implements OnInit {
 	firebaseService = inject(FirebaseService);
 	authService = inject(AuthService);
 	chatService = inject(ChatService);
+	communicationService = inject(CommunicationService);
 
 	@Input() isCurrentUserProfileVisible: boolean = false;
 	@Output() currentUserProfileVisibilityChange = new EventEmitter<boolean>();
@@ -96,12 +87,24 @@ export class CurrentUserProfileComponent implements OnInit {
 				this.currentUserData.email,
 				[Validators.required, Validators.email],
 			],
-			password: ['', [Validators.required, Validators.minLength(6)]],
+			password: [''],
 		});
 	}
 
 	ngOnInit() {
 		this.searchGoogleProvider();
+		this.newUserData.get('email')?.valueChanges.subscribe((email) => {
+			if (this.emailHasChanged(this.newUserData.controls['email'])) {
+				this.newUserData.controls['password'].addValidators([
+					Validators.required,
+					Validators.minLength(6),
+				]);
+				this.newUserData.controls['password'].updateValueAndValidity();
+			} else {
+				this.newUserData.controls['password'].clearValidators();
+				this.newUserData.controls['password'].updateValueAndValidity();
+			}
+		});
 	}
 
 	/**
@@ -129,6 +132,14 @@ export class CurrentUserProfileComponent implements OnInit {
 		return fullNamePattern.test(control.value) ? null : { fullName: true };
 	}
 
+	emailHasChanged = (control: AbstractControl): string | null => {
+		const initialEmail = this.authService.firebaseAuth.currentUser!.email;
+		return (control.touched || control.dirty) &&
+			!(initialEmail === control.value)
+			? 'Bitte bestätigen Sie Ihr Passwort.'
+			: null;
+	};
+
 	/**
 	 * Checks if the form control has a specific error.
 	 * @param {string} controlName - The name of the form control.
@@ -148,21 +159,30 @@ export class CurrentUserProfileComponent implements OnInit {
 		const updates: Partial<UserData> = this.newUserData.value;
 		// todo don't changeEmail if not changed
 		// todo update displayName in authService
-		this.authService
-			.changeEmail(
-				this.newUserData.value.email,
-				this.newUserData.value.password
-			)
-			.subscribe({
-				next: () => {
-					this.updateFirebaseData(updates).then(() => {
-						this.logout();
-					});
-				},
-				error: (err) => {
-					console.log(err);
-				},
+		if (this.emailHasChanged(this.newUserData.controls['email'])) {
+			this.authService
+				.changeEmail(
+					this.newUserData.value.email,
+					this.newUserData.value.password
+				)
+				.subscribe({
+					next: () => {
+						this.updateFirebaseData(updates).then(() => {
+							this.logout();
+						});
+					},
+					error: (err) => {
+						console.log(err);
+					},
+				});
+		} else {
+			this.updateFirebaseData(updates).then(() => {
+				this.communicationService.toggleCurrentUserProfileVisibility(
+					true
+				);
+				this.toggleEditProfile();
 			});
+		}
 	}
 
 	/**

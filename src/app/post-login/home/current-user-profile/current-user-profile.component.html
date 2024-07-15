@@ -129,12 +129,27 @@
 				/>
 				<p>Vollständiger Name</p>
 			</div>
-			<input formControlName="name" type="text" id="name" name="name" />
+			<input
+				formControlName="name"
+				type="text"
+				id="name"
+				name="name"
+				autocomplete="off"
+			/>
 			@if (hasError('name', 'required') || hasError('name', 'fullName')) {
 			<span class="error-msg-name">Vor & Nachnamen eingeben!</span>
 			}
 		</div>
-		<div class="edit-input-container">
+		<div
+			class="edit-input-container"
+			[ngStyle]="{
+				'margin-bottom': this.emailHasChanged(
+					newUserData.controls['email']
+				)
+					? '72px'
+					: '24px'
+			}"
+		>
 			<div class="input-description">
 				<img
 					src="/assets/img/icons/email_input_black.png"
@@ -147,13 +162,24 @@
 				type="text"
 				id="email"
 				name="email"
+				autocomplete="off"
 			/>
 			@if (hasError('email', 'required')) {
 			<span class="error-msg-email">Gib eine E-Mail Adresse ein!</span>
 			} @if (hasError('email', 'email')) {
 			<span class="error-msg-email">Adresse ungültig!</span>
+			}@if(this.emailHasChanged(newUserData.controls['email'])){
+			<span class="info-msg-email"
+				>Sie werden abgemeldet und erhalten eine E-Mail mit einem
+				Bestätigungslink, um die neue E-Mail-Adresse zu
+				verifizieren.</span
+			>
 			}
 		</div>
+		@if((newUserData.controls['email'].touched ||
+		newUserData.controls['email'].dirty) &&
+		this.emailHasChanged(newUserData.controls['email'])){
+
 		<div class="edit-input-container">
 			<div class="input-description">
 				<img
@@ -176,8 +202,15 @@
 			<span class="error-msg-email">Gib dein Passwort ein!</span>
 			} @if (hasError('password', 'minlength')) {
 			<span class="error-msg-email">Passwort zu kurz!</span>
+			}@if (this.emailHasChanged(newUserData.controls['email']) &&
+			!(newUserData.controls['password'].touched ||
+			newUserData.controls['password'].dirty)) {
+			<span class="error-msg-email">{{
+				this.emailHasChanged(newUserData.controls["email"])
+			}}</span>
 			}
 		</div>
+		}
 		<div class="btn-container">
 			<button
 				type="button"

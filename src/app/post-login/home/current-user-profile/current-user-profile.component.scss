@@ -187,6 +187,12 @@
 			top: 92px;
 			left: 0;
 		}
+		.info-msg-email {
+			@include Nunito(400, 14px, 19.1px, $purple-1);
+			position: absolute;
+			top: 92px;
+			left: 0;
+		}
 	}
 }
 
