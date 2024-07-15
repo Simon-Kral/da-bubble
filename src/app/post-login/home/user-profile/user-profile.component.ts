@@ -26,17 +26,24 @@ export class UserProfileComponent {
   // current Icon Source
   currentIconSourceClose = this.close;
 
+  /**
+  * Closes the user profile by emitting an event to change its visibility.
+  * @returns {void}
+  */
   closeUserProfile(): void {
     this.userProfileVisibilityChange.emit(false);
   }
-
-  // to-do needs logic to redirect to chat
+  /**
+  * Initiates a new private chat between the current user and the selected user profile.
+  * Hides the user profile after initiating the chat.
+  * @returns {void}
+  */
   startNewPrivateChat() {
     this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, this.communicationService.userProfileId);
     this.userProfileVisibilityChange.emit(false);
   }
 
-  	/**
+  /**
 	 * Handles the mouse over event for the sideNav icons.
 	 * Changes the icon source based on the provided image name.
 	 */

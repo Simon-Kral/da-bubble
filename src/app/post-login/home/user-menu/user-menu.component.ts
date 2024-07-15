@@ -28,10 +28,10 @@ export class UserMenuComponent {
 
 	async logout(): Promise<void> {
 		// to-do OPTIONAL update user status to offline when close tab
+		await this.firebaseService.unsubscribeAllLists();
+		await this.chatService.unsubscribeAllLists();
 		await this.firebaseService.updateUserStatus(false);
 		this.firebaseService.clearCurrentUser(); // to-do remove after developement is finished ?!? check first!
-		this.firebaseService.unsubscribeAllLists();
-		this.chatService.unsubscribeAllLists();
 		this.authService.logout().subscribe({
 			next: () => {
 				sessionStorage.clear();

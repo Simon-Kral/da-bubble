@@ -34,18 +34,30 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
 
   }
 
+/**
+ * Handles the click event on a private note message.
+ * Sets the relevant chat service properties and subscribes to the message list of the selected private note.
+ * @param {string} messageId - The ID of the private note message.
+ */
   handleNoteMessageClick(messageId: string) {
-    this.chatService.mainCollection = 'privateNotes';
-    this.chatService.docRef = messageId;
-    this.chatService.subscribeMsgList();
-    this.chatService.setPlaceholderName(this.firebaseService.currentUser.name) ;
+    this.chatService.mainCollection = 'privateNotes';                             // sets the main collection to 'privateNotes'
+    this.chatService.docRef = messageId;                                          // sets the docRef to the message id                   
+    this.chatService.subscribeMsgList();                                          // subscribes to the message list of the private note       to-do: do we need that?
+    this.chatService.setPlaceholderName(this.firebaseService.currentUser.name) ;  // sets the placeholder name for the shared inputfield to the current user name
   }
 
+/**
+ * Handles the click event on a private chat message.
+ * Sets the relevant chat service properties and subscribes to the message list of the selected private chat.
+ * Also sets the user profile ID and placeholder name for the shared input field.
+ * @param {string} messageId - The ID of the private chat message.
+ * @param {string} chatCreator - The user ID of the chat creator.
+ */
   handlePrivateMessageClick(messageId: string, chatCreator: string) {
-    this.chatService.mainCollection = 'privateChats';
-    this.chatService.docRef = messageId;
-    this.communicationService.userProfileId = chatCreator;
-    this.chatService.subscribeMsgList();  
-    this.chatService.setPlaceholderName(this.firebaseService.getUserDisplayName(chatCreator));   
+    this.chatService.mainCollection = 'privateChats';                                             // sets the main collection to 'privateChats'
+    this.chatService.docRef = messageId;                                                          // sets the docRef to the message id
+    this.communicationService.userProfileId = chatCreator;                                        // sets the user profile id to the chat creator
+    this.chatService.subscribeMsgList();                                                          // subscribes to the message list of the private chat    to-do: do we need that?
+    this.chatService.setPlaceholderName(this.firebaseService.getUserDisplayName(chatCreator));    // sets the placeholder name for the shared inputfield to the chat creator name
   }
 }

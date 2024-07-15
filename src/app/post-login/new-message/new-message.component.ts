@@ -19,9 +19,8 @@ export class NewMessageComponent {
 
   searchText: FormGroup;
   selectedPrivateChatReciver: string = 'BmQs1SSKGoQ0ucvvEUKwM72Bm8K2';  // will get used to store the id of the selected private chat reciver
-  selectedChanId: string = '';         // will get used to store the id of the selected channel
   destinationCollection: string = 'privateChats'; // will get used to store the collection name of the destination (channels or privateChats)
-  destinationDocRef: string = '8Wsag9DHhyc9gDvw2ZtTli1tXpC2'; // will get used to store the document reference of the destination (channel or privateChat)
+  destinationDocRef: string = '8Wsag9DHhyc9gDvw2ZtTli1tXpC2'; // will get used to store the document reference of the destination (channel or privateChat docRef)
 
   constructor(private fb: FormBuilder) {
 		this.searchText = this.fb.group({

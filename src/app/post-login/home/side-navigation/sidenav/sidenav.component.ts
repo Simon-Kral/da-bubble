@@ -65,8 +65,9 @@ export class SidenavComponent {
 	isMouseOveraddChannelFromList = false;
 	isMouseOverAddChannelFromHeadline = false;
   	isMouseOverEditSquare = false;
+
 	/**
-	 * Toggles the expansion state of the channel list.
+	 * Toggles the expansion state of the channel list and updates the icons.
 	 */
 	toggleChannels() {
 		this.chanListExpanded = !this.chanListExpanded;
@@ -74,9 +75,8 @@ export class SidenavComponent {
 	}
 
 	/**
-	 * Toggles the expansion state of the private message list.
+	 * Toggles the expansion state of the private message list and updates the icons.
 	 */
-
 	togglePrivateMessages() {
 		this.privateMsgListExpanded = !this.privateMsgListExpanded;
 		this.updateIcons();
@@ -134,6 +134,7 @@ export class SidenavComponent {
 	}
 
 	/**
+	 * To-do shorten this function ?!?
 	 * Updates the current icon sources based on the state of the menu and mouse hover.
 	 */
 	updateIcons(): void {
@@ -178,7 +179,11 @@ export class SidenavComponent {
 		}
     
 	}
-
+	
+	/**
+ 	* Toggles the visibility of the create channel component.
+ 	* Emits an event to notify listeners about the visibility change.
+ 	*/
 	toggleCreateChannelVisibility() {
 		this.isCreateChannelVisible = !this.isCreateChannelVisible;
 		this.createChannelVisibilityChange.emit(this.isCreateChannelVisible);

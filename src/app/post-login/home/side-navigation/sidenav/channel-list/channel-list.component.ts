@@ -27,14 +27,20 @@ export class ChannelListComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void{
 
   }
- 
+ /**
+ * Handles the click event on a channel.
+ * Sets the relevant chat service properties and subscribes to the message list of the selected channel.
+ *
+ * @param {string} channelName - The name of the channel.
+ * @param {string} chanId - The ID of the channel.
+ */
   handleChannelClick(channelName: string, chanId: string) {
-    this.chatService.mainCollection = 'channels';
-    this.chatService.docRef = chanId;
-    this.selectedChannel= channelName;
-	  this.firebaseService.currentChanId = chanId;
-    this.chatService.subscribeMsgList();
-    this.chatService.setPlaceholderName(channelName);
+    this.chatService.mainCollection = 'channels';            // sets the main collection to 'channels'
+    this.chatService.docRef = chanId;                        // sets the docRef to the channel id       
+    this.selectedChannel= channelName;                       // sets the selected channel name     to-do: do we need that?        
+	  this.firebaseService.currentChanId = chanId;             // sets the current channel id to the channel id    to-do: do we need that?   
+    this.chatService.subscribeMsgList();                     // subscribes to the message list of the channel
+    this.chatService.setPlaceholderName(channelName);        // sets the placeholder name for the shared inputfield to the channel name
   }
 
 }
