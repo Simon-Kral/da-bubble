@@ -39,7 +39,6 @@ export class PrivateMessageComponent implements OnInit{
   handleClickOnMember(memberId: string) {
     this.communicationService.toggleUserProfileVisibility(true);
     this.communicationService.userProfileId = memberId;
-
   }
 
 }
