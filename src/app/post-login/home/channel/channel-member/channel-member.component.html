@@ -17,6 +17,9 @@
           </div>
           </div>
           <span>{{ this.firebaseService.getUserDisplayName(member) }}</span>
+		  @if(this.firebaseService.currentUser.userId === member){
+			<span>(Du)</span>
+		  }
     </div>
     }
 }   
