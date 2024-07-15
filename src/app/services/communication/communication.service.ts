@@ -40,7 +40,6 @@ export class CommunicationService {
 		this.isThreadVisible = !this.isThreadVisible;
 	}
 
-
 	toggleCurrentUserProfileVisibility(visible: boolean) {
 		this.isCurrentUserProfileVisibleSource.next(visible);
 	}
