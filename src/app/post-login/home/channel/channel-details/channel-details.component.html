@@ -19,7 +19,7 @@
 		<div class="channel-name">
 			<div class="top-section">
 				<span>Channel-Name</span>
-				@if(!isChannelNameEditable) {
+				@if(!isChannelNameEditable && this.checkChannelCreator()) {
 				<button
 					[ngClass]="{ 'disable': !this.checkChannelCreator() }"
 					class="save-button pointer"
@@ -27,14 +27,14 @@
 				>
 					Bearbeiten
 				</button>
-				} @else {
+				} @else if(isChannelNameEditable && this.checkChannelCreator()) {
 				<button class="save-button pointer" (click)="saveChannelName()">
 					Speichern
 				</button>
 				}
 			</div>
 			<div class="headline-container">
-				@if(!isChannelNameEditable){
+				@if(!isChannelNameEditable) {
 				<img src="assets/img/icons/hashtag_chat_inactive.png" alt="" />
 				<span>{{ channelToEdit.name }}</span>
 				} @else {
@@ -59,15 +59,14 @@
 	>
 		<div class="top-section">
 			<span>Beschreibung</span>
-			@if(!isChannelDescriptionEditable) {
+			@if(!isChannelDescriptionEditable && this.checkChannelCreator()) {
 			<button
-				[ngClass]="{ 'disable': !this.checkChannelCreator() }"
 				class="save-button pointer"
 				(click)="toggleChannelDescription()"
 			>
 				Bearbeiten
 			</button>
-			} @else {
+			} @else if(isChannelDescriptionEditable && this.checkChannelCreator()) {
 			<button
 				class="save-button pointer"
 				(click)="saveChannelDescription()"
@@ -78,7 +77,7 @@
 		</div>
 
 		<div class="headline-container">
-			@if(!isChannelDescriptionEditable){
+			@if(!isChannelDescriptionEditable) {
 			<span>{{ channelToEdit.description }}</span>
 
 			} @else {
@@ -95,9 +94,9 @@
 		<div class="divider"></div>
 		<div class="top-section d-flex-start">
 			<span>Erstellt von</span>
-			<span class="creator-name-headlight">{{ channelCreatorName }}</span>
+			<span class="creator-name-headlight pointer">{{ channelCreatorName }}</span>
 		</div>
 	</div>
 
-	<button class="exit-button" [disabled]="checkChannelCreator()" (click)="this.firebaseService.leaveChannel()">Channel verlassen</button>
+	<button class="exit-button" [ngClass]="{'d-none': checkChannelCreator()}" (click)="this.firebaseService.leaveChannel()">Channel verlassen</button>
 </div>
