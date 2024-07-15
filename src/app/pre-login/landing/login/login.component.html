@@ -3,7 +3,7 @@
 	Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
 	verwendest.
 </h2>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
 	<div class="input-with-error">
 		<div class="input-box">
 			<img src="assets/img/icons/email.png" alt="" />
@@ -24,9 +24,15 @@
 		<div class="input-box">
 			<img src="assets/img/icons/password.png" alt="" />
 			<input
-				type="text"
+				type="{{ inputType }}"
 				placeholder="Passwort"
 				formControlName="password"
+			/>
+			<img
+				src="{{ visibilityIcon }}"
+				alt=""
+				class="visibility-icon"
+				(click)="changePasswordVisibility()"
 			/>
 		</div>
 		@if (formInvalid(loginForm.controls.password)) { @if

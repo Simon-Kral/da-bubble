@@ -27,6 +27,8 @@ export class LoginComponent {
 		email: ['', [Validators.required, Validators.email]],
 		password: ['', [Validators.required, Validators.minLength(6)]],
 	});
+	visibilityIcon: string = 'assets/img/icons/visibility_off.png';
+	inputType: string = 'password';
 
 	/**
 	 * Submits the login form and attempts to authenticate the user.
@@ -50,6 +52,16 @@ export class LoginComponent {
 		return (
 			formControl.invalid && (formControl.touched || formControl.dirty)
 		);
+	}
+
+	changePasswordVisibility() {
+		if (this.inputType === 'password') {
+			this.inputType = 'text';
+			this.visibilityIcon = 'assets/img/icons/visibility.png';
+		} else {
+			this.inputType = 'password';
+			this.visibilityIcon = 'assets/img/icons/visibility_off.png';
+		}
 	}
 
 	/**

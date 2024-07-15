@@ -2,7 +2,7 @@
 <h2>
 	Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto
 </h2>
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" autocomplete="off">
 	<div class="input-with-error">
 		<div class="input-box">
 			<img src="assets/img/icons/person_filled.png" />
@@ -43,10 +43,16 @@
 		<div class="input-box">
 			<img src="assets/img/icons/password.png" />
 			<input
-				type="text"
+				type="{{ inputType }}"
 				placeholder="Passwort"
 				formControlName="password"
 				autocomplete="off"
+			/>
+			<img
+				src="{{ visibilityIcon }}"
+				alt=""
+				class="visibility-icon"
+				(click)="changePasswordVisibility()"
 			/>
 		</div>
 		@if (formInvalid(registerForm.controls.password)) { @if

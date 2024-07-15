@@ -38,6 +38,8 @@ export class ResetPasswordComponent {
 		},
 		{ validators: comparePasswords }
 	);
+	visibilityIcon: string = 'assets/img/icons/visibility_off.png';
+	inputType: string = 'password';
 
 	/**
 	 * Constructor to initialize the component with the route information.
@@ -76,5 +78,15 @@ export class ResetPasswordComponent {
 		return (
 			formControl.invalid && (formControl.touched || formControl.dirty)
 		);
+	}
+
+	changePasswordVisibility() {
+		if (this.inputType === 'password') {
+			this.inputType = 'text';
+			this.visibilityIcon = 'assets/img/icons/visibility.png';
+		} else {
+			this.inputType = 'password';
+			this.visibilityIcon = 'assets/img/icons/visibility_off.png';
+		}
 	}
 }

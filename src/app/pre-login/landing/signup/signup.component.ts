@@ -29,6 +29,8 @@ export class SignupComponent {
 		password: ['', [Validators.required, Validators.minLength(6)]],
 		privacy: [false, Validators.requiredTrue],
 	});
+	visibilityIcon: string = 'assets/img/icons/visibility_off.png';
+	inputType: string = 'password';
 
 	/**
 	 * Submits the registration form and attempts to register a new user.
@@ -59,6 +61,16 @@ export class SignupComponent {
 		return (
 			formControl.invalid && (formControl.touched || formControl.dirty)
 		);
+	}
+
+	changePasswordVisibility() {
+		if (this.inputType === 'password') {
+			this.inputType = 'text';
+			this.visibilityIcon = 'assets/img/icons/visibility.png';
+		} else {
+			this.inputType = 'password';
+			this.visibilityIcon = 'assets/img/icons/visibility_off.png';
+		}
 	}
 
 	/**

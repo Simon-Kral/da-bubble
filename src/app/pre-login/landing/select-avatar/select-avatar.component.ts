@@ -71,7 +71,9 @@ export class SelectAvatarComponent implements OnInit {
 				updateDoc(userDoc, { photoURL: rawForm.avatar });
 				console.log('avatar was set');
 				console.log('verify your email');
-				this.router.navigateByUrl('/');
+				this.router.navigateByUrl('/').then(() => {
+					location.reload();
+				});
 			},
 			error: (err) => {
 				console.log(err);
