@@ -101,6 +101,13 @@ export class ChannelDetailsComponent {
 		this.closeDetailsWindow();
 	}
 
+	/**
+	 * Opens the user details based on the channel creator.
+	 * If the current user is not the channel creator, it toggles the channel details visibility off,
+	 * toggles the user profile visibility on, and sets the user profile ID to the channel creator's ID.
+	 * If the current user is the channel creator, it toggles the channel details visibility off
+	 * and toggles the current user profile visibility on.
+	 */
 	openUserDetails() {
 		if(!this.checkChannelCreator()) {
 			this.communicationService.toggleChannelDetailsVisibility(false)

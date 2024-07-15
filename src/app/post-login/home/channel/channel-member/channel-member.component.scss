@@ -69,6 +69,10 @@
         span {
             @include Nunito(400, 18px, 24.55px, $black);
         }
+		span:last-child {
+			margin: 0 0 0 -10px;
+		}
+
     }
 
     .add-member {
