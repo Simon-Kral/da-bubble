@@ -13,8 +13,7 @@
 
 	<div class="chat-history">
 		@for (privateNote of firebaseService.privateNoteList; track privateNote.privatNoteId; let index = $index) {
-			@for (msg of chatService.msgList; track msg; let index = $index) {
-				@if (index < 0) {
+				@if (chatService.msgList.length === 0) {
 				<div class="empty-chat-overlay">
 					<div class="top-section">
 						<div class="user-avatar">
@@ -27,7 +26,6 @@
 					</div>
 				</div>
 				}
-			}
 		}
 		<app-chat-history></app-chat-history>
 	</div>
