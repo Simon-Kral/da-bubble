@@ -105,7 +105,7 @@ export class ChannelDetailsComponent {
 		if(!this.checkChannelCreator()) {
 			this.communicationService.toggleChannelDetailsVisibility(false)
 			this.communicationService.toggleUserProfileVisibility(true);
-			this.communicationService.userProfileId = this.firebaseService.currentUser.userId;
+			this.communicationService.userProfileId = this.channelToEdit.createdBy;
 		} else {
 			this.communicationService.toggleChannelDetailsVisibility(false);
 			this.communicationService.toggleCurrentUserProfileVisibility(true);
