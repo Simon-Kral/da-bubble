@@ -1,5 +1,6 @@
 <div class="group-chat-container">
 	@for (channel of this.firebaseService.channelList; track channel; let index= $index) {
+		@if (channel.chanId === chatService.docRef) {
 	<div class="group-display">
 		<div
 			class="active-group-chat"
@@ -33,6 +34,7 @@
 			</button>
 		</div>
 	</div>
+}
 	}
 	<div class="chat-history">
 		@for (channel of firebaseService.channelList; track channel.chanId; let index = $index) {
