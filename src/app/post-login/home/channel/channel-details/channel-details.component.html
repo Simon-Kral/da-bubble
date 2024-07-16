@@ -96,11 +96,10 @@
 				} @else if(isChannelDescriptionEditable &&
 				this.checkChannelCreator()) {
 				<button
-					[ngClass]="{
-						disable:
-							this.form.controls['channelDescription'].invalid ||
-							!this.form.controls['channelDescription'].value
-					}"
+					[disabled]="
+						this.form.controls['channelDescription'].invalid ||
+						!this.form.controls['channelDescription'].value
+					"
 					type="submit"
 					class="save-button pointer"
 				>
@@ -114,28 +113,30 @@
 				<span>{{ channelToEdit.description }}</span>
 
 				} @else {
-					<div class="input-wrapper">
-						<input
-							[ngClass]="{
-								'input-warning':
-									this.form.controls['channelDescription'].invalid &&
-									this.form.controls['channelDescription'].touched &&
-									this.form.controls['channelDescription'].dirty
-							}"
-							class="channel-name-input"
-							type="text"
-							placeholder="Channel-Beschreibung"
-							formControlName="channelDescription"
-						/>
-						@if(this.form.controls['channelDescription'].invalid &&
-						this.form.controls['channelDescription'].touched &&
-						this.form.controls['channelDescription'].dirty) {
-						<span
-							>You need at least 2 letters to save a channel
-							name</span>
-						}
-
-					</div>
+				<div class="input-wrapper">
+					<input
+						[ngClass]="{
+							'input-warning':
+								this.form.controls['channelDescription']
+									.invalid &&
+								this.form.controls['channelDescription']
+									.touched &&
+								this.form.controls['channelDescription'].dirty
+						}"
+						class="channel-name-input"
+						type="text"
+						placeholder="Channel-Beschreibung"
+						formControlName="channelDescription"
+					/>
+					@if(this.form.controls['channelDescription'].invalid &&
+					this.form.controls['channelDescription'].touched &&
+					this.form.controls['channelDescription'].dirty) {
+					<span
+						>You need at least 2 letters to save a channel
+						name</span
+					>
+					}
+				</div>
 				}
 			</div>
 			<div class="divider"></div>

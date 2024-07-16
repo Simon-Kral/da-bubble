@@ -1,4 +1,5 @@
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { from } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Channel } from './../../../../models/channel.class';
 import { FirebaseService } from './../../../../services/firebase/firebase.service';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
@@ -27,11 +28,12 @@ export class ChannelDetailsComponent {
 	currentChannelName = this.firebaseService.getChannelName();
 	form: FormGroup;
 
-	constructor() {
-		this.form = new FormGroup({
-			channelName: new FormControl(this.channelToEdit.name, [Validators.minLength(2)]),
+	constructor(private fb : FormBuilder) {
+		this.form = this.fb.group({
+			channelName: new FormControl(this.channelToEdit.name, [Validators.minLength(2),  Validators.pattern('^[^ ]{0,1}[^\s]{1,}$')]),
 			channelDescription: new FormControl(this.channelToEdit.description, [Validators.minLength(2)]),
 		});
+		this.getCurrentChannel();
 	}
 
 	ngOnInit(): void {
@@ -131,10 +133,10 @@ export class ChannelDetailsComponent {
 	 * Resets the form after saving the data.
 	 */
 	onSubmit() {
-		if(this.form.get('channelName')?.value) {
+		if(this.form.get('channelName')?.value && this.form.value.channelName) {
 			this.saveChannelName(this.form.get('channelName')?.value);			
 		}
-		if(this.form.get('channelDescription')?.value) {
+		if(this.form.get('channelDescription')?.value && this.form.value.channelDesct) {
 			this.saveChannelDescription(this.form.get('channelDescription')?.value);
 		}
 		this.form.reset();

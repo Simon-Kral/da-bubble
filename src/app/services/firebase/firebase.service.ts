@@ -1,3 +1,4 @@
+import { ChatService } from './../chat/chat.service';
 import { Injectable, inject } from '@angular/core';
 import { query,orderBy,where,Firestore,collection,doc,onSnapshot,updateDoc,getDocs } from '@angular/fire/firestore';
 import { AuthService } from '../authentication/auth.service';
@@ -11,6 +12,7 @@ import { PrivateNote } from '../../models/privateNote.class';
 export class FirebaseService {
 	authService = inject(AuthService);
 	firestore: Firestore = inject(Firestore);
+	chatService = inject(ChatService);
 
 	// place for variables
 	currentChanId: string = '';
@@ -468,7 +470,7 @@ subPrivateNoteList() {
 	updateChannelName(channelName: string) {
 		const channelDocRef = doc(
 			this.firestore,
-			`channels/${this.currentChanId}`
+			`channels/${this.chatService.docRef}`
 		);
 		updateDoc(channelDocRef, { name: channelName });
 	}
@@ -480,7 +482,7 @@ subPrivateNoteList() {
 	 */
 	getChannelName() {
 		return this.channelList.find(
-			(channel) => channel.chanId === this.currentChanId
+			(channel) => channel.chanId === this.chatService.docRef
 		)?.name;
 	}
 
@@ -492,7 +494,7 @@ subPrivateNoteList() {
 	updateChannelDescription(channelDescription: string) {
 		const channelDocRef = doc(
 			this.firestore,
-			`channels/${this.currentChanId}`
+			`channels/${this.chatService.docRef}`
 		);
 		updateDoc(channelDocRef, { description: channelDescription });
 	}
@@ -503,11 +505,11 @@ subPrivateNoteList() {
 	leaveChannel() {
 		const channelDocRef = doc(
 			this.firestore,
-			`channels/${this.currentChanId}`
+			`channels/${this.chatService.docRef}`
 		);
 		updateDoc(channelDocRef, {
 			members: this.channelList
-				.find((channel) => channel.chanId === this.currentChanId)
+				.find((channel) => channel.chanId === this.chatService.docRef)
 				?.members.filter((member) => member !== this.currentUserId),
 		});
 	}
@@ -565,7 +567,7 @@ subPrivateNoteList() {
 	addSavedUserToChannel() {
 		const channelDocRef = doc(
 			this.firestore,
-			`channels/${this.currentChanId}`
+			`channels/${this.chatService.docRef}`
 		);
 		updateDoc(channelDocRef, { members: this.combineMembers() });
 		this.savedUserForChannel = [];
@@ -579,7 +581,7 @@ subPrivateNoteList() {
 	 */
 	combineMembers() {
 		const currentChannel = this.channelList.find(
-			(channel) => channel.chanId === this.currentChanId
+			(channel) => channel.chanId === this.chatService.docRef
 		);
 		const currentMembers = currentChannel ? currentChannel.members : [];
 		const uniqueMembers = Array.from(
@@ -595,7 +597,7 @@ subPrivateNoteList() {
 	 */
 	getAllMembers() {
 		const currentChannel = this.channelList.find(
-			(channel) => channel.chanId === this.currentChanId
+			(channel) => channel.chanId === this.chatService.docRef
 		);
 		return currentChannel ? currentChannel.members : [];
 	}
