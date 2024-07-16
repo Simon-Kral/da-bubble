@@ -33,7 +33,7 @@ export class CreateNewChannelComponent {
 
   channelData: FormGroup;
   channel = new Channel();
-  isCreateChannelFormVisible: boolean = false;  // to-do: Change Variable Name
+  isCreateChannelFormVisible: boolean = true;  // to-do: Change Variable Name
   isAddMemberVisibleForm: boolean = true;
 
   showChannelSerach: boolean = false;
@@ -82,21 +82,22 @@ export class CreateNewChannelComponent {
           this.chanNameExists = true;
           return; 
         }
-      
-      let newChannel: Channel = {
-        chanId: '',
-        name: channelValues.channelName,
-        description: channelValues.channelDescription,
-        members: [],
-        createdAt: new Date().getTime(),
-        createdBy: this.firebaseService.currentUserId,
-      };
+
+        let newChannel: Channel = {
+          chanId: '',
+          name: channelValues.channelName,
+          description: channelValues.channelDescription,
+          members: [this.firebaseService.currentUserId],
+          createdAt: new Date().getTime(),
+          createdBy: this.firebaseService.currentUserId,
+        };
 
         const docRef = await this.addChannel(newChannel);
         await this.updateChannelId(docRef);
+        await this.firebaseService.updateUserChannel(docRef)
         this.channelData.reset(); // Reset the form after adding the channel
         this.toggleCreateChannelFormVisibility(); // Close the create channel form
-        this.toggleAddMemberFormVisibility();// Open the add member form
+        this.toggleAddMemberFormVisibility(); // Open the add member form
       } catch (e) {
         console.error('Error adding/updating document: ', e);
       }
@@ -132,7 +133,7 @@ export class CreateNewChannelComponent {
   async updateChannelId(docRef: any): Promise<void> {
     try {
       await updateDoc(doc(this.firestore, 'channels', docRef.id), {
-        id: docRef.id,
+        chanId: docRef.id,
       });
       this.newChanId = docRef.id;
       console.log('Document updated with ID: ', docRef.id);

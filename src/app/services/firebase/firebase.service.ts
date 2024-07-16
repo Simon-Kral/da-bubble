@@ -1,6 +1,6 @@
 import { ChatService } from './../chat/chat.service';
 import { Injectable, inject } from '@angular/core';
-import { query,orderBy,where,Firestore,collection,doc,onSnapshot,updateDoc,getDocs } from '@angular/fire/firestore';
+import { query,orderBy,where,Firestore,collection,doc,onSnapshot,updateDoc,getDocs, arrayUnion } from '@angular/fire/firestore';
 import { AuthService } from '../authentication/auth.service';
 import { Channel } from '../../models/channel.class';
 import { User } from '../../models/user.class';
@@ -342,6 +342,18 @@ export class FirebaseService {
 		const userDocRef = doc(this.firestore,`users/${this.currentUser.userId}`);
 		return updateDoc(userDocRef, { status: newStatus });
 	}
+
+	/**
+   * Adds the provided channel ID to the channels array of the current user in Firestore.
+   * @param {string} chanId - The channel ID to add.
+   * @returns {Promise<void>} A promise that resolves when the channel ID is successfully added.
+   */
+	  updateUserChannel(chanId: string): Promise<void> {
+		const userDocRef = doc(this.firestore, `users/${this.currentUser.userId}`);
+		return updateDoc(userDocRef, {
+		  channels: arrayUnion(chanId) 
+		});
+	  }
 
 	// private chat
 	/**
