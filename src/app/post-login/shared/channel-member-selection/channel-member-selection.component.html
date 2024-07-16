@@ -1,1 +1,17 @@
-<p>channel-member-selection works!</p>
+<div class="member-selection-wrapper">
+
+    @for (member of this.searchService.userSearchResults; track member; let index = $index) {
+        <div class="member-container pointer" (click)="handleClickOnMember(member)">
+            <div class="user-avatar">
+                <img [src]="this.firebaseService.getUserAvatar(member)" alt="User Avatar" />
+            <div class="user-status"
+                [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(member), 'offline': !this.firebaseService.getUserOnlineStatus(member) }">
+              </div>
+            </div>
+              <span>{{ this.firebaseService.getUserDisplayName(member) }}</span>
+        </div>
+    }
+
+
+    
+</div>
