@@ -1,3 +1,4 @@
+import { ChatService } from './../../../../services/chat/chat.service';
 
 import { FormsModule, NgModel } from '@angular/forms';
 import { FirebaseService } from './../../../../services/firebase/firebase.service';
@@ -17,6 +18,7 @@ export class AddMembersToChannelComponent {
 	@Output() addMembersToChannelVisibilityChange = new EventEmitter<boolean>();
 	userName = '';
 	firebaseService = inject(FirebaseService);
+	chatService = inject(ChatService);
 	displayUsers = false;
 
 	closeWindow(): void {
@@ -34,7 +36,7 @@ export class AddMembersToChannelComponent {
 	}
 
 	saveAndCloseAddMembersToChannel(): void {
-		this.firebaseService.addSavedUserToChannel();
+		this.chatService.addSavedUserToChannel();
 		this.closeWindow();
 	}
 

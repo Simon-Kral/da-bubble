@@ -34,6 +34,8 @@ export class ChatService {
   editMessageId:string = '';  // will get used to store the id of the message that should get edited
 
   existingChatRef:string = '';  // will get used to store the ref of the existing chat
+
+  
  
 
   constructor(private router: Router, private route: ActivatedRoute) { 
@@ -361,6 +363,162 @@ async updatePrivateChatId(docRef: any): Promise<void> {
       throw e;
     }
   }
+
+
+
+
+  //code for channels
+
+  		//channel code sorted by get / update operations
+	/**
+	 * Updates the name of the channel.
+	 *
+	 * @param channelName - The new name for the channel.
+	 */
+	updateChannelName(channelName: string) {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.docRef}`
+		);
+		updateDoc(channelDocRef, { name: channelName });
+	}
+
+	/**
+	 * Retrieves the name of the current channel.
+	 * @returns The name of the current channel, or undefined if not found.
+	 * to-do delete code is redundant
+	 */
+	getChannelName() {
+		return this.firebaseService.channelList.find(
+			(channel) => channel.chanId === this.docRef
+		)?.name;
+	}
+
+	/**
+	 * Updates the description of a channel.
+	 *
+	 * @param channelDescription - The new description for the channel.
+	 */
+	updateChannelDescription(channelDescription: string) {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.docRef}`
+		);
+		updateDoc(channelDocRef, { description: channelDescription });
+	}
+
+	/**
+	 * Leaves the current channel by removing the current user from the channel's members list.
+	 */
+	leaveChannel() {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.docRef}`
+		);
+		updateDoc(channelDocRef, {
+			members: this.firebaseService.channelList
+				.find((channel) => channel.chanId === this.docRef)
+				?.members.filter((member) => member !== this.firebaseService.currentUserId),
+		});
+	}
+
+	/**
+	 * Filters the user list based on the provided name and saves the filtered users in the `filteredUsers` array.
+	 * If the name is empty or undefined, the `filteredUsers` array will be cleared.
+	 * to-do move to search service
+	 * @param name - The name to filter the user list by.
+	 */
+	getUserByNameAndSaveInArray(name: string) {
+		if (!name) {
+			this.firebaseService.filteredUsers = [];
+			return;
+		}
+		this.firebaseService.filteredUsers = this.firebaseService.userList.filter((user) => {
+			return (
+				!this.firebaseService.savedUserForChannel.includes(user.userId) &&
+				user.name.toLowerCase().includes(name.toLowerCase())
+			);
+		});
+		console.log('Filtered Users:', this.firebaseService.filteredUsers);
+	}
+
+	/**
+	 * Adds a user to the list of saved users for channels.
+	 * If the user is already in the list, it does nothing.
+	 * @param userId - The ID of the user to add.
+	 * to-do outsource to search service
+	 */
+	addUserToChannelslist(userId: string) {
+		const checkId = this.firebaseService.savedUserForChannel.includes(userId);
+		if (checkId) {
+			return;
+		}
+		this.firebaseService.savedUserForChannel.push(userId);
+		console.log('Saved User:', this.firebaseService.savedUserForChannel);
+	}
+
+	/**
+	 * Deletes a user from the savedUserForChannel array.
+	 * @param userId - The ID of the user to be deleted.
+	 * to-do outsource to search service
+	 */
+	deleteUserFromSavedUserForChannel(userId: string) {
+		this.firebaseService.savedUserForChannel = this.firebaseService.savedUserForChannel.filter(
+			(user) => user !== userId
+		);
+	}
+
+	/**
+	 * Adds the saved user to the current channel.
+	 * to-do might be outsourced to channel component
+	 */
+	addSavedUserToChannel() {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.docRef}`
+		);
+		updateDoc(channelDocRef, { members: this.combineMembers() });
+		this.firebaseService.savedUserForChannel = [];
+	}
+
+	/**
+	 * Combines the members from the current channel and the saved users for the channel.
+	 * Removes any duplicate IDs and returns an array of strings.
+	 * to-do outsource to search service
+	 * @returns {string[]} An array of unique member IDs.
+	 */
+	combineMembers() {
+		const currentChannel = this.firebaseService.channelList.find(
+			(channel) => channel.chanId === this.docRef
+		);
+		const currentMembers = currentChannel ? currentChannel.members : [];
+		const uniqueMembers = Array.from(
+			new Set([...currentMembers, ...this.firebaseService.savedUserForChannel])
+		);
+		return uniqueMembers;
+	}
+
+	/**
+	 * Retrieves all members of the current channel.
+	 * @returns An array of members in the current channel.
+	 * to-do delete code is redundant
+	 */
+	getAllMembers() {
+		const currentChannel = this.firebaseService.channelList.find(
+			(channel) => channel.chanId === this.docRef
+		);
+		return currentChannel ? currentChannel.members : [];
+	}
+
+	/**
+	 * Retrieves a channel by its ID.
+	 * @param channelId - The ID of the channel to retrieve.
+	 * @returns The channel object with the specified ID, or undefined if not found.
+	 * to-do delete code is redundant
+	 */
+	getChannelById(channelId: string) {
+		return this.firebaseService.channelList.find((channel) => channel.chanId === channelId);
+	}
   
 
 }

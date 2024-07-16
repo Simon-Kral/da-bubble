@@ -25,7 +25,7 @@ export class ChannelDetailsComponent {
 	isChannelDescriptionEditable = false;
 	channelToEdit: Channel = new Channel();
 	channelCreatorName = '';
-	currentChannelName = this.firebaseService.getChannelName();
+	currentChannelName = this.chatService.getChannelName();
 	form: FormGroup;
 
 	constructor(private fb : FormBuilder) {
@@ -71,7 +71,7 @@ export class ChannelDetailsComponent {
 	saveChannelDescription(channelDescription: string) {
 		if (this.checkChannelCreator()) {
 			if (channelDescription !== '') {
-				this.firebaseService.updateChannelDescription(
+				this.chatService.updateChannelDescription(
 					channelDescription
 				);
 				this.channelToEdit.description = channelDescription;
@@ -83,7 +83,7 @@ export class ChannelDetailsComponent {
 	saveChannelName(channelName: string) {
 		if (this.checkChannelCreator()) {
 			if (channelName !== '') {
-				this.firebaseService.updateChannelName(channelName);
+				this.chatService.updateChannelName(channelName);
 				this.channelToEdit.name = channelName;
 			}
 		}
@@ -104,7 +104,7 @@ export class ChannelDetailsComponent {
 	}
 
 	leaveChannel() {
-		this.firebaseService.leaveChannel();
+		this.chatService.leaveChannel();
 		this.closeDetailsWindow();
 	}
 

@@ -154,7 +154,7 @@
 			type="button"
 			class="exit-button"
 			[ngClass]="{ 'd-none': checkChannelCreator() }"
-			(click)="this.firebaseService.leaveChannel()"
+			(click)="this.chatService.leaveChannel()"
 		>
 			Channel verlassen
 		</button>
