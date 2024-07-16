@@ -34,6 +34,7 @@
 
 	<div class="chat-history">
 	@for (privateMsg of firebaseService.privateChatList; track privateMsg.privatChatId; let index = $index) {
+		@if (privateMsg.privatChatId === this.chatService.docRef) {
 			@if (chatService.msgList.length === 0) {
 			<div class="empty-chat-overlay">
 				<div class="top-section">
@@ -63,6 +64,7 @@
 			</div>
 			}
 		}
+	}
 		<app-chat-history></app-chat-history>
 	</div>
 	<div class="chat-input">

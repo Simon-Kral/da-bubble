@@ -36,6 +36,7 @@
 	}
 	<div class="chat-history">
 		@for (channel of firebaseService.channelList; track channel.chanId; let index = $index) {
+			@if (channel.chanId === chatService.docRef) {
 				@if (chatService.msgList.length === 0) {
 				<div class="empty-chat-overlay">
 					<div class="top-section">
@@ -46,6 +47,7 @@
 					</div>
 				</div>
 				}
+			}
 		}
 
 		<app-chat-history></app-chat-history>

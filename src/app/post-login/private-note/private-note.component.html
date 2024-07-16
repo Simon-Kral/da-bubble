@@ -13,6 +13,7 @@
 
 	<div class="chat-history">
 		@for (privateNote of firebaseService.privateNoteList; track privateNote.privatNoteId; let index = $index) {
+			@if (privateNote.privatNoteId === this.chatService.docRef) {
 				@if (chatService.msgList.length === 0) {
 				<div class="empty-chat-overlay">
 					<div class="top-section">
@@ -26,6 +27,7 @@
 					</div>
 				</div>
 				}
+			}
 		}
 		<app-chat-history></app-chat-history>
 	</div>
