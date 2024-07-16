@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { ChatService } from '../../../services/chat/chat.service';
 import { CommunicationService } from '../../../services/communication/communication.service';
@@ -18,11 +18,12 @@ interface MsgData {
   templateUrl: './chat-history.component.html',
   styleUrl: './chat-history.component.scss'
 })
-export class ChatHistoryComponent implements OnInit{
+export class ChatHistoryComponent implements OnInit {
 
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
+
 
   // Edit message menu
   editMsgMenu: boolean = false;
@@ -45,7 +46,7 @@ export class ChatHistoryComponent implements OnInit{
   currentMsgData: MsgData;
   newMsgData: FormGroup;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute ) {
     this.currentMsgData =  { text: ''}
 
     this.newMsgData = this.fb.group({
