@@ -1,4 +1,3 @@
-import { from } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Channel } from './../../../../models/channel.class';
 import { FirebaseService } from './../../../../services/firebase/firebase.service';
@@ -6,6 +5,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ChatService } from '../../../../services/chat/chat.service';
 import { CommonModule } from '@angular/common';
 import { CommunicationService } from '../../../../services/communication/communication.service';
+import { doc, updateDoc } from 'firebase/firestore'; // Add this import
 
 @Component({
 	selector: 'app-channel-details',
@@ -23,42 +23,23 @@ export class ChannelDetailsComponent {
 	communicationService = inject(CommunicationService);
 	isChannelNameEditable = false;
 	isChannelDescriptionEditable = false;
-	channelToEdit: Channel = new Channel();
-	channelCreatorName = '';
+	channelToEdit = this.chatService.getCurrentChannel()
 	currentChannelName = this.chatService.getChannelName();
+	channelCreatorName = this.firebaseService.getUserDisplayName(this.channelToEdit?.createdBy || '');	
 	form: FormGroup;
 
 	constructor(private fb : FormBuilder) {
 		this.form = this.fb.group({
-			channelName: new FormControl(this.channelToEdit.name, [Validators.minLength(2),  Validators.pattern('^[^ ]{0,1}[^\s]{1,}$')]),
-			channelDescription: new FormControl(this.channelToEdit.description, [Validators.minLength(2)]),
+			channelName: new FormControl('', [Validators.minLength(2),  Validators.pattern('^[^ ]{0,1}[^\s]{1,}$')]),
+			channelDescription: new FormControl(this.channelToEdit?.description, [Validators.minLength(2)]),
 		});
-		this.getCurrentChannel();
+		
 	}
 
 	ngOnInit(): void {
-		this.getCurrentChannel();
-		this.channelCreatorName = this.firebaseService.getUserDisplayName(
-			this.channelToEdit.createdBy
-		);
+		
 	}
 
-	getCurrentChannel() {
-		for (
-			let index = 0;
-			index < this.firebaseService.channelList.length;
-			index++
-		) {
-			if (
-				this.firebaseService.channelList[index].chanId ===
-				this.firebaseService.currentChanId
-			) {
-				return (this.channelToEdit =
-					this.firebaseService.channelList[index]);
-			}
-		}
-		return null;
-	}
 
 	toggleChannelDescription() {
 		this.isChannelDescriptionEditable = !this.isChannelDescriptionEditable;
@@ -68,77 +49,28 @@ export class ChannelDetailsComponent {
 		this.isChannelNameEditable = !this.isChannelNameEditable;
 	}
 
-	saveChannelDescription(channelDescription: string) {
-		if (this.checkChannelCreator()) {
-			if (channelDescription !== '') {
-				this.chatService.updateChannelDescription(
-					channelDescription
-				);
-				this.channelToEdit.description = channelDescription;
-			}
-		}
-		this.toggleChannelDescription();
-	}
-
-	saveChannelName(channelName: string) {
-		if (this.checkChannelCreator()) {
-			if (channelName !== '') {
-				this.chatService.updateChannelName(channelName);
-				this.channelToEdit.name = channelName;
-			}
-		}
-		this.toggleIsChannelNameEditable();
-	}
-
 	checkChannelCreator() {
 		return (
-			this.channelToEdit.createdBy ===
+			this.channelToEdit?.chanId ===
 			this.firebaseService.currentUser.userId
 		);
 	}
 
-	closeDetailsWindow() {
+	closeChannelDetails() {
 		this.form.reset();
-		this.isChannelDetailsVisible = false;
-		this.isChannelDetailsVisibleChange.emit(this.isChannelDetailsVisible);
+		this.isChannelDetailsVisibleChange.emit(false);
 	}
 
-	leaveChannel() {
-		this.chatService.leaveChannel();
-		this.closeDetailsWindow();
-	}
-
-	/**
-	 * Opens the user details based on the channel creator.
-	 * If the current user is not the channel creator, it toggles the channel details visibility off,
-	 * toggles the user profile visibility on, and sets the user profile ID to the channel creator's ID.
-	 * If the current user is the channel creator, it toggles the channel details visibility off
-	 * and toggles the current user profile visibility on.
+		/**
+	 * Leaves the current channel by removing the current user from the channel's members list.
 	 */
-	openUserDetails() {
-		if(!this.checkChannelCreator()) {
-			this.communicationService.userProfileId = this.channelToEdit.createdBy;
-			this.communicationService.toggleChannelDetailsVisibility(false)
-			this.communicationService.toggleUserProfileVisibility(true);
-		} else {
-			this.communicationService.toggleChannelDetailsVisibility(false);
-			this.communicationService.toggleCurrentUserProfileVisibility(true);
+		leaveChannel() {
+			const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
+			updateDoc(channelDocRef, {
+				members: this.firebaseService.channelList
+					.find((channel) => channel.chanId === this.chatService.docRef)
+					?.members.filter((member) => member !== this.firebaseService.currentUserId),
+			});
 		}
-	}
 
-	/**
-	 * Handles the form submission event.
-	 * If the channel name is provided, it saves the channel name.
-	 * If the channel description is provided, it saves the channel description.
-	 * Resets the form after saving the data.
-	 */
-	onSubmit() {
-		if(this.form.get('channelName')?.value && this.form.value.channelName) {
-			this.saveChannelName(this.form.get('channelName')?.value);			
-		}
-		if(this.form.get('channelDescription')?.value && this.form.value.channelDesct) {
-			this.saveChannelDescription(this.form.get('channelDescription')?.value);
-		}
-		this.form.reset();
-	}
 }

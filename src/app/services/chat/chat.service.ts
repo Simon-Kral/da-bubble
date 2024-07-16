@@ -394,33 +394,15 @@ async updatePrivateChatId(docRef: any): Promise<void> {
 		)?.name;
 	}
 
-	/**
-	 * Updates the description of a channel.
-	 *
-	 * @param channelDescription - The new description for the channel.
-	 */
-	updateChannelDescription(channelDescription: string) {
-		const channelDocRef = doc(
-			this.firestore,
-			`channels/${this.docRef}`
+	getCurrentChannel() {
+		return this.firebaseService.channelList.find(
+			(channel) => channel.chanId === this.docRef
 		);
-		updateDoc(channelDocRef, { description: channelDescription });
+	
 	}
 
-	/**
-	 * Leaves the current channel by removing the current user from the channel's members list.
-	 */
-	leaveChannel() {
-		const channelDocRef = doc(
-			this.firestore,
-			`channels/${this.docRef}`
-		);
-		updateDoc(channelDocRef, {
-			members: this.firebaseService.channelList
-				.find((channel) => channel.chanId === this.docRef)
-				?.members.filter((member) => member !== this.firebaseService.currentUserId),
-		});
-	}
+
+
 
 	/**
 	 * Filters the user list based on the provided name and saves the filtered users in the `filteredUsers` array.

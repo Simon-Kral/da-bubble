@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="form">
+<form  [formGroup]="form">
 	<div class="channel-details">
 		<div class="headline">
 			<div class="left-section">
@@ -6,9 +6,9 @@
 					src="assets/img/icons/hashtag_chat_inactive.png"
 					alt="Hashtag icon"
 				/>
-				<span>{{ channelToEdit.name }}</span>
+				<span>{{ this.chatService.getChannelName() }}</span>
 			</div>
-			<div class="close-btn pointer" (click)="closeDetailsWindow()">
+			<div class="close-btn pointer" (click)="closeChannelDetails()">
 				<img src="assets/img/icons/close_black.png" alt="Close icon" />
 			</div>
 		</div>
@@ -48,7 +48,7 @@
 						src="assets/img/icons/hashtag_chat_inactive.png"
 						alt=""
 					/>
-					<span>{{ channelToEdit.name }}</span>
+					<span>{{ channelToEdit?.name }}</span>
 					} @else {
 					<div class="input-wrapper">
 						<input
@@ -61,7 +61,7 @@
 							formControlName="channelName"
 							class="channel-name-input input-img"
 							type="text"
-							placeholder="{{ channelToEdit.name }}"
+							placeholder="{{ channelToEdit?.name }}"
 						/>
 						@if(this.form.controls['channelName'].invalid &&
 						this.form.controls['channelName'].touched &&
@@ -110,7 +110,7 @@
 
 			<div class="headline-container">
 				@if(!isChannelDescriptionEditable) {
-				<span>{{ channelToEdit.description }}</span>
+				<span>{{ channelToEdit?.description }}</span>
 
 				} @else {
 				<div class="input-wrapper">
@@ -143,7 +143,7 @@
 			<div class="top-section d-flex-start">
 				<span>Erstellt von</span>
 				<span
-					(click)="openUserDetails()"
+					
 					class="creator-name-headlight pointer"
 					>{{ channelCreatorName }}</span
 				>
@@ -154,7 +154,7 @@
 			type="button"
 			class="exit-button"
 			[ngClass]="{ 'd-none': checkChannelCreator() }"
-			(click)="this.chatService.leaveChannel()"
+			(click)="this.leaveChannel()"
 		>
 			Channel verlassen
 		</button>
