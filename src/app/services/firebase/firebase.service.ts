@@ -478,7 +478,7 @@ subPrivateNoteList() {
 	/**
 	 * Retrieves the name of the current channel.
 	 * @returns The name of the current channel, or undefined if not found.
-	 * to-do delete code is redundant
+	 * 
 	 */
 	getChannelName() {
 		return this.channelList.find(
