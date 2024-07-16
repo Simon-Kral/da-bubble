@@ -142,57 +142,7 @@ export class CreateNewChannelComponent {
       throw e;
     }
   }
-/**
- * Adds selected members to the channel.
- * If selected members array contains data it updates the channel document in Firestore.
- * Logs success or error messages accordingly.
- */
-  addMemberToChannel() {
-    if (this.selectedMembers.length > 0 ) {
-      this.updateChannelMembers(this.selectedMembers)
-        .then(() => {
-          console.log('Members added successfully');
-          this.selectedMembers = []; 
-          this.newChanId = '';
-          this.toggleAddMemberFormVisibility(); 
-        })
-        .catch((error) => {
-          console.error('Error adding members: ', error);
-        });
-    } else {
-      console.log('No members selected');
-    }
-  }
-/**
- * Updates the members array of a channel document in Firestore.
- * @param {string} channelId - The ID of the channel document to update.
- * @param {string[]} members - The array of members to add to the channel.
- * @returns {Promise<void>} - A promise that resolves when the document is updated.
- * @throws {Error} - Throws an error if updating the document fails.
- */
-  async updateChannelMembers( members: string[]): Promise<void> {
-    try {
-      const channelDocRef = doc(this.firestore, 'channels', this.newChanId);
-      await updateDoc(channelDocRef, {
-        members: members,
-      });
-      console.log('Document updated with members: ', members);
-    } catch (e) {
-      console.error('Error updating document: ', e);
-      throw e;
-    }
-  }
 
-   /**
-   * Adds a user to the selected members array if not already present.
-   * @param {string} userId - The ID of the user to add.
-   */
-   pushSelectedUserToArray(userId: string) {
-    if (!this.selectedMembers.includes(userId)) {
-      this.selectedMembers.push(userId);
-      console.log('Selected Members:', this.selectedMembers);
-    }
-  }
 
   toggleSearchInput(name: string) {
     if (name === 'channel') {
