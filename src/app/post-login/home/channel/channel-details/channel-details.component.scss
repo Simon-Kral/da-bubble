@@ -138,3 +138,13 @@ input::placeholder, textarea::placeholder {
 	opacity: 0.5;
 	color: $text-gray;
 }
+
+.input-wrapper {
+	padding: 0;
+	width: 100%;
+	border: none;
+	@include dFlex(column, unset, flex-start);
+	>span {
+		@include Nunito(400, 14px, 20px, $rosa-error);
+	}
+}

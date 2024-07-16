@@ -1,4 +1,4 @@
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Channel } from './../../../../models/channel.class';
 import { FirebaseService } from './../../../../services/firebase/firebase.service';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
@@ -9,7 +9,7 @@ import { CommunicationService } from '../../../../services/communication/communi
 @Component({
 	selector: 'app-channel-details',
 	standalone: true,
-	imports: [CommonModule, FormsModule],
+	imports: [CommonModule, FormsModule, ReactiveFormsModule],
 	templateUrl: './channel-details.component.html',
 	styleUrl: './channel-details.component.scss',
 })
@@ -24,9 +24,15 @@ export class ChannelDetailsComponent {
 	isChannelDescriptionEditable = false;
 	channelToEdit: Channel = new Channel();
 	channelCreatorName = '';
-	channelDescription = '';
-	channelName = '';
 	currentChannelName = this.firebaseService.getChannelName();
+	form: FormGroup;
+
+	constructor() {
+		this.form = new FormGroup({
+			channelName: new FormControl(this.channelToEdit.name, [Validators.minLength(2)]),
+			channelDescription: new FormControl(this.channelToEdit.description, [Validators.minLength(2)]),
+		});
+	}
 
 	ngOnInit(): void {
 		this.getCurrentChannel();
@@ -60,23 +66,23 @@ export class ChannelDetailsComponent {
 		this.isChannelNameEditable = !this.isChannelNameEditable;
 	}
 
-	saveChannelDescription() {
+	saveChannelDescription(channelDescription: string) {
 		if (this.checkChannelCreator()) {
-			if (this.channelDescription !== '') {
+			if (channelDescription !== '') {
 				this.firebaseService.updateChannelDescription(
-					this.channelDescription
+					channelDescription
 				);
-				this.channelToEdit.description = this.channelDescription;
+				this.channelToEdit.description = channelDescription;
 			}
 		}
 		this.toggleChannelDescription();
 	}
 
-	saveChannelName() {
+	saveChannelName(channelName: string) {
 		if (this.checkChannelCreator()) {
-			if (this.channelName !== '') {
-				this.firebaseService.updateChannelName(this.channelName);
-				this.channelToEdit.name = this.channelName;
+			if (channelName !== '') {
+				this.firebaseService.updateChannelName(channelName);
+				this.channelToEdit.name = channelName;
 			}
 		}
 		this.toggleIsChannelNameEditable();
@@ -90,8 +96,7 @@ export class ChannelDetailsComponent {
 	}
 
 	closeDetailsWindow() {
-		this.channelDescription = '';
-		this.channelName = '';
+		this.form.reset();
 		this.isChannelDetailsVisible = false;
 		this.isChannelDetailsVisibleChange.emit(this.isChannelDetailsVisible);
 	}
@@ -110,12 +115,28 @@ export class ChannelDetailsComponent {
 	 */
 	openUserDetails() {
 		if(!this.checkChannelCreator()) {
+			this.communicationService.userProfileId = this.channelToEdit.createdBy;
 			this.communicationService.toggleChannelDetailsVisibility(false)
 			this.communicationService.toggleUserProfileVisibility(true);
-			this.communicationService.userProfileId = this.channelToEdit.createdBy;
 		} else {
 			this.communicationService.toggleChannelDetailsVisibility(false);
 			this.communicationService.toggleCurrentUserProfileVisibility(true);
 		}
+	}
+
+	/**
+	 * Handles the form submission event.
+	 * If the channel name is provided, it saves the channel name.
+	 * If the channel description is provided, it saves the channel description.
+	 * Resets the form after saving the data.
+	 */
+	onSubmit() {
+		if(this.form.get('channelName')?.value) {
+			this.saveChannelName(this.form.get('channelName')?.value);			
+		}
+		if(this.form.get('channelDescription')?.value) {
+			this.saveChannelDescription(this.form.get('channelDescription')?.value);
+		}
+		this.form.reset();
 	}
 }

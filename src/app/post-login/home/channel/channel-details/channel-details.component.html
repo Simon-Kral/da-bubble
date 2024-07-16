@@ -1,102 +1,161 @@
-<div class="channel-details">
-	<div class="headline">
-		<div class="left-section">
-			<img
-				src="assets/img/icons/hashtag_chat_inactive.png"
-				alt="Hashtag icon"
-			/>
-			<span>{{ channelToEdit.name }}</span>
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+	<div class="channel-details">
+		<div class="headline">
+			<div class="left-section">
+				<img
+					src="assets/img/icons/hashtag_chat_inactive.png"
+					alt="Hashtag icon"
+				/>
+				<span>{{ channelToEdit.name }}</span>
+			</div>
+			<div class="close-btn pointer" (click)="closeDetailsWindow()">
+				<img src="assets/img/icons/close_black.png" alt="Close icon" />
+			</div>
 		</div>
-		<div class="close-btn pointer" (click)="closeDetailsWindow()">
-			<img src="assets/img/icons/close_black.png" alt="Close icon" />
-		</div>
-	</div>
 
-	<div
-		class="border-style"
-		[ngClass]="{ 'change-channel-name-active': isChannelNameEditable }"
-	>
-		<div class="channel-name">
+		<div
+			class="border-style"
+			[ngClass]="{ 'change-channel-name-active': isChannelNameEditable }"
+		>
+			<div class="channel-name">
+				<div class="top-section">
+					<span>Channel-Name</span>
+					@if(!isChannelNameEditable && this.checkChannelCreator()) {
+					<button
+						class="save-button pointer"
+						(click)="toggleIsChannelNameEditable()"
+					>
+						Bearbeiten
+					</button>
+					} @else if(isChannelNameEditable &&
+					this.checkChannelCreator()) {
+					<button
+						[ngClass]="{
+							disable:
+								this.form.controls['channelName'].invalid ||
+								!this.form.controls['channelName'].value
+						}"
+						type="submit"
+						class="save-button pointer"
+					>
+						Speichern
+					</button>
+					}
+				</div>
+				<div class="headline-container">
+					@if(!isChannelNameEditable) {
+					<img
+						src="assets/img/icons/hashtag_chat_inactive.png"
+						alt=""
+					/>
+					<span>{{ channelToEdit.name }}</span>
+					} @else {
+					<div class="input-wrapper">
+						<input
+							[ngClass]="{
+								'input-warning':
+									this.form.controls['channelName'].invalid &&
+									this.form.controls['channelName'].touched &&
+									this.form.controls['channelName'].dirty
+							}"
+							formControlName="channelName"
+							class="channel-name-input input-img"
+							type="text"
+							placeholder="{{ channelToEdit.name }}"
+						/>
+						@if(this.form.controls['channelName'].invalid &&
+						this.form.controls['channelName'].touched &&
+						this.form.controls['channelName'].dirty) {
+						<span
+							>You need at least 2 letters to save a channel
+							name</span
+						>
+						}
+					</div>
+					}
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="border-style d-flex-col"
+			[ngClass]="{
+				'change-channel-name-active': isChannelDescriptionEditable
+			}"
+		>
 			<div class="top-section">
-				<span>Channel-Name</span>
-				@if(!isChannelNameEditable && this.checkChannelCreator()) {
+				<span>Beschreibung</span>
+				@if(!isChannelDescriptionEditable && this.checkChannelCreator())
+				{
 				<button
-					[ngClass]="{ 'disable': !this.checkChannelCreator() }"
 					class="save-button pointer"
-					(click)="toggleIsChannelNameEditable()"
+					(click)="toggleChannelDescription()"
 				>
 					Bearbeiten
 				</button>
-				} @else if(isChannelNameEditable && this.checkChannelCreator()) {
-				<button class="save-button pointer" (click)="saveChannelName()">
+				} @else if(isChannelDescriptionEditable &&
+				this.checkChannelCreator()) {
+				<button
+					[ngClass]="{
+						disable:
+							this.form.controls['channelDescription'].invalid ||
+							!this.form.controls['channelDescription'].value
+					}"
+					type="submit"
+					class="save-button pointer"
+				>
 					Speichern
 				</button>
 				}
 			</div>
+
 			<div class="headline-container">
-				@if(!isChannelNameEditable) {
-				<img src="assets/img/icons/hashtag_chat_inactive.png" alt="" />
-				<span>{{ channelToEdit.name }}</span>
+				@if(!isChannelDescriptionEditable) {
+				<span>{{ channelToEdit.description }}</span>
+
 				} @else {
-				<input
-					class="channel-name-input input-img"
-					type="text"
-					placeholder="{{ channelToEdit.name }}"
-					minlength="2"
-					required
-					[(ngModel)]="channelName"
-				/>
+					<div class="input-wrapper">
+						<input
+							[ngClass]="{
+								'input-warning':
+									this.form.controls['channelDescription'].invalid &&
+									this.form.controls['channelDescription'].touched &&
+									this.form.controls['channelDescription'].dirty
+							}"
+							class="channel-name-input"
+							type="text"
+							placeholder="Channel-Beschreibung"
+							formControlName="channelDescription"
+						/>
+						@if(this.form.controls['channelDescription'].invalid &&
+						this.form.controls['channelDescription'].touched &&
+						this.form.controls['channelDescription'].dirty) {
+						<span
+							>You need at least 2 letters to save a channel
+							name</span>
+						}
+
+					</div>
 				}
 			</div>
+			<div class="divider"></div>
+			<div class="top-section d-flex-start">
+				<span>Erstellt von</span>
+				<span
+					(click)="openUserDetails()"
+					class="creator-name-headlight pointer"
+					>{{ channelCreatorName }}</span
+				>
+			</div>
 		</div>
+
+		<button
+			type="button"
+			class="exit-button"
+			[ngClass]="{ 'd-none': checkChannelCreator() }"
+			(click)="this.firebaseService.leaveChannel()"
+		>
+			Channel verlassen
+		</button>
 	</div>
-
-	<div
-		class="border-style d-flex-col"
-		[ngClass]="{
-			'change-channel-name-active': isChannelDescriptionEditable
-		}"
-	>
-		<div class="top-section">
-			<span>Beschreibung</span>
-			@if(!isChannelDescriptionEditable && this.checkChannelCreator()) {
-			<button
-				class="save-button pointer"
-				(click)="toggleChannelDescription()"
-			>
-				Bearbeiten
-			</button>
-			} @else if(isChannelDescriptionEditable && this.checkChannelCreator()) {
-			<button
-				class="save-button pointer"
-				(click)="saveChannelDescription()"
-			>
-				Speichern
-			</button>
-			}
-		</div>
-
-		<div class="headline-container">
-			@if(!isChannelDescriptionEditable) {
-			<span>{{ channelToEdit.description }}</span>
-
-			} @else {
-			<input
-				class="channel-name-input"
-				type="text"
-				placeholder="Channel-Beschreibung"
-				minlength="2"
-				required
-				[(ngModel)]="channelDescription"
-			/>
-			}
-		</div>
-		<div class="divider"></div>
-		<div class="top-section d-flex-start">
-			<span>Erstellt von</span>
-			<span (click)="openUserDetails()" class="creator-name-headlight pointer">{{ channelCreatorName }}</span>
-		</div>
-	</div>
-
-	<button class="exit-button" [ngClass]="{'d-none': checkChannelCreator()}" (click)="this.firebaseService.leaveChannel()">Channel verlassen</button>
-</div>
+</form>

@@ -98,7 +98,7 @@ body {
 	border-radius: 25px;
 	border: 1px solid $purple-2;
 	width: 100%;
-	@include Nunito(400, 18px, 24.55px, $text-gray);
+	@include Nunito(400, 18px, 24.55px, $black);
 	outline: none;
 }
 
@@ -239,6 +239,10 @@ body {
 }
 .online-text {
 	color: $online-green !important;
+}
+
+.input-warning {
+	border: 1px solid $rosa-error !important;
 }
 
 .d-none {
