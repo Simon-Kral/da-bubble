@@ -501,6 +501,12 @@ async updatePrivateChatId(docRef: any): Promise<void> {
 	getChannelById(channelId: string) {
 		return this.firebaseService.channelList.find((channel) => channel.chanId === channelId);
 	}
+
+	getChannelNameById(channelId: string) {
+		return this.firebaseService.channelList.find((channel) => channel.chanId === channelId)?.name;
+	}
   
+
+
 
 }
