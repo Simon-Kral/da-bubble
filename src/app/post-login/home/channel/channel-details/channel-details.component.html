@@ -16,7 +16,11 @@
 		class="border-style"
 		[ngClass]="{ 'change-channel-name-active': isChannelNameEditable }"
 	>
-		<form class="channel-name" [formGroup]="channelName" (ngSubmit)="handleNameChange()">
+		<form
+			class="channel-name"
+			[formGroup]="channelName"
+			(ngSubmit)="handleNameChange()"
+		>
 			<div class="top-section">
 				<span>Channel-Name</span>
 				@if(!isChannelNameEditable && this.checkChannelCreator()) {
@@ -29,7 +33,11 @@
 				} @else if(isChannelNameEditable && this.checkChannelCreator())
 				{
 				<button
-					[disabled]="this.channelName.controls['chanName'].invalid"
+					[disabled]="
+						this.channelName.controls['chanName'].invalid ||
+						this.channelName.controls['chanName'].value ===
+							channelToEdit?.name
+					"
 					type="submit"
 					class="save-button pointer"
 				>
@@ -54,7 +62,6 @@
 						class="channel-name-input input-img"
 						type="text"
 						placeholder="{{ channelToEdit?.name }}"
-						
 					/>
 					@if(this.channelName.controls['chanName'].invalid &&
 					this.channelName.controls['chanName'].touched &&
@@ -76,7 +83,11 @@
 			'change-channel-name-active': isChannelDescriptionEditable
 		}"
 	>
-		<form class="d-flex-col" [formGroup]="channelDescription" (ngSubmit)="handleDescriptionChange()">
+		<form
+			class="d-flex-col"
+			[formGroup]="channelDescription"
+			(ngSubmit)="handleDescriptionChange()"
+		>
 			<div class="top-section">
 				<span>Beschreibung</span>
 				@if(!isChannelDescriptionEditable && this.checkChannelCreator())
@@ -92,7 +103,9 @@
 				<button
 					[disabled]="
 						this.channelDescription.controls['chanDescription']
-							.invalid
+							.invalid ||
+						this.channelDescription.controls['chanDescription']
+							.value === channelToEdit?.description
 					"
 					type="submit"
 					class="save-button pointer"
@@ -134,7 +147,7 @@
 					this.channelDescription.controls['chanDescription'].dirty) {
 					<span
 						>You need at least 2 letters to save a channel
-						name</span
+						description</span
 					>
 					}
 				</div>
@@ -143,9 +156,11 @@
 			<div class="divider"></div>
 			<div class="top-section d-flex-start">
 				<span>Erstellt von</span>
-				<span (click)="openUserDetails()" class="creator-name-headlight pointer">{{
-					channelCreatorName
-				}}</span>
+				<span
+					(click)="openUserDetails()"
+					class="creator-name-headlight pointer"
+					>{{ channelCreatorName }}</span
+				>
 			</div>
 		</form>
 	</div>

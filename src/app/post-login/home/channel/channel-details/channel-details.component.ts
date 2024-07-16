@@ -1,4 +1,11 @@
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+	FormBuilder,
+	FormControl,
+	FormGroup,
+	FormsModule,
+	ReactiveFormsModule,
+	Validators,
+} from '@angular/forms';
 import { Channel } from './../../../../models/channel.class';
 import { FirebaseService } from './../../../../services/firebase/firebase.service';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
@@ -23,30 +30,38 @@ export class ChannelDetailsComponent {
 	communicationService = inject(CommunicationService);
 	isChannelNameEditable = false;
 	isChannelDescriptionEditable = false;
-	channelToEdit = this.chatService.getCurrentChannel()
+	channelToEdit: Channel = this.chatService.getCurrentChannel() || new Channel();
 	currentChannelName = this.chatService.getChannelName();
-	channelCreatorName = this.firebaseService.getUserDisplayName(this.channelToEdit?.createdBy || '');	
+	channelCreatorName = this.firebaseService.getUserDisplayName(
+		this.channelToEdit?.createdBy || ''
+	);
 	channelName: FormGroup;
 	channelDescription: FormGroup;
 
-	constructor(private fb : FormBuilder) {
+	constructor(private fb: FormBuilder) {
 		this.channelName = this.fb.group({
-			chanName: new FormControl('', [Validators.minLength(2),Validators.required, Validators.pattern('^[^ ]')]),
+			chanName: new FormControl('', [
+				Validators.minLength(2),
+				Validators.required,
+				Validators.pattern('^(?!\\s\\s).*$'),
+			]),
 		});
 
 		this.channelDescription = this.fb.group({
-			chanDescription: new FormControl('', [Validators.minLength(2),Validators.required, Validators.pattern('^[^ ]')]),
+			chanDescription: new FormControl('', [
+				Validators.minLength(2),
+				Validators.required,
+				Validators.pattern('^(?!\\s\\s).*$'),
+			]),
 		});
 
-		this.channelName.setValue({chanName: this.channelToEdit?.name});
-		this.channelDescription.setValue({chanDescription: this.channelToEdit?.description});
-		
+		this.channelName.setValue({ chanName: this.channelToEdit?.name });
+		this.channelDescription.setValue({
+			chanDescription: this.channelToEdit?.description,
+		});
 	}
 
-	ngOnInit(): void {
-		
-	}
-
+	ngOnInit(): void {}
 
 	toggleChannelDescription() {
 		this.isChannelDescriptionEditable = !this.isChannelDescriptionEditable;
@@ -73,36 +88,50 @@ export class ChannelDetailsComponent {
 	 * Leaves the current channel by removing the current user from the channel's members list.
 	 */
 	leaveChannel() {
-		const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
+		const channelDocRef = doc(
+			this.firebaseService.firestore,
+			`channels/${this.chatService.docRef}`
+		);
 		updateDoc(channelDocRef, {
 			members: this.firebaseService.channelList
 				.find((channel) => channel.chanId === this.chatService.docRef)
-				?.members.filter((member) => member !== this.firebaseService.currentUserId),
+				?.members.filter(
+					(member) => member !== this.firebaseService.currentUserId
+				),
 		});
 	}
 
 	handleDescriptionChange() {
-		const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
-		updateDoc(channelDocRef, {
-			description: this.channelDescription.value.chanDescription,
-		});
+		if (
+			this.channelToEdit?.description !==
+			this.channelDescription.value.chanDescription.trim()
+		) {
+			const channelDocRef = doc(
+				this.firebaseService.firestore,
+				`channels/${this.chatService.docRef}`
+			);
+			updateDoc(channelDocRef, {description: this.channelDescription.value.chanDescription});
+			this.channelToEdit.description = this.channelDescription.value.chanDescription;
+			this.toggleChannelDescription();
+		}
 	}
 
 	handleNameChange() {
-		const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
-		updateDoc(channelDocRef, {
-			name: this.channelName.value.chanName,
-		});
+		if (this.channelToEdit?.name !== this.channelName.value.chanName.trim()) {
+			const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
+			updateDoc(channelDocRef, {name: this.channelName.value.chanName});
+			this.channelToEdit.name = this.channelName.value.chanName;
+			this.toggleIsChannelNameEditable();
+		}
 	}
 
 	openUserDetails() {
-		if(!this.checkChannelCreator()) {
-			this.communicationService.toggleChannelDetailsVisibility(false)
+		if (!this.checkChannelCreator()) {
+			this.communicationService.toggleChannelDetailsVisibility(false);
 			this.communicationService.toggleUserProfileVisibility(true);
 		} else {
 			this.communicationService.toggleChannelDetailsVisibility(false);
 			this.communicationService.toggleCurrentUserProfileVisibility(true);
 		}
 	}
-	
 }
