@@ -94,10 +94,10 @@ export class CreateNewChannelComponent {
 
         const docRef = await this.addChannel(newChannel);
         await this.updateChannelId(docRef);
-        await this.firebaseService.updateUserChannel(docRef)
-        this.channelData.reset(); // Reset the form after adding the channel
-        this.toggleCreateChannelFormVisibility(); // Close the create channel form
-        this.toggleAddMemberFormVisibility(); // Open the add member form
+        await this.firebaseService.updateUserChannel(docRef.id)
+        this.channelData.reset();
+        this.toggleCreateChannelFormVisibility(); 
+        this.toggleAddMemberFormVisibility(); 
       } catch (e) {
         console.error('Error adding/updating document: ', e);
       }
