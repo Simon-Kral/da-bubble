@@ -3,6 +3,10 @@
 button {
 	border: none;
 	background: none;
+	&:disabled {
+		cursor: not-allowed;
+		color:$text-gray;
+	}
 }
 
 .channel-details {

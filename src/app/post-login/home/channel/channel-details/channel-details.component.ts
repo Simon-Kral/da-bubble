@@ -26,12 +26,16 @@ export class ChannelDetailsComponent {
 	channelToEdit = this.chatService.getCurrentChannel()
 	currentChannelName = this.chatService.getChannelName();
 	channelCreatorName = this.firebaseService.getUserDisplayName(this.channelToEdit?.createdBy || '');	
-	form: FormGroup;
+	channelName: FormGroup;
+	channelDescription: FormGroup;
 
 	constructor(private fb : FormBuilder) {
-		this.form = this.fb.group({
-			channelName: new FormControl('', [Validators.minLength(2),  Validators.pattern('^[^ ]{0,1}[^\s]{1,}$')]),
-			channelDescription: new FormControl(this.channelToEdit?.description, [Validators.minLength(2)]),
+		this.channelName = this.fb.group({
+			chanName: new FormControl('', [Validators.minLength(2),Validators.required, Validators.pattern('^[^ ]')]),
+		});
+
+		this.channelDescription = this.fb.group({
+			chanDescription: new FormControl('', [Validators.minLength(2),Validators.required, Validators.pattern('^[^ ]')]),
 		});
 		
 	}
@@ -51,26 +55,51 @@ export class ChannelDetailsComponent {
 
 	checkChannelCreator() {
 		return (
-			this.channelToEdit?.chanId ===
+			this.channelToEdit?.createdBy ===
 			this.firebaseService.currentUser.userId
 		);
 	}
 
 	closeChannelDetails() {
-		this.form.reset();
+		this.channelName.reset();
+		this.channelDescription.reset();
 		this.isChannelDetailsVisibleChange.emit(false);
 	}
 
-		/**
+	/**
 	 * Leaves the current channel by removing the current user from the channel's members list.
 	 */
-		leaveChannel() {
-			const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
-			updateDoc(channelDocRef, {
-				members: this.firebaseService.channelList
-					.find((channel) => channel.chanId === this.chatService.docRef)
-					?.members.filter((member) => member !== this.firebaseService.currentUserId),
-			});
-		}
+	leaveChannel() {
+		const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
+		updateDoc(channelDocRef, {
+			members: this.firebaseService.channelList
+				.find((channel) => channel.chanId === this.chatService.docRef)
+				?.members.filter((member) => member !== this.firebaseService.currentUserId),
+		});
+	}
 
+	handleDescriptionChange() {
+		const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
+		updateDoc(channelDocRef, {
+			description: this.channelDescription.value.chanDescription,
+		});
+	}
+
+	handleNameChange() {
+		const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
+		updateDoc(channelDocRef, {
+			name: this.channelName.value.chanName,
+		});
+	}
+
+	openUserDetails() {
+		if(!this.checkChannelCreator()) {
+			this.communicationService.toggleChannelDetailsVisibility(false)
+			this.communicationService.toggleUserProfileVisibility(true);
+		} else {
+			this.communicationService.toggleChannelDetailsVisibility(false);
+			this.communicationService.toggleCurrentUserProfileVisibility(true);
+		}
+	}
+	
 }
