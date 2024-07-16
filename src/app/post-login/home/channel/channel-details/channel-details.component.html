@@ -54,6 +54,7 @@
 						class="channel-name-input input-img"
 						type="text"
 						placeholder="{{ channelToEdit?.name }}"
+						
 					/>
 					@if(this.channelName.controls['chanName'].invalid &&
 					this.channelName.controls['chanName'].touched &&
@@ -124,6 +125,7 @@
 						type="text"
 						placeholder="Channel-Beschreibung"
 						formControlName="chanDescription"
+						value="{{ channelToEdit?.description }}"
 					/>
 					@if(this.channelDescription.controls['chanDescription'].invalid
 					&&

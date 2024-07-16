@@ -37,6 +37,9 @@ export class ChannelDetailsComponent {
 		this.channelDescription = this.fb.group({
 			chanDescription: new FormControl('', [Validators.minLength(2),Validators.required, Validators.pattern('^[^ ]')]),
 		});
+
+		this.channelName.setValue({chanName: this.channelToEdit?.name});
+		this.channelDescription.setValue({chanDescription: this.channelToEdit?.description});
 		
 	}
 
