@@ -70,23 +70,26 @@
     }
 }
 
+.submit-btn-container {
+    @include dFlex(row, flex-end, center);
+    width: 100%;
 
-.submit-btn {
-    @include dFlex(row, center, center);
-    @include Nunito(700, 18px, 24.55px, $white);
+    .submit-btn {
+        @include dFlex(row, center, center);
+        @include Nunito(700, 18px, 24.55px, $white);
 
-    width: 125px;
-    height: 49px;
-    border-radius: 25px;
-    padding: 12px 25px 12px 25px;
-    background-color: $purple-1;
-    position: absolute;
-    right: 40px;
-    bottom: 40px;
-    border: none;
+        width: 125px;
+        height: 49px;
+        border-radius: 25px;
+        padding: 12px 25px 12px 25px;
+        background-color: $purple-1;
+        right: 40px;
+        bottom: 40px;
+        border: none;
 
-    &:disabled {
-        cursor: not-allowed;
+        &:disabled {
+            cursor: not-allowed;
+        }
     }
 }
 
@@ -127,6 +130,8 @@
         @include dFlex(column, flex-start, flex-start);
         width: 100%;
         gap: 24px;
+        position: relative;
+
         .selector-container {
             @include dFlex(row, flex-start, center);
             width: 100%;
@@ -151,6 +156,7 @@
                 }
             }
         }
+
         .searchbar-container {
             @include dFlex(row, flex-start, center);
             width: 100%;
@@ -178,5 +184,45 @@
 
             }
         }
+
+        .show-selected-users {
+            @include dFlex(row, flex-start, center);
+            flex-wrap: wrap;
+            max-width: 100%;
+            height: fit-content;
+            gap: 8px;
+
+            .added-member {
+                @include dFlex(row, flex-start, center);
+                height: 40px;
+                border-radius: 35px;
+                padding: 3px 20px 3px 20px;
+                gap: 15px;
+                background-color: $bg-color;
+
+                img {
+                    width: 34px;
+                    height: 34px;
+                    border-radius: 50%;
+                }
+
+                span {
+                    @include Nunito(400, 18px, 24.55px, $black);
+                    text-wrap: nowrap;
+                }
+
+                .remove-user {
+                    @include dFlex(row, center, center);
+                    width: 30px;
+                    height: 30px;
+
+                    img {
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
+            }
+        }
+
     }
 }

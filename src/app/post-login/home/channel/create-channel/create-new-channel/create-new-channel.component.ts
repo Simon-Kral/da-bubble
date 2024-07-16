@@ -5,11 +5,12 @@ import { Firestore, collection, onSnapshot, orderBy, query, addDoc, doc, updateD
 import { Channel } from '../../../../../models/channel.class';
 import { FirebaseService } from '../../../../../services/firebase/firebase.service';
 import { SearchService } from '../../../../../services/search/search.service';
+import { ChannelMemberSelectionComponent } from '../../../../shared/channel-member-selection/channel-member-selection.component';
 
 @Component({
   selector: 'app-create-new-channel',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ChannelMemberSelectionComponent],
   templateUrl: './create-new-channel.component.html',
   styleUrl: './create-new-channel.component.scss',
 })
@@ -20,7 +21,7 @@ export class CreateNewChannelComponent {
   
   channelData: FormGroup;
   channel = new Channel();
-  isCreateChannelFormVisible: boolean = true;  // to-do: Change Variable Name
+  isCreateChannelFormVisible: boolean = false;  // to-do: Change Variable Name
   isAddMemberVisibleForm: boolean = true;
 
   showChannelSerach: boolean = false;
@@ -31,8 +32,6 @@ export class CreateNewChannelComponent {
   chanNameExists: boolean = false;
   errorMsgChanExists: string = 'Channel Name existiert bereits!';
   errorMsgChanNameInvalid: string = 'Bitte geben Sie einen gültigen Channel-Namen ein.';
-
-
 
 
   searchText: FormGroup;
@@ -182,9 +181,27 @@ export class CreateNewChannelComponent {
 	 * Retrieves the current search value from the form and
 	 * notifies the SearchService with the updated search text.
 	 */
-	onSearch() {
-    this.searchService.searchText = this.searchText.get('search')?.value;
-    console.log('Searchtext recived by searchService',this.searchService.searchText);
-	}
+    onSearch() {
+      this.searchService.searchText = this.searchText.get('search')?.value || '';
+      console.log('Search text received by searchService:', this.searchService.searchText);
+    
+      this.searchService.searchUsersByName().subscribe(users => {
+        console.log('Search results:', users);
+        console.log('userSearchResults array contains:', this.searchService.userSearchResults);
+      });
+      this.searchService.memberSearchActive = this.searchService.searchText.trim().length > 0;
+    }
+
+    onFocus() {
+      this.searchService.memberSearchActive = true;
+      this.searchService.searchText = this.searchText.get('search')?.value || '';
+      console.log('Search text received by searchService:', this.searchService.searchText);
+    
+      this.searchService.searchUsersByName().subscribe(users => {
+        console.log('Search results:', users);
+        console.log('userSearchResults array contains:', this.searchService.userSearchResults);
+      });
+    }
+
 
 }
