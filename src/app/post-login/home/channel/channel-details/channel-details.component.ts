@@ -111,7 +111,6 @@ export class ChannelDetailsComponent {
 				`channels/${this.chatService.docRef}`
 			);
 			updateDoc(channelDocRef, {description: this.channelDescription.value.chanDescription});
-			this.channelToEdit.description = this.channelDescription.value.chanDescription;
 			this.toggleChannelDescription();
 		}
 	}
@@ -120,7 +119,6 @@ export class ChannelDetailsComponent {
 		if (this.channelToEdit?.name !== this.channelName.value.chanName.trim()) {
 			const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
 			updateDoc(channelDocRef, {name: this.channelName.value.chanName});
-			this.channelToEdit.name = this.channelName.value.chanName;
 			this.toggleIsChannelNameEditable();
 		}
 	}
@@ -133,5 +131,9 @@ export class ChannelDetailsComponent {
 			this.communicationService.toggleChannelDetailsVisibility(false);
 			this.communicationService.toggleCurrentUserProfileVisibility(true);
 		}
+	}
+
+	getChannelDescriptionById(channelId: string) {
+		return this.firebaseService.channelList.find((channel) => channel.chanId === channelId)?.description;
 	}
 }

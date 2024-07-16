@@ -1,7 +1,21 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import {
+	Component,
+	EventEmitter,
+	inject,
+	Input,
+	OnInit,
+	Output,
+} from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {
+	AbstractControl,
+	FormBuilder,
+	FormGroup,
+	ReactiveFormsModule,
+	ValidationErrors,
+	Validators,
+} from '@angular/forms';
 import { Firestore } from '@angular/fire/firestore';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { ChatService } from '../../../services/chat/chat.service';
@@ -208,20 +222,20 @@ export class CurrentUserProfileComponent implements OnInit {
 		});
 	}
 	/**
- 	* Sets a new avatar path based on the provided index from the avatar list.
- 	* @param {number} index - The index of the avatar in the avatar list.
- 	*/
+	 * Sets a new avatar path based on the provided index from the avatar list.
+	 * @param {number} index - The index of the avatar in the avatar list.
+	 */
 	setNewAvatar(index: number) {
 		this.newAvatarPath = this.avatarList[index].path;
 		this.newAvatarChosen = true;
 	}
 
 	/**
- 	* Updates the user's avatar if a new avatar has been chosen.
- 	* Calls the `updateUserAvatar` method from `firebaseService` to update the photoURL in Firestore users collection.
- 	* Toggles the edit avatar overlay upon successful avatar update.
- 	* Logs a warning message if an error occurs during the avatar update. to-do: handle error diffrently?!?
- 	*/
+	 * Updates the user's avatar if a new avatar has been chosen.
+	 * Calls the `updateUserAvatar` method from `firebaseService` to update the photoURL in Firestore users collection.
+	 * Toggles the edit avatar overlay upon successful avatar update.
+	 * Logs a warning message if an error occurs during the avatar update. to-do: handle error diffrently?!?
+	 */
 	updateAvatar() {
 		if (this.newAvatarChosen) {
 			this.firebaseService
@@ -236,10 +250,10 @@ export class CurrentUserProfileComponent implements OnInit {
 	}
 
 	/**
- 	* Handles cancel actions for different modals.
-	* @param {string} name - The name of the modal to cancel ('editProfile' or 'editAvatar').
- 	* @returns {void}
- 	*/
+	 * Handles cancel actions for different modals.
+	 * @param {string} name - The name of the modal to cancel ('editProfile' or 'editAvatar').
+	 * @returns {void}
+	 */
 	onCancel(name: string): void {
 		if (name === 'editProfile') {
 			this.newUserData.reset(this.currentUserData);
@@ -252,26 +266,26 @@ export class CurrentUserProfileComponent implements OnInit {
 	}
 
 	/**
- 	* Toggles the visibility of the current user's profile.
- 	* @param {boolean} visible - Indicates whether to show or hide the current user's profile.
- 	* @returns {void}
- 	*/
+	 * Toggles the visibility of the current user's profile.
+	 * @param {boolean} visible - Indicates whether to show or hide the current user's profile.
+	 * @returns {void}
+	 */
 	toggleCurrentUserProfile(visible: boolean) {
 		this.currentUserProfileVisibilityChange.emit(visible);
 	}
 
 	/**
- 	* Toggles the visibility of the edit profile interface.
- 	* @returns {void}
- 	*/
+	 * Toggles the visibility of the edit profile interface.
+	 * @returns {void}
+	 */
 	toggleEditProfile() {
 		this.isEditProfileVisible = !this.isEditProfileVisible;
 	}
 
 	/**
- 	* Toggles the visibility of the avatar editing interface.
- 	* @returns {void}
- 	*/
+	 * Toggles the visibility of the avatar editing interface.
+	 * @returns {void}
+	 */
 	toggleEditAvatar() {
 		this.isEditAvatarVisible = !this.isEditAvatarVisible;
 	}

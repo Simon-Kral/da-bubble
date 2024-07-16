@@ -5,7 +5,7 @@
 				src="assets/img/icons/hashtag_chat_inactive.png"
 				alt="Hashtag icon"
 			/>
-			<span>{{ this.chatService.getChannelName() }}</span>
+			<span>{{ this.chatService.getChannelNameById(this.chatService.docRef) }}</span>
 		</div>
 		<div class="close-btn pointer" (click)="closeChannelDetails()">
 			<img src="assets/img/icons/close_black.png" alt="Close icon" />
@@ -48,7 +48,7 @@
 			<div class="headline-container">
 				@if(!isChannelNameEditable) {
 				<img src="assets/img/icons/hashtag_chat_inactive.png" alt="" />
-				<span>{{ channelToEdit?.name }}</span>
+				<span>{{ this.chatService.getChannelNameById(this.chatService.docRef) }}</span>
 				} @else {
 				<div class="input-wrapper">
 					<input
@@ -61,14 +61,13 @@
 						formControlName="chanName"
 						class="channel-name-input input-img"
 						type="text"
-						placeholder="{{ channelToEdit?.name }}"
+						placeholder="{{ this.chatService.getChannelNameById(this.chatService.docRef) }}"
 					/>
 					@if(this.channelName.controls['chanName'].invalid &&
 					this.channelName.controls['chanName'].touched &&
 					this.channelName.controls['chanName'].dirty) {
 					<span
-						>You need at least 2 letters to save a channel
-						name</span
+						>Sie benötigen mindestens 2 Buchstaben, um einen Kanalnamen zu speichern</span
 					>
 					}
 				</div>
@@ -117,7 +116,7 @@
 
 			<div class="headline-container">
 				@if(!isChannelDescriptionEditable) {
-				<span>{{ channelToEdit?.description }}</span>
+				<span>{{ this.getChannelDescriptionById(this.chatService.docRef) }}</span>
 
 				} @else {
 				<div class="input-wrapper">
@@ -138,7 +137,7 @@
 						type="text"
 						placeholder="Channel-Beschreibung"
 						formControlName="chanDescription"
-						value="{{ channelToEdit?.description }}"
+						value="{{ this.getChannelDescriptionById(this.chatService.docRef)}}"
 					/>
 					@if(this.channelDescription.controls['chanDescription'].invalid
 					&&
