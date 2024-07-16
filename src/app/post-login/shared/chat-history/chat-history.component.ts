@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { ChatService } from '../../../services/chat/chat.service';
 import { CommunicationService } from '../../../services/communication/communication.service';
@@ -18,7 +18,7 @@ interface MsgData {
   templateUrl: './chat-history.component.html',
   styleUrl: './chat-history.component.scss'
 })
-export class ChatHistoryComponent implements OnInit {
+export class ChatHistoryComponent implements OnInit, OnDestroy {
 
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
@@ -59,19 +59,19 @@ export class ChatHistoryComponent implements OnInit {
     this.route.url.subscribe(urlSegments => {
       const mainCollection = urlSegments[0]?.path; // 'channels' or 'privateChats' or 'privateNotes'
       const id = urlSegments[1]?.path;             // id aka docRef of the channel or privateChat or privateNote
-
       this.chatService.mainCollection = mainCollection;  //sets the main collection
       this.chatService.docRef = id;                     //sets the docRef
-
-      this.chatService.unsubscribeAllLists();     // unsubscribe from all lists before subscribing to the new one
-      this.chatService.subscribeAllLists();       // subscribe to all lists with Msgs 
       console.log('Chat initialisiert', this.chatService.mainCollection, this.chatService.docRef);
   
     });
   }
 
   ngOnInit(): void {
-    
+    this.chatService.subscribeAllLists();
+  }
+
+  ngOnDestroy(): void {
+    this.chatService.unsubscribeAllLists();
   }
 
   openEditMsgMenu() {
