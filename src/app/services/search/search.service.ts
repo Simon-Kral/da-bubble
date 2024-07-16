@@ -20,11 +20,5 @@ export class SearchService {
 
 
 
-  setSearchText(searchValue: string) {
-    this.searchText = searchValue;
-    console.log('Search executed with value:', searchValue);
-  }
-
-
 
 }

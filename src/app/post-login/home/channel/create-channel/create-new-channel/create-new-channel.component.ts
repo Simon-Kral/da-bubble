@@ -1,24 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import {
-  Firestore,
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  addDoc,
-  doc,
-  updateDoc,
-} from '@angular/fire/firestore';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Firestore, collection, onSnapshot, orderBy, query, addDoc, doc, updateDoc } from '@angular/fire/firestore';
 import { Channel } from '../../../../../models/channel.class';
 import { FirebaseService } from '../../../../../services/firebase/firebase.service';
+import { SearchService } from '../../../../../services/search/search.service';
 
 @Component({
   selector: 'app-create-new-channel',
@@ -30,7 +16,8 @@ import { FirebaseService } from '../../../../../services/firebase/firebase.servi
 export class CreateNewChannelComponent {
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
-
+  searchService = inject(SearchService);
+  
   channelData: FormGroup;
   channel = new Channel();
   isCreateChannelFormVisible: boolean = true;  // to-do: Change Variable Name
@@ -44,6 +31,11 @@ export class CreateNewChannelComponent {
   chanNameExists: boolean = false;
   errorMsgChanExists: string = 'Channel Name existiert bereits!';
   errorMsgChanNameInvalid: string = 'Bitte geben Sie einen gültigen Channel-Namen ein.';
+
+
+
+
+  searchText: FormGroup;
 
   // Default icon sources
 	close = '../../../../assets/img/icons/close_black.png';
@@ -63,6 +55,9 @@ export class CreateNewChannelComponent {
       ]),
       channelDescription: new FormControl(''),
     });
+    this.searchText = this.fb.group({
+			search: [''],
+		});
   }
 
   /**
@@ -181,5 +176,15 @@ export class CreateNewChannelComponent {
 	onMouseOut(): void {
     this.currentIconSourceClose = this.close;
   }
+
+  	/**
+	 * Executes when the search input changes.
+	 * Retrieves the current search value from the form and
+	 * notifies the SearchService with the updated search text.
+	 */
+	onSearch() {
+    this.searchService.searchText = this.searchText.get('search')?.value;
+    console.log('Searchtext recived by searchService',this.searchService.searchText);
+	}
 
 }

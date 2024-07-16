@@ -66,10 +66,10 @@
     </div>
 
     @if (showUserSearch) {
-    <form class="searchbar-container">
-      <input class="searchbar" type="text" placeholder="Namen eingeben"
-         />
-    </form>
+      <form class="searchbar-container" [formGroup]="searchText">
+        <input class="searchbar" type="text" placeholder="suche nach bestimmten Usern" formControlName="search"
+          (input)="this.onSearch()" />
+      </form>
   }
 
 

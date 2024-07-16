@@ -34,8 +34,8 @@ export class NewMessageComponent {
  * notifies the SearchService with the updated search text.
  */
 onSearch() {
-  let searchValue = this.searchText.get('search')?.value;
-  this.searchService.setSearchText(searchValue);
+  this.searchService.searchText = this.searchText.get('search')?.value;
+  console.log('Searchtext recived by searchService',this.searchService.searchText);
 }
 
 
