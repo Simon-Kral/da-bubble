@@ -36,7 +36,7 @@
 					[disabled]="
 						this.channelName.controls['chanName'].invalid ||
 						this.channelName.controls['chanName'].value ===
-							channelToEdit?.name
+							channelToEdit.name
 					"
 					type="submit"
 					class="save-button pointer"
@@ -104,7 +104,7 @@
 						this.channelDescription.controls['chanDescription']
 							.invalid ||
 						this.channelDescription.controls['chanDescription']
-							.value === channelToEdit?.description
+							.value === channelToEdit.description
 					"
 					type="submit"
 					class="save-button pointer"

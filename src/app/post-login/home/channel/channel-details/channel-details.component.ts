@@ -110,7 +110,7 @@ export class ChannelDetailsComponent {
 				this.firebaseService.firestore,
 				`channels/${this.chatService.docRef}`
 			);
-			updateDoc(channelDocRef, {description: this.channelDescription.value.chanDescription});
+			updateDoc(channelDocRef, {description: this.channelDescription.value.chanDescription.trim()});
 			this.toggleChannelDescription();
 		}
 	}
@@ -118,7 +118,7 @@ export class ChannelDetailsComponent {
 	handleNameChange() {
 		if (this.channelToEdit?.name !== this.channelName.value.chanName.trim()) {
 			const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
-			updateDoc(channelDocRef, {name: this.channelName.value.chanName});
+			updateDoc(channelDocRef, {name: this.channelName.value.chanName.trim()});
 			this.toggleIsChannelNameEditable();
 		}
 	}
