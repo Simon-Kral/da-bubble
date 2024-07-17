@@ -15,8 +15,8 @@
 		class="search-input"
 		type="text"
 		placeholder="Namen eingeben"
-		(keyup)="this.searchService.searchUsersByName()"
-		(click)="toggleDisplayUsers();"
+		(input)="this.searchService.onSearch(this.userName)"
+		(focus)="this.searchService.onFocus(this.userName)"
 
 	/>
 

@@ -179,33 +179,4 @@ export class CreateNewChannelComponent {
 	onMouseOut(): void {
     this.currentIconSourceClose = this.close;
   }
-
-  	/**
-	 * Executes when the search input changes.
-	 * Retrieves the current search value from the form and
-	 * notifies the SearchService with the updated search text.
-	 */
-    onSearch() {
-      this.searchService.searchText = this.searchText.get('search')?.value || '';
-      console.log('Search text received by searchService:', this.searchService.searchText);
-    
-      this.searchService.searchUsersByName().subscribe(users => {
-        console.log('Search results:', users);
-        console.log('userSearchResults array contains:', this.searchService.userSearchResults);
-      });
-      this.searchService.memberSearchActive = this.searchService.searchText.trim().length > 0;
-    }
-
-    onFocus() {
-      this.searchService.memberSearchActive = true;
-      this.searchService.searchText = this.searchText.get('search')?.value || '';
-      console.log('Search text received by searchService:', this.searchService.searchText);
-    
-      this.searchService.searchUsersByName().subscribe(users => {
-        console.log('Search results:', users);
-        console.log('userSearchResults array contains:', this.searchService.userSearchResults);
-      });
-    }
-
-
 }

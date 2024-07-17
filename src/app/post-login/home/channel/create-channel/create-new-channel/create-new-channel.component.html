@@ -82,7 +82,7 @@
     @if (showUserSearch) {
       <form class="searchbar-container" [formGroup]="searchText">
         <input class="searchbar" type="text" placeholder="suche nach bestimmten Usern" formControlName="search"
-          (input)="onSearch()" (focus)="onFocus()"/>
+          (input)="this.searchService.onSearch(this.searchText.value.search)" (focus)="this.searchService.onFocus(this.searchText.value.search)"/>
 
           @if (this.searchService.memberSearchActive && this.searchService.userSearchResults.length > 0) {
             <div class="user-list">

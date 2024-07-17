@@ -159,4 +159,26 @@ export class SearchService {
 		this.savedUserForChannel.push(userId);
 		console.log('Saved User:', this.savedUserForChannel);
 	}
+
+	onFocus(searchText: string) {
+		this.memberSearchActive = true;
+		this.searchText = searchText || '';
+		console.log('Search text received by searchService:', this.searchText);
+	  
+		this.searchUsersByName().subscribe(users => {
+		  console.log('Search results:', users);
+		  console.log('userSearchResults array contains:', this.userSearchResults);
+		});
+	}
+
+	onSearch(searchText: string) {
+		this.searchText = searchText || '';
+		console.log('Search text received by searchService:', this.searchText);
+	  
+		this.searchUsersByName().subscribe(users => {
+		  console.log('Search results:', users);
+		  console.log('userSearchResults array contains:', this.userSearchResults);
+		});
+		this.memberSearchActive = this.searchText.trim().length > 0;
+	  }
 }
