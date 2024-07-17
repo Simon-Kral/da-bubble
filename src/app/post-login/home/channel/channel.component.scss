@@ -48,6 +48,7 @@
 			position: relative;
 			@include dFlex(row, center, center);
 			gap: 16px;
+
 			> .user-profile-img-container {
 				width: 92px;
 				> .user-profile-img {

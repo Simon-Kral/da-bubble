@@ -166,21 +166,7 @@
             }
 
             input {
-                width: 100%;
-                min-height: 60px;
-                border: solid 1px $light-purple-lines;
-                border-radius: 40px;
-
-                //dosent work - to do
-                &::placeholder {
-                    @include Nunito(400, 18px, 24.55px, $text-gray);
-                    margin-left: 16px;
-                }
-
-                &:focus {
-                    border: solid 1px $purple-1;
-                }
-
+				@include inputField();
             }
             .user-list {
                 position: absolute;

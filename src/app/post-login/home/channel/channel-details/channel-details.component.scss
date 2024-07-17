@@ -85,10 +85,6 @@ button {
 	@include inputField();
 }
 
-input::placeholder, textarea::placeholder {
-	@include Nunito(400, 18px, 24.55px, $text-gray);
-}
-
 .input-img {
 	background-image: url("../../../../../assets/img/icons/hashtag_chat_inactive.png");
 	background-repeat: no-repeat;
