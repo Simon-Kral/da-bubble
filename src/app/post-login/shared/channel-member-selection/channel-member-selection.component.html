@@ -1,5 +1,11 @@
 <div class="member-selection-wrapper">
+    <div class="top-section">
+        <div class="pointer close-icon" (click)="handleClickOnClose()" (mouseover)="onMouseOver()"
+        (mouseout)="onMouseOut()">
+        <img [src]="currentIconSourceClose" alt="close-icon" />
+      </div>
 
+    </div>
     @for (member of this.searchService.userSearchResults; track member; let index = $index) {
         <div class="member-container pointer" (click)="handleClickOnMember(member)">
             <div class="user-avatar">
