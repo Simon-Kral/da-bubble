@@ -48,20 +48,25 @@ export class SearchService {
 	searchUsersByName(): Observable<any[]> {
 		const usersCollection = collection(this.firestore, 'users');
 		const usersQuery = query(
-			usersCollection,
-			where('name', '>=', this.searchText),
-			where('name', '<=', this.searchText + '\uf8ff')
+		  usersCollection,
+		  where('name', '>=', this.searchText),
+		  where('name', '<=', this.searchText + '\uf8ff')
 		);
+	
 		return collectionData(usersQuery, { idField: 'id' }).pipe(
-			map((users) => {
-				this.userSearchResults = [];
-				users.forEach((user) => {
-					this.userSearchResults.push(user.id);
-				});
-				return users;
-			})
+		  map((users) => {
+			this.userSearchResults = [];
+			const filteredUsers = users.filter((user) =>
+			  user.id !== this.firebaseService.currentUserId &&
+			  !this.selectedUser.includes(user.id)
+			);
+			filteredUsers.forEach((user) => {
+			  this.userSearchResults.push(user.id);
+			});
+			return filteredUsers;
+		  })
 		);
-	}
+	  }
 
 	pushSelectedUserToArray(userId: string) {
 		if (!this.selectedUser.includes(userId)) {
