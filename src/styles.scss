@@ -254,3 +254,21 @@ body {
 .d-none {
 	display: none !important;
 }
+
+//custom scrollbar
+::-webkit-scrollbar {
+	width: 6px;
+	border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: $purple-2;
+	border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: $light-purple-lines;
+	border-radius: 8px;
+	margin: 10px;
+}
+
