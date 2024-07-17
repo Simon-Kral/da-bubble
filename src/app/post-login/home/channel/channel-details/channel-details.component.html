@@ -37,8 +37,10 @@
 				<button
 					[disabled]="
 						this.channelName.controls['chanName'].invalid ||
-						this.channelName.controls['chanName'].value ===
-							channelToEdit.name
+						this.channelName.controls['chanName'].value.trim() ===
+							this.chatService.getChannelNameById(
+								this.chatService.docRef
+							)
 					"
 					type="submit"
 					class="save-button pointer"
@@ -78,7 +80,7 @@
 						>Sie benötigen mindestens 2 Buchstaben, um einen
 						Kanalnamen zu speichern</span
 					>
-					} @else if (this.channelName.value.chanName ===
+					} @else if (this.channelName.value.chanName.trim() ===
 					this.chatService.getChannelNameById(this.chatService.docRef))
 					{
 					<span
@@ -120,7 +122,7 @@
 						this.channelDescription.controls['chanDescription']
 							.invalid ||
 						this.channelDescription.controls['chanDescription']
-							.value === channelToEdit?.description
+							.value.trim() === this.getChannelDescriptionById(this.chatService.docRef)
 					"
 					type="submit"
 					class="save-button pointer"
