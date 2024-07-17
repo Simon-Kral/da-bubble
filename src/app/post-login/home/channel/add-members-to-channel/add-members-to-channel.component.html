@@ -7,7 +7,7 @@
 	</div>
 	<div class="current-channel-name">
 		<img src="assets/img/icons/hashtag_chat_active.png" alt="" />
-		<span>{{ chatService.getChannelName() }}</span>
+		<span>{{ this.chatService.getChannelName() }}</span>
 	</div>
 
 	<input
@@ -15,38 +15,22 @@
 		class="search-input"
 		type="text"
 		placeholder="Namen eingeben"
-		(keyup)="searchService.getUserByNameAndSaveInArray(userName)"
-		(click)="toggleDisplayUsers()"
+		(keyup)="this.searchService.searchUsersByName()"
+		(click)="toggleDisplayUsers();"
 	/>
 
 	@if(searchService.savedUserForChannel[0]){
 		<div class="show-user deletable-user">
-			<img src="{{ firebaseService.getUserAvatar(searchService.savedUserForChannel[searchService.savedUserForChannel.length - 1]) }}" alt=""  />
-			<span>{{ firebaseService.getUserDisplayName(searchService.savedUserForChannel[searchService.savedUserForChannel.length - 1]) }}</span>
+			<img src="{{ this.firebaseService.getUserAvatar(this.searchService.savedUserForChannel[this.searchService.savedUserForChannel.length - 1]) }}" alt=""  />
+			<span>{{ this.firebaseService.getUserDisplayName(this.searchService.savedUserForChannel[this.searchService.savedUserForChannel.length - 1]) }}</span>
 			<img class="pointer" (click)="this.chatService" src="assets/img/icons/close_black.png" alt="">
 		</div>
 	}
 
-	<div class="search-results" [ngClass]="{'d-none': !displayUsers}">
-		@if(!searchService.filteredUsers[0]) {
-			 @for(user of firebaseService.userList; track user.userId; let index =$index) {
-				 @if(index < 5) {
-					<div class="show-user pointer" [ngClass]="{'disabled': checkIfUserIsAlreadyAdded(user.userId)}" (click)="searchService.addUserToChannelslist(user.userId)" >
-						<img src="{{ user.photoURL }}" alt="" />
-						<span>{{ user.name }}</span>
-					</div>
-				}
-			}
-		} @else if(searchService.filteredUsers[0]) {
-			@for(user of searchService.filteredUsers; track user.userId; let index =$index) {
-				@if(index < 5) {
-					<div class="show-user pointer" [ngClass]="{'disabled': checkIfUserIsAlreadyAdded(user.userId)}" (click)="searchService.addUserToChannelslist(user.userId)">
-						<img src="{{ user.photoURL }}" alt=""  />
-						<span>{{ user.name }}</span>
-					</div>
-				}
-			}
-		}
-	</div>
-	<button [disabled]="!searchService.savedUserForChannel[0]" (click)="searchService.addSavedUserToChannel()">Hinzufügen</button>
+	@if(this.searchService.memberSearchActive) {
+		<div class="search-results">
+			<app-channel-member-selection></app-channel-member-selection>
+		</div>
+	}
+	<button [disabled]="!this.searchService.savedUserForChannel[0]" (click)="this.searchService.addSavedUserToChannel()">Hinzufügen</button>
 </div>

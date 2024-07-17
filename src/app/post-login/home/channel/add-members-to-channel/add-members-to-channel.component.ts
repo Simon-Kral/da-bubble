@@ -5,12 +5,13 @@ import { FormsModule, NgModel } from '@angular/forms';
 import { FirebaseService } from './../../../../services/firebase/firebase.service';
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
+import { ChannelMemberSelectionComponent } from "../../../shared/channel-member-selection/channel-member-selection.component";
 
 
 @Component({
 	selector: 'app-add-members-to-channel',
 	standalone: true,
-	imports: [FormsModule, NgClass, CommonModule],
+	imports: [FormsModule, NgClass, CommonModule, ChannelMemberSelectionComponent],
 	templateUrl: './add-members-to-channel.component.html',
 	styleUrl: './add-members-to-channel.component.scss',
 })
@@ -23,6 +24,11 @@ export class AddMembersToChannelComponent {
 	searchService = inject(SearchService);
 	displayUsers = false;
 
+	ngOnDestroy(): void {
+		this.searchService.memberSearchActive = false;
+		
+	}
+
 	closeWindow(): void {
 		this.searchService.savedUserForChannel = [];
 		this.userName = '';
@@ -34,7 +40,7 @@ export class AddMembersToChannelComponent {
 	}
 
 	toggleDisplayUsers() {
-		this.displayUsers = !this.displayUsers;
+		this.searchService.memberSearchActive = !this.searchService.memberSearchActive;
 	}
 
 	saveAndCloseAddMembersToChannel(): void {

@@ -59,6 +59,10 @@ export class CreateNewChannelComponent {
 		});
   }
 
+  ngOnDestroy(): void {
+	this.searchService.memberSearchActive = false;
+  }
+
   /**
    * Creates a new channel based on the data in `channelData` form group.
    * If form is valid, it adds a new channel document to Firestore and updates the document with its ID.
