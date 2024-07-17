@@ -5,7 +5,9 @@
 				src="assets/img/icons/hashtag_chat_inactive.png"
 				alt="Hashtag icon"
 			/>
-			<span>{{ this.chatService.getChannelNameById(this.chatService.docRef) }}</span>
+			<span>{{
+				this.chatService.getChannelNameById(this.chatService.docRef)
+			}}</span>
 		</div>
 		<div class="close-btn pointer" (click)="closeChannelDetails()">
 			<img src="assets/img/icons/close_black.png" alt="Close icon" />
@@ -35,8 +37,10 @@
 				<button
 					[disabled]="
 						this.channelName.controls['chanName'].invalid ||
-						this.channelName.controls['chanName'].value ===
-							channelToEdit.name
+						this.channelName.controls['chanName'].value.trim() ===
+							this.chatService.getChannelNameById(
+								this.chatService.docRef
+							)
 					"
 					type="submit"
 					class="save-button pointer"
@@ -48,7 +52,9 @@
 			<div class="headline-container">
 				@if(!isChannelNameEditable) {
 				<img src="assets/img/icons/hashtag_chat_inactive.png" alt="" />
-				<span>{{ this.chatService.getChannelNameById(this.chatService.docRef) }}</span>
+				<span>{{
+					this.chatService.getChannelNameById(this.chatService.docRef)
+				}}</span>
 				} @else {
 				<div class="input-wrapper">
 					<input
@@ -61,13 +67,25 @@
 						formControlName="chanName"
 						class="channel-name-input input-img"
 						type="text"
-						placeholder="{{ this.chatService.getChannelNameById(this.chatService.docRef) }}"
+						placeholder="{{
+							this.chatService.getChannelNameById(
+								this.chatService.docRef
+							)
+						}}"
 					/>
 					@if(this.channelName.controls['chanName'].invalid &&
 					this.channelName.controls['chanName'].touched &&
 					this.channelName.controls['chanName'].dirty) {
 					<span
-						>Sie benötigen mindestens 2 Buchstaben, um einen Kanalnamen zu speichern</span
+						>Sie benötigen mindestens 2 Buchstaben, um einen
+						Kanalnamen zu speichern</span
+					>
+					} @else if (this.channelName.value.chanName.trim() ===
+					this.chatService.getChannelNameById(this.chatService.docRef))
+					{
+					<span
+						>Der Kanalname muss abgeändert werden, um gespeichert
+						werden zu können.</span
 					>
 					}
 				</div>
@@ -104,7 +122,7 @@
 						this.channelDescription.controls['chanDescription']
 							.invalid ||
 						this.channelDescription.controls['chanDescription']
-							.value === channelToEdit.description
+							.value.trim() === this.getChannelDescriptionById(this.chatService.docRef)
 					"
 					type="submit"
 					class="save-button pointer"
@@ -116,7 +134,9 @@
 
 			<div class="headline-container">
 				@if(!isChannelDescriptionEditable) {
-				<span>{{ this.getChannelDescriptionById(this.chatService.docRef) }}</span>
+				<span>{{
+					this.getChannelDescriptionById(this.chatService.docRef)
+				}}</span>
 
 				} @else {
 				<div class="input-wrapper">
@@ -129,24 +149,35 @@
 								this.channelDescription.controls[
 									'chanDescription'
 								].touched &&
-								this.channelDescription.controls[
-									'chanDescription'
-								].dirty
+									this.channelDescription.controls[
+										'chanDescription'
+									].dirty
 						}"
 						class="channel-name-input"
 						type="text"
 						placeholder="Channel-Beschreibung"
 						formControlName="chanDescription"
-						value="{{ this.getChannelDescriptionById(this.chatService.docRef)}}"
+						value="{{
+							this.getChannelDescriptionById(
+								this.chatService.docRef
+							)
+						}}"
 					/>
-					@if(this.channelDescription.controls['chanDescription'].invalid
+					@if(this.channelDescription.value.chanDescription.trim() ===
+					this.getChannelDescriptionById(this.chatService.docRef)){
+					<span
+						>Die Kanalbeschreibung muss abgeändert werden, um
+						gespeichert werden zu können.</span
+					>
+					} @else if
+					(this.channelDescription.controls['chanDescription'].invalid
 					&&
 					this.channelDescription.controls['chanDescription'].touched
 					&&
 					this.channelDescription.controls['chanDescription'].dirty) {
 					<span
-						>You need at least 2 letters to save a channel
-						description</span
+						>Die Kanalbeschreibung muss aus mindestens 2 Buchstaben
+						oder Zahlen bestehen</span
 					>
 					}
 				</div>
