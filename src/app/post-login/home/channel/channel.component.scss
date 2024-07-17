@@ -23,7 +23,8 @@
 				> span {
 					color: $purple-1;
 				}
-				@include btnHover($bg-color);
+				background-color: $bg-color;
+				transition: all 175ms ease-in;
 			}
 			&:active {
 				@include btnActive($bg-color);
