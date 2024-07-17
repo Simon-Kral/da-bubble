@@ -17,6 +17,7 @@
 		placeholder="Namen eingeben"
 		(keyup)="this.searchService.searchUsersByName()"
 		(click)="toggleDisplayUsers();"
+
 	/>
 
 	@if(searchService.savedUserForChannel[0]){

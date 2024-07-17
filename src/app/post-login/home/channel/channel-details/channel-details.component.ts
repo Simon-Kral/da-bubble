@@ -1,3 +1,4 @@
+import { SearchService } from './../../../../services/search/search.service';
 import {
 	FormBuilder,
 	FormControl,
@@ -28,6 +29,7 @@ export class ChannelDetailsComponent {
 	chatService = inject(ChatService);
 	firebaseService = inject(FirebaseService);
 	communicationService = inject(CommunicationService);
+	searchService = inject(SearchService);
 	isChannelNameEditable = false;
 	isChannelDescriptionEditable = false;
 	channelToEdit: Channel = this.chatService.getCurrentChannel() || new Channel();
