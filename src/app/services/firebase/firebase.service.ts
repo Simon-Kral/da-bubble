@@ -33,13 +33,6 @@ export class FirebaseService {
 	unsubscribePrivateChatList: any;
 	unsubscribePrivateNoteList: any;
 
-	// variables for add members to channel component
-	// to-do move to communication & search service
-	selectedUser = '';
-	savedUserForChannel: string[] = [];
-	filteredUsers: User[] = [];  //to-do move to search service
-
-
 	constructor() {
 		this.getCurrentUserId();
 		console.log('Current User ID:', this.currentUserId); // to-do remove after developement is finished

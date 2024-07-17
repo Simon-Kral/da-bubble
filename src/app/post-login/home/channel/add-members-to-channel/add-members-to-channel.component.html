@@ -15,32 +15,32 @@
 		class="search-input"
 		type="text"
 		placeholder="Namen eingeben"
-		(keyup)="chatService.getUserByNameAndSaveInArray(userName)"
+		(keyup)="searchService.getUserByNameAndSaveInArray(userName)"
 		(click)="toggleDisplayUsers()"
 	/>
 
-	@if(firebaseService.savedUserForChannel[0]){
+	@if(searchService.savedUserForChannel[0]){
 		<div class="show-user deletable-user">
-			<img src="{{ firebaseService.getUserAvatar(firebaseService.savedUserForChannel[firebaseService.savedUserForChannel.length - 1]) }}" alt=""  />
-			<span>{{ firebaseService.getUserDisplayName(firebaseService.savedUserForChannel[firebaseService.savedUserForChannel.length - 1]) }}</span>
+			<img src="{{ firebaseService.getUserAvatar(searchService.savedUserForChannel[searchService.savedUserForChannel.length - 1]) }}" alt=""  />
+			<span>{{ firebaseService.getUserDisplayName(searchService.savedUserForChannel[searchService.savedUserForChannel.length - 1]) }}</span>
 			<img class="pointer" (click)="this.chatService" src="assets/img/icons/close_black.png" alt="">
 		</div>
 	}
 
 	<div class="search-results" [ngClass]="{'d-none': !displayUsers}">
-		@if(!firebaseService.filteredUsers[0]) {
+		@if(!searchService.filteredUsers[0]) {
 			 @for(user of firebaseService.userList; track user.userId; let index =$index) {
 				 @if(index < 5) {
-					<div class="show-user pointer" [ngClass]="{'disabled': checkIfUserIsAlreadyAdded(user.userId)}" (click)="chatService.addUserToChannelslist(user.userId)" >
+					<div class="show-user pointer" [ngClass]="{'disabled': checkIfUserIsAlreadyAdded(user.userId)}" (click)="searchService.addUserToChannelslist(user.userId)" >
 						<img src="{{ user.photoURL }}" alt="" />
 						<span>{{ user.name }}</span>
 					</div>
 				}
 			}
-		} @else if(firebaseService.filteredUsers[0]) {
-			@for(user of firebaseService.filteredUsers; track user.userId; let index =$index) {
+		} @else if(searchService.filteredUsers[0]) {
+			@for(user of searchService.filteredUsers; track user.userId; let index =$index) {
 				@if(index < 5) {
-					<div class="show-user pointer" [ngClass]="{'disabled': checkIfUserIsAlreadyAdded(user.userId)}" (click)="chatService.addUserToChannelslist(user.userId)">
+					<div class="show-user pointer" [ngClass]="{'disabled': checkIfUserIsAlreadyAdded(user.userId)}" (click)="searchService.addUserToChannelslist(user.userId)">
 						<img src="{{ user.photoURL }}" alt=""  />
 						<span>{{ user.name }}</span>
 					</div>
@@ -48,5 +48,5 @@
 			}
 		}
 	</div>
-	<button [disabled]="!firebaseService.savedUserForChannel[0]" (click)="chatService.addSavedUserToChannel()">Hinzufügen</button>
+	<button [disabled]="!searchService.savedUserForChannel[0]" (click)="searchService.addSavedUserToChannel()">Hinzufügen</button>
 </div>

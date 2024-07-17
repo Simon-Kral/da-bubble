@@ -1,3 +1,4 @@
+import { SearchService } from './../../../../services/search/search.service';
 import { ChatService } from './../../../../services/chat/chat.service';
 
 import { FormsModule, NgModel } from '@angular/forms';
@@ -19,16 +20,17 @@ export class AddMembersToChannelComponent {
 	userName = '';
 	firebaseService = inject(FirebaseService);
 	chatService = inject(ChatService);
+	searchService = inject(SearchService);
 	displayUsers = false;
 
 	closeWindow(): void {
-		this.firebaseService.savedUserForChannel = [];
+		this.searchService.savedUserForChannel = [];
 		this.userName = '';
 		this.addMembersToChannelVisibilityChange.emit(false);
 	}
 
 	checkIfUserIsAlreadyAdded(userId: string): boolean {
-		return  this.firebaseService.savedUserForChannel.some((user) => user === userId) || this.firebaseService.channelList.some((channel) => channel.members.some((user) => user === userId));
+		return  this.searchService.savedUserForChannel.some((user) => user === userId) || this.firebaseService.channelList.some((channel) => channel.members.some((user) => user === userId));
 	}
 
 	toggleDisplayUsers() {
@@ -36,7 +38,7 @@ export class AddMembersToChannelComponent {
 	}
 
 	saveAndCloseAddMembersToChannel(): void {
-		this.chatService.addSavedUserToChannel();
+		this.searchService.addSavedUserToChannel();
 		this.closeWindow();
 	}
 

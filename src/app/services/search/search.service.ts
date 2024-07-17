@@ -1,66 +1,157 @@
+import { ChatService } from './../chat/chat.service';
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
 import { map, Observable, Subject } from 'rxjs';
-import { query,orderBy,where,Firestore,collection,doc,onSnapshot,updateDoc,getDocs, arrayUnion, collectionData } from '@angular/fire/firestore';
+import {
+	query,
+	orderBy,
+	where,
+	Firestore,
+	collection,
+	doc,
+	onSnapshot,
+	updateDoc,
+	getDocs,
+	arrayUnion,
+	collectionData,
+} from '@angular/fire/firestore';
+import { User } from '../../../app/models/user.class';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class SearchService {
-  firestore: Firestore = inject(Firestore);
-  firebaseService = inject(FirebaseService);
-  constructor() { }
+	firestore: Firestore = inject(Firestore);
+	firebaseService = inject(FirebaseService);
+	chatService = inject(ChatService);
+	constructor() {}
 
-  userSearchResults: string[] = [];
-  channelSearchResults = [];
-  messageSearchResults = [];
+	userSearchResults: string[] = [];
+	channelSearchResults = [];
+	messageSearchResults = [];
 
-  selectedUser: string [] = [];
-  selectedChannel = [];
-  selectedMessage = [];
+	selectedUser: string[] = [];
+	selectedChannel = [];
+	selectedMessage = [];
 
+	searchText = '';
+	memberSearchActive: boolean = false;
 
-  searchText = '';
-  memberSearchActive: boolean = false;
+	savedUserForChannel: string[] = [];
+	filteredUsers: User[] = [];
 
+	/**
+	 * Searches the users collection for documents where the name field matches or contains the search text.
+	 * @param searchText The text to search for in user names.
+	 * @returns An Observable of the search results.
+	 */
+	searchUsersByName(): Observable<any[]> {
+		const usersCollection = collection(this.firestore, 'users');
+		const usersQuery = query(
+			usersCollection,
+			where('name', '>=', this.searchText),
+			where('name', '<=', this.searchText + '\uf8ff')
+		);
+		return collectionData(usersQuery, { idField: 'id' }).pipe(
+			map((users) => {
+				this.userSearchResults = [];
+				users.forEach((user) => {
+					this.userSearchResults.push(user.id);
+				});
+				return users;
+			})
+		);
+	}
 
+	pushSelectedUserToArray(userId: string) {
+		if (!this.selectedUser.includes(userId)) {
+			this.selectedUser.push(userId);
+			console.log('User pushed into Array', this.selectedUser);
+		}
+		this.memberSearchActive = false;
+	}
 
+	removeSelectedUserFromArray(userId: string) {
+		const index = this.selectedUser.indexOf(userId);
+		if (index > -1) {
+			this.selectedUser.splice(index, 1);
+		}
+		console.log('User removed from Array', this.selectedUser);
+	}
 
-  /**
-   * Searches the users collection for documents where the name field matches or contains the search text.
-   * @param searchText The text to search for in user names.
-   * @returns An Observable of the search results.
-   */
-  searchUsersByName(): Observable<any[]> {
-    const usersCollection = collection(this.firestore, 'users');
-    const usersQuery = query(usersCollection, where('name', '>=', this.searchText), where('name', '<=', this.searchText + '\uf8ff'));
-    return collectionData(usersQuery, { idField: 'id' }).pipe(
-      map(users => {
-        this.userSearchResults = [];
-        users.forEach(user => {
-          this.userSearchResults.push(user.id);
-        });
-        return users;
-      })
-    );
-  }
+	/**
+	 * Filters the user list based on the provided name and saves the filtered users in the `filteredUsers` array.
+	 * If the name is empty or undefined, the `filteredUsers` array will be cleared.
+	 * to-do move to search service
+	 * @param name - The name to filter the user list by.
+	 */
+	getUserByNameAndSaveInArray(name: string) {
+		if (!name) {
+			this.filteredUsers = [];
+			return;
+		}
+		this.filteredUsers = this.firebaseService.userList.filter((user) => {
+			return (
+				!this.savedUserForChannel.includes(user.userId) &&
+				user.name.toLowerCase().includes(name.toLowerCase())
+			);
+		});
+		console.log('Filtered Users:', this.filteredUsers);
+	}
 
+	/**
+	 * Combines the members from the current channel and the saved users for the channel.
+	 * Removes any duplicate IDs and returns an array of strings.
+	 * to-do outsource to search service
+	 * @returns {string[]} An array of unique member IDs.
+	 */
+	combineMembers() {
+		const currentChannel = this.firebaseService.channelList.find(
+			(channel) => channel.chanId === this.chatService.docRef
+		);
+		const currentMembers = currentChannel ? currentChannel.members : [];
+		const uniqueMembers = Array.from(
+			new Set([...currentMembers, ...this.savedUserForChannel])
+		);
+		return uniqueMembers;
+	}
 
-  pushSelectedUserToArray(userId: string) {
-    if (!this.selectedUser.includes(userId)) {
-      this.selectedUser.push(userId);
-      console.log('User pushed into Array', this.selectedUser);
-    }
-    this.memberSearchActive = false;
-  }
+	/**
+	 * Adds the saved user to the current channel.
+	 * to-do might be outsourced to channel component
+	 */
+	addSavedUserToChannel() {
+		const channelDocRef = doc(
+			this.firestore,
+			`channels/${this.chatService.docRef}`
+		);
+		updateDoc(channelDocRef, { members: this.combineMembers() });
+		this.savedUserForChannel = [];
+	}
 
-  removeSelectedUserFromArray(userId: string) {
-    const index = this.selectedUser.indexOf(userId);
-    if (index > -1) {
-      this.selectedUser.splice(index, 1);
-    }
-    console.log('User removed from Array', this.selectedUser);
-  }
-  
+	/**
+	 * Deletes a user from the savedUserForChannel array.
+	 * @param userId - The ID of the user to be deleted.
+	 * to-do outsource to search service
+	 */
+	deleteUserFromSavedUserForChannel(userId: string) {
+		this.savedUserForChannel = this.savedUserForChannel.filter(
+			(user) => user !== userId
+		);
+	}
+
+	/**
+	 * Adds a user to the list of saved users for channels.
+	 * If the user is already in the list, it does nothing.
+	 * @param userId - The ID of the user to add.
+	 * to-do outsource to search service
+	 */
+	addUserToChannelslist(userId: string) {
+		const checkId = this.savedUserForChannel.includes(userId);
+		if (checkId) {
+			return;
+		}
+		this.savedUserForChannel.push(userId);
+		console.log('Saved User:', this.savedUserForChannel);
+	}
 }
-
