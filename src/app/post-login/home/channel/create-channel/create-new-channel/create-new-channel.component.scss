@@ -97,7 +97,6 @@
     @include dFlex(column, flex-start, flex-start);
 
     width: 710px;
-    height: 450px;
     background-color: $white;
     border-radius: 30px;
     padding: 40px;
@@ -161,7 +160,7 @@
             @include dFlex(row, flex-start, center);
             width: 100%;
             gap: 24px;
-
+            position: relative;
             span {
                 @include Nunito(400, 18px, 24.55px, $black);
             }
@@ -182,6 +181,11 @@
                     border: solid 1px $purple-1;
                 }
 
+            }
+            .user-list {
+                position: absolute;
+                top: 60px;
+                left: 24px;
             }
         }
 

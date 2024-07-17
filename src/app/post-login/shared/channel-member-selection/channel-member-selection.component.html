@@ -4,7 +4,6 @@
         (mouseout)="onMouseOut()">
         <img [src]="currentIconSourceClose" alt="close-icon" />
       </div>
-
     </div>
     @for (member of this.searchService.userSearchResults; track member; let index = $index) {
         <div class="member-container pointer" (click)="handleClickOnMember(member)">
@@ -16,8 +15,5 @@
             </div>
               <span>{{ this.firebaseService.getUserDisplayName(member) }}</span>
         </div>
-    }
-
-
-    
+    }   
 </div>
