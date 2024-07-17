@@ -26,6 +26,7 @@ export class AddMembersToChannelComponent {
 
 	ngOnDestroy(): void {
 		this.searchService.memberSearchActive = false;
+		this.searchService.savedUserForChannel = [];
 		
 	}
 
