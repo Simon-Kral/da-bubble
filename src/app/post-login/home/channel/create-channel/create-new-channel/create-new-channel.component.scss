@@ -53,23 +53,9 @@
 .submit-btn-container {
 	@include dFlex(row, flex-end, center);
 	width: 100%;
-
+	
 	.submit-btn {
-		@include dFlex(row, center, center);
-		@include Nunito(700, 18px, 24.55px, $white);
-
-		width: 125px;
-		height: 49px;
-		border-radius: 25px;
-		padding: 12px 25px 12px 25px;
-		background-color: $purple-1;
-		right: 40px;
-		bottom: 40px;
-		border: none;
-
-		&:disabled {
-			cursor: not-allowed;
-		}
+		align-self: flex-end;
 	}
 }
 
@@ -213,4 +199,5 @@ input {
 
 button {
 	@include buttonBlue();
+	align-self: flex-end;
 }

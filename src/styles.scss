@@ -60,7 +60,7 @@ body {
 	}
 	&:disabled {
 		background-color: $text-gray;
-		pointer-events: none;
+		cursor: not-allowed;
 	}
 }
 
@@ -83,7 +83,7 @@ body {
 	&:disabled {
 		color: $text-gray;
 		border: $text-gray;
-		pointer-events: none;
+		cursor: not-allowed
 	}
 }
 @mixin errorMessage {
