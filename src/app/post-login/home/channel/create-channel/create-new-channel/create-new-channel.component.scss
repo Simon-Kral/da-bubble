@@ -53,10 +53,6 @@
 .submit-btn-container {
 	@include dFlex(row, flex-end, center);
 	width: 100%;
-	
-	.submit-btn {
-		align-self: flex-end;
-	}
 }
 
 .add-member-wrapper {
