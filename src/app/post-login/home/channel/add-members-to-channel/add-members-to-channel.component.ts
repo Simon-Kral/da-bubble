@@ -26,12 +26,12 @@ export class AddMembersToChannelComponent {
 
 	ngOnDestroy(): void {
 		this.searchService.memberSearchActive = false;
-		this.searchService.savedUserForChannel = [];
+		this.searchService.selectedUser = [];
 		
 	}
 
 	closeWindow(): void {
-		this.searchService.savedUserForChannel = [];
+		this.searchService.selectedUser = [];
 		this.isAddMembersToChannelVisible = false;
 		this.userName = '';
 		this.addMembersToChannelVisibilityChange.emit(false);

@@ -23,28 +23,23 @@
       }
     </div>
 
-	<input
-		[(ngModel)]="userName"
-		class="search-input"
-		type="text"
-		placeholder="Namen eingeben"
-		(input)="this.searchService.onSearch(this.userName)"
-		(focus)="this.searchService.onFocus(this.userName)"
+	<div class="search-container">
+		<input
+			[(ngModel)]="userName"
+			class="search-input"
+			type="text"
+			placeholder="Namen eingeben"
+			(input)="this.searchService.onSearch(this.userName)"
+			(focus)="this.searchService.onFocus(this.userName)"
+	
+		/>
+	
+		@if(this.searchService.memberSearchActive) {
+			<div class="search-results">
+				<app-channel-member-selection></app-channel-member-selection>
+			</div>
+		}
+	</div>
 
-	/>
-
-<!-- 	@if(searchService.savedUserForChannel[0]){
-		<div class="show-user deletable-user">
-			<img src="{{ this.firebaseService.getUserAvatar(this.searchService.savedUserForChannel[this.searchService.savedUserForChannel.length - 1]) }}" alt=""  />
-			<span>{{ this.firebaseService.getUserDisplayName(this.searchService.savedUserForChannel[this.searchService.savedUserForChannel.length - 1]) }}</span>
-			<img class="pointer" (click)="this.chatService" src="assets/img/icons/close_black.png" alt="">
-		</div>
-	} -->
-
-	@if(this.searchService.memberSearchActive) {
-		<div class="search-results">
-			<app-channel-member-selection></app-channel-member-selection>
-		</div>
-	}
 	<button [disabled]="!this.searchService.savedUserForChannel[0]" (click)="this.searchService.addSavedUserToChannel()">Hinzufügen</button>
 </div>
