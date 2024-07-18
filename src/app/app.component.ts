@@ -11,10 +11,8 @@ import { ChatHistoryComponent } from './post-login/shared/chat-history/chat-hist
 import { AuthService } from './services/authentication/auth.service';
 import { ThreadComponent } from './post-login/shared/thread/thread.component';
 import { ChannelMemberComponent } from './post-login/home/channel/channel-member/channel-member.component';
-import { PrivateMessageComponent } from './post-login/private-message/private-message.component';
-import { PrivateNoteComponent } from './post-login/private-note/private-note.component';
 import { ChannelMemberSelectionComponent } from './post-login/shared/channel-member-selection/channel-member-selection.component';
-
+import { ChannelSelectionComponent } from './post-login/home/channel/channel-selection/channel-selection.component';
 import { applyActionCode, User } from '@angular/fire/auth';
 import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 
@@ -35,7 +33,8 @@ import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 		ChatHistoryComponent,
 		ThreadComponent,
 		ChannelMemberComponent,
-		ChannelMemberSelectionComponent
+		ChannelMemberSelectionComponent,
+		ChannelSelectionComponent
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
