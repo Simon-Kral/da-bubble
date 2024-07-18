@@ -222,12 +222,15 @@
 			<button
 				type="submit"
 				class="pointer save-btn"
-				[disabled]="newUserData.invalid"
+				[disabled]="newUserData.invalid || userIsGuest"
 			>
 				Speichern
 			</button>
 		</div>
 	</form>
+	@if (this.userIsGuest) {
+	<span class="error-msg-guest">Als Gast nicht verfügbar</span>
+	}
 </div>
 } @if (isEditAvatarVisible) {
 <div class="current-user-profile-wrapper">

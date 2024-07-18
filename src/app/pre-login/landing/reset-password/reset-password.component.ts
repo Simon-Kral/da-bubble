@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AppComponent } from '../../../app.component';
 
 export let comparePasswords = (
 	control: AbstractControl
@@ -45,7 +46,10 @@ export class ResetPasswordComponent {
 	 * Constructor to initialize the component with the route information.
 	 * @param {ActivatedRoute} route - The activated route to access query parameters.
 	 */
-	constructor(private route: ActivatedRoute) {}
+	constructor(
+		private route: ActivatedRoute,
+		public appComponent: AppComponent
+	) {}
 
 	/**
 	 * Submits the password reset form and resets the user's password using the provided action code.
@@ -59,7 +63,9 @@ export class ResetPasswordComponent {
 				.resetPassword(actionCode, rawForm.password)
 				.subscribe({
 					next: () => {
-						console.log('changed password');
+						this.appComponent.notificateUser(
+							'Passwort zurückgesetzt'
+						);
 						this.router.navigateByUrl('/');
 					},
 					error: (err) => {

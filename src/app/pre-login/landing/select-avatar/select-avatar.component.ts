@@ -12,6 +12,7 @@ import { AuthService } from '../../../services/authentication/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { doc, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
 import { from, map, of } from 'rxjs';
+import { AppComponent } from '../../../app.component';
 
 export const forbiddenAvatarValidator = (
 	control: AbstractControl
@@ -49,6 +50,8 @@ export class SelectAvatarComponent implements OnInit {
 	});
 	avatarSig = signal(this.avatarForm.get('avatar')!.value);
 
+	constructor(public appComponent: AppComponent) {}
+
 	/**
 	 * Initializes the component and subscribes to avatar form value changes.
 	 */
@@ -66,11 +69,10 @@ export class SelectAvatarComponent implements OnInit {
 		const rawForm = this.avatarForm.getRawValue();
 		this.authService.setAvatar(rawForm.avatar).subscribe({
 			next: () => {
+				this.appComponent.notificateUser('E-Mail gesendet');
 				const userId = this.authService.firebaseAuth.currentUser!.uid;
 				const userDoc = doc(this.firestore, 'users', userId);
 				updateDoc(userDoc, { photoURL: rawForm.avatar });
-				console.log('avatar was set');
-				console.log('verify your email');
 				this.router.navigateByUrl('/').then(() => {
 					location.reload();
 				});
