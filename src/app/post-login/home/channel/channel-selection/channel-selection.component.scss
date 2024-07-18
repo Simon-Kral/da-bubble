@@ -2,8 +2,7 @@
 
 .channel-selection-wrapper {
     @include dFlex(column,flex-start, flex-start);
-    width: fit-content;
-    min-width: 267px;
+    width: 267px;
 	  max-height: 330px;
     border-radius: 0px 20px 20px 20px;
     border: solid 1px $light-purple-lines;
@@ -14,9 +13,29 @@
     overflow-y: auto;
     position: relative;
 
+    .top-section {
+      @include dFlex(column,flex-end, flex-end);
+      width: 220px;
+      position: fixed;
+      .close-icon {
+        @include dFlex(row, center, center);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        transition: ease-in-out 0.1s;
+        &:hover {
+            background-color: $bg-color;
+        }
+      }
+    }
+
+
     .channel-container {
         width: fit-content;
         padding: 4px 20px 4px 20px;
+        transition: ease-in-out 0.1s;
+        gap: 15px;
+        z-index: 5;
         &:hover {
             background-color: $bg-color;
             border-radius: 20px;
