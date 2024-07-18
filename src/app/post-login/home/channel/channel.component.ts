@@ -31,6 +31,9 @@ export class ChannelComponent {
 	hashtag = 'assets/img/icons/hashtag_chat_inactive.png';
 	dropdownArrow = 'assets/img/icons/keyboard_arrow_down_inactive.png';
 
+
+
+
 	
 	@Input() isChannelMemberVisible: boolean = false;
 	@Output() channelMemberVisibilityChange = new EventEmitter<boolean>();

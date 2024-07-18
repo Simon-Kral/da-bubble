@@ -88,8 +88,6 @@ export class SearchService {
 	}
 
 	onSearch(searchText: string, channelId: string = '') {
-		
-		
 		this.searchText = searchText || '';
 		console.log('Search text received by searchService:', this.searchText);
 

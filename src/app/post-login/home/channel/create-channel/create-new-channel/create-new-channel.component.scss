@@ -152,10 +152,6 @@
 			span {
 				@include Nunito(400, 18px, 24.55px, $black);
 			}
-
-			input {
-				@include inputField();
-			}
 			.user-list {
 				position: absolute;
 				top: 60px;
@@ -208,4 +204,13 @@
 			}
 		}
 	}
+}
+
+
+input {
+	@include inputField();
+}
+
+button {
+	@include buttonBlue();
 }
