@@ -33,19 +33,21 @@ export class SearchService {
 	messageSearchResults = [];
 
 	selectedUser: string[] = [];
-	selectedChannel: string[] = [];
+	selectedChannel: string = '';
 	selectedMessage = [];
 
 	searchText = '';
 	memberSearchActive: boolean = false;
+	channelSearchActive: boolean = false;
 
-	// to-do what do we need that for?
-	savedUserForChannel: string[] = [];
-	filteredUsers: User[] = [];
+
+
+	// code for user search
 
   /**
    * Searches the users list for documents where the name field matches or contains the search text.
    * @returns An Observable of the search results.
+   * 
    */
   searchUsersByName(channelId: string): Observable<User[]> {
     const filteredUsers = this.firebaseService.userList.filter(
@@ -58,6 +60,54 @@ export class SearchService {
     this.userSearchResults = filteredUsers.map((user) => user.userId);
     return of(filteredUsers);
   }
+
+  onFocus(searchText: string, channelId: string = '') {
+	this.memberSearchActive = true;
+	this.searchText = searchText || '';
+	console.log('Search text received by searchService:', this.searchText);
+
+	this.searchUsersByName(channelId).subscribe((users) => {
+		console.log('Search results:', users);
+		console.log(
+			'userSearchResults array contains:',
+			this.userSearchResults
+		);
+	});
+}
+
+onSearch(searchText: string, channelId: string = '') {
+	this.searchText = searchText || '';
+	console.log('Search text received by searchService:', this.searchText);
+
+	this.searchUsersByName(channelId).subscribe((users) => {
+		console.log('Search results:', users);
+		console.log(
+			'userSearchResults array contains:',
+			this.userSearchResults
+		);
+		
+	});
+	this.memberSearchActive = this.searchText.trim().length > 0;
+}
+
+pushSelectedUserToArray(userId: string) {
+	if (!this.selectedUser.includes(userId)) {
+		this.selectedUser.push(userId);
+		console.log('User pushed into Array', this.selectedUser);
+	}
+	this.memberSearchActive = false;
+}
+
+removeSelectedUserFromArray(userId: string) {
+	const index = this.selectedUser.indexOf(userId);
+	if (index > -1) {
+		this.selectedUser.splice(index, 1);
+	}
+	console.log('User removed from Array', this.selectedUser);
+}
+
+// code for channel search 
+
 
     /**
    * Searches the channel list for documents where the name field matches or contains the search text.
@@ -73,91 +123,53 @@ export class SearchService {
 	  }
 
 
-	onFocus(searchText: string, channelId: string = '') {
-		this.memberSearchActive = true;
+
+	onChannelSerach(searchText: string, channelId: string = '') {
+		this.channelSearchActive = true;
 		this.searchText = searchText || '';
 		console.log('Search text received by searchService:', this.searchText);
 
-		this.searchUsersByName(channelId).subscribe((users) => {
-			console.log('Search results:', users);
+		this.searchChannelsByName().subscribe((channel) => {
+			console.log('Search results:', channel);
 			console.log(
-				'userSearchResults array contains:',
-				this.userSearchResults
+				'channelSearchResults array contains:',
+				this.channelSearchResults
 			);
 		});
 	}
 
-	onSearch(searchText: string, channelId: string = '') {
+	onChannelFocus(searchText: string, channelId: string = '') {
+		this.channelSearchActive = true;
 		this.searchText = searchText || '';
 		console.log('Search text received by searchService:', this.searchText);
 
-		this.searchUsersByName(channelId).subscribe((users) => {
-			console.log('Search results:', users);
+		this.searchChannelsByName().subscribe((channel) => {
+			console.log('Search results:', channel);
 			console.log(
-				'userSearchResults array contains:',
-				this.userSearchResults
+				'channelSearchResults array contains:',
+				this.channelSearchResults
 			);
-			
 		});
-		this.memberSearchActive = this.searchText.trim().length > 0;
 	}
 
-	pushSelectedUserToArray(userId: string) {
-		if (!this.selectedUser.includes(userId)) {
-			this.selectedUser.push(userId);
-			console.log('User pushed into Array', this.selectedUser);
-		}
-		this.memberSearchActive = false;
-	}
 
-	removeSelectedUserFromArray(userId: string) {
-		const index = this.selectedUser.indexOf(userId);
-		if (index > -1) {
-			this.selectedUser.splice(index, 1);
-		}
-		console.log('User removed from Array', this.selectedUser);
-	}
 
-	/**
-	 * Combines the members from the current channel and the saved users for the channel.
-	 * Removes any duplicate IDs and returns an array of strings.
-	 * to-do outsource to search service
-	 * @returns {string[]} An array of unique member IDs.
-	 */
-	combineMembers() {
-		const currentChannel = this.firebaseService.channelList.find(
-			(channel) => channel.chanId === this.chatService.docRef
-		);
-		const currentMembers = currentChannel ? currentChannel.members : [];
-		const uniqueMembers = Array.from(
-			new Set([...currentMembers, ...this.selectedUser])
-		);
-		return uniqueMembers;
-	}
 
-	/**
-	 * Deletes a user from the savedUserForChannel array.
-	 * @param userId - The ID of the user to be deleted.
-	 * to-do outsource to search service
-	 */
-	deleteUserFromSavedUserForChannel(userId: string) {
-		this.savedUserForChannel = this.savedUserForChannel.filter(
-			(user) => user !== userId
-		);
-	}
 
-	/**
-	 * Adds a user to the list of saved users for channels.
-	 * If the user is already in the list, it does nothing.
-	 * @param userId - The ID of the user to add.
-	 * to-do outsource to search service
-	 */
-	addUserToChannelslist(userId: string) {
-		const checkId = this.savedUserForChannel.includes(userId);
-		if (checkId) {
-			return;
-		}
-		this.savedUserForChannel.push(userId);
-		console.log('Saved User:', this.savedUserForChannel);
-	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
