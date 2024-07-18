@@ -17,7 +17,7 @@ import {
 	collectionData,
 } from '@angular/fire/firestore';
 import { User } from '../../../app/models/user.class';
-import { Channel } from '../../models/channel.class';
+
 
 @Injectable({
 	providedIn: 'root',
