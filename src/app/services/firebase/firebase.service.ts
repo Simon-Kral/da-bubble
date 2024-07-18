@@ -7,6 +7,7 @@ import { User } from '../../models/user.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { PrivateNote } from '../../models/privateNote.class';
 import { user } from '@angular/fire/auth';
+import { SearchService } from '../search/search.service';
 @Injectable({
 	providedIn: 'root',
 })
@@ -180,6 +181,26 @@ export class FirebaseService {
 		return !querySnapshot.empty;
 	}
 
+/**
+   * Updates the members array of a specific channel document by adding new user IDs.
+   * @param {string} chanId - The ID of the channel document.
+   * @param {string[]} userIds - An array of user IDs to be added to the members array.
+   * @returns {Promise<void>} A promise that resolves when the update is complete.
+   */
+async updateChannelMembersArray(chanId: string, userIds: string[]): Promise<void> {
+    const channelDocRef = doc(this.firestore, `channels/${chanId}`);
+    try {
+      await updateDoc(channelDocRef, {
+        members: arrayUnion(...userIds)
+      });
+      console.log(`Members array updated for channel ID: ${chanId}`);
+    } catch (e) {
+      console.error(`Error updating members array for channel ID: ${chanId}`, e);
+      throw e;
+    }
+  }
+
+
 	// user code
 	/**
 	 * Subscribes to the users collection in Firestore and updates the user list in real-time.
@@ -336,6 +357,23 @@ export class FirebaseService {
 		const userDocRef = doc(this.firestore,`users/${this.currentUser.userId}`);
 		return updateDoc(userDocRef, { status: newStatus });
 	}
+
+/**
+ * Updates the channels array for multiple users by adding a new channel ID.
+ * 
+ * @param {string[]} userIds - An array of user IDs.
+ * @param {string} chanId - The channel ID to be added.
+ * @returns {Promise<void[]>} A promise that resolves when all updates are complete.
+ */
+updateUserChannelsArray(userIds: string[], chanId: string): Promise<void[]> {
+    const updatePromises = userIds.map(userid => {
+        const userDocRef = doc(this.firestore, `users/${userid}`);
+        return updateDoc(userDocRef, {
+            channels: arrayUnion(chanId),
+        });
+    });
+    return Promise.all(updatePromises);
+}
 	
 	// private chat
 	/**
@@ -430,20 +468,7 @@ subPrivateNoteList() {
 		};
 	}
 	
-	/**
-	 * Updates the channels array of a user by adding a new channel ID.
-	 * 
-	 * @param {string} userid - The ID of the user.
-	 * @param {string} chanId - The ID of the channel to be added.
-	 * @returns {Promise<void>} A promise that resolves when the update is complete.
-	 */
-	updateUserChannelsbyId(userid: string, chanId: string): Promise<void> {
-		const userDocRef = doc(this.firestore, `users/${userid}`);
-		return updateDoc(userDocRef, {
-			channels: arrayUnion(chanId),
-		});
-	}
-	
+
 	
 	
 	
