@@ -27,16 +27,17 @@ export class SearchService {
 	constructor() {}
 
 	userSearchResults: string[] = [];
-	channelSearchResults = [];
+	channelSearchResults: string[] = [];
 	messageSearchResults = [];
 
 	selectedUser: string[] = [];
-	selectedChannel = [];
+	selectedChannel: string[] = [];
 	selectedMessage = [];
 
 	searchText = '';
 	memberSearchActive: boolean = false;
 
+	// to-do what do we need that for?
 	savedUserForChannel: string[] = [];
 	filteredUsers: User[] = [];
 
