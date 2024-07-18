@@ -98,7 +98,7 @@ export class SearchService {
 		);
 		const currentMembers = currentChannel ? currentChannel.members : [];
 		const uniqueMembers = Array.from(
-			new Set([...currentMembers, ...this.savedUserForChannel])
+			new Set([...currentMembers, ...this.selectedUser])
 		);
 		return uniqueMembers;
 	}
@@ -113,7 +113,7 @@ export class SearchService {
 			`channels/${this.chatService.docRef}`
 		);
 		updateDoc(channelDocRef, { members: this.combineMembers() });
-		this.savedUserForChannel = [];
+		this.selectedUser = [];
 	}
 
 	/**

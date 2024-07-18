@@ -41,5 +41,5 @@
 		}
 	</div>
 
-	<button [disabled]="!this.searchService.savedUserForChannel[0]" (click)="this.searchService.addSavedUserToChannel()">Hinzufügen</button>
+	<button [disabled]="!this.searchService.selectedUser.length" (click)="this.searchService.addSavedUserToChannel()">Hinzufügen</button>
 </div>
