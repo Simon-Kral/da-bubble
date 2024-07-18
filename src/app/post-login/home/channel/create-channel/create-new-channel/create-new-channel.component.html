@@ -63,14 +63,14 @@
   }
   
     @if (showChannelSerach) {
-    <form class="searchbar-container">
-      <input class="searchbar" type="text" 
-      placeholder="Channel Namen eingeben"
-      (focus)="this.searchService.onChannelFocus(this.searchText.value.search)" 
-      (input)="this.searchService.onChannelSerach(this.searchText.value.search)"
-      />
+      <form class="searchbar-container" [formGroup]="searchText">
+        <input class="searchbar" type="text" placeholder="Channel Namen eingeben"
+          formControlName="searchText" 
+          (focus)="searchService.onChannelFocus()"
+          (input)="searchService.onChannelSearch(searchText.get('searchText')?.value || '')" />
+      
 
-      @if (searchService.channelSearchActive) {
+      @if (searchService.channelSearchActive && searchService.channelSearchResults.length > 0) {
         <div class="channel-list">
             <app-channel-selection></app-channel-selection>
           </div>
@@ -103,8 +103,10 @@
 
     @if (showUserSearch) {
       <form class="searchbar-container" [formGroup]="searchText">
-        <input class="searchbar" type="text" placeholder="Benutzer Namen eingeben" formControlName="search"
-          (input)="this.searchService.onSearch(this.searchText.value.search)" (focus)="this.searchService.onFocus(this.searchText.value.search)"/>
+        <input class="searchbar" type="text" placeholder="Benutzer Namen eingeben" 
+          formControlName="searchText" 
+          (input)="searchService.onSearch(searchText.get('searchText')?.value || '')"
+          (focus)="searchService.onFocus(searchText.get('searchText')?.value || '')" />
 
           @if (this.searchService.memberSearchActive && this.searchService.userSearchResults.length > 0) {
             <div class="user-list">

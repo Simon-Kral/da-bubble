@@ -47,7 +47,7 @@ export class SearchService {
   /**
    * Searches the users list for documents where the name field matches or contains the search text.
    * @returns An Observable of the search results.
-   * 
+   *  to-do why channelId ?????????
    */
   searchUsersByName(channelId: string): Observable<User[]> {
     const filteredUsers = this.firebaseService.userList.filter(
@@ -61,6 +61,7 @@ export class SearchService {
     return of(filteredUsers);
   }
 
+  // to-do why channelId ?????????
   onFocus(searchText: string, channelId: string = '') {
 	this.memberSearchActive = true;
 	this.searchText = searchText || '';
@@ -75,6 +76,7 @@ export class SearchService {
 	});
 }
 
+// to-do why channelId ?????????
 onSearch(searchText: string, channelId: string = '') {
 	this.searchText = searchText || '';
 	console.log('Search text received by searchService:', this.searchText);
@@ -115,61 +117,37 @@ removeSelectedUserFromArray(userId: string) {
    */
 	searchChannelsByName(): Observable<Channel[]> {
 		const filteredChannels = this.firebaseService.channelList.filter(
-		  (channel) =>
-			channel.name.toLowerCase().includes(this.searchText.toLowerCase())
-		);
-		this.channelSearchResults = filteredChannels.map((channel) => channel.chanId);
-		return of(filteredChannels);
-	  }
+			(channel) =>
+				channel.name.toLowerCase().includes(this.searchText.toLowerCase()) 
+				&& channel.chanId !== this.selectedChannel
+			  
+		  );
+		  this.channelSearchResults = filteredChannels.map((channel) => channel.chanId);
+		  return of(filteredChannels);
+		}
+	  
 
 
 
-	onChannelSerach(searchText: string, channelId: string = '') {
-		this.channelSearchActive = true;
-		this.searchText = searchText || '';
-		console.log('Search text received by searchService:', this.searchText);
+		onChannelSearch(searchText: string) {
+			this.channelSearchActive = true;
+			this.searchText = searchText.trim();
+			console.log('Search text received by searchService:', this.searchText);
+		  
+			this.searchChannelsByName().subscribe((channels) => {
+			  console.log('Search results:', channels);
+			  console.log('channelSearchResults array contains:', this.channelSearchResults);
+			});
+		  }
 
-		this.searchChannelsByName().subscribe((channel) => {
-			console.log('Search results:', channel);
-			console.log(
-				'channelSearchResults array contains:',
-				this.channelSearchResults
-			);
-		});
-	}
 
-	onChannelFocus(searchText: string, channelId: string = '') {
-		this.channelSearchActive = true;
-		this.searchText = searchText || '';
-		console.log('Search text received by searchService:', this.searchText);
-
-		this.searchChannelsByName().subscribe((channel) => {
-			console.log('Search results:', channel);
-			console.log(
-				'channelSearchResults array contains:',
-				this.channelSearchResults
-			);
-		});
+		  onChannelFocus() {
+			this.channelSearchActive = true;
+			  this.searchChannelsByName().subscribe((channels) => {
+				console.log('All channels:', channels);
+				console.log('channelSearchResults array contains:', this.channelSearchResults);
+			  });
+			} 
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}

@@ -38,6 +38,7 @@ export class CreateNewChannelComponent {
 
   searchText: FormGroup;
 
+
   selectedMembers: string[] = [];
 
   // Default icon sources
@@ -59,8 +60,8 @@ export class CreateNewChannelComponent {
       channelDescription: new FormControl(''),
     });
     this.searchText = this.fb.group({
-			search: [''],
-		});
+      searchText: [''],
+    });
     this.searchService.selectedUser = [];
     this.searchService.selectedChannel = '';
   }
@@ -152,9 +153,11 @@ export class CreateNewChannelComponent {
       this.showChannelSerach = !this.showChannelSerach;
       this.showUserSearch = false;
       this.searchService.selectedUser = [];
+      this.searchText.reset();
     } else if (name === 'user') {
       this.showUserSearch = !this.showUserSearch;
       this.showChannelSerach = false;
+      this.searchText.reset();
     }
   }
 
