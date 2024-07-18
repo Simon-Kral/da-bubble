@@ -56,6 +56,8 @@
 		<button class="button-blue" type="submit" [disabled]="!loginForm.valid">
 			Anmelden
 		</button>
-		<button class="button-white">Gäste-Login</button>
+		<button class="button-white" type="button" (click)="loginAsGuest()">
+			Gäste-Login
+		</button>
 	</div>
 </form>

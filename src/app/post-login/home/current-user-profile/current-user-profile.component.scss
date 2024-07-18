@@ -196,6 +196,10 @@
 	}
 }
 
+.error-msg-guest {
+	@include Nunito(400, 14px, 19.1px, $rosa-error);
+}
+
 // edit user avatar
 .avatar-container {
 	@include dFlex(column, center, center);
