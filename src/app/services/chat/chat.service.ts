@@ -383,17 +383,6 @@ async updatePrivateChatId(docRef: any): Promise<void> {
 		updateDoc(channelDocRef, { name: channelName });
 	}
 
-	/**
-	 * Retrieves the name of the current channel.
-	 * @returns The name of the current channel, or undefined if not found.
-	 * to-do delete code is redundant
-	 */
-	getChannelName() {
-		return this.firebaseService.channelList.find(
-			(channel) => channel.chanId === this.docRef
-		)?.name;
-	}
-
 	getCurrentChannel() {
 		return this.firebaseService.channelList.find(
 			(channel) => channel.chanId === this.docRef

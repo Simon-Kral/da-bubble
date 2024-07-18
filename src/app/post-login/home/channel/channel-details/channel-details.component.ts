@@ -33,7 +33,7 @@ export class ChannelDetailsComponent {
 	isChannelNameEditable = false;
 	isChannelDescriptionEditable = false;
 	channelToEdit: Channel = this.chatService.getCurrentChannel() || new Channel();
-	currentChannelName = this.chatService.getChannelName();
+	currentChannelName = this.chatService.getChannelNameById(this.chatService.docRef);
 	channelCreatorName = this.firebaseService.getUserDisplayName(
 		this.channelToEdit?.createdBy || ''
 	);
