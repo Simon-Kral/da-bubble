@@ -1,12 +1,19 @@
 <div class="header-wrapper">
+  <div class="header-container">
   <div class="logo-container">
     <img class="" src="assets/img/logos/da_bubble_logo.png" alt="" />
     <span>DABubble</span>
   </div>
   <form class="searchbar-container" [formGroup]="searchText">
     <input class="header-searchbar" type="text" placeholder="Devspace durchsuchen" formControlName="search"
-      (input)="this.onSearch()" />
+      (input)="this.handleSearch()" />
   </form>
+
+
+
+
+
+
   <div class="user-avatar">
     <span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }}</span>
     <img src="{{ this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)}}" alt="User Image" />
@@ -18,3 +25,26 @@
     </div>
   </div>
 </div>
+
+      <!--user search results-->
+      @if (showUsers) {
+        <div class="search-results">
+          @for (user of this.firebaseService.userList; track user; let index = $index) {
+            <div class="content-container pointer" (click)="handleClickOnMember(user.userId)">
+                <span>{{ '@' + this.firebaseService.getUserDisplayName(user.userId) }}</span>
+          </div>
+          }
+        </div>
+        }
+  
+  
+        <!--channel search results-->
+        @if (showChannels) {
+        <div class="search-results">
+          @for (channel of this.firebaseService.channelList; track channel; let index = $index) {
+            <div class="content-container pointer" (click)="handleClickOnChannel(channel.chanId)">
+                <span>{{ '#' + channel.name }}</span>
+          </div>
+          }
+        </div>  
+      }

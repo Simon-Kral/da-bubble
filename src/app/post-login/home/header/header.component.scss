@@ -1,11 +1,14 @@
 @import "../../../../styles.scss";
 
+
 .header-wrapper {
+  @include dFlex(column, center, center);
+  position: relative;
+  .header-container {
   width: 100svw;
   padding: 24px;
   height: 100px;
   @include dFlex(row, space-evenly, center);
-
   >.logo-container {
     @include dFlex(center, center);
     gap: 16px;
@@ -56,5 +59,13 @@ span {
   height: 16px;
   border-radius: 50%;
   border: solid 2px white;
+}
+}
+.search-results {
+  width: 70%;
+  top: 90px;
+  position: absolute;
+  z-index: 5;
+  background-color: $white;
 }
 }

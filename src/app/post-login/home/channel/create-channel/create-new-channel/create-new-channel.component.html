@@ -105,8 +105,8 @@
       <form class="searchbar-container" [formGroup]="searchText">
         <input class="searchbar" type="text" placeholder="Benutzer Namen eingeben" 
           formControlName="searchText" 
-          (input)="searchService.onSearch(searchText.get('searchText')?.value || '')"
-          (focus)="searchService.onFocus(searchText.get('searchText')?.value || '')" />
+          (input)="searchService.onUserSearch(searchText.get('searchText')?.value || '')"
+          (focus)="searchService.onUserFocus(searchText.get('searchText')?.value || '')" />
 
           @if (this.searchService.memberSearchActive && this.searchService.userSearchResults.length > 0) {
             <div class="user-list">

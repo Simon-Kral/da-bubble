@@ -20,6 +20,8 @@ export class HeaderComponent implements OnInit {
 	searchService = inject(SearchService);
 
 	searchText: FormGroup;
+	showUsers: boolean = false;
+	showChannels: boolean = false;
 	//user profile
 	@Output() userProfileToggle = new EventEmitter<boolean>();
 
@@ -31,15 +33,34 @@ export class HeaderComponent implements OnInit {
 
 	ngOnInit() {}
 
-	/**
-	 * Executes when the search input changes.
-	 * Retrieves the current search value from the form and
-	 * notifies the SearchService with the updated search text.
-	 */
-	onSearch() {
-		this.searchService.searchText = this.searchText.get('search')?.value;
-		console.log('Searchtext recived by searchService',this.searchService.searchText);
+	handleSearch() {
+		const searchInput = this.searchText.get('search')?.value || '';
+	
+		if (searchInput.startsWith('@')) {
+			this.showUsers = true;
+			this.showChannels = false;
+			this.searchService.onUserSearch(searchInput.slice(1)); // Suche ohne das '@'-Zeichen
+		} else if (searchInput.startsWith('#')) {
+			this.showUsers = false;
+			this.showChannels = true;
+			this.searchService.onChannelSearch(searchInput.slice(1)); // Suche ohne das '#'-Zeichen
+		} else {
+			this.showUsers = false;
+			this.showChannels = false;
+			// Optional: Hier können Sie eine Standardaktion definieren, wenn die Eingabe nicht mit @ oder # beginnt.
+		}
+	
+		console.log('Search text received by searchService:', searchInput);
 	}
+
+	handleClickOnMember(userId: string) {
+		// start private chat function which redirects to the chat component
+
+	  }
+	  
+	  handleClickOnChannel(channelId: string) {
+		// redirect to the channel chat component
+	  }	
 
 	//user profile functions
 	toggleUserProfile(visible: boolean) {

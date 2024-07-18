@@ -62,7 +62,7 @@ export class SearchService {
   }
 
   // to-do why channelId ?????????
-  onFocus(searchText: string, channelId: string = '') {
+  onUserFocus(searchText: string, channelId: string = '') {
 	this.memberSearchActive = true;
 	this.searchText = searchText || '';
 	console.log('Search text received by searchService:', this.searchText);
@@ -77,7 +77,7 @@ export class SearchService {
 }
 
 // to-do why channelId ?????????
-onSearch(searchText: string, channelId: string = '') {
+onUserSearch(searchText: string, channelId: string = '') {
 	this.searchText = searchText || '';
 	console.log('Search text received by searchService:', this.searchText);
 

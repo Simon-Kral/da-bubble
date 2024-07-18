@@ -28,8 +28,8 @@
 			class="search-input"
 			type="text"
 			placeholder="Namen eingeben"
-			(input)="this.searchService.onSearch(this.userName, this.chatService.docRef)"
-			(focus)="this.searchService.onFocus(this.userName, this.chatService.docRef)"
+			(input)="this.searchService.onUserSearch(this.userName, this.chatService.docRef)"
+			(focus)="this.searchService.onUserFocus(this.userName, this.chatService.docRef)"
 	
 		/>
 	
