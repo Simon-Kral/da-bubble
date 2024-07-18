@@ -1,3 +1,4 @@
+import { Channel } from './../../models/channel.class';
 import { ChatService } from './../chat/chat.service';
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
@@ -45,24 +46,25 @@ export class SearchService {
    * Searches the users list for documents where the name field matches or contains the search text.
    * @returns An Observable of the search results.
    */
-  searchUsersByName(): Observable<User[]> {
+  searchUsersByName(docRef: string): Observable<User[]> {
     const filteredUsers = this.firebaseService.userList.filter(
       (user) =>
-        user.name.toLowerCase().includes(this.searchText.toLowerCase()) &&
-        user.userId !== this.firebaseService.currentUserId &&
-        !this.selectedUser.includes(user.userId)
+        user.name.toLowerCase().includes(this.searchText.toLowerCase()) &&!user.channels.includes(docRef) 
+	  	&&user.userId !== this.firebaseService.currentUserId &&!this.selectedUser.includes(user.userId)
+		
+		
     );
     this.userSearchResults = filteredUsers.map((user) => user.userId);
     return of(filteredUsers);
   }
 
 
-	onFocus(searchText: string) {
+	onFocus(searchText: string, docRef: string = '') {
 		this.memberSearchActive = true;
 		this.searchText = searchText || '';
 		console.log('Search text received by searchService:', this.searchText);
 
-		this.searchUsersByName().subscribe((users) => {
+		this.searchUsersByName(docRef).subscribe((users) => {
 			console.log('Search results:', users);
 			console.log(
 				'userSearchResults array contains:',
@@ -71,16 +73,19 @@ export class SearchService {
 		});
 	}
 
-	onSearch(searchText: string) {
+	onSearch(searchText: string, docRef: string = '') {
+		
+		
 		this.searchText = searchText || '';
 		console.log('Search text received by searchService:', this.searchText);
 
-		this.searchUsersByName().subscribe((users) => {
+		this.searchUsersByName(docRef).subscribe((users) => {
 			console.log('Search results:', users);
 			console.log(
 				'userSearchResults array contains:',
 				this.userSearchResults
 			);
+			
 		});
 		this.memberSearchActive = this.searchText.trim().length > 0;
 	}

@@ -5,7 +5,7 @@ export class User {
   name: string;
   status: boolean = false;
   photoURL: string;
-  channels: Channel[] = [];
+  channels: string[] = [];
   email: string;
   privateNoteRef: string;
 
