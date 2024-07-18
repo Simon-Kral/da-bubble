@@ -6,11 +6,11 @@ import { Channel } from '../../../../../models/channel.class';
 import { FirebaseService } from '../../../../../services/firebase/firebase.service';
 import { SearchService } from '../../../../../services/search/search.service';
 import { ChannelMemberSelectionComponent } from '../../../../shared/channel-member-selection/channel-member-selection.component';
-
+import { ChannelSelectionComponent } from '../../channel-selection/channel-selection.component';
 @Component({
   selector: 'app-create-new-channel',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ChannelMemberSelectionComponent],
+  imports: [CommonModule, ReactiveFormsModule, ChannelMemberSelectionComponent, ChannelSelectionComponent],
   templateUrl: './create-new-channel.component.html',
   styleUrl: './create-new-channel.component.scss',
 })
@@ -27,12 +27,13 @@ export class CreateNewChannelComponent {
   showChannelSerach: boolean = false;
   showUserSearch: boolean = false;
 
-  selectedMembers: string[] = [];
+
   newChanId = '';
   chanNameExists: boolean = false;
   errorMsgChanExists: string = 'Channel Name existiert bereits!';
   errorMsgChanNameInvalid: string = 'Bitte geben Sie einen gültigen Channel-Namen ein.';
 
+  channelSearchActive: boolean = false;
 
   searchText: FormGroup;
 
@@ -57,6 +58,7 @@ export class CreateNewChannelComponent {
     this.searchText = this.fb.group({
 			search: [''],
 		});
+    this.searchService.selectedUser = [];
   }
 
   ngOnDestroy(): void {
@@ -68,7 +70,7 @@ export class CreateNewChannelComponent {
    * Creates a new channel based on the data in `channelData` form group.
    * If form is valid, it adds a new channel document to Firestore and updates the document with its ID.
    * Logs errors if adding or updating fails.
-   * to-do use setChannel method from firebase service
+   * to-do use setChannel method from firebase service & shorten the method 
    */
   async createChannel() {
     if (this.channelData.valid) {
@@ -100,8 +102,6 @@ export class CreateNewChannelComponent {
       } catch (e) {
         console.error('Error adding/updating document: ', e);
       }
-    } else {
-      console.log('Form is not valid');
     }
   }
   /**
@@ -146,8 +146,11 @@ export class CreateNewChannelComponent {
   toggleSearchInput(name: string) {
     if (name === 'channel') {
       this.showChannelSerach = !this.showChannelSerach;
+      this.showUserSearch = false;
+      this.searchService.selectedUser = [];
     } else if (name === 'user') {
       this.showUserSearch = !this.showUserSearch;
+      this.showChannelSerach = false;
     }
   }
 

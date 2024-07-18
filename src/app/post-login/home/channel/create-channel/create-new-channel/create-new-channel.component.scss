@@ -42,25 +42,6 @@
         @include dFlex(column, flex-start, flex-start);
         width: 100%;
         gap: 20px;
-
-        input {
-            width: 100%;
-            min-height: 60px;
-            border: solid 1px $light-purple-lines;
-            border-radius: 40px;
-
-            //dosent work - to do
-            &::placeholder {
-                @include Nunito(400, 18px, 24.55px, $text-gray);
-                margin-left: 16px;
-            }
-
-            &:focus {
-                border: solid 1px $purple-1;
-            }
-
-        }
-
     }
 
     .error-msg {
@@ -135,6 +116,7 @@
             @include dFlex(row, flex-start, center);
             width: 100%;
             gap: 24px;
+            transition: ease-in-out 0.1s;
 
             span {
                 @include Nunito(400, 18px, 24.55px, $black);
@@ -146,8 +128,15 @@
                 height: 20px;
                 border: solid 1px $light-purple-lines;
                 border-radius: 50%;
+                transition: ease-in-out 0.1s;
+
+                &:hover {
+                    border: solid 2px $purple-1;
+                    background-color: $bg-color;
+                }
 
                 .checkbox-inside {
+                    @include dFlex(column, center, center);
                     width: 12px;
                     height: 12px;
                     border-radius: 50%;
@@ -174,8 +163,6 @@
                 left: 24px;
             }
         }
-    }
-}
 
 .show-selected-users {
 	@include dFlex(row, flex-start, center);
@@ -184,13 +171,19 @@
 	height: fit-content;
 	gap: 8px;
 
-	.added-member {
-		@include dFlex(row, flex-start, center);
-		height: 40px;
-		border-radius: 35px;
-		padding: 3px 20px 3px 20px;
-		gap: 15px;
-		background-color: $bg-color;
+            .added-member {
+                @include dFlex(row, flex-start, center);
+                height: 40px;
+                border-radius: 35px;
+                padding: 3px 20px 3px 20px;
+                gap: 15px;
+                background-color: $bg-color;
+                transition: ease-in-out 0.1s;
+
+                &:hover {
+                    background-color: darken($bg-color, 10%);
+                    transform: scale(1.05);
+                }
 
 		img {
 			width: 34px;
