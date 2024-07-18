@@ -55,7 +55,14 @@ export class ChannelComponent {
 	 * @returns The left style value as a string.
 	 */
 	getLeftStyleValue(index: number): string {
-		return (index * 28).toString();
+		if(index === 0) {
+			return (.5 * 21).toString();
+
+		}else if(index === 1) {
+			return (index * 35).toString();
+		}else {
+			return (index * 30).toString();
+		}
 	}
 
 	handleMessage(message: object): void {
@@ -91,5 +98,5 @@ export class ChannelComponent {
 		this.communicationService.toggleChannelMemberVisibility(true);
 	}
 
-
+	
 }

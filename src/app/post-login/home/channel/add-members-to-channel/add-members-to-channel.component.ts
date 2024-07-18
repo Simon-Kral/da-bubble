@@ -32,6 +32,7 @@ export class AddMembersToChannelComponent {
 
 	closeWindow(): void {
 		this.searchService.savedUserForChannel = [];
+		this.isAddMembersToChannelVisible = false;
 		this.userName = '';
 		this.addMembersToChannelVisibilityChange.emit(false);
 	}
