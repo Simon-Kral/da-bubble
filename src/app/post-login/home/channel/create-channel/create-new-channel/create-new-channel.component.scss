@@ -174,45 +174,44 @@
                 left: 24px;
             }
         }
-
-        .show-selected-users {
-            @include dFlex(row, flex-start, center);
-            flex-wrap: wrap;
-            max-width: 100%;
-            height: fit-content;
-            gap: 8px;
-
-            .added-member {
-                @include dFlex(row, flex-start, center);
-                height: 40px;
-                border-radius: 35px;
-                padding: 3px 20px 3px 20px;
-                gap: 15px;
-                background-color: $bg-color;
-
-                img {
-                    width: 34px;
-                    height: 34px;
-                    border-radius: 50%;
-                }
-
-                span {
-                    @include Nunito(400, 18px, 24.55px, $black);
-                    text-wrap: nowrap;
-                }
-
-                .remove-user {
-                    @include dFlex(row, center, center);
-                    width: 30px;
-                    height: 30px;
-
-                    img {
-                        width: 24px;
-                        height: 24px;
-                    }
-                }
-            }
-        }
-
     }
+}
+
+.show-selected-users {
+	@include dFlex(row, flex-start, center);
+	flex-wrap: wrap;
+	max-width: 100%;
+	height: fit-content;
+	gap: 8px;
+
+	.added-member {
+		@include dFlex(row, flex-start, center);
+		height: 40px;
+		border-radius: 35px;
+		padding: 3px 20px 3px 20px;
+		gap: 15px;
+		background-color: $bg-color;
+
+		img {
+			width: 34px;
+			height: 34px;
+			border-radius: 50%;
+		}
+
+		span {
+			@include Nunito(400, 18px, 24.55px, $black);
+			text-wrap: nowrap;
+		}
+
+		.remove-user {
+			@include dFlex(row, center, center);
+			width: 30px;
+			height: 30px;
+
+			img {
+				width: 24px;
+				height: 24px;
+			}
+		}
+	}
 }
