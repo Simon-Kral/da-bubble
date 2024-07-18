@@ -139,6 +139,11 @@
 				top: 60px;
 				left: 24px;
 			}
+			.channel-list {
+				position: absolute;
+				top: 60px;
+				left: 24px;
+			}
 		}
 	}
 }
@@ -149,45 +154,44 @@
 	max-width: 100%;
 	height: fit-content;
 	gap: 8px;
+}
 
-	.added-member {
-		@include dFlex(row, flex-start, center);
-		height: 40px;
-		border-radius: 35px;
-		padding: 3px 20px 3px 20px;
-		gap: 15px;
-		background-color: $bg-color;
-		transition: ease-in-out 0.1s;
+.added-data {
+	@include dFlex(row, flex-start, center);
+	height: 40px;
+	border-radius: 35px;
+	padding: 3px 20px 3px 20px;
+	gap: 15px;
+	background-color: $bg-color;
+	transition: ease-in-out 0.1s;
 
-		&:hover {
-			background-color: darken($bg-color, 10%);
-			transform: scale(1.05);
-		}
+	&:hover {
+		background-color: darken($bg-color, 10%);
+		transform: scale(1.05);
+	}
+
+	img {
+		width: 34px;
+		height: 34px;
+		border-radius: 50%;
+	}
+
+	span {
+		@include Nunito(400, 18px, 24.55px, $black);
+		text-wrap: nowrap;
+	}
+
+	.remove {
+		@include dFlex(row, center, center);
+		width: 30px;
+		height: 30px;
 
 		img {
-			width: 34px;
-			height: 34px;
-			border-radius: 50%;
-		}
-
-		span {
-			@include Nunito(400, 18px, 24.55px, $black);
-			text-wrap: nowrap;
-		}
-
-		.remove-user {
-			@include dFlex(row, center, center);
-			width: 30px;
-			height: 30px;
-
-			img {
-				width: 24px;
-				height: 24px;
-			}
+			width: 24px;
+			height: 24px;
 		}
 	}
 }
-
 
 input {
 	@include inputField();

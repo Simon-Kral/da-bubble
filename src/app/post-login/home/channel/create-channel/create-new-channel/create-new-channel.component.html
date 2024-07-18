@@ -51,11 +51,26 @@
       <span>Alle Mitglieder eines Channels hinzufügen</span>
     </div>
 
+    @if (this.searchService.selectedChannel) {
+    <div class="show-selected-channel">
+        <div class="pointer added-data" (click)="removeSelectedChannel()">
+          <span>{{ this.chatService.getChannelNameById(this.searchService.selectedChannel) }}</span>
+          <div class="remove">
+            <img src="assets/img/icons/close_black.png" alt="close-icon" />
+          </div>
+        </div>
+    </div>
+  }
+  
     @if (showChannelSerach) {
     <form class="searchbar-container">
-      <input class="searchbar" type="text" (focus)="channelSearchActive = true" placeholder="Channel Namen eingeben"/>
+      <input class="searchbar" type="text" 
+      placeholder="Channel Namen eingeben"
+      (focus)="this.searchService.onChannelFocus(this.searchText.value.search)" 
+      (input)="this.searchService.onChannelSerach(this.searchText.value.search)"
+      />
 
-      @if (channelSearchActive) {
+      @if (searchService.channelSearchActive) {
         <div class="channel-list">
             <app-channel-selection></app-channel-selection>
           </div>
@@ -75,10 +90,10 @@
     @if (this.searchService.selectedUser.length > 0) {}
     <div class="show-selected-users">
       @for (user of this.searchService.selectedUser; track user; let index = $index) {
-        <div class="pointer added-member" (click)="this.searchService.removeSelectedUserFromArray(user)">
+        <div class="pointer added-data" (click)="this.searchService.removeSelectedUserFromArray(user)">
           <img [src]="this.firebaseService.getUserAvatar(user)" alt="profile-pic" />
           <span>{{ this.firebaseService.getUserDisplayName(user) }}</span>
-          <div class="remove-user">
+          <div class="remove">
             <img src="assets/img/icons/close_black.png" alt="close-icon" />
           </div>
         </div>
@@ -102,8 +117,8 @@
 
   </div>
 <div class="submit-btn-container">
-  <button class="pointer submit-btn" type="button">
-    Erstellen
+  <button class="pointer submit-btn" type="button" (click)="handleAddMember()">
+    Ausgewählte hinzufügen
   </button>
 </div>
 

@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Firestore, collection, onSnapshot, orderBy, query, addDoc, doc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, onSnapshot, orderBy, query, addDoc, doc, updateDoc, getDocs, getDoc } from '@angular/fire/firestore';
 import { Channel } from '../../../../../models/channel.class';
 import { FirebaseService } from '../../../../../services/firebase/firebase.service';
 import { SearchService } from '../../../../../services/search/search.service';
 import { ChannelMemberSelectionComponent } from '../../../../shared/channel-member-selection/channel-member-selection.component';
 import { ChannelSelectionComponent } from '../../channel-selection/channel-selection.component';
+import { ChatService } from '../../../../../services/chat/chat.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-new-channel',
   standalone: true,
@@ -18,11 +20,12 @@ export class CreateNewChannelComponent {
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
   searchService = inject(SearchService);
+  chatService = inject(ChatService);
   
   channelData: FormGroup;
   channel = new Channel();
   isCreateChannelFormVisible: boolean = true;  // to-do: Change Variable Name
-  isAddMemberVisibleForm: boolean = true;
+  isAddMemberVisibleForm: boolean = false;
 
   showChannelSerach: boolean = false;
   showUserSearch: boolean = false;
@@ -33,9 +36,9 @@ export class CreateNewChannelComponent {
   errorMsgChanExists: string = 'Channel Name existiert bereits!';
   errorMsgChanNameInvalid: string = 'Bitte geben Sie einen gültigen Channel-Namen ein.';
 
-  channelSearchActive: boolean = false;
-
   searchText: FormGroup;
+
+  selectedMembers: string[] = [];
 
   // Default icon sources
 	close = '../../../../assets/img/icons/close_black.png';
@@ -47,7 +50,7 @@ export class CreateNewChannelComponent {
   @Input() isCreateChannelVisible: boolean = false;
   @Output() createChannelVisibilityChange = new EventEmitter<boolean>();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.channelData = this.fb.group({
       channelName: new FormControl('', [
         Validators.required,
@@ -59,6 +62,7 @@ export class CreateNewChannelComponent {
 			search: [''],
 		});
     this.searchService.selectedUser = [];
+    this.searchService.selectedChannel = '';
   }
 
   ngOnDestroy(): void {
@@ -95,7 +99,7 @@ export class CreateNewChannelComponent {
 
         const docRef = await this.addChannel(newChannel);
         await this.updateChannelId(docRef);
-        await this.firebaseService.updateUserChannelsbyId(this.firebaseService.currentUserId, docRef.id);
+        await this.firebaseService.updateUserChannelsArray([this.firebaseService.currentUserId], docRef.id);
         this.channelData.reset();
         this.toggleCreateChannelFormVisibility(); 
         this.toggleAddMemberFormVisibility(); 
@@ -153,6 +157,55 @@ export class CreateNewChannelComponent {
       this.showChannelSerach = false;
     }
   }
+
+  async handleAddMember() {
+    if (this.searchService.selectedChannel.length > 0) {
+      await this.extractMemberIdsFromChannel(this.searchService.selectedChannel);
+      console.log('extracted member ids from channel', this.selectedMembers);
+      await this.firebaseService.updateChannelMembersArray(this.newChanId, this.selectedMembers);
+      await this.firebaseService.updateUserChannelsArray(this.searchService.selectedUser, this.newChanId);
+      this.createChannelVisibilityChange.emit(false);
+      this.router.navigate([`/home/channels/${this.newChanId}`]);
+    }
+    if (this.searchService.selectedUser.length > 0) {
+      await this.firebaseService.updateChannelMembersArray(this.newChanId, this.searchService.selectedUser);
+      await this.firebaseService.updateUserChannelsArray(this.searchService.selectedUser, this.newChanId);
+      this.createChannelVisibilityChange.emit(false);
+      console.log('chan id of new created channel', this.newChanId)
+      this.router.navigate([`/home/channels/${this.newChanId}`]);
+    }
+	}
+
+  removeSelectedChannel() {
+    this.searchService.selectedChannel = '';
+  }
+
+  /**
+   * Extracts all member IDs from the members field of a specific channel document
+   * and pushes them into the selectedMembers array in SearchService.
+   * @param {string} chanId - The ID of the channel document.
+   * @returns {Promise<void>} A promise that resolves when the operation is complete.
+   */
+  async extractMemberIdsFromChannel(chanId: string): Promise<void> {
+    const channelDocRef = doc(this.firestore, `channels/${chanId}`);
+    const channelDocSnapshot = await getDoc(channelDocRef);
+
+    if (channelDocSnapshot.exists()) {
+      const channelData = channelDocSnapshot.data();
+      if (channelData && channelData['members'] && Array.isArray(channelData['members'])) {
+        const memberIds = channelData['members'] as string[];
+        // Update the selectedMembers array in searchService
+        this.selectedMembers = Array.from(new Set([
+          ...this.selectedMembers,
+          ...memberIds
+        ]));
+      }
+    } else {
+      console.error(`Channel with ID ${chanId} does not exist.`);
+    }
+  }
+
+	
 
   // Toggles the visibility of the create channel component
   toggleCreateChannelVisibility() {
