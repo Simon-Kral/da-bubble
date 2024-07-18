@@ -17,6 +17,7 @@ import {
 	collectionData,
 } from '@angular/fire/firestore';
 import { User } from '../../../app/models/user.class';
+import { Channel } from '../../models/channel.class';
 
 @Injectable({
 	providedIn: 'root',
@@ -57,6 +58,19 @@ export class SearchService {
     this.userSearchResults = filteredUsers.map((user) => user.userId);
     return of(filteredUsers);
   }
+
+    /**
+   * Searches the channel list for documents where the name field matches or contains the search text.
+   * @returns An Observable of the search results.
+   */
+	searchChannelsByName(): Observable<Channel[]> {
+		const filteredChannels = this.firebaseService.channelList.filter(
+		  (channel) =>
+			channel.name.toLowerCase().includes(this.searchText.toLowerCase())
+		);
+		this.channelSearchResults = filteredChannels.map((channel) => channel.chanId);
+		return of(filteredChannels);
+	  }
 
 
 	onFocus(searchText: string, docRef: string = '') {
