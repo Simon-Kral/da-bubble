@@ -53,9 +53,9 @@
 
     @if (showChannelSerach) {
     <form class="searchbar-container">
-      <input class="searchbar" type="text" placeholder="Channel Namen eingeben"/>
+      <input class="searchbar" type="text" (focus)="channelSearchActive = true" placeholder="Channel Namen eingeben"/>
 
-      @if (channelSearchActive && this.searchService.channelSearchResults.length > 0) {
+      @if (channelSearchActive) {
         <div class="channel-list">
             <app-channel-selection></app-channel-selection>
           </div>

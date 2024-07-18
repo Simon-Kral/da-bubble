@@ -1,1 +1,13 @@
-<p>channel-selection works!</p>
+<div class="channel-selection-wrapper">
+
+    @for (channel of this.firebaseService.channelList; track channel; let index = $index) {
+
+        <div class="channel-container pointer" (click)="handleClickOnChannel(channel.chanId)">
+  
+            <span>{{ this.chatService.getChannelNameById(channel.chanId) }}</span>
+
+        </div>
+    }
+
+
+</div>
