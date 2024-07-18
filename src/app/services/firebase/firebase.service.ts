@@ -6,6 +6,7 @@ import { Channel } from '../../models/channel.class';
 import { User } from '../../models/user.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { PrivateNote } from '../../models/privateNote.class';
+import { user } from '@angular/fire/auth';
 @Injectable({
 	providedIn: 'root',
 })
@@ -335,19 +336,7 @@ export class FirebaseService {
 		const userDocRef = doc(this.firestore,`users/${this.currentUser.userId}`);
 		return updateDoc(userDocRef, { status: newStatus });
 	}
-
-	/**
-   * Adds the provided channel ID to the channels array of the current user in Firestore.
-   * @param {string} chanId - The channel ID to add.
-   * @returns {Promise<void>} A promise that resolves when the channel ID is successfully added.
-   */
-	  updateUserChannel(chanId: string): Promise<void> {
-		const userDocRef = doc(this.firestore, `users/${this.currentUser.userId}`);
-		return updateDoc(userDocRef, {
-		  channels: arrayUnion(chanId) 
-		});
-	  }
-
+	
 	// private chat
 	/**
 	 * Subscribes to the privateChats collection in Firestore and updates the private chat list in real-time.
@@ -441,7 +430,19 @@ subPrivateNoteList() {
 		};
 	}
 	
-	
+	/**
+	 * Updates the channels array of a user by adding a new channel ID.
+	 * 
+	 * @param {string} userid - The ID of the user.
+	 * @param {string} chanId - The ID of the channel to be added.
+	 * @returns {Promise<void>} A promise that resolves when the update is complete.
+	 */
+	updateUserChannelsbyId(userid: string, chanId: string): Promise<void> {
+		const userDocRef = doc(this.firestore, `users/${userid}`);
+		return updateDoc(userDocRef, {
+			channels: arrayUnion(chanId),
+		});
+	}
 	
 	
 	

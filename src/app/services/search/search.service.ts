@@ -47,10 +47,10 @@ export class SearchService {
    * Searches the users list for documents where the name field matches or contains the search text.
    * @returns An Observable of the search results.
    */
-  searchUsersByName(docRef: string): Observable<User[]> {
+  searchUsersByName(channelId: string): Observable<User[]> {
     const filteredUsers = this.firebaseService.userList.filter(
       (user) =>
-        user.name.toLowerCase().includes(this.searchText.toLowerCase()) &&!user.channels.includes(docRef) 
+        user.name.toLowerCase().includes(this.searchText.toLowerCase()) &&!user.channels.includes(channelId) 
 	  	&&user.userId !== this.firebaseService.currentUserId &&!this.selectedUser.includes(user.userId)
 		
 		
@@ -73,12 +73,12 @@ export class SearchService {
 	  }
 
 
-	onFocus(searchText: string, docRef: string = '') {
+	onFocus(searchText: string, channelId: string = '') {
 		this.memberSearchActive = true;
 		this.searchText = searchText || '';
 		console.log('Search text received by searchService:', this.searchText);
 
-		this.searchUsersByName(docRef).subscribe((users) => {
+		this.searchUsersByName(channelId).subscribe((users) => {
 			console.log('Search results:', users);
 			console.log(
 				'userSearchResults array contains:',
@@ -87,13 +87,13 @@ export class SearchService {
 		});
 	}
 
-	onSearch(searchText: string, docRef: string = '') {
+	onSearch(searchText: string, channelId: string = '') {
 		
 		
 		this.searchText = searchText || '';
 		console.log('Search text received by searchService:', this.searchText);
 
-		this.searchUsersByName(docRef).subscribe((users) => {
+		this.searchUsersByName(channelId).subscribe((users) => {
 			console.log('Search results:', users);
 			console.log(
 				'userSearchResults array contains:',

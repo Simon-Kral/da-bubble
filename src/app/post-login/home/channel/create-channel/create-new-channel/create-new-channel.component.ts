@@ -95,7 +95,7 @@ export class CreateNewChannelComponent {
 
         const docRef = await this.addChannel(newChannel);
         await this.updateChannelId(docRef);
-        await this.firebaseService.updateUserChannel(docRef.id)
+        await this.firebaseService.updateUserChannelsbyId(this.firebaseService.currentUserId, docRef.id);
         this.channelData.reset();
         this.toggleCreateChannelFormVisibility(); 
         this.toggleAddMemberFormVisibility(); 
