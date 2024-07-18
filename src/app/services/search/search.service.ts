@@ -1,7 +1,7 @@
 import { ChatService } from './../chat/chat.service';
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
-import { map, Observable, Subject } from 'rxjs';
+import { map, Observable, of, Subject } from 'rxjs';
 import {
 	query,
 	orderBy,
@@ -41,34 +41,48 @@ export class SearchService {
 	savedUserForChannel: string[] = [];
 	filteredUsers: User[] = [];
 
-	/**
-	 * Searches the users collection for documents where the name field matches or contains the search text.
-	 * @param searchText The text to search for in user names.
-	 * @returns An Observable of the search results.
-	 */
-	searchUsersByName(): Observable<any[]> {
-		const usersCollection = collection(this.firestore, 'users');
-		const usersQuery = query(
-			usersCollection,
-			where('name', '>=', this.searchText),
-			where('name', '<=', this.searchText + '\uf8ff')
-		);
+  /**
+   * Searches the users list for documents where the name field matches or contains the search text.
+   * @returns An Observable of the search results.
+   */
+  searchUsersByName(): Observable<User[]> {
+    const filteredUsers = this.firebaseService.userList.filter(
+      (user) =>
+        user.name.toLowerCase().includes(this.searchText.toLowerCase()) &&
+        user.userId !== this.firebaseService.currentUserId &&
+        !this.selectedUser.includes(user.userId)
+    );
+    this.userSearchResults = filteredUsers.map((user) => user.userId);
+    return of(filteredUsers);
+  }
 
-		return collectionData(usersQuery, { idField: 'id' }).pipe(
-			map((users) => {
-				this.userSearchResults = [];
-				const filteredUsers = users.filter(
-					(user) =>
-						user.id !== this.firebaseService.currentUserId &&
-						!this.selectedUser.includes(user.id)
-				);
-				filteredUsers.forEach((user) => {
-					this.userSearchResults.push(user.id);
-				});
 
-				return filteredUsers;
-			})
-		);
+	onFocus(searchText: string) {
+		this.memberSearchActive = true;
+		this.searchText = searchText || '';
+		console.log('Search text received by searchService:', this.searchText);
+
+		this.searchUsersByName().subscribe((users) => {
+			console.log('Search results:', users);
+			console.log(
+				'userSearchResults array contains:',
+				this.userSearchResults
+			);
+		});
+	}
+
+	onSearch(searchText: string) {
+		this.searchText = searchText || '';
+		console.log('Search text received by searchService:', this.searchText);
+
+		this.searchUsersByName().subscribe((users) => {
+			console.log('Search results:', users);
+			console.log(
+				'userSearchResults array contains:',
+				this.userSearchResults
+			);
+		});
+		this.memberSearchActive = this.searchText.trim().length > 0;
 	}
 
 	pushSelectedUserToArray(userId: string) {
@@ -128,33 +142,5 @@ export class SearchService {
 		}
 		this.savedUserForChannel.push(userId);
 		console.log('Saved User:', this.savedUserForChannel);
-	}
-
-	onFocus(searchText: string) {
-		this.memberSearchActive = true;
-		this.searchText = searchText || '';
-		console.log('Search text received by searchService:', this.searchText);
-
-		this.searchUsersByName().subscribe((users) => {
-			console.log('Search results:', users);
-			console.log(
-				'userSearchResults array contains:',
-				this.userSearchResults
-			);
-		});
-	}
-
-	onSearch(searchText: string) {
-		this.searchText = searchText || '';
-		console.log('Search text received by searchService:', this.searchText);
-
-		this.searchUsersByName().subscribe((users) => {
-			console.log('Search results:', users);
-			console.log(
-				'userSearchResults array contains:',
-				this.userSearchResults
-			);
-		});
-		this.memberSearchActive = this.searchText.trim().length > 0;
 	}
 }
