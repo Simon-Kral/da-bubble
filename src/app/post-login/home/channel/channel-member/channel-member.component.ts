@@ -9,6 +9,7 @@ import {
 import { FirebaseService } from '../../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
 import { CommunicationService } from '../../../../services/communication/communication.service';
+import { ChatService } from '../../../../services/chat/chat.service';
 @Component({
 	selector: 'app-channel-member',
 	standalone: true,
@@ -19,6 +20,7 @@ import { CommunicationService } from '../../../../services/communication/communi
 export class ChannelMemberComponent {
 	firebaseService = inject(FirebaseService);
 	communicationService = inject(CommunicationService);
+	chatService = inject(ChatService);
 	@Input() isChannelMemberVisible: boolean = false;
 	@Output() channelMemberVisibilityChange = new EventEmitter<boolean>();
 

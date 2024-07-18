@@ -8,6 +8,7 @@
         </div>
     </div>
  @for (channel of this.firebaseService.channelList; track channel; let index = $index) {
+    @if (channel.chanId == chatService.docRef) {
     @for (member of channel.members; track member; let index = $index) {
     <div class="member-container pointer" (click)="handleClickOnMember(member)">
         <div class="user-avatar">
@@ -21,6 +22,7 @@
 			<span>(Du)</span>
 		  }
     </div>
+    }
     }
 }   
 <div class="add-member pointer" (click)="openAddMember()">
