@@ -35,35 +35,15 @@ export class AddMembersToChannelComponent {
 		this.addMembersToChannelVisibilityChange.emit(false);
 	}
 
-	checkIfUserIsAlreadyAdded(userId: string): boolean {
-		return  this.searchService.savedUserForChannel.some((user) => user === userId) || this.firebaseService.channelList.some((channel) => channel.members.some((user) => user === userId));
-	}
 
 	toggleDisplayUsers() {
 		this.searchService.memberSearchActive = !this.searchService.memberSearchActive;
 	}
 
-		/**
-	 * Adds the saved user to the current channel.
-	 * to-do might be outsourced to channel component
-	 */
-		addSavedUserToChannel() {
-			const channelDocRef = doc(
-				this.firebaseService.firestore,`channels/${this.chatService.docRef}`
-			);
-			updateDoc(channelDocRef, { members: this.searchService.combineMembers() });
-			this.searchService.selectedUser.forEach((user) => {
-				this.firebaseService.updateUserChannelsbyId(user, this.chatService.docRef);
-		});
-			this.searchService.selectedUser = [];
-			
-		}
-	
-
-	saveAndCloseAddMembersToChannel(): void {
-		this.addSavedUserToChannel();
-		this.closeWindow();
+	async handleAddMember() {
+		await this.firebaseService.updateChannelMembersArray(this.chatService.docRef, this.searchService.selectedUser);
+		await this.firebaseService.updateUserChannelsArray(this.searchService.selectedUser, this.chatService.docRef);
+		this.addMembersToChannelVisibilityChange.emit(false);
 	}
-
 	
 }

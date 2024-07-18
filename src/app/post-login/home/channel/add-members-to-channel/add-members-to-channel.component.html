@@ -12,7 +12,7 @@
 
     <div class="show-selected-users">
       @for (user of this.searchService.selectedUser; track user; let index = $index) {
-        <div class="added-member">
+        <div class="added-data">
           <img [src]="this.firebaseService.getUserAvatar(user)" alt="profile-pic" />
           <span>{{ this.firebaseService.getUserDisplayName(user) }}</span>
           <div class="pointer remove-user" (click)="this.searchService.removeSelectedUserFromArray(user)">
@@ -40,5 +40,5 @@
 		}
 	</div>
 
-	<button [disabled]="!this.searchService.selectedUser.length" (click)="this.addSavedUserToChannel()">Hinzufügen</button>
+	<button [disabled]="!this.searchService.selectedUser.length" (click)="handleAddMember()" >Hinzufügen</button>
 </div>
