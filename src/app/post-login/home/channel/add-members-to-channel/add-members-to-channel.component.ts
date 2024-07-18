@@ -52,7 +52,11 @@ export class AddMembersToChannelComponent {
 				this.firebaseService.firestore,`channels/${this.chatService.docRef}`
 			);
 			updateDoc(channelDocRef, { members: this.searchService.combineMembers() });
+			this.searchService.selectedUser.forEach((user) => {
+				this.firebaseService.updateUserChannelsbyId(user, this.chatService.docRef);
+		});
 			this.searchService.selectedUser = [];
+			
 		}
 	
 
