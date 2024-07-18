@@ -104,19 +104,6 @@ export class SearchService {
 	}
 
 	/**
-	 * Adds the saved user to the current channel.
-	 * to-do might be outsourced to channel component
-	 */
-	addSavedUserToChannel() {
-		const channelDocRef = doc(
-			this.firestore,
-			`channels/${this.chatService.docRef}`
-		);
-		updateDoc(channelDocRef, { members: this.combineMembers() });
-		this.selectedUser = [];
-	}
-
-	/**
 	 * Deletes a user from the savedUserForChannel array.
 	 * @param userId - The ID of the user to be deleted.
 	 * to-do outsource to search service
