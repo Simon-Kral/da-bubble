@@ -49,25 +49,27 @@ export class SearchService {
 	searchUsersByName(): Observable<any[]> {
 		const usersCollection = collection(this.firestore, 'users');
 		const usersQuery = query(
-		  usersCollection,
-		  where('name', '>=', this.searchText),
-		  where('name', '<=', this.searchText + '\uf8ff')
+			usersCollection,
+			where('name', '>=', this.searchText),
+			where('name', '<=', this.searchText + '\uf8ff')
 		);
-	
+
 		return collectionData(usersQuery, { idField: 'id' }).pipe(
-		  map((users) => {
-			this.userSearchResults = [];
-			const filteredUsers = users.filter((user) =>
-			  user.id !== this.firebaseService.currentUserId &&
-			  !this.selectedUser.includes(user.id)
-			);
-			filteredUsers.forEach((user) => {
-			  this.userSearchResults.push(user.id);
-			});
-			return filteredUsers;
-		  })
+			map((users) => {
+				this.userSearchResults = [];
+				const filteredUsers = users.filter(
+					(user) =>
+						user.id !== this.firebaseService.currentUserId &&
+						!this.selectedUser.includes(user.id)
+				);
+				filteredUsers.forEach((user) => {
+					this.userSearchResults.push(user.id);
+				});
+
+				return filteredUsers;
+			})
 		);
-	  }
+	}
 
 	pushSelectedUserToArray(userId: string) {
 		if (!this.selectedUser.includes(userId)) {
@@ -86,26 +88,6 @@ export class SearchService {
 	}
 
 	/**
-	 * Filters the user list based on the provided name and saves the filtered users in the `filteredUsers` array.
-	 * If the name is empty or undefined, the `filteredUsers` array will be cleared.
-	 * to-do move to search service
-	 * @param name - The name to filter the user list by.
-	 */
-	getUserByNameAndSaveInArray(name: string) {
-		if (!name) {
-			this.filteredUsers = [];
-			return;
-		}
-		this.filteredUsers = this.firebaseService.userList.filter((user) => {
-			return (
-				!this.savedUserForChannel.includes(user.userId) &&
-				user.name.toLowerCase().includes(name.toLowerCase())
-			);
-		});
-		console.log('Filtered Users:', this.filteredUsers);
-	}
-
-	/**
 	 * Combines the members from the current channel and the saved users for the channel.
 	 * Removes any duplicate IDs and returns an array of strings.
 	 * to-do outsource to search service
@@ -117,22 +99,9 @@ export class SearchService {
 		);
 		const currentMembers = currentChannel ? currentChannel.members : [];
 		const uniqueMembers = Array.from(
-			new Set([...currentMembers, ...this.savedUserForChannel])
+			new Set([...currentMembers, ...this.selectedUser])
 		);
 		return uniqueMembers;
-	}
-
-	/**
-	 * Adds the saved user to the current channel.
-	 * to-do might be outsourced to channel component
-	 */
-	addSavedUserToChannel() {
-		const channelDocRef = doc(
-			this.firestore,
-			`channels/${this.chatService.docRef}`
-		);
-		updateDoc(channelDocRef, { members: this.combineMembers() });
-		this.savedUserForChannel = [];
 	}
 
 	/**
@@ -165,21 +134,27 @@ export class SearchService {
 		this.memberSearchActive = true;
 		this.searchText = searchText || '';
 		console.log('Search text received by searchService:', this.searchText);
-	  
-		this.searchUsersByName().subscribe(users => {
-		  console.log('Search results:', users);
-		  console.log('userSearchResults array contains:', this.userSearchResults);
+
+		this.searchUsersByName().subscribe((users) => {
+			console.log('Search results:', users);
+			console.log(
+				'userSearchResults array contains:',
+				this.userSearchResults
+			);
 		});
 	}
 
 	onSearch(searchText: string) {
 		this.searchText = searchText || '';
 		console.log('Search text received by searchService:', this.searchText);
-	  
-		this.searchUsersByName().subscribe(users => {
-		  console.log('Search results:', users);
-		  console.log('userSearchResults array contains:', this.userSearchResults);
+
+		this.searchUsersByName().subscribe((users) => {
+			console.log('Search results:', users);
+			console.log(
+				'userSearchResults array contains:',
+				this.userSearchResults
+			);
 		});
 		this.memberSearchActive = this.searchText.trim().length > 0;
-	  }
+	}
 }

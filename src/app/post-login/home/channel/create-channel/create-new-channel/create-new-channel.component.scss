@@ -164,12 +164,12 @@
             }
         }
 
-        .show-selected-users {
-            @include dFlex(row, flex-start, center);
-            flex-wrap: wrap;
-            max-width: 100%;
-            height: fit-content;
-            gap: 8px;
+.show-selected-users {
+	@include dFlex(row, flex-start, center);
+	flex-wrap: wrap;
+	max-width: 100%;
+	height: fit-content;
+	gap: 8px;
 
             .added-member {
                 @include dFlex(row, flex-start, center);
@@ -185,29 +185,26 @@
                     transform: scale(1.05);
                 }
 
-                img {
-                    width: 34px;
-                    height: 34px;
-                    border-radius: 50%;
-                }
+		img {
+			width: 34px;
+			height: 34px;
+			border-radius: 50%;
+		}
 
-                span {
-                    @include Nunito(400, 18px, 24.55px, $black);
-                    text-wrap: nowrap;
-                }
+		span {
+			@include Nunito(400, 18px, 24.55px, $black);
+			text-wrap: nowrap;
+		}
 
-                .remove-user {
-                    @include dFlex(row, center, center);
-                    width: 30px;
-                    height: 30px;
+		.remove-user {
+			@include dFlex(row, center, center);
+			width: 30px;
+			height: 30px;
 
-                    img {
-                        width: 24px;
-                        height: 24px;
-                    }
-                }
-            }
-        }
-
-    }
+			img {
+				width: 24px;
+				height: 24px;
+			}
+		}
+	}
 }

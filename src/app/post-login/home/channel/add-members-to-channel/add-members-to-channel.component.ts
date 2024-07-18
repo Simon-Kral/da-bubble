@@ -6,6 +6,7 @@ import { FirebaseService } from './../../../../services/firebase/firebase.servic
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { ChannelMemberSelectionComponent } from "../../../shared/channel-member-selection/channel-member-selection.component";
+import { doc, updateDoc } from '@angular/fire/firestore';
 
 
 @Component({
@@ -26,13 +27,11 @@ export class AddMembersToChannelComponent {
 
 	ngOnDestroy(): void {
 		this.searchService.memberSearchActive = false;
-		this.searchService.savedUserForChannel = [];
-		
+		this.searchService.selectedUser = [];
+		this.userName = '';
 	}
 
 	closeWindow(): void {
-		this.searchService.savedUserForChannel = [];
-		this.userName = '';
 		this.addMembersToChannelVisibilityChange.emit(false);
 	}
 
@@ -44,8 +43,21 @@ export class AddMembersToChannelComponent {
 		this.searchService.memberSearchActive = !this.searchService.memberSearchActive;
 	}
 
+		/**
+	 * Adds the saved user to the current channel.
+	 * to-do might be outsourced to channel component
+	 */
+		addSavedUserToChannel() {
+			const channelDocRef = doc(
+				this.firebaseService.firestore,`channels/${this.chatService.docRef}`
+			);
+			updateDoc(channelDocRef, { members: this.searchService.combineMembers() });
+			this.searchService.selectedUser = [];
+		}
+	
+
 	saveAndCloseAddMembersToChannel(): void {
-		this.searchService.addSavedUserToChannel();
+		this.addSavedUserToChannel();
 		this.closeWindow();
 	}
 
