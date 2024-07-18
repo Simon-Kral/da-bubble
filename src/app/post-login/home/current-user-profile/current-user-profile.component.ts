@@ -94,7 +94,7 @@ export class CurrentUserProfileComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.searchGoogleProvider();
+		this.searchProvider();
 		this.newUserData.get('email')?.valueChanges.subscribe(() => {
 			if (this.emailHasChanged(this.newUserData.controls['email'])) {
 				this.newUserData.controls['password'].addValidators([
@@ -114,18 +114,15 @@ export class CurrentUserProfileComponent implements OnInit {
 	 * Users that are authenticated with google signup must not change their profile.
 	 * @returns {void}
 	 */
-	searchGoogleProvider(): void {
+	searchProvider(): void {
 		const providers: string[] = [];
 		this.authService.firebaseAuth.currentUser!.providerData.forEach(
 			(provider) => {
 				providers.push(provider.providerId);
 			}
 		);
-		console.log('providers:', providers);
 		this.googleProviderExists = providers.includes('google.com');
 		this.userIsGuest = providers.length === 0;
-		console.log('google:', this.googleProviderExists);
-		console.log('guest:', this.userIsGuest);
 	}
 
 	/**
@@ -141,11 +138,9 @@ export class CurrentUserProfileComponent implements OnInit {
 	emailHasChanged = (control: AbstractControl): string | null => {
 		const initialEmailAuth =
 			this.authService.firebaseAuth.currentUser!.email;
-		const initialEmailDB = this.firebaseService.getUserEmail(
-			this.firebaseService.currentUserId
-		);
+		const initialEmailDB = this.currentUserData.email;
 		return (control.touched || control.dirty) &&
-			!(initialEmailAuth || initialEmailDB === control.value)
+			!((initialEmailAuth || initialEmailDB) === control.value)
 			? 'Bitte bestätigen Sie Ihr Passwort.'
 			: null;
 	};
