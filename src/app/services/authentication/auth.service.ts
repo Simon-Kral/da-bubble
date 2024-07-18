@@ -1,25 +1,20 @@
 import { Injectable, inject, signal } from '@angular/core';
 import {
 	Auth,
-	AuthCredential,
 	confirmPasswordReset,
 	createUserWithEmailAndPassword,
-	EmailAuthCredential,
 	EmailAuthProvider,
-	getAuth,
 	GoogleAuthProvider,
-	ProviderId,
 	reauthenticateWithCredential,
 	reauthenticateWithPopup,
 	sendEmailVerification,
 	sendPasswordResetEmail,
+	signInAnonymously,
 	signInWithEmailAndPassword,
 	signInWithPopup,
 	signOut,
-	updateEmail,
 	updateProfile,
 	user,
-	UserCredential,
 	verifyBeforeUpdateEmail,
 	verifyPasswordResetCode,
 } from '@angular/fire/auth';
@@ -54,7 +49,6 @@ export class AuthService {
 			password
 		).then((response) => {
 			updateProfile(response.user, { displayName: username });
-			sendEmailVerification(response.user);
 		});
 		return from(promise);
 	}
@@ -102,6 +96,8 @@ export class AuthService {
 	setAvatar(avatar: string): Observable<void> {
 		const promise = updateProfile(this.firebaseAuth.currentUser!, {
 			photoURL: avatar,
+		}).then(() => {
+			sendEmailVerification(this.firebaseAuth.currentUser!);
 		});
 		return from(promise);
 	}
@@ -156,13 +152,12 @@ export class AuthService {
 	 */
 	changeEmail(newEmail: string, password: string): Observable<void> {
 		const promise = this.reauthenticateUser(false, password).then(() => {
-			verifyBeforeUpdateEmail(this.firebaseAuth.currentUser!, newEmail)
-				.then(() => {
-					console.log('verify your new email');
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+			verifyBeforeUpdateEmail(
+				this.firebaseAuth.currentUser!,
+				newEmail
+			).catch((error) => {
+				console.log(error);
+			});
 		});
 		return from(promise);
 	}
@@ -223,5 +218,14 @@ export class AuthService {
 			.catch((error) => {
 				console.log(error);
 			});
+	}
+
+	loginAsGuest(): Observable<void> {
+		const promise = signInAnonymously(this.firebaseAuth)
+			.then(() => {})
+			.catch((error) => {
+				console.log(error);
+			});
+		return from(promise);
 	}
 }

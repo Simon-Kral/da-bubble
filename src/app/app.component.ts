@@ -111,12 +111,13 @@ export class AppComponent implements OnInit {
 	 */
 	handleNavigation(user: User): void {
 		if (
-			!user.photoURL ||
-			user.photoURL.includes('googleusercontent') ||
-			user.photoURL.includes('assets/img/profile.png')
+			user.email != undefined &&
+			(!user.photoURL ||
+				user.photoURL.includes('googleusercontent') ||
+				user.photoURL.includes('assets/img/profile.png'))
 		) {
 			this.navToAvatar();
-		} else if (!user.emailVerified) {
+		} else if (!user.emailVerified && user.email != undefined) {
 			this.handleEmailVerification();
 		} else {
 			this.navToHome();
@@ -153,7 +154,6 @@ export class AppComponent implements OnInit {
 	 * @returns {void}
 	 */
 	navToAvatar(): void {
-		this.notificateUser('Wählen Sie einen Avatar');
 		this.router.navigateByUrl('/avatar');
 	}
 
@@ -171,7 +171,6 @@ export class AppComponent implements OnInit {
 	 */
 	navToHome(): void {
 		if (this.router.url === '/') {
-			this.notificateUser('Angemeldet');
 			this.router.navigateByUrl('/home');
 		}
 	}
@@ -209,9 +208,9 @@ export class AppComponent implements OnInit {
 				this.authService.firebaseAuth,
 				params['oobCode']
 			).then(() => {
+				this.notificateUser('E-Mail-Adresse bestätigt');
 				this.router.navigateByUrl('/').then(() => {
 					setTimeout(() => {
-						this.notificateUser('E-Mail-Adresse bestätigt');
 						this.router.navigateByUrl('/home');
 					}, 1000);
 				});

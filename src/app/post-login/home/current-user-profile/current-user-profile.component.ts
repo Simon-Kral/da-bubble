@@ -20,6 +20,7 @@ import { Firestore } from '@angular/fire/firestore';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { ChatService } from '../../../services/chat/chat.service';
 import { CommunicationService } from '../../../services/communication/communication.service';
+import { AppComponent } from '../../../app.component';
 interface UserData {
 	name: string;
 	email: string;
@@ -68,8 +69,9 @@ export class CurrentUserProfileComponent implements OnInit {
 	currentUserData: UserData;
 
 	googleProviderExists: boolean = false;
+	userIsGuest: boolean = false;
 
-	constructor(private fb: FormBuilder) {
+	constructor(private fb: FormBuilder, public appComponent: AppComponent) {
 		this.currentUserData = {
 			name: this.firebaseService.getUserDisplayName(
 				this.firebaseService.currentUserId
@@ -93,7 +95,7 @@ export class CurrentUserProfileComponent implements OnInit {
 
 	ngOnInit() {
 		this.searchGoogleProvider();
-		this.newUserData.get('email')?.valueChanges.subscribe((email) => {
+		this.newUserData.get('email')?.valueChanges.subscribe(() => {
 			if (this.emailHasChanged(this.newUserData.controls['email'])) {
 				this.newUserData.controls['password'].addValidators([
 					Validators.required,
@@ -119,7 +121,11 @@ export class CurrentUserProfileComponent implements OnInit {
 				providers.push(provider.providerId);
 			}
 		);
+		console.log('providers:', providers);
 		this.googleProviderExists = providers.includes('google.com');
+		this.userIsGuest = providers.length === 0;
+		console.log('google:', this.googleProviderExists);
+		console.log('guest:', this.userIsGuest);
 	}
 
 	/**
@@ -133,9 +139,13 @@ export class CurrentUserProfileComponent implements OnInit {
 	}
 
 	emailHasChanged = (control: AbstractControl): string | null => {
-		const initialEmail = this.authService.firebaseAuth.currentUser!.email;
+		const initialEmailAuth =
+			this.authService.firebaseAuth.currentUser!.email;
+		const initialEmailDB = this.firebaseService.getUserEmail(
+			this.firebaseService.currentUserId
+		);
 		return (control.touched || control.dirty) &&
-			!(initialEmail === control.value)
+			!(initialEmailAuth || initialEmailDB === control.value)
 			? 'Bitte bestätigen Sie Ihr Passwort.'
 			: null;
 	};
@@ -167,6 +177,7 @@ export class CurrentUserProfileComponent implements OnInit {
 				)
 				.subscribe({
 					next: () => {
+						this.appComponent.notificateUser('E-Mail gesendet');
 						this.updateFirebaseData(updates).then(() => {
 							this.logout();
 						});

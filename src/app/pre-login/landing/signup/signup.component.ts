@@ -38,6 +38,7 @@ export class SignupComponent {
 	 */
 	onSubmit(): void {
 		const rawForm = this.registerForm.getRawValue();
+
 		this.authService
 			.signup(rawForm.email, rawForm.username, rawForm.password)
 			.subscribe({
@@ -100,7 +101,7 @@ export class SignupComponent {
 			status: true,
 			photoURL: user.photoURL,
 			channels: [],
-			email: user.email,
+			email: user.email ? user.email : '',
 			privateNoteRef: user.uid,
 		};
 	}

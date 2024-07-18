@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { Router } from '@angular/router';
+import { AppComponent } from '../../../app.component';
 
 @Component({
 	selector: 'app-password-reset-request',
@@ -24,6 +25,8 @@ export class PasswordResetRequestComponent {
 		email: ['', [Validators.required, Validators.email]],
 	});
 
+	constructor(public appComponent: AppComponent) {}
+
 	/**
 	 * Submits the password reset request form and sends a password reset link to the provided email.
 	 * @returns {void}
@@ -32,7 +35,7 @@ export class PasswordResetRequestComponent {
 		const rawForm = this.pwResetForm.getRawValue();
 		this.authService.sendPasswordResetLink(rawForm.email).subscribe({
 			next: () => {
-				console.log('sent email');
+				this.appComponent.notificateUser('E-Mail gesendet');
 				this.router.navigateByUrl('/');
 			},
 			error: (err) => {

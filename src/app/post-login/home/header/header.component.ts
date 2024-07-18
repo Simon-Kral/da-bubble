@@ -1,25 +1,10 @@
-import {
-	Component,
-	EventEmitter,
-	OnInit,
-	Output,
-	inject,
-	output,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
 import { SearchService } from '../../../services/search/search.service';
-import {
-	AbstractControl,
-	FormBuilder,
-	FormControl,
-	FormGroup,
-	ReactiveFormsModule,
-	ValidationErrors,
-	Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
 	selector: 'app-header',
