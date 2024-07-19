@@ -39,29 +39,56 @@ export class HeaderComponent implements OnInit {
 
 	handleSearch() {
 		const searchInput = this.searchText.get('search')?.value || '';
-	
 		if (searchInput.startsWith('@')) {
-			this.isFocusActive = false;
-			this.showUsers = true;
-			this.showChannels = false;
-			this.searchService.onUserSearch(searchInput.slice(1)); // Suche ohne das '@'-Zeichen
+			this.userSearchActive(searchInput)
 		} else if (searchInput.startsWith('#')) {
-			this.isFocusActive = false;
-			this.showUsers = false;
-			this.showChannels = true;
-			this.searchService.onChannelSearch(searchInput.slice(1)); // Suche ohne das '#'-Zeichen
+			this.channelSearchActive(searchInput)
 		} else {
-			this.showUsers = false;
-			this.showChannels = false;
-			this.isFocusActive = true;
-			// Optional: Hier können Sie eine Standardaktion definieren, wenn die Eingabe nicht mit @ oder # beginnt.
+			this.showAllUsersAndChannels()
 		}
-	
-		console.log('Search text received by searchService:', searchInput);
 	}
 
+	/**
+	 * Activates user search and performs a search based on the provided input.
+	 * @param searchInput - The search input string.
+	 */
+	userSearchActive(searchInput: string) {
+		this.isFocusActive = false;
+		this.showUsers = true;
+		this.showChannels = false;
+		this.searchService.onUserSearch(searchInput.slice(1)); // Suche ohne das '@'-Zeichen
+	}
+
+	/**
+	 * Activates the channel search and performs a search based on the provided input.
+	 * @param searchInput - The search input string.
+	 */
+	channelSearchActive(searchInput: string) {
+		this.isFocusActive = false;
+		this.showUsers = false;
+		this.showChannels = true;
+		this.searchService.onChannelSearch(searchInput.slice(1)); // Suche ohne das '#'-Zeichen
+	}
+
+	/**
+	 * Shows all users and channels.
+	 * Hides the users and channels, sets the focus to active, and unsubscribes from channel and user search.
+	 */
+	showAllUsersAndChannels() {
+		this.showUsers = false;
+		this.showChannels = false;
+		this.isFocusActive = true;
+		this.searchService.unSubscribeOnChannelSearch();
+		this.searchService.unSubscribeOnUserSearch();
+	}
+
+
 	handleClickOnMember(userId: string) {
-		this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, userId);
+		this.searchText.reset();
+		this.isFocusActive = false;
+		this.showUsers = false;
+		this.showChannels = false;
+		this.searchService.handleClickOnUserAndUnSub(userId);
 	}
 
 	//user profile functions
@@ -69,15 +96,22 @@ export class HeaderComponent implements OnInit {
 		this.userProfileToggle.emit(visible);
 	}
 
-	handleFocus() {
+	handleToggleFocus() {
+		if(this.isFocusActive){
+			this.searchService.unSubscribeOnChannelSearch();
+			this.searchService.unSubscribeOnUserSearch();
+		}
 		this.isFocusActive = !this.isFocusActive;
 	}
 
+	/**
+	 * Handles the click event on a channel.
+	 * @param channelId - The ID of the channel that was clicked.
+	 */
 	handleClickOnChannel(channelId: string) {
-        this.router.navigate(['/home/channels', channelId]);
 		this.searchText.reset();
-		this.searchService.channelSearchActive = false;
-		this.searchService.channelSearchResults = [];
 		this.isFocusActive = false;
-      }
+		//unsubscribe from channel search
+		this.searchService.handleClickOnChannelAndUnSub(channelId);
+    }
 }

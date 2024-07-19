@@ -22,25 +22,6 @@
 	margin-bottom: 5px;
 }
 
-.close-button {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	border: none;
-	background-color: $white;
-	@include dFlex(center, center);
-	&:hover {
-		@include btnHover($bg-color);
-	}
-	&:active {
-		@include btnActive($bg-color);
-	}
-	> img {
-		width: 20px;
-		height: 20px;
-	}
-}
-
 .current-channel-name {
 	@include dFlex(row, start, center);
 	gap: 8px;

@@ -1,6 +1,6 @@
 <div class="group-chat-container">
-	@for (channel of this.firebaseService.channelList; track channel; let index= $index) {
-		@if (channel.chanId === chatService.docRef) {
+	@for (channel of this.firebaseService.channelList; track channel; let index=
+	$index) { @if (channel.chanId === chatService.docRef) {
 	<div class="group-display">
 		<div
 			class="active-group-chat"
@@ -10,14 +10,17 @@
 		>
 			<img [src]="hashtag" alt="" />
 			@if (channel.chanId === this.firebaseService.currentChanId) {
-			<span>{{channel.name}}</span>
+			<span>{{ channel.name }}</span>
 			}
 			<img class="pointer" [src]="dropdownArrow" alt="" />
 		</div>
 		<div class="avatar-collection">
-			<div class="user-profile-img-container pointer" (click)="handleClickOnMember()">
-				@for(member of channel.members; track member; let index = $index) {
-				@if(index < 3) {
+			<div
+				class="user-profile-img-container pointer"
+				(click)="handleClickOnMember()"
+			>
+				@for(member of channel.members; track member; let index =
+				$index) { @if(index < 3) {
 				<img
 					[ngStyle]="{ left: getLeftStyleValue(index) + 'px' }"
 					class="user-profile-img"
@@ -29,28 +32,33 @@
 			<div class="user-counter">
 				<span>{{ channel.members.length }}</span>
 			</div>
-			<button class="add-btn pointer" (click)="toggleAddMembersToChannel()">
+			<button
+				class="round-button pointer"
+				(click)="toggleAddMembersToChannel()"
+			>
 				<img src="assets/img/icons/person_add.png" alt="Add button" />
 			</button>
 		</div>
 	</div>
-}
-	}
+	} }
 	<div class="chat-history">
-		@for (channel of firebaseService.channelList; track channel.chanId; let index = $index) {
-			@if (channel.chanId === chatService.docRef) {
-				@if (chatService.msgList.length === 0) {
-				<div class="empty-chat-overlay">
-					<div class="top-section">
-						<h1>{{'# '+ channel.name }}</h1>
-					</div>
-					<div class="bottom-section">
-						<h2>Du hast diesen Channel <span>to-do logic for "today" or other date</span> erstellt. Dies ist der Anfang des Channels </h2><p>{{'# '+ channel.name +'.'}}</p>
-					</div>
-				</div>
-				}
-			}
-		}
+		@for (channel of firebaseService.channelList; track channel.chanId; let
+		index = $index) { @if (channel.chanId === chatService.docRef) { @if
+		(chatService.msgList.length === 0) {
+		<div class="empty-chat-overlay">
+			<div class="top-section">
+				<h1>{{ "# " + channel.name }}</h1>
+			</div>
+			<div class="bottom-section">
+				<h2>
+					Du hast diesen Channel
+					<span>to-do logic for "today" or other date</span> erstellt.
+					Dies ist der Anfang des Channels
+				</h2>
+				<p>{{ "# " + channel.name + "." }}</p>
+			</div>
+		</div>
+		} } }
 
 		<app-chat-history></app-chat-history>
 	</div>
@@ -62,5 +70,4 @@
 			(messageEvent)="this.chatService.onMessageSent($event)"
 		></app-chat-input>
 	</div>
-
 </div>

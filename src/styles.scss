@@ -346,3 +346,18 @@ body {
 		}
 	}
 }
+
+.round-button {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: none;
+	background-color: $bg-color;
+	@include dFlex(row, center, center);
+	&:hover {
+		@include btnHover($bg-color);
+	}
+	&:active {
+		@include btnActive($bg-color);
+	}
+}

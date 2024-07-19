@@ -2,7 +2,7 @@ import { Channel } from './../../models/channel.class';
 import { ChatService } from './../chat/chat.service';
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { Firestore } from '@angular/fire/firestore';
 import { User } from '../../../app/models/user.class';
 
@@ -14,19 +14,23 @@ export class SearchService {
 	firestore: Firestore = inject(Firestore);
 	firebaseService = inject(FirebaseService);
 	chatService = inject(ChatService);
-	constructor() {}
-
+	router: any;
+	
 	userSearchResults: string[] = [];
 	channelSearchResults: string[] = [];
 	messageSearchResults = [];
-
+	private channelSubscription: Subscription = new Subscription();
+	private userSubscription: Subscription = new Subscription();
 	selectedUser: string[] = [];
 	selectedChannel: string = '';
 	selectedMessage = [];
-
+	
 	searchText = '';
 	memberSearchActive: boolean = false;
 	channelSearchActive: boolean = false;
+	
+	constructor() {}
+
 
 
 
@@ -77,14 +81,7 @@ export class SearchService {
 		this.searchText = searchText || '';
 		console.log('Search text received by searchService:', this.searchText);
 
-		this.searchUsersByName(channelId).subscribe((users) => {
-			console.log('Search results:', users);
-			console.log(
-				'userSearchResults array contains:',
-				this.userSearchResults
-			);
-			
-		});
+		this.userSubscription = this.searchUsersByName(channelId).subscribe();
 		this.memberSearchActive = this.searchText.trim().length > 0;
 	}
 
@@ -129,11 +126,7 @@ export class SearchService {
 		this.channelSearchActive = true;
 		this.searchText = searchText.trim();
 		console.log('Search text received by searchService:', this.searchText);
-		
-		this.searchChannelsByName().subscribe((channels) => {
-			console.log('Search results:', channels);
-			console.log('channelSearchResults array contains:', this.channelSearchResults);
-		});
+		this.channelSubscription = this.searchChannelsByName().subscribe();
 	}
 
 
@@ -145,6 +138,49 @@ export class SearchService {
 		});
 	}
 
+	/**
+	 * Handles the click event on a channel.
+	 * Navigates to the specified channel and performs necessary cleanup.
+	 * 
+	 * @param channelId - The ID of the channel to navigate to.
+	 */
+	handleClickOnChannelAndUnSub(channelId: string) {
+        this.router.navigate(['/home/channels', channelId]);
+		this.channelSearchActive = false;
+		this.channelSearchResults = [];
+		this.unSubscribeOnChannelSearch();
+    }
+
+	handleClickOnUserAndUnSub(userId: string) {
+		this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, userId);
+		this.memberSearchActive = false;
+		this.userSearchResults = [];
+		this.unSubscribeOnUserSearch();
+	}
+
+	/**
+	 * Unsubscribes from the channel search subscription if it exists.
+	 */
+	unSubscribeOnChannelSearch() {
+		console.log('Unsubscribing from channel search subscription', this.channelSubscription);
+		if (this.channelSubscription) {
+			this.channelSubscription.unsubscribe();
+			console.log('Channel search subscription unsubscribed', this.channelSubscription);
+			
+		}
+	}
+	
+	/**
+	 * Unsubscribes from the user subscription if it exists.
+	 */
+	unSubscribeOnUserSearch() {
+		console.log('Unsubscribing from user search subscription', this.userSubscription);
+		if (this.userSubscription) {
+			this.userSubscription.unsubscribe();
+			console.log('User search subscription unsubscribed', this.userSubscription);
+			
+		}
+	}
 
 }
 
