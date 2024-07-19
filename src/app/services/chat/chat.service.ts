@@ -33,9 +33,9 @@ export class ChatService {
 
   editMessageId:string = '';  // will get used to store the id of the message that should get edited
 
-  existingChatRef:string = '';  // will get used to store the ref of the existing chat
+  selectedPrivateChatReciver: string = '';  // will get used to store the id of the selected private chat reciver
 
-  
+
  
 
   constructor(private router: Router, private route: ActivatedRoute) { 
@@ -58,7 +58,7 @@ export class ChatService {
   }
 
 
-  onMessageSent(event: { message: string, source: string, timestamp: number }) {
+  async onMessageSent(event: { message: string, source: string, timestamp: number }) {
     console.log('Message sent from component:', event.source);                    
     console.log('Message sent by:', this.firebaseService.currentUser.userId );
     console.log('Message content:', event.message);
@@ -77,7 +77,15 @@ export class ChatService {
         break;  
 
       case 'newMessage':
-        console.log('New message sent:', event.message);
+        if (this.mainCollection === 'privateChats') {
+          await this.startNewPrivateChat(this.firebaseService.currentUser.userId, this.selectedPrivateChatReciver);
+          await this.sendMessage(event.message, event.timestamp);
+        } 
+        
+        else if (this.mainCollection === 'channels') {  
+        this.sendMessage(event.message, event.timestamp);
+        this.router.navigate(['/home/channels', this.docRef]);
+        }
         break; 
         default:
         console.warn('Invalid destination collection:');

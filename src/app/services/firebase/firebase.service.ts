@@ -118,7 +118,7 @@ export class FirebaseService {
 	/**
 	 * Subscribes to the channels collection in Firestore and updates the channel list in real-time.
 	 * Orders the channels by name.
-	 * Logs the updated channel list to the console. to-do remove after developement is finished
+	 * Logs the updated channel list to the console.
 	 */
 	subChannelsList() {
 		const channelsCollection = collection(this.firestore, 'channels');
