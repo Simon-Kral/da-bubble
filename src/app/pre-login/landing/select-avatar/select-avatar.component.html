@@ -7,24 +7,17 @@
 	<div class="select-avatar-from-list">
 		<span>Aus der Liste wählen</span>
 		<div class="avatar-list">
-			@for (avatar of [1,2,3,4,5,6]; track avatar) {
+			@for (avatar of this.defaultAvatars; track avatar; let i = $index) {
 			<div class="input-box">
 				<input
-					id="avatar_{{ avatar }}"
+					id="avatar_{{ i }}"
 					type="radio"
 					name="avatar"
-					value="assets/img/character-images/character_{{
-						[avatar]
-					}}.png"
+					value="{{ avatar }}"
 					formControlName="avatar"
 				/>
-				<label for="avatar_{{ avatar }}">
-					<img
-						src="assets/img/character-images/character_{{
-							[avatar]
-						}}.png"
-						alt=""
-					/>
+				<label for="avatar_{{ i }}">
+					<img src="{{ avatar }}" alt="" />
 				</label>
 			</div>
 			}
@@ -33,7 +26,13 @@
 	<div class="upload-image">
 		<span>eigenes Bild verwenden</span>
 		<div class="button-wrap">
-			<button class="button-white">Datei hochladen</button>
+			<input
+				type="file"
+				id="fileUpload"
+				accept=".jpg, .jpeg, .png"
+				(change)="uploadFile($event)"
+			/>
+			<label for="fileUpload" class="button-white">Datei hochladen</label>
 		</div>
 	</div>
 	<div class="submit-button-box">
@@ -41,7 +40,7 @@
 			<button
 				class="button-blue"
 				type="submit"
-				[disabled]="!avatarForm.valid"
+				[disabled]="!avatarForm.valid || this.submitButtonDisabled"
 			>
 				Weiter
 			</button>
