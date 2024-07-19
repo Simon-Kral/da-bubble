@@ -189,8 +189,7 @@
 				<span
 					(click)="openUserDetails()"
 					class="creator-name-headlight pointer"
-					>{{ channelCreatorName }}</span
-				>
+					>{{ this.firebaseService.getUserDisplayName(channelCreaterID) }}</span>
 			</div>
 		</form>
 	</div>

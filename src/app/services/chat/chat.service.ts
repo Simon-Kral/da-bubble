@@ -334,15 +334,15 @@ async updatePrivateChatId(docRef: any): Promise<void> {
  * @param {Message} messageData - The data of the new message.
  * @returns {Promise<any>} A promise that resolves with the document reference of the newly added message.
  */
-    addMessage(messageData: Message): Promise<any> {
-      try {
-        const collectionRef = collection(this.firestore, this.mainCollection, this.docRef, 'messages');
-        return addDoc(collectionRef, messageData);
-      } catch (e) {
-        console.error('Error adding message document: ', e);
-        throw e;
-      }
-    }
+addMessage(messageData: Message): Promise<any> {
+	try {
+	const collectionRef = collection(this.firestore, this.mainCollection, this.docRef, 'messages');
+	return addDoc(collectionRef, messageData);
+	} catch (e) {
+	console.error('Error adding message document: ', e);
+	throw e;
+	}
+}
     
 /**
  * Updates the message document with its own ID in the messages subcollection of a private chat.

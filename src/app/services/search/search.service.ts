@@ -2,20 +2,8 @@ import { Channel } from './../../models/channel.class';
 import { ChatService } from './../chat/chat.service';
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
-import { map, Observable, of, Subject } from 'rxjs';
-import {
-	query,
-	orderBy,
-	where,
-	Firestore,
-	collection,
-	doc,
-	onSnapshot,
-	updateDoc,
-	getDocs,
-	arrayUnion,
-	collectionData,
-} from '@angular/fire/firestore';
+import { Observable, of } from 'rxjs';
+import { Firestore } from '@angular/fire/firestore';
 import { User } from '../../../app/models/user.class';
 
 
@@ -61,7 +49,12 @@ export class SearchService {
     return of(filteredUsers);
   }
 
-  // to-do why channelId ?????????
+
+/**
+ * Handles the user focus event and performs a search for users by name.
+ * @param searchText - The search text entered by the user.
+ * @param channelId - The ID of the channel to search within (optional).
+ */
   onUserFocus(searchText: string, channelId: string = '') {
 	this.memberSearchActive = true;
 	this.searchText = searchText || '';
@@ -76,7 +69,12 @@ export class SearchService {
 	});
 }
 
-// to-do why channelId ?????????
+
+/**
+ * Performs a user search based on the provided search text and channel ID.
+ * @param searchText - The search text to be used for user search.
+ * @param channelId - The ID of the channel to filter the user search results (optional).
+ */
 onUserSearch(searchText: string, channelId: string = '') {
 	this.searchText = searchText || '';
 	console.log('Search text received by searchService:', this.searchText);

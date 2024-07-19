@@ -34,12 +34,11 @@ export class ChannelDetailsComponent {
 	isChannelDescriptionEditable = false;
 
 	// to-do do we need that really?
-	channelToEdit: Channel = this.chatService.getCurrentChannel() || new Channel();
+	channelCreaterID: string = this.chatService.getCurrentChannel()?.createdBy || '';
 
 	channelCreatorName = this.firebaseService.getUserDisplayName(
-		this.channelToEdit?.createdBy || ''
+		this.chatService.getCurrentChannel()?.createdBy || ''
 	);
-	// to-do do we need that really?
 
 
 	channelName: FormGroup;
@@ -62,9 +61,9 @@ export class ChannelDetailsComponent {
 			]),
 		});
 
-		this.channelName.setValue({ chanName: this.channelToEdit?.name });
+		this.channelName.setValue({ chanName: this.chatService.getCurrentChannel()?.name });
 		this.channelDescription.setValue({
-			chanDescription: this.channelToEdit?.description,
+			chanDescription: this.chatService.getCurrentChannel()?.description,
 		});
 	}
 
@@ -81,7 +80,7 @@ export class ChannelDetailsComponent {
 	// to-do do we need that really?
 	checkChannelCreator() {
 		return (
-			this.channelToEdit?.createdBy ===
+			this.chatService.getCurrentChannel()?.createdBy ===
 			this.firebaseService.currentUser.userId
 		);
 	}
@@ -111,7 +110,7 @@ export class ChannelDetailsComponent {
 
 	handleDescriptionChange() {
 		if (
-			this.channelToEdit?.description !==
+			this.chatService.getCurrentChannel()?.description !==
 			this.channelDescription.value.chanDescription.trim()
 		) {
 			const channelDocRef = doc(
@@ -124,7 +123,7 @@ export class ChannelDetailsComponent {
 	}
 
 	handleNameChange() {
-		if (this.channelToEdit?.name !== this.channelName.value.chanName.trim()) {
+		if (this.chatService.getCurrentChannel()?.name !== this.channelName.value.chanName.trim()) {
 			const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
 			updateDoc(channelDocRef, {name: this.channelName.value.chanName.trim()});
 			this.toggleIsChannelNameEditable();
