@@ -41,7 +41,7 @@
 		@if (this.showUsers || this.showChannels) {
 			<div class="search-results">
 			<!--user search results-->
-			@if(showUsers) {
+			@if(showUsers && this.searchService.userSearchResults.length) {
 				<h3>Users:</h3>
 				@for (user of this.searchService.userSearchResults; track user; let index = $index) {
 					@if(index < 5 && user !== this.firebaseService.currentUserId) {
@@ -56,6 +56,8 @@
 						</div>
 					}
 				}	
+			} @else if(!this.searchService.userSearchResults.length && !this.showChannels && this.searchText.value) {
+				<h3>Es wurde kein Nutzer gefunden.</h3>
 			}
 			<!--channel search results-->
 			@if (showChannels) {
