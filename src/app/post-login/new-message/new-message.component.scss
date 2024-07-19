@@ -22,6 +22,7 @@
 
     .searchbar-container {
         width: 100%;
+        position: relative;
         input {
             @include Nunito(400, 16px, 21.82px, $black);
             width: 100%;
@@ -34,7 +35,17 @@
     }
 
     }
+.show-selected-users {
+    position: absolute;
+    top: 6px;
+    left: 44px;
+}
 
+.added-data {
+    position: absolute;
+    top: 6px;
+    left: 44px;
+}
 
 .chat-input {
     width: 100%;

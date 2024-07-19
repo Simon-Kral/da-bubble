@@ -18,9 +18,6 @@ export class NewMessageComponent {
   firebaseService = inject(FirebaseService);
 
   searchText: FormGroup;
-  selectedPrivateChatReciver: string = '';  // will get used to store the id of the selected private chat reciver
-  destinationCollection: string = 'privateChats'; // will get used to store the collection name of the destination (channels or privateChats)
-  destinationDocRef: string = '8Wsag9DHhyc9gDvw2ZtTli1tXpC2'; // will get used to store the document reference of the destination (channel or privateChat docRef)
 
   showUsers: boolean = false;
   showChannels: boolean = false;
@@ -38,28 +35,44 @@ export class NewMessageComponent {
     if (searchInput.startsWith('@')) {
         this.showUsers = true;
         this.showChannels = false;
-        this.searchService.onUserSearch(searchInput.slice(1)); // Suche ohne das '@'-Zeichen
+        this.searchService.onUserSearch(searchInput.slice(1)); 
     } else if (searchInput.startsWith('#')) {
         this.showUsers = false;
         this.showChannels = true;
-        this.searchService.onChannelSearch(searchInput.slice(1)); // Suche ohne das '#'-Zeichen
+        this.searchService.onChannelSearch(searchInput.slice(1)); 
     } else {
         this.showUsers = false;
         this.showChannels = false;
-        // Optional: Hier können Sie eine Standardaktion definieren, wenn die Eingabe nicht mit @ oder # beginnt.
     }
 
     console.log('Search text received by searchService:', searchInput);
 }
 
+removeSelectedChannel() {
+  this.chatService.mainCollection = '';
+  this.chatService.docRef = '';
+  this.searchService.selectedChannel = '';
+}
+
+removeSelectedUser(userId: string) {
+  this.searchService.removeSelectedUserFromArray(userId);
+  this.chatService.mainCollection = '';
+  this.chatService.selectedPrivateChatReciver = '';
+  this.searchService.selectedUser = [];
+}
+
 handleClickOnMember(userId: string) {
   this.chatService.mainCollection = 'privateChats';
   this.chatService.selectedPrivateChatReciver = userId;
+  this.searchService.selectedUser = [userId];
+  this.showUsers = false;
 }
 
 handleClickOnChannel(channelId: string) {
   this.chatService.mainCollection = 'channels';
   this.chatService.docRef = channelId;
+  this.searchService.selectedChannel = channelId;
+  this.showChannels = false;
 }
 
 
