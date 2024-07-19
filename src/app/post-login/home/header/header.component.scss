@@ -1,71 +1,99 @@
 @import "../../../../styles.scss";
-
+@import "../../shared/channel-member-selection/channel-member-selection.component.scss";
 
 .header-wrapper {
-  @include dFlex(column, center, center);
-  position: relative;
-  .header-container {
-  width: 100svw;
-  padding: 24px;
-  height: 100px;
-  @include dFlex(row, space-evenly, center);
-  >.logo-container {
-    @include dFlex(center, center);
-    gap: 16px;
-  }
+	@include dFlex(column, center, center);
+	position: relative;
+	.header-container {
+		width: 100svw;
+		padding: 24px;
+		height: 100px;
+		@include dFlex(row, space-evenly, center);
+		> .logo-container {
+			@include dFlex(center, center);
+			gap: 16px;
+		}
 
-  .searchbar-container {
-    width: 100%;
-    margin: 0 24px;
-  >.header-searchbar {
-    @include Nunito(400, 24px, 18.8px, $text-gray);
-    width: 100%;
-    padding: 17.5px 45px;
-    background-image: url("../../../../assets/img/icons/search.png");
-    background-repeat: no-repeat;
-    background-position: 95% center;
-    border-radius: 42px;
-    border: none;
+		.searchbar-container {
+			position: relative;
+			width: 100%;
+			margin: 0 24px;
+			form {
+				> .header-searchbar {
+					@include Nunito(400, 24px, 18.8px, $text-gray);
+					width: 100%;
+					padding: 17.5px 45px;
+					background-image: url("../../../../assets/img/icons/search.png");
+					background-repeat: no-repeat;
+					background-position: 95% center;
+					border-radius: 42px;
+					border: none;
 
-    &:focus {
-      border: 1px solid $purple-3;
-      outline: none;
-    }
-  }
+					&:focus {
+						border: 1px solid $purple-3;
+						outline: none;
+					}
+				}
+			}
+		}
+
+		> .user-avatar {
+			@include dFlex(center, center);
+			position: relative;
+			gap: 16px;
+
+			> img {
+				border-radius: 50%;
+				width: 70px;
+				height: 70px;
+			}
+		}
+
+		span:first-child {
+			@include Nunito(700, 32px, 18.8px, $black);
+			text-wrap: nowrap;
+		}
+
+		.user-status {
+			position: absolute;
+			bottom: 0;
+			right: 48px;
+			width: 16px;
+			height: 16px;
+			border-radius: 50%;
+			border: solid 2px white;
+		}
+	}
+	.search-results {
+		width: inherit;
+		position: absolute;
+		top: 70px;
+		z-index: 5;
+		background-color: $white;
+		@include Nunito(400, 16px, 18.8px, $black);
+	}
 }
 
->.user-avatar {
-  @include dFlex(center, center);
-  position: relative;
-  gap: 16px;
-
-  >img {
-    border-radius: 50%;
-    width: 70px;
-    height: 70px;
-  }
+.mb-8 {
+	margin-bottom: 8px;
 }
 
-span {
-  @include Nunito(700, 32px, 18.8px, $black);
-  text-wrap: nowrap;
+.width100 {
+	width: 100%;
 }
 
-.user-status {
-  position: absolute;
-  bottom: 0;
-  right: 48px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: solid 2px white;
+.jc-unset {
+	justify-content: unset !important;
 }
+
+h3 {
+	@include Nunito(600, 24px, 18.8px, $black);
+	padding: 20px;
 }
-.search-results {
-  width: 70%;
-  top: 90px;
-  position: absolute;
-  z-index: 5;
-  background-color: $white;
-}
+
+.content-container {
+	padding: 20px;
+	span {
+		@include Nunito(400, 16px, 18.8px, $black);
+	}
 }

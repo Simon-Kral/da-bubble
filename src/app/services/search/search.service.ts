@@ -50,102 +50,104 @@ export class SearchService {
   }
 
 
-/**
- * Handles the user focus event and performs a search for users by name.
- * @param searchText - The search text entered by the user.
- * @param channelId - The ID of the channel to search within (optional).
- */
-  onUserFocus(searchText: string, channelId: string = '') {
-	this.memberSearchActive = true;
-	this.searchText = searchText || '';
-	console.log('Search text received by searchService:', this.searchText);
+	/**
+	 * Handles the user focus event and performs a search for users by name.
+	 * @param searchText - The search text entered by the user.
+	 * @param channelId - The ID of the channel to search within (optional).
+	 */
+	onUserFocus(searchText: string, channelId: string = '') {
+		this.memberSearchActive = true;
+		this.searchText = searchText || '';
+		console.log('Search text received by searchService:', this.searchText);
 
-	this.searchUsersByName(channelId).subscribe((users) => {
-		console.log('Search results:', users);
-		console.log(
-			'userSearchResults array contains:',
-			this.userSearchResults
-		);
-	});
-}
-
-
-/**
- * Performs a user search based on the provided search text and channel ID.
- * @param searchText - The search text to be used for user search.
- * @param channelId - The ID of the channel to filter the user search results (optional).
- */
-onUserSearch(searchText: string, channelId: string = '') {
-	this.searchText = searchText || '';
-	console.log('Search text received by searchService:', this.searchText);
-
-	this.searchUsersByName(channelId).subscribe((users) => {
-		console.log('Search results:', users);
-		console.log(
-			'userSearchResults array contains:',
-			this.userSearchResults
-		);
-		
-	});
-	this.memberSearchActive = this.searchText.trim().length > 0;
-}
-
-pushSelectedUserToArray(userId: string) {
-	if (!this.selectedUser.includes(userId)) {
-		this.selectedUser.push(userId);
-		console.log('User pushed into Array', this.selectedUser);
+		this.searchUsersByName(channelId).subscribe((users) => {
+			console.log('Search results:', users);
+			console.log(
+				'userSearchResults array contains:',
+				this.userSearchResults
+			);
+		});
 	}
-	this.memberSearchActive = false;
-}
 
-removeSelectedUserFromArray(userId: string) {
-	const index = this.selectedUser.indexOf(userId);
-	if (index > -1) {
-		this.selectedUser.splice(index, 1);
+
+	/**
+	 * Performs a user search based on the provided search text and channel ID.
+	 * @param searchText - The search text to be used for user search.
+	 * @param channelId - The ID of the channel to filter the user search results (optional).
+	 */
+	onUserSearch(searchText: string, channelId: string = '') {
+		this.searchText = searchText || '';
+		console.log('Search text received by searchService:', this.searchText);
+
+		this.searchUsersByName(channelId).subscribe((users) => {
+			console.log('Search results:', users);
+			console.log(
+				'userSearchResults array contains:',
+				this.userSearchResults
+			);
+			
+		});
+		this.memberSearchActive = this.searchText.trim().length > 0;
 	}
-	console.log('User removed from Array', this.selectedUser);
-}
 
-// code for channel search 
-
-
-    /**
-   * Searches the channel list for documents where the name field matches or contains the search text.
-   * @returns An Observable of the search results.
-   */
-	searchChannelsByName(): Observable<Channel[]> {
-		const filteredChannels = this.firebaseService.channelList.filter(
-			(channel) =>
-				channel.name.toLowerCase().includes(this.searchText.toLowerCase()) 
-				&& channel.chanId !== this.selectedChannel
-			  
-		  );
-		  this.channelSearchResults = filteredChannels.map((channel) => channel.chanId);
-		  return of(filteredChannels);
+	pushSelectedUserToArray(userId: string) {
+		if (!this.selectedUser.includes(userId)) {
+			this.selectedUser.push(userId);
+			console.log('User pushed into Array', this.selectedUser);
 		}
+		this.memberSearchActive = false;
+	}
+
+	removeSelectedUserFromArray(userId: string) {
+		const index = this.selectedUser.indexOf(userId);
+		if (index > -1) {
+			this.selectedUser.splice(index, 1);
+		}
+		console.log('User removed from Array', this.selectedUser);
+	}
+
+	// code for channel search 
+
+
+	/**
+	 * Searches the channel list for documents where the name field matches or contains the search text.
+	 * @returns An Observable of the search results.
+	 */
+	searchChannelsByName(): Observable<Channel[]> {
+	const filteredChannels = this.firebaseService.channelList.filter(
+		(channel) =>
+			channel.name.toLowerCase().includes(this.searchText.toLowerCase()) 
+			&& channel.chanId !== this.selectedChannel
+			
+		);
+		this.channelSearchResults = filteredChannels.map((channel) => channel.chanId);
+		return of(filteredChannels);
+	}
 	  
 
 
 
-		onChannelSearch(searchText: string) {
-			this.channelSearchActive = true;
-			this.searchText = searchText.trim();
-			console.log('Search text received by searchService:', this.searchText);
-		  
-			this.searchChannelsByName().subscribe((channels) => {
-			  console.log('Search results:', channels);
-			  console.log('channelSearchResults array contains:', this.channelSearchResults);
-			});
-		  }
-
-
-		  onChannelFocus() {
-			this.channelSearchActive = true;
-			  this.searchChannelsByName().subscribe((channels) => {
-				console.log('All channels:', channels);
-				console.log('channelSearchResults array contains:', this.channelSearchResults);
-			  });
-			} 
+	onChannelSearch(searchText: string) {
+		this.channelSearchActive = true;
+		this.searchText = searchText.trim();
+		console.log('Search text received by searchService:', this.searchText);
+		
+		this.searchChannelsByName().subscribe((channels) => {
+			console.log('Search results:', channels);
+			console.log('channelSearchResults array contains:', this.channelSearchResults);
+		});
 	}
+
+
+	onChannelFocus() {
+		this.channelSearchActive = true;
+		this.searchChannelsByName().subscribe((channels) => {
+		console.log('All channels:', channels);
+		console.log('channelSearchResults array contains:', this.channelSearchResults);
+		});
+	}
+
+
+}
 
 
