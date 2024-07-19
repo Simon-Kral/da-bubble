@@ -93,7 +93,8 @@ h3 {
 
 .content-container {
 	padding: 20px;
-	span {
-		@include Nunito(400, 16px, 18.8px, $black);
-	}
+}
+
+.headline {
+	@include Nunito(800, 32px, 18.8px, $black);
 }

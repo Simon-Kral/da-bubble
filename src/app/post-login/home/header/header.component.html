@@ -2,12 +2,12 @@
   <div class="header-container">
 	<div class="logo-container">
 		<img class="" src="assets/img/logos/da_bubble_logo.png" alt="" />
-		<span>DABubble</span>
+		<span class="headline">DABubble</span>
 	</div>
 	<div class="searchbar-container">
 		<form class="" [formGroup]="searchText">
-			<input class="header-searchbar" type="text" placeholder="Devspace durchsuchen" formControlName="search"
-			(input)="this.handleSearch()" (focus)="this.handleFocus()" />
+			<input class="header-searchbar" type="text" placeholder="Suche nach Usern mit @ und nach Channel mit #" formControlName="search"
+			(input)="this.handleSearch()" (click)="this.handleFocus()" />
 		</form>
 
 		<!-- onFocus -->
@@ -43,16 +43,16 @@
 			<!--user search results-->
 			@if(showUsers && this.searchService.userSearchResults.length) {
 				<h3>Users:</h3>
-				@for (user of this.searchService.userSearchResults; track user; let index = $index) {
-					@if(index < 5 && user !== this.firebaseService.currentUserId) {
-						<div class="member-container pointer mb-8 width100 jc-unset" (click)="handleClickOnMember(user)">
+				@for (userId of this.searchService.userSearchResults; track userId; let index = $index) {
+					@if(index < 5 && userId !== this.firebaseService.currentUserId) {
+						<div class="member-container pointer mb-8 width100 jc-unset" (click)="handleClickOnMember(userId)">
 							<div class="user-avatar">
-								<img [src]="this.firebaseService.getUserAvatar(user)" alt="User Avatar" />
+								<img [src]="this.firebaseService.getUserAvatar(userId)" alt="User Avatar" />
 							<div class="user-status"
-								[ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(user), 'offline': !this.firebaseService.getUserOnlineStatus(user) }">
+								[ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(userId), 'offline': !this.firebaseService.getUserOnlineStatus(userId) }">
 								</div>
 							</div>
-								<span>{{ this.firebaseService.getUserDisplayName(user) }}</span>
+								<span>{{ this.firebaseService.getUserDisplayName(userId) }}</span>
 						</div>
 					}
 				}	
@@ -62,9 +62,9 @@
 			<!--channel search results-->
 			@if (showChannels) {
 				<h3>Channels:</h3>
-				@for (channel of this.firebaseService.channelList; track channel; let index = $index) {
-					<div class="content-container pointer" (click)="handleClickOnChannel(channel.chanId)">
-						<span>{{ '#' + channel.name }}</span>
+				@for (channel of this.searchService.channelSearchResults; track channel; let index = $index) {
+					<div class="content-container pointer" (click)="handleClickOnChannel(channel)">
+						<span routerLinkActive="router-link-active" >#{{this.chatService.getChannelNameById(channel)}} </span>
 					</div>
 				}
 			}
@@ -76,7 +76,7 @@
 
 
   <div class="user-avatar">
-    <span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }}</span>
+    <span class="headline">{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }}</span>
     <img src="{{ this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)}}" alt="User Image" />
     <div class="user-status"
       [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId), 'offline': !this.firebaseService.getUserOnlineStatus(this.firebaseService.currentUserId) }">

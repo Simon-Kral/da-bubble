@@ -1,16 +1,17 @@
 import { ChatService } from './../../../services/chat/chat.service';
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { AuthService } from '../../../services/authentication/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
 import { SearchService } from '../../../services/search/search.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
+
 @Component({
 	selector: 'app-header',
 	standalone: true,
-	imports: [CommonModule, ReactiveFormsModule],
+	imports: [CommonModule, ReactiveFormsModule, RouterLink],
 	templateUrl: './header.component.html',
 	styleUrl: './header.component.scss',
 })
@@ -28,7 +29,7 @@ export class HeaderComponent implements OnInit {
 	@Output() userProfileToggle = new EventEmitter<boolean>();
 	isFocusActive: boolean = false;
 
-	constructor(private fb: FormBuilder) {
+	constructor(private fb: FormBuilder, ) {
 		this.searchText = this.fb.group({
 			search: [''],
 		});
@@ -62,10 +63,6 @@ export class HeaderComponent implements OnInit {
 	handleClickOnMember(userId: string) {
 		this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, userId);
 	}
-	  
-	  handleClickOnChannel(channelId: string) {
-		
-	  }	
 
 	//user profile functions
 	toggleUserProfile(visible: boolean) {
@@ -75,4 +72,12 @@ export class HeaderComponent implements OnInit {
 	handleFocus() {
 		this.isFocusActive = !this.isFocusActive;
 	}
+
+	handleClickOnChannel(channelId: string) {
+        this.router.navigate(['/home/channels', channelId]);
+		this.searchText.reset();
+		this.searchService.channelSearchActive = false;
+		this.searchService.channelSearchResults = [];
+		this.isFocusActive = false;
+      }
 }

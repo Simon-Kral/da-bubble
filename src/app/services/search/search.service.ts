@@ -41,9 +41,7 @@ export class SearchService {
     const filteredUsers = this.firebaseService.userList.filter(
       (user) =>
         user.name.toLowerCase().includes(this.searchText.toLowerCase()) &&!user.channels.includes(channelId) 
-	  	&&user.userId !== this.firebaseService.currentUserId &&!this.selectedUser.includes(user.userId)
-		
-		
+	  	&&user.userId !== this.firebaseService.currentUserId &&!this.selectedUser.includes(user.userId)	
     );
     this.userSearchResults = filteredUsers.map((user) => user.userId);
     return of(filteredUsers);
