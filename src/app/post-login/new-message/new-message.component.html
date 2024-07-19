@@ -62,7 +62,7 @@
 
 
 		<!-- Search resault -->
-		@if (this.showUsers || this.showChannels) {
+		@if (this.showUsers || this.showChannels || this.showUsersByEmail) {
 			<div class="search-results">
 			<!--user search results-->
 			@if(showUsers && this.searchService.userSearchResults.length) {
@@ -80,7 +80,24 @@
 						</div>
 					}
 				}	
-			} @else if(!this.searchService.userSearchResults.length && !this.showChannels && this.searchText.value) {
+			}
+			@if(showUsersByEmail && this.searchService.userSearchResults.length) {
+				<h3>Users:</h3>
+				@for (userId of this.searchService.userSearchResults; track userId; let index = $index) {
+					@if(index < 5 && userId !== this.firebaseService.currentUserId) {
+						<div class="member-container pointer mb-8 width100 jc-unset" (click)="handleClickOnMember(userId)">
+							<div class="user-avatar">
+								<img [src]="this.firebaseService.getUserAvatar(userId)" alt="User Avatar" />
+							<div class="user-status"
+								[ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(userId), 'offline': !this.firebaseService.getUserOnlineStatus(userId) }">
+								</div>
+							</div>
+								<span>{{ this.firebaseService.getUserDisplayName(userId) }}</span>
+						</div>
+					}
+				}	
+			}
+			 @else if(!this.searchService.userSearchResults.length && !this.showChannels && this.searchText.value) {
 				<h3>Es wurde kein Nutzer gefunden.</h3>
 			}
 			<!--channel search results-->

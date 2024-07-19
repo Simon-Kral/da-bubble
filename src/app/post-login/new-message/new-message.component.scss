@@ -44,8 +44,10 @@
 
 .added-data {
     position: absolute;
-    top: 6px;
-    left: 44px;
+    top: 0;
+    left: -32px;
+    height: inherit;
+    width: inherit;
 }
 
 .chat-input {

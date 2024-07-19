@@ -19,6 +19,7 @@ export class NewMessageComponent {
 
   searchText: FormGroup;
 
+  showUsersByEmail: boolean = false;
   showUsers: boolean = false;
   showChannels: boolean = false;
   isFocusActive: boolean = false;
@@ -43,8 +44,11 @@ export class NewMessageComponent {
         this.showChannels = true;
         this.searchService.onChannelSearch(searchInput.slice(1)); 
     } else {
+        this.isFocusActive = false;
         this.showUsers = false;
         this.showChannels = false;
+        this.showUsersByEmail = true;
+        this.searchService.onEmailSearch(searchInput); 
     }
 
     console.log('Search text received by searchService:', searchInput);
@@ -70,6 +74,9 @@ handleClickOnMember(userId: string) {
   this.chatService.selectedPrivateChatReciver = userId;
   this.searchService.selectedUser = [userId];
   this.showUsers = false;
+  this.showUsersByEmail = false;
+  this.isFocusActive = false;
+  this.searchText.get('search')?.setValue('');
 }
 
 handleClickOnChannel(channelId: string) {
@@ -77,6 +84,8 @@ handleClickOnChannel(channelId: string) {
   this.chatService.docRef = channelId;
   this.searchService.selectedChannel = channelId;
   this.showChannels = false;
+  this.isFocusActive = false;
+  this.searchText.get('search')?.setValue('');
 }
 
 
@@ -84,9 +93,5 @@ handleClickOnChannel(channelId: string) {
 handleFocus() {
   this.isFocusActive = !this.isFocusActive;
 }
-
-
-
-
 
 }
