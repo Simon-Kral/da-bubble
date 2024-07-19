@@ -4,6 +4,7 @@ import { FirebaseService } from '../firebase/firebase.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { Firestore } from '@angular/fire/firestore';
 import { User } from '../../../app/models/user.class';
+import { ChatService } from '../chat/chat.service';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import { User } from '../../../app/models/user.class';
 export class SearchService {
 	firestore: Firestore = inject(Firestore);
 	firebaseService = inject(FirebaseService);
-
+	chatService = inject(ChatService);
 	router: any;
 	
 	userSearchResults: string[] = [];
@@ -169,7 +170,7 @@ export class SearchService {
     }
 
 	handleClickOnUserAndUnSub(userId: string) {
-		//this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, userId);
+		this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, userId);
 		this.memberSearchActive = false;
 		this.userSearchResults = [];
 		this.unSubscribeOnUserSearch();

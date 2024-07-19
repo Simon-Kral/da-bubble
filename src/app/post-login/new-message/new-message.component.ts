@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
 import { ChatService } from '../../services/chat/chat.service';
 import { SearchService } from '../../services/search/search.service';
@@ -12,7 +12,7 @@ import { FirebaseService } from '../../services/firebase/firebase.service';
   templateUrl: './new-message.component.html',
   styleUrl: './new-message.component.scss'
 })
-export class NewMessageComponent {
+export class NewMessageComponent implements OnDestroy {
   chatService = inject(ChatService);
   searchService = inject(SearchService);
   firebaseService = inject(FirebaseService);
@@ -29,6 +29,12 @@ export class NewMessageComponent {
 			search: ['']
 		});
 	}
+
+  ngOnDestroy() {
+    this.searchService.selectedUser = [];
+    this.chatService.selectedPrivateChatReciver = '';
+    this.searchService.selectedChannel = '';
+  }
 
   handleSearch() {
     const searchInput = this.searchText.get('search')?.value || '';

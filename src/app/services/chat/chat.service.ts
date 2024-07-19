@@ -15,7 +15,7 @@ export class ChatService {
 
   firebaseService = inject(FirebaseService);
   firestore: Firestore = inject(Firestore);
-  searchService = inject(SearchService);
+  
 
   msgList: Message[] = [];  // will get used to store msgs from prvt chats or channels
   msgAnswerList: Message[] = []; // will get used to store msgAnswers from prvt chats or channels
@@ -83,13 +83,10 @@ export class ChatService {
         if (this.mainCollection === 'privateChats') {
           await this.startNewPrivateChat(this.firebaseService.currentUser.userId, this.selectedPrivateChatReciver);
           await this.sendMessage(event.message, event.timestamp);
-          this.searchService.selectedUser = [];
-          this.selectedPrivateChatReciver = '';
         } 
         
         else if (this.mainCollection === 'channels') {  
         this.sendMessage(event.message, event.timestamp);
-        this.searchService.selectedChannel = '';
         this.router.navigate(['/home/channels', this.docRef]);
         }
         break; 

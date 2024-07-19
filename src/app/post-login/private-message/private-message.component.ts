@@ -8,6 +8,7 @@ import { PrivateMessageListComponent } from '../home/side-navigation/sidenav/pri
 import { ActivatedRoute } from '@angular/router';
 import { CommunicationService } from '../../services/communication/communication.service';
 import { ChatHistoryComponent } from '../shared/chat-history/chat-history.component';
+import { SearchService } from '../../services/search/search.service';
 
 
 
@@ -23,7 +24,9 @@ export class PrivateMessageComponent implements OnInit, OnDestroy{
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
+  searchService = inject(SearchService);
 
+  
   constructor(private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
 			this.chatService.docRef = params['id'];
