@@ -6,6 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SearchService } from '../search/search.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +15,7 @@ export class ChatService {
 
   firebaseService = inject(FirebaseService);
   firestore: Firestore = inject(Firestore);
+  searchService = inject(SearchService);
 
   msgList: Message[] = [];  // will get used to store msgs from prvt chats or channels
   msgAnswerList: Message[] = []; // will get used to store msgAnswers from prvt chats or channels
@@ -63,7 +66,7 @@ export class ChatService {
     console.log('Message sent by:', this.firebaseService.currentUser.userId );
     console.log('Message content:', event.message);
     console.log('Message timestamp:', event.timestamp);
-    // Add logic to handle the sent message
+
     switch (event.source) {
       case 'privateMessage':
         this.sendMessage(event.message, event.timestamp);   
@@ -80,10 +83,13 @@ export class ChatService {
         if (this.mainCollection === 'privateChats') {
           await this.startNewPrivateChat(this.firebaseService.currentUser.userId, this.selectedPrivateChatReciver);
           await this.sendMessage(event.message, event.timestamp);
+          this.searchService.selectedUser = [];
+          this.selectedPrivateChatReciver = '';
         } 
         
         else if (this.mainCollection === 'channels') {  
         this.sendMessage(event.message, event.timestamp);
+        this.searchService.selectedChannel = '';
         this.router.navigate(['/home/channels', this.docRef]);
         }
         break; 

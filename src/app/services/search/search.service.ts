@@ -1,5 +1,4 @@
 import { Channel } from './../../models/channel.class';
-import { ChatService } from './../chat/chat.service';
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
 import { Observable, of, Subscription } from 'rxjs';
@@ -13,7 +12,7 @@ import { User } from '../../../app/models/user.class';
 export class SearchService {
 	firestore: Firestore = inject(Firestore);
 	firebaseService = inject(FirebaseService);
-	chatService = inject(ChatService);
+
 	router: any;
 	
 	userSearchResults: string[] = [];
@@ -101,6 +100,24 @@ export class SearchService {
 		console.log('User removed from Array', this.selectedUser);
 	}
 
+
+	searchUsersByEmail(): Observable<User[]> {
+		const filteredUsers = this.firebaseService.userList.filter((user) => 
+		  user.email.toLowerCase().includes(this.searchText.toLowerCase()) && 
+		  user.userId !== this.firebaseService.currentUserId
+		);
+		this.userSearchResults = filteredUsers.map((user) => user.userId);
+		return of(filteredUsers);
+	  }
+
+	onEmailSearch(searchText: string) {
+		this.searchText = searchText || '';
+		console.log('Search text received by searchService:', this.searchText);
+		this.userSubscription = this.searchUsersByEmail().subscribe();
+		console.log('User search results:', this.userSearchResults);
+		this.memberSearchActive = this.searchText.trim().length > 0;
+	}
+
 	// code for channel search 
 
 
@@ -152,7 +169,7 @@ export class SearchService {
     }
 
 	handleClickOnUserAndUnSub(userId: string) {
-		this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, userId);
+		//this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, userId);
 		this.memberSearchActive = false;
 		this.userSearchResults = [];
 		this.unSubscribeOnUserSearch();
