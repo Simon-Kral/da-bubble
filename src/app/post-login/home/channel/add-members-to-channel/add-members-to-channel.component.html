@@ -12,10 +12,10 @@
 
     <div class="show-selected-users">
       @for (user of this.searchService.selectedUser; track user; let index = $index) {
-        <div class="added-data">
+        <div class="pointer added-data" (click)="this.searchService.removeSelectedUserFromArray(user)">
           <img [src]="this.firebaseService.getUserAvatar(user)" alt="profile-pic" />
           <span>{{ this.firebaseService.getUserDisplayName(user) }}</span>
-          <div class="pointer remove-user" (click)="this.searchService.removeSelectedUserFromArray(user)">
+          <div class="remove-user">
             <img src="assets/img/icons/close_black.png" alt="close-icon" />
           </div>
         </div>

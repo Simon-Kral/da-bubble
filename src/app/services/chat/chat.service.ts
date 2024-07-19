@@ -367,22 +367,39 @@ async updatePrivateChatId(docRef: any): Promise<void> {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   //code for channels
 
-  		//channel code sorted by get / update operations
-	/**
-	 * Updates the name of the channel.
-	 *
-	 * @param channelName - The new name for the channel.
-	 */
-	updateChannelName(channelName: string) {
-		const channelDocRef = doc(
-			this.firestore,
-			`channels/${this.docRef}`
-		);
-		updateDoc(channelDocRef, { name: channelName });
-	}
 
+
+  // to do do we need that really?
 	getCurrentChannel() {
 		return this.firebaseService.channelList.find(
 			(channel) => channel.chanId === this.docRef
@@ -390,27 +407,8 @@ async updatePrivateChatId(docRef: any): Promise<void> {
 	
 	}
 
-	/**
-	 * Retrieves all members of the current channel.
-	 * @returns An array of members in the current channel.
-	 * to-do delete code is redundant
-	 */
-	getAllMembers() {
-		const currentChannel = this.firebaseService.channelList.find(
-			(channel) => channel.chanId === this.docRef
-		);
-		return currentChannel ? currentChannel.members : [];
-	}
 
-	/**
-	 * Retrieves a channel by its ID.
-	 * @param channelId - The ID of the channel to retrieve.
-	 * @returns The channel object with the specified ID, or undefined if not found.
-	 * to-do delete code is redundant
-	 */
-	getChannelById(channelId: string) {
-		return this.firebaseService.channelList.find((channel) => channel.chanId === channelId);
-	}
+  // to-do move to firebase service 
 
 	getChannelNameById(channelId: string) {
 		return this.firebaseService.channelList.find((channel) => channel.chanId === channelId)?.name;

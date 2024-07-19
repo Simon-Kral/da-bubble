@@ -32,11 +32,16 @@ export class ChannelDetailsComponent {
 	searchService = inject(SearchService);
 	isChannelNameEditable = false;
 	isChannelDescriptionEditable = false;
+
+	// to-do do we need that really?
 	channelToEdit: Channel = this.chatService.getCurrentChannel() || new Channel();
-	currentChannelName = this.chatService.getChannelNameById(this.chatService.docRef);
+
 	channelCreatorName = this.firebaseService.getUserDisplayName(
 		this.channelToEdit?.createdBy || ''
 	);
+	// to-do do we need that really?
+
+
 	channelName: FormGroup;
 	channelDescription: FormGroup;
 
@@ -73,6 +78,7 @@ export class ChannelDetailsComponent {
 		this.isChannelNameEditable = !this.isChannelNameEditable;
 	}
 
+	// to-do do we need that really?
 	checkChannelCreator() {
 		return (
 			this.channelToEdit?.createdBy ===
