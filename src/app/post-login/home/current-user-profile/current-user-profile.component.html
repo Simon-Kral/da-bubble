@@ -272,6 +272,18 @@
 			}
 		</div>
 	</div>
+	<div class="upload-image">
+		<span>eigenes Bild verwenden</span>
+		<div class="button-wrap">
+			<input
+				type="file"
+				id="fileUpload"
+				accept=".jpg, .jpeg, .png"
+				(change)="uploadFile($event)"
+			/>
+			<label for="fileUpload" class="button-white">Datei hochladen</label>
+		</div>
+	</div>
 	<div class="btn-container">
 		<button class="pointer cancel-btn" (click)="onCancel('editAvatar')">
 			Abbrechen

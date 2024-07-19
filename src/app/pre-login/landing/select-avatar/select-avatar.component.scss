@@ -1,109 +1,110 @@
 @import "./../../../../styles.scss";
 
 :host {
-  @include dFlex();
-  flex-direction: column;
-  gap: 32px;
-  max-width: 500px;
+	@include dFlex();
+	flex-direction: column;
+	gap: 32px;
+	max-width: 500px;
 }
 
 h1 {
-  @include Nunito(700, 46px, 55.2px, $purple-1);
+	@include Nunito(700, 46px, 55.2px, $purple-1);
 }
 
 h2 {
-  @include Nunito(700, 32px, 43.65px, $black);
-  text-align: center;
+	@include Nunito(700, 32px, 43.65px, $black);
+	text-align: center;
 }
 
 form {
-  @include dFlex();
-  flex-direction: column;
-  gap: 32px;
+	@include dFlex();
+	flex-direction: column;
+	gap: 32px;
 }
 
 .avatar-preview {
-  @include dFlex($fd: column);
-  gap: 32px;
-  img {
-    width: 168px;
-    height: 168px;
-    border-radius: 50%;
-  }
+	@include dFlex($fd: column);
+	gap: 32px;
+	img {
+		width: 168px;
+		height: 168px;
+		border-radius: 50%;
+	}
 }
 
 .select-avatar-from-list {
-  @include dFlex($fd: column, $ai: flex-start);
-  gap: 16px;
-  span {
-    @include Nunito(400, 20px, 27.28px, $black);
-  }
+	@include dFlex($fd: column, $ai: flex-start);
+	gap: 16px;
+	span {
+		@include Nunito(400, 20px, 27.28px, $black);
+	}
 }
 
 .avatar-list {
-  @include dFlex();
-  gap: 8px;
-  .input-box {
-    width: 72px;
-    height: 72px;
-    input {
-      display: none;
-    }
-    label {
-      cursor: pointer;
-      img {
-        width: 64px;
-        margin: 4px;
-        border-radius: 50%;
-      }
-    }
-  }
+	@include dFlex();
+	gap: 8px;
+	.input-box {
+		width: 72px;
+		height: 72px;
+		label {
+			cursor: pointer;
+			img {
+				width: 64px;
+				margin: 4px;
+				border-radius: 50%;
+			}
+		}
+	}
+}
+
+input {
+	display: none;
 }
 
 .upload-image {
-  @include dFlex($jc: flex-start);
-  gap: 24px;
-  width: 100%;
-  span {
-    @include Nunito(400, 20px, 27.28px, $black);
-  }
+	@include dFlex($jc: flex-start);
+	gap: 24px;
+	width: 100%;
+	span {
+		@include Nunito(400, 20px, 27.28px, $black);
+	}
 }
 
 .submit-button-box {
-  @include dFlex($jc: flex-end);
-  width: 100%;
+	@include dFlex($jc: flex-end);
+	width: 100%;
 }
 
 .button-wrap {
-  @include dFlex();
-  .button-blue {
-    @include buttonBlue();
-  }
-  .button-white {
-    @include buttonWhite();
-  }
+	@include dFlex();
+	.button-blue {
+		@include buttonBlue();
+	}
+	.button-white {
+		@include buttonWhite();
+	}
 }
 
 .back-button {
-  @include dFlex();
-  position: absolute;
-  top: 53px;
-  left: 40px;
-  background-color: transparent;
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  transition: all 0.1s;
-  &:hover {
-    cursor: pointer;
-    background-color: $bg-color;
-    img {
-      filter: invert(38%) sepia(54%) saturate(4920%) hue-rotate(227deg)
-        brightness(95%) contrast(98%);
-    }
-  }
-  img {
-    transition: all 0.1s;
-  }
+	@include dFlex();
+	position: absolute;
+	top: 53px;
+	left: 40px;
+	background-color: transparent;
+	border: none;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	transition: all 0.1s;
+	&:hover {
+		cursor: pointer;
+		background-color: $bg-color;
+		img {
+			filter: invert(38%) sepia(54%) saturate(4920%) hue-rotate(227deg)
+				brightness(95%) contrast(98%);
+		}
+	}
+	img {
+		transition: all 0.1s;
+	}
 }

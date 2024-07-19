@@ -9,6 +9,7 @@ import { NgIf } from '@angular/common';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { FirebaseService } from '../../../services/firebase/firebase.service';
 
 @Component({
 	selector: 'app-signup',
@@ -19,6 +20,7 @@ import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 })
 export class SignupComponent {
 	authService = inject(AuthService);
+	firebase = inject(FirebaseService);
 	firestore: Firestore = inject(Firestore);
 	fb = inject(FormBuilder);
 	router = inject(Router);
@@ -43,7 +45,7 @@ export class SignupComponent {
 			.signup(rawForm.email, rawForm.username, rawForm.password)
 			.subscribe({
 				next: () => {
-					this.setInitialDatabaseEntries(rawForm.username);
+					this.firebase.setInitialDatabaseEntries(rawForm.username);
 				},
 				error: (err) => {
 					console.log(err);
@@ -72,49 +74,5 @@ export class SignupComponent {
 			this.inputType = 'password';
 			this.visibilityIcon = 'assets/img/icons/visibility_off.png';
 		}
-	}
-
-	/**
-	 * Sets initial database entries for the newly registered user.
-	 * @param {string} username - The username of the newly registered user.
-	 * @returns {void}
-	 */
-	setInitialDatabaseEntries(username: string): void {
-		const userId = this.authService.firebaseAuth.currentUser!.uid;
-		const userDoc = doc(this.firestore, 'users', userId);
-		const privateChatDoc = doc(this.firestore, 'privateNotes', userId);
-		setDoc(userDoc, this.setUserObject(username)).then(() => {
-			setDoc(privateChatDoc, this.setPrivateNoteObject());
-		});
-	}
-
-	/**
-	 * Creates a user object for Firestore.
-	 * @param {string} [username] - Optional username for the user.
-	 * @returns {Object} The user object.
-	 */
-	setUserObject(username?: string): Object {
-		const user = this.authService.firebaseAuth.currentUser!;
-		return {
-			userId: user.uid,
-			name: username ? username : user.displayName,
-			status: true,
-			photoURL: user.photoURL,
-			channels: [],
-			email: user.email ? user.email : '',
-			privateNoteRef: user.uid,
-		};
-	}
-
-	/**
-	 * Creates a private chat object for Firestore.
-	 * @returns {Object} The private chat object.
-	 */
-	setPrivateNoteObject(): Object {
-		const user = this.authService.firebaseAuth.currentUser!;
-		return {
-			privatChatId: user.uid,
-			privateNoteCreator: user.uid,
-		};
 	}
 }

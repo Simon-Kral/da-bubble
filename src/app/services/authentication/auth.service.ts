@@ -96,9 +96,17 @@ export class AuthService {
 	setAvatar(avatar: string): Observable<void> {
 		const promise = updateProfile(this.firebaseAuth.currentUser!, {
 			photoURL: avatar,
-		}).then(() => {
-			sendEmailVerification(this.firebaseAuth.currentUser!);
-		});
+		})
+			.then(() => {
+				sendEmailVerification(this.firebaseAuth.currentUser!).catch(
+					(error) => {
+						console.log(error);
+					}
+				);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 		return from(promise);
 	}
 

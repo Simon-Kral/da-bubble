@@ -5,6 +5,7 @@ import {
 	Input,
 	OnInit,
 	Output,
+	signal,
 } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
@@ -21,6 +22,8 @@ import { AuthService } from '../../../services/authentication/auth.service';
 import { ChatService } from '../../../services/chat/chat.service';
 import { CommunicationService } from '../../../services/communication/communication.service';
 import { AppComponent } from '../../../app.component';
+import { StorageService } from '../../../services/storage/storage.service';
+import { ref } from '@angular/fire/storage';
 interface UserData {
 	name: string;
 	email: string;
@@ -37,6 +40,7 @@ export class CurrentUserProfileComponent implements OnInit {
 	firestore: Firestore = inject(Firestore);
 	firebaseService = inject(FirebaseService);
 	authService = inject(AuthService);
+	storageService = inject(StorageService);
 	chatService = inject(ChatService);
 	communicationService = inject(CommunicationService);
 
@@ -56,13 +60,33 @@ export class CurrentUserProfileComponent implements OnInit {
 	// current Icon Source
 	currentIconSourceClose = this.close;
 
+	submitButtonDisabled: boolean = false;
+
 	avatarList: Array<{ id: number; path: string }> = [
-		{ id: 0, path: '/assets/img/character-images/character_1.png' },
-		{ id: 1, path: '/assets/img/character-images/character_2.png' },
-		{ id: 2, path: '/assets/img/character-images/character_3.png' },
-		{ id: 3, path: '/assets/img/character-images/character_4.png' },
-		{ id: 4, path: '/assets/img/character-images/character_5.png' },
-		{ id: 5, path: '/assets/img/character-images/character_6.png' },
+		{
+			id: 0,
+			path: 'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_1.png?alt=media&token=78cc464e-e1aa-4b92-9c40-cdadf9ebd2ab',
+		},
+		{
+			id: 1,
+			path: 'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_2.png?alt=media&token=8d5e74ae-1d05-4745-8234-b41484173f2e',
+		},
+		{
+			id: 2,
+			path: 'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_3.png?alt=media&token=f0fd0c8a-990f-426f-a272-d5791929fe3d',
+		},
+		{
+			id: 3,
+			path: 'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_4.png?alt=media&token=e187e007-0c7a-43b8-9109-5959cf9e34c2',
+		},
+		{
+			id: 4,
+			path: 'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_5.png?alt=media&token=017af2c4-e467-4170-9aa6-2e4123f1d0b0',
+		},
+		{
+			id: 5,
+			path: 'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_6.png?alt=media&token=676b7ea4-44e0-423e-814e-ea973ef60389',
+		},
 	];
 
 	newUserData: FormGroup;
@@ -227,12 +251,41 @@ export class CurrentUserProfileComponent implements OnInit {
 			},
 		});
 	}
+
+	uploadFile(event: Event) {
+		this.submitButtonDisabled = true;
+		const element = event.currentTarget as HTMLInputElement;
+		let fileList: FileList | null = element.files;
+		if (fileList) {
+			let file: File | null = fileList[0];
+			const storageRef = ref(
+				this.storageService.storage,
+				`profilePictures/${
+					this.authService.firebaseAuth.currentUser!.uid
+				}/${file.name}`
+			);
+			this.storageService.uploadFile(storageRef, file).subscribe({
+				next: (snapshot) => {
+					this.storageService.getURL(snapshot.ref).subscribe({
+						next: (url) => {
+							this.setNewAvatar(url);
+						},
+					});
+				},
+			});
+		}
+	}
+
 	/**
 	 * Sets a new avatar path based on the provided index from the avatar list.
-	 * @param {number} index - The index of the avatar in the avatar list.
+	 * @param {number} path - The index of the avatar in the avatar list.
 	 */
-	setNewAvatar(index: number) {
-		this.newAvatarPath = this.avatarList[index].path;
+	setNewAvatar(identifier: number | string) {
+		if (typeof identifier === 'number') {
+			this.newAvatarPath = this.avatarList[identifier].path;
+		} else {
+			this.newAvatarPath = identifier;
+		}
 		this.newAvatarChosen = true;
 	}
 
