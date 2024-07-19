@@ -53,19 +53,13 @@ export class NewMessageComponent {
 }
 
 handleClickOnMember(userId: string) {
-
-  this.selectedPrivateChatReciver = userId;
-  this.destinationCollection = 'privateChats';
-  console.log('Selected private chat reciver: ', this.selectedPrivateChatReciver);
-  console.log('Destination collection: ', this.destinationCollection);
+  this.chatService.mainCollection = 'privateChats';
+  this.chatService.selectedPrivateChatReciver = userId;
 }
 
 handleClickOnChannel(channelId: string) {
-
-  this.selectedPrivateChatReciver = channelId;
-  this.destinationCollection = 'channels';
-  console.log('Selected channel: ', this.selectedPrivateChatReciver);
-  console.log('Destination collection: ', this.destinationCollection);
+  this.chatService.mainCollection = 'channels';
+  this.chatService.docRef = channelId;
 }
 
 
