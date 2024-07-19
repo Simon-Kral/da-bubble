@@ -21,7 +21,7 @@ export class NewMessageComponent {
 
   showUsers: boolean = false;
   showChannels: boolean = false;
-
+  isFocusActive: boolean = false;
 
   constructor(private fb: FormBuilder) {
 		this.searchText = this.fb.group({
@@ -33,10 +33,12 @@ export class NewMessageComponent {
     const searchInput = this.searchText.get('search')?.value || '';
 
     if (searchInput.startsWith('@')) {
+        this.isFocusActive = false;
         this.showUsers = true;
         this.showChannels = false;
         this.searchService.onUserSearch(searchInput.slice(1)); 
     } else if (searchInput.startsWith('#')) {
+        this.isFocusActive = false;
         this.showUsers = false;
         this.showChannels = true;
         this.searchService.onChannelSearch(searchInput.slice(1)); 
@@ -52,6 +54,7 @@ removeSelectedChannel() {
   this.chatService.mainCollection = '';
   this.chatService.docRef = '';
   this.searchService.selectedChannel = '';
+  this.searchText.get('search')?.setValue('');
 }
 
 removeSelectedUser(userId: string) {
@@ -59,6 +62,7 @@ removeSelectedUser(userId: string) {
   this.chatService.mainCollection = '';
   this.chatService.selectedPrivateChatReciver = '';
   this.searchService.selectedUser = [];
+  this.searchText.get('search')?.setValue('');
 }
 
 handleClickOnMember(userId: string) {
@@ -77,7 +81,9 @@ handleClickOnChannel(channelId: string) {
 
 
 
-
+handleFocus() {
+  this.isFocusActive = !this.isFocusActive;
+}
 
 
 
