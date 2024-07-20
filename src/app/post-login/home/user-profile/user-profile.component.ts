@@ -39,7 +39,7 @@ export class UserProfileComponent {
   * @returns {void}
   */
   startNewPrivateChat() {
-    this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, this.communicationService.userProfileId);
+    this.chatService.initializePrivateChat(this.firebaseService.currentUserId, this.communicationService.userProfileId);
     this.userProfileVisibilityChange.emit(false);
   }
 

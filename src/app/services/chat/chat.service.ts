@@ -81,7 +81,7 @@ export class ChatService {
 
       case 'newMessage':
         if (this.mainCollection === 'privateChats') {
-          await this.startNewPrivateChat(this.firebaseService.currentUser.userId, this.selectedPrivateChatReciver);
+          await this.initializePrivateChat(this.firebaseService.currentUser.userId, this.selectedPrivateChatReciver);
           await this.sendMessage(event.message, event.timestamp);
         } 
         
@@ -218,7 +218,7 @@ formatTimeString(timestampStr: string): string {
  * @param {string} chatReceiver - The user ID of the person receiving the chat invitation.
  * @returns {Promise<void>} A promise that resolves when the new chat has been created and updated.
  */
-async startNewPrivateChat(chatCreator: string, chatReceiver: string) {
+async initializePrivateChat(chatCreator: string, chatReceiver: string) {
   try {
     const existingChatId = await this.checkIfPrivateChatExists(chatReceiver, chatCreator);
     if (this.redirectIfChatExists(existingChatId)) {

@@ -159,7 +159,7 @@ export class SearchService {
 	/**
 	 * Handles the click event on a channel.
 	 * Navigates to the specified channel and performs necessary cleanup.
-	 * 
+	 * to-do: do we need that really here?!?!
 	 * @param channelId - The ID of the channel to navigate to.
 	 */
 	handleClickOnChannelAndUnSub(channelId: string) {
@@ -170,7 +170,7 @@ export class SearchService {
     }
 
 	handleClickOnUserAndUnSub(userId: string) {
-		this.chatService.startNewPrivateChat(this.firebaseService.currentUserId, userId);
+		this.chatService.initializePrivateChat(this.firebaseService.currentUserId, userId);
 		this.memberSearchActive = false;
 		this.userSearchResults = [];
 		this.unSubscribeOnUserSearch();

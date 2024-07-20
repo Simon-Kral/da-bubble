@@ -37,11 +37,10 @@
 		<!-- onFocus -->
 		@if (isFocusActive) {
 			<div class="search-results">
-				<div class="round-button close-icon pointer">
+				<div class="round-button close-icon pointer" (click)="this.handleFocus()">
 					<img
 						src="assets/img/icons/close_black.png"
 						alt=""
-						(click)="this.handleFocus()"
 					/>
 				</div>
 			<h3>Users:</h3>
