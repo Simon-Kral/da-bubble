@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SearchService } from '../search/search.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +15,9 @@ export class ChatService {
 
   firebaseService = inject(FirebaseService);
   firestore: Firestore = inject(Firestore);
-  
+
 
   msgList: Message[] = [];  // will get used to store msgs from prvt chats or channels
-  msgAnswerList: Message[] = []; // will get used to store msgAnswers from prvt chats or channels
 
   unsubscribeMsgList: any;
   unsubscribeMsgAnswerList: any;
@@ -57,9 +56,6 @@ chatCreator = '';
     if (this.unsubscribeMsgList) {
       this.unsubscribeMsgList();
     }
-    if (this.unsubscribeMsgAnswerList) {
-      this.unsubscribeMsgAnswerList();
-    }
   }
 
 
@@ -91,7 +87,11 @@ chatCreator = '';
         this.sendMessage(event.message, event.timestamp);
         this.router.navigate(['/home/channels', this.docRef]);
         }
-        break; 
+        break;
+        
+      case 'thread':
+        //this.threadService.sendMessageAnswer(event.message, event.timestamp);
+        break;
         default:
         console.warn('Invalid destination collection:');
         break;

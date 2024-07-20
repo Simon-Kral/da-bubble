@@ -1,1 +1,114 @@
-<p>thread-history works!</p>
+<div class="thread-history-wrapper">
+    @for (msg of this.threadService.msgAnswerList; track msg; let index = $index) {
+        <!--msg date seperator to-do implement logic to check if msg is sent today, or in past days-->
+        <div class="msg-date">
+            <div class="seperator"></div>
+                <div class="date-container">
+                    <span>{{ msg.date }}</span>
+                </div>
+            <div class="seperator"></div>
+        </div>
+        @if (msg.messageSendBy !== this.firebaseService.currentUserId) {
+        <!--user-msg-->
+        <div class="user-msg">
+            <!--msg-menu-->
+            <div class="msg-menu">
+                <div class="pointer menu-content"
+                (mouseover)="onMouseOver('addReaction')"
+                (mouseout)="onMouseOut('addReaction')"
+                >
+                    <img [src]="currentIconSourceAddReaction" alt="menu-icon">
+                </div>
+            </div>
+            <!--user-avatar-->
+            <div class="user-avatar">
+                <img [src]="this.firebaseService.getUserAvatar(msg.messageSendBy)" alt="user-avatar">
+            </div>
+            <!--msg-content-->
+            <div class="msg-content">
+                <div class="msg-top">
+                    <span>{{ this.firebaseService.getUserDisplayName(msg.messageSendBy) }}</span>
+                    <p>{{ this.chatService.formatTimeString(msg.time) }}</p>
+                </div>
+    
+                <div class="msg">
+                    <span>{{ msg.text }}</span>
+                </div>   
+                    <!--reactions container-->
+                    <div class="reactions-container">
+                        <div class="pointer last-reaction">
+                            <div class="emoji-container">👍</div>
+                            <span class="emoji-counter">3</span>
+                        </div>
+                        <div class="pointer add-reaction"
+                        (mouseover)="onMouseOver('addReaction')"
+                        (mouseout)="onMouseOut('addReaction')"
+                        >
+                            <img [src]="currentIconSourceAddReaction" alt="menu-icon">
+                        </div>
+                    </div>
+            </div>
+        </div>
+        }
+            <!--current-user-msg-->
+            @if (msg.messageSendBy == this.firebaseService.currentUserId) {
+            <div class="current-user-msg"> 
+                <!--msg-menu only show for current user-->
+                <div class="msg-menu">
+                    <div class="pointer menu-content"
+                    (mouseover)="onMouseOver('addReaction')"
+                    (mouseout)="onMouseOut('addReaction')"
+                    >
+                        <img [src]="currentIconSourceAddReaction" alt="menu-icon">
+                    </div>
+                    <div class="pointer menu-content"
+                    (click)="openEditMsgMenu()"
+                    (mouseover)="onMouseOver('moreVert')"
+                    (mouseout)="onMouseOut('moreVert')"
+                    >
+                        <img [src]="currentIconSourceMoreVert" alt="menu-icon">
+                    </div>
+                    <!--sub menu "edit-msg"-->
+                    <div class="edit-msg-menu"
+                    [ngClass]="{'d-flex': editMsgMenu}"
+                    >   <!--add logic to edit msg-->
+                        <div class="edit-msg pointer" (click)="handleClickOnEditMsg(msg.messageId)">
+                            <span>Nachricht bearbeiten</span>
+                        </div>
+                    </div>
+                </div>
+                <!--msg-content-->
+                <div class="current-user-msg-content">
+                    <div class="current-user-msg-top">
+                        <p>{{ this.chatService.formatTimeString(msg.time) }}</p>
+                        <span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }}</span>
+                    </div>
+        
+                    <div class="current-user-msg">
+                        <span>{{ msg.text }}</span>
+                    </div>   
+                    <!--reactions container-->
+                    <div class="reactions-container">
+                        <div class="pointer last-reaction">
+                            <div class="emoji-container">👍</div>
+                            <span class="emoji-counter">3</span>
+                        </div>
+                        <div class="pointer add-reaction"
+                        (mouseover)="onMouseOver('addReaction')"
+                        (mouseout)="onMouseOut('addReaction')"
+                        >
+                            <img [src]="currentIconSourceAddReaction" alt="menu-icon">
+                        </div>
+                    </div>
+                </div>
+                <div class="current-user-avatar">
+                    <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
+                </div>
+            </div>
+        }
+    
+    
+    
+    }
+
+</div>
