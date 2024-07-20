@@ -18,7 +18,7 @@
         <app-chat-input 
             [sourceComponent]="'thread'" 
             [placeholderText]="'Antworten...'"
-            (messageEvent)="'this.chatService.onMessageSent($event)'">
+            (messageEvent)="this.threadService.onMessageSent($event)">
         </app-chat-input>
     </div>
      

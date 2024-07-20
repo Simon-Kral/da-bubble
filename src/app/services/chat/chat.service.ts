@@ -1,8 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
 import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc } from '@angular/fire/firestore';
-import { PrivateMessageComponent } from '../../post-login/private-message/private-message.component';
-import { BehaviorSubject } from 'rxjs';
 import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,8 +25,8 @@ export class ChatService {
 
   //variable for placeholder Name of shared input field
   placeholderName: string = '';
-// variable fto store ID of chatReciver
-chatCreator = '';
+  // variable fto store ID of chatReciver
+  chatCreator = '';
 
 	// variabels needed for chathistory (editing msg´s)
 	mainCollection:string = '';  // will get used to store name of maincollection (privateChats or channels)
@@ -60,11 +58,6 @@ chatCreator = '';
 
 
   async onMessageSent(event: { message: string, source: string, timestamp: number }) {
-    console.log('Message sent from component:', event.source);                    
-    console.log('Message sent by:', this.firebaseService.currentUser.userId );
-    console.log('Message content:', event.message);
-    console.log('Message timestamp:', event.timestamp);
-
     switch (event.source) {
       case 'privateMessage':
         this.sendMessage(event.message, event.timestamp);   
@@ -87,10 +80,6 @@ chatCreator = '';
         this.sendMessage(event.message, event.timestamp);
         this.router.navigate(['/home/channels', this.docRef]);
         }
-        break;
-        
-      case 'thread':
-        //this.threadService.sendMessageAnswer(event.message, event.timestamp);
         break;
         default:
         console.warn('Invalid destination collection:');

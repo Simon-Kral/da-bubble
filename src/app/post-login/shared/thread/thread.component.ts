@@ -3,6 +3,7 @@ import { ThreadHistoryComponent } from '../thread-history/thread-history.compone
 import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
 import { CommunicationService } from '../../../services/communication/communication.service';
+import { ThreadService } from '../../../services/thread/thread.service';
 @Component({
   selector: 'app-thread',
   standalone: true,
@@ -12,7 +13,7 @@ import { CommunicationService } from '../../../services/communication/communicat
 })
 export class ThreadComponent {
   communicationService = inject(CommunicationService);
-  
+  threadService = inject(ThreadService);
 
   constructor() {}
 
@@ -41,7 +42,7 @@ export class ThreadComponent {
   handleClickOnClose() {
     console.log('handleClickOnClose');
     this.communicationService.toggleThreadVisibility(true);
-    // unsubscribe from the thread
+    this.threadService.unsubscribeAllLists();
 
   }
 }

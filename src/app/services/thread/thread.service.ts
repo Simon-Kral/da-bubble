@@ -18,7 +18,7 @@ export class ThreadService {
   firestore: Firestore = inject(Firestore);
 
   messageId: string = '';  // This is the message ID that the thread is related to
-  messageAnswerId: string = '';  // This is the thread ID that the thread is related to
+  threadId: string = '';  // This is the thread ID that the thread is related to
 
   msgAnswerList: MessageAnswer[] = []; // will get used to store msgAnswers from prvt chats or channels
   unsubscribeMsgAnswerList: any;
@@ -36,20 +36,25 @@ export class ThreadService {
     }
   }
 
-  handleCreateThread(message: Message) {
+  async handleCreateThread(message: Message) {
     console.log('Thread created for message: ' + message.messageId);
     this.communicationService.toggleThreadVisibility(true);
     this.messageId = message.messageId;
     this.createMessageAnswer(message);
+    await this.subscribeMsgAnswerList();
   }
 
   async openExistingThread(threadId: string) {
     console.log('Thread opened for thread: ' + threadId);
     this.communicationService.toggleThreadVisibility(true);
-    this.messageAnswerId = threadId;
+    this.messageId = threadId;
     await this.subscribeMsgAnswerList();
   }
   
+
+  async onMessageSent(event: { message: string, source: string, timestamp: number }) {
+    this.sendMessageAnswer(event.message, event.timestamp);
+  }
 // code for fetching messages from private chat or channels
 /**
  * Subscribes to the messageAns subcollection and updates the message list in real-time.
@@ -104,7 +109,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
    */
   async getMessageAnswer(): Promise<string> {
     try {
-      const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.messageAnswerId}/messageAnswers/${this.editMessageAnswerId}`);
+      const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.threadId}/messageAnswers/${this.editMessageAnswerId}`);
       const docSnap = await getDoc(messageDocRef);
       
       if (docSnap.exists()) {
@@ -164,7 +169,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
       text: messageText,
       messageId: this.messageId,
       date: new Date().toLocaleDateString(),
-      time: time.toLocaleString(),
+      time: time.toString(),
       messageSendBy: this.firebaseService.currentUser.userId,
       reactions: []
     };
