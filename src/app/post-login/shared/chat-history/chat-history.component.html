@@ -29,7 +29,7 @@
             <div class="pointer menu-content"    
             (mouseover)="onMouseOver('comment')"
             (mouseout)="onMouseOut('comment')"
-            (click)="this.threadService.createThread(msg)"
+            (click)="this.threadService.handleCreateThread(msg)"
             >
                 <img [src]="currentIconSourceComment" alt="menu-icon">
             </div>
@@ -49,10 +49,27 @@
                 <span>{{ msg.text }}</span>
             </div>   
                 <!--only display if messageAnsers are present-->
-            <div class="msg-bottom" (click)="this.threadService.openExistingThread('threadId')">
+            <div class="msg-bottom" (click)="this.threadService.openExistingThread(msg.messageId)">
                 <span class="pointer">2 Antworten</span>
                 <p>Letzte Antwort 14:56</p>
             </div>
+                <!--reactions container-->
+                <div class="reactions-container">
+                    <div class="pointer add-reaction"
+                    (mouseover)="onMouseOver('addReaction')"
+                    (mouseout)="onMouseOut('addReaction')"
+                    >
+                        <img [src]="currentIconSourceAddReaction" alt="menu-icon">
+                    </div>
+                    <div class="pointer last-reaction">
+                        <div class="emoji-container">👍</div>
+                        <span class="emoji-counter">3</span>
+                    </div>
+                    <div class="pointer last-reaction">
+                        <div class="emoji-container">👍</div>
+                        <span class="emoji-counter">3</span>
+                    </div>
+                </div>
         </div>
     </div>
     }
@@ -77,7 +94,7 @@
                 <div class="pointer menu-content"
                 (mouseover)="onMouseOver('comment')"
                 (mouseout)="onMouseOut('comment')"
-                (click)="this.threadService.createThread(msg)"
+                (click)="this.threadService.handleCreateThread(msg)"
                 >
                     <img [src]="currentIconSourceComment" alt="menu-icon">
                 </div>
@@ -108,7 +125,7 @@
                     <span>{{ msg.text }}</span>
                 </div>   
                     <!--only display if messageAnsers are present-->
-                <div class="current-user-msg-bottom" (click)="this.threadService.openExistingThread('threadID')">
+                <div class="current-user-msg-bottom" (click)="this.threadService.openExistingThread(msg.messageId)">
                     <span class="pointer">2 Antworten</span>
                     <p>Letzte Antwort 14:56</p>
                 </div>
