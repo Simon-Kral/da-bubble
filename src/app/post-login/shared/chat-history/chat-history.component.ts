@@ -5,6 +5,7 @@ import { CommunicationService } from '../../../services/communication/communicat
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ThreadService } from '../../../services/thread/thread.service';
 
 interface MsgData {
   text: string;
@@ -23,7 +24,7 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
-
+  threadService = inject(ThreadService);
 
   // Edit message menu
   editMsgMenu: boolean = false;
@@ -78,13 +79,6 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
     this.editMsgMenu = !this.editMsgMenu;
   }
 
-  handleClickOnAnswers() {
-    console.log('handleClickOnAnsers');
-    this.communicationService.toggleThreadVisibility(true);
-    // thread present? -> show thread
-    // else -> create thread
-    // subcribe to the thread
-  }
 
   onMouseOver(imgName: string) : void {
     switch (imgName) {

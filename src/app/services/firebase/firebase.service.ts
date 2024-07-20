@@ -24,6 +24,7 @@ import { SearchService } from '../search/search.service';
 	providedIn: 'root',
 })
 export class FirebaseService {
+	// services
 	authService = inject(AuthService);
 	firestore: Firestore = inject(Firestore);
 	
