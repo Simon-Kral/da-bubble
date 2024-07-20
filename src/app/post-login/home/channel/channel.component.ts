@@ -51,10 +51,6 @@ export class ChannelComponent {
 	}
 
 	ngOnInit(): void {
-		// to-do delete this & related stuff e.g. this.firebaseService.currentChanId we dont need that anymore working with chatService.docRef
-		this.route.params.subscribe((params) => {
-			this.firebaseService.currentChanId = params['id'];
-		});
 	}
 
 	/**

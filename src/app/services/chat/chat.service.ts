@@ -451,13 +451,4 @@ addMessage(messageData: Message): Promise<any> {
 	}
 
 
-  // to-do move to firebase service 
-
-	getChannelNameById(channelId: string) {
-		return this.firebaseService.channelList.find((channel) => channel.chanId === channelId)?.name;
-	}
-  
-
-
-
 }

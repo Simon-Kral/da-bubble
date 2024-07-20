@@ -6,7 +6,7 @@
 				alt="Hashtag icon"
 			/>
 			<span>{{
-				this.chatService.getChannelNameById(this.chatService.docRef)
+				this.firebaseService.getChannelNameById(this.chatService.docRef)
 			}}</span>
 		</div>
 		<div class="close-btn pointer" (click)="closeChannelDetails()">
@@ -38,7 +38,7 @@
 					[disabled]="
 						this.channelName.controls['chanName'].invalid ||
 						this.channelName.controls['chanName'].value.trim() ===
-							this.chatService.getChannelNameById(
+							this.firebaseService.getChannelNameById(
 								this.chatService.docRef
 							)
 					"
@@ -53,7 +53,7 @@
 				@if(!isChannelNameEditable) {
 				<img src="assets/img/icons/hashtag_chat_inactive.png" alt="" />
 				<span>{{
-					this.chatService.getChannelNameById(this.chatService.docRef)
+					this.firebaseService.getChannelNameById(this.chatService.docRef)
 				}}</span>
 				} @else {
 				<div class="input-wrapper">
@@ -68,7 +68,7 @@
 						class="channel-name-input input-img"
 						type="text"
 						placeholder="{{
-							this.chatService.getChannelNameById(
+							this.firebaseService.getChannelNameById(
 								this.chatService.docRef
 							)
 						}}"
@@ -81,7 +81,7 @@
 						Kanalnamen zu speichern</span
 					>
 					} @else if (this.channelName.value.chanName.trim() ===
-					this.chatService.getChannelNameById(this.chatService.docRef))
+					this.firebaseService.getChannelNameById(this.chatService.docRef))
 					{
 					<span
 						>Der Kanalname muss abgeändert werden, um gespeichert

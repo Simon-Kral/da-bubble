@@ -8,7 +8,7 @@
     @for (channel of this.searchService.channelSearchResults; track channel; let index = $index) {
         <div class="channel-container pointer" (click)="handleClickOnChannel(channel)">
   
-            <span>{{ this.chatService.getChannelNameById(channel) }}</span>
+            <span>{{ this.firebaseService.getChannelNameById(channel) }}</span>
 
         </div>
     }

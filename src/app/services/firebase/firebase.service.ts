@@ -262,7 +262,9 @@ export class FirebaseService {
 			throw e;
 		}
 	}
-
+	getChannelNameById(chanId: string) {
+		return this.channelList.find((channel) => channel.chanId === chanId)?.name;
+	}
 	// user code
 	/**
 	 * Subscribes to the users collection in Firestore and updates the user list in real-time.

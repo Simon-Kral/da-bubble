@@ -120,7 +120,7 @@
 					(click)="handleClickOnChannel(channel)"
 				>
 					<span routerLinkActive="router-link-active"
-						>#{{ this.chatService.getChannelNameById(channel) }}
+						>#{{ this.firebaseService.getChannelNameById(channel) }}
 					</span>
 				</div>
 				} }@else if(!this.searchService.channelSearchResults.length &&

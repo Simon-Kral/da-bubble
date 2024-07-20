@@ -54,7 +54,7 @@
     @if (this.searchService.selectedChannel) {
     <div class="show-selected-channel">
         <div class="pointer added-data" (click)="removeSelectedChannel()">
-          <span>{{ this.chatService.getChannelNameById(this.searchService.selectedChannel) }}</span>
+          <span>{{ this.firebaseService.getChannelNameById(this.searchService.selectedChannel) }}</span>
           <div class="remove">
             <img src="assets/img/icons/close_black.png" alt="close-icon" />
           </div>
