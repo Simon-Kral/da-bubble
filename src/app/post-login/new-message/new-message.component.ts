@@ -30,7 +30,6 @@ export class NewMessageComponent implements OnDestroy {
 		this.searchText = this.fb.group({
 			search: ['']
 		});
-    let searchInput  = this.searchText.get('search')?.value || '';
 	}
 
   ngOnDestroy() {
@@ -78,6 +77,7 @@ removeSelectedChannel() {
   this.chatService.docRef = '';
   this.searchService.selectedChannel = '';
   this.searchText.get('search')?.setValue('');
+  this.chatService.placeholderName = '';
 }
 
 removeSelectedUser(userId: string) {
@@ -86,6 +86,7 @@ removeSelectedUser(userId: string) {
   this.chatService.selectedPrivateChatReciver = '';
   this.searchService.selectedUser = [];
   this.searchText.get('search')?.setValue('');
+  this.chatService.placeholderName = '';
 }
 
 handleClickOnUser(userId: string) {
@@ -97,16 +98,18 @@ handleClickOnUser(userId: string) {
   this.isFocusActive = false;
   this.searchText.get('search')?.setValue('');
   this.searchService.unSubscribeOnUserSearch();
+  this.chatService.placeholderName = this.firebaseService.getUserDisplayName(userId);
 }
 
-handleClickOnChannel(channelId: string) {
+handleClickOnChannel(chanId: string) {
   this.chatService.mainCollection = 'channels';
-  this.chatService.docRef = channelId;
-  this.searchService.selectedChannel = channelId;
+  this.chatService.docRef = chanId;
+  this.searchService.selectedChannel = chanId;
   this.showChannels = false;
   this.isFocusActive = false;
   this.searchText.get('search')?.setValue('');
   this.searchService.unSubscribeOnChannelSearch();
+  this.chatService.initializeChannelPlaceholder(chanId);
 }
 
 
