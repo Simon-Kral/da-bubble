@@ -19,6 +19,8 @@ export class NewMessageComponent implements OnDestroy {
 
   searchText: FormGroup;
 
+  searchInput: string = '';
+
   showUsersByEmail: boolean = false;
   showUsers: boolean = false;
   showChannels: boolean = false;
@@ -28,6 +30,7 @@ export class NewMessageComponent implements OnDestroy {
 		this.searchText = this.fb.group({
 			search: ['']
 		});
+    let searchInput  = this.searchText.get('search')?.value || '';
 	}
 
   ngOnDestroy() {
@@ -37,25 +40,35 @@ export class NewMessageComponent implements OnDestroy {
   }
 
   handleSearch() {
-    const searchInput = this.searchText.get('search')?.value || '';
-
+    let searchInput  = this.searchText.get('search')?.value || '';
+    this.searchInput = searchInput;
+    
     if (searchInput.startsWith('@')) {
         this.isFocusActive = false;
         this.showUsers = true;
         this.showChannels = false;
+        this.showUsersByEmail = false
         this.searchService.onUserSearch(searchInput.slice(1)); 
     } else if (searchInput.startsWith('#')) {
         this.isFocusActive = false;
         this.showUsers = false;
+        this.showUsersByEmail = false;
         this.showChannels = true;
         this.searchService.onChannelSearch(searchInput.slice(1)); 
-    } else {
+    } else if (searchInput.length > 0) {
         this.isFocusActive = false;
         this.showUsers = false;
         this.showChannels = false;
         this.showUsersByEmail = true;
         this.searchService.onEmailSearch(searchInput); 
-    }
+    } else if (searchInput.length == 0) {
+      this.isFocusActive = true;
+      this.showUsers = false;
+      this.searchService.userSearchResults = [];
+      this.showChannels = false;
+      this.searchService.channelSearchResults = [];
+      this.showUsersByEmail = false;
+  }
 
     console.log('Search text received by searchService:', searchInput);
 }
@@ -75,7 +88,7 @@ removeSelectedUser(userId: string) {
   this.searchText.get('search')?.setValue('');
 }
 
-handleClickOnMember(userId: string) {
+handleClickOnUser(userId: string) {
   this.chatService.mainCollection = 'privateChats';
   this.chatService.selectedPrivateChatReciver = userId;
   this.searchService.selectedUser = [userId];
@@ -83,6 +96,7 @@ handleClickOnMember(userId: string) {
   this.showUsersByEmail = false;
   this.isFocusActive = false;
   this.searchText.get('search')?.setValue('');
+  this.searchService.unSubscribeOnUserSearch();
 }
 
 handleClickOnChannel(channelId: string) {
@@ -92,12 +106,16 @@ handleClickOnChannel(channelId: string) {
   this.showChannels = false;
   this.isFocusActive = false;
   this.searchText.get('search')?.setValue('');
+  this.searchService.unSubscribeOnChannelSearch();
 }
 
 
 
 handleFocus() {
   this.isFocusActive = !this.isFocusActive;
+  this.showUsers = false;
+  this.showChannels = false;
+  this.showUsersByEmail = false;
 }
 
 }

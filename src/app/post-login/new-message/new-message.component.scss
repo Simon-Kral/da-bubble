@@ -42,7 +42,13 @@
     left: 44px;
 }
 
-.added-data {
+.added-user {
+    position: absolute;
+    top: 0;
+    left: -32px;
+    height: inherit;
+}
+.added-channel {
     position: absolute;
     top: 0;
     left: -32px;
@@ -52,4 +58,14 @@
 .chat-input {
     width: 100%;
     padding: 20px;
+}
+.search-results {
+    position: relative;
+    background-color: $white;
+    z-index: 5;
+    .round-button {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+    }
 }
