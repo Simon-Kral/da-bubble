@@ -34,10 +34,10 @@ export class ChannelDetailsComponent {
 	isChannelDescriptionEditable = false;
 
 	// to-do do we need that really?
-	channelCreaterID: string = this.chatService.getCurrentChannel()?.createdBy || '';
+	channelCreaterID: string = this.getCurrentChannel()?.createdBy || '';
 
 	channelCreatorName = this.firebaseService.getUserDisplayName(
-		this.chatService.getCurrentChannel()?.createdBy || ''
+		this.getCurrentChannel()?.createdBy || ''
 	);
 
 
@@ -61,9 +61,9 @@ export class ChannelDetailsComponent {
 			]),
 		});
 
-		this.channelName.setValue({ chanName: this.chatService.getCurrentChannel()?.name });
+		this.channelName.setValue({ chanName: this.getCurrentChannel()?.name });
 		this.channelDescription.setValue({
-			chanDescription: this.chatService.getCurrentChannel()?.description,
+			chanDescription: this.getCurrentChannel()?.description,
 		});
 	}
 
@@ -80,11 +80,18 @@ export class ChannelDetailsComponent {
 	// to-do do we need that really?
 	checkChannelCreator() {
 		return (
-			this.chatService.getCurrentChannel()?.createdBy ===
+			this.getCurrentChannel()?.createdBy ===
 			this.firebaseService.currentUser.userId
 		);
 	}
 
+	
+  // to do do we need that really?
+  getCurrentChannel() {
+	return this.firebaseService.channelList.find(
+		(channel) => channel.chanId === this.chatService.docRef
+	);
+}
 	closeChannelDetails() {
 		this.channelName.reset();
 		this.channelDescription.reset();
@@ -110,7 +117,7 @@ export class ChannelDetailsComponent {
 
 	handleDescriptionChange() {
 		if (
-			this.chatService.getCurrentChannel()?.description !==
+			this.getCurrentChannel()?.description !==
 			this.channelDescription.value.chanDescription.trim()
 		) {
 			const channelDocRef = doc(
@@ -123,7 +130,7 @@ export class ChannelDetailsComponent {
 	}
 
 	handleNameChange() {
-		if (this.chatService.getCurrentChannel()?.name !== this.channelName.value.chanName.trim()) {
+		if (this.getCurrentChannel()?.name !== this.channelName.value.chanName.trim()) {
 			const channelDocRef = doc(this.firebaseService.firestore,`channels/${this.chatService.docRef}`);
 			updateDoc(channelDocRef, {name: this.channelName.value.chanName.trim()});
 			this.toggleIsChannelNameEditable();

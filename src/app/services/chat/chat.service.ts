@@ -406,49 +406,4 @@ addMessage(messageData: Message): Promise<any> {
       throw e;
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //code for channels
-
-
-
-  // to do do we need that really?
-	getCurrentChannel() {
-		return this.firebaseService.channelList.find(
-			(channel) => channel.chanId === this.docRef
-		);
-	
-	}
-
-
 }
