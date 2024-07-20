@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { ChatService } from '../../../services/chat/chat.service';
 
 @Component({
   selector: 'app-chat-input',
@@ -10,7 +11,8 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
   styleUrl: './chat-input.component.scss',
 })
 export class ChatInputComponent {
- 
+  chatService = inject(ChatService);
+
   @Input() sourceComponent: string =''; // Variable to hold the source component's name or identifier
   @Input() placeholderText: string =''; // Variable to hold the placeholder text for the chat input
   @Output() messageEvent = new EventEmitter<{ message: string, source: string, timestamp: number }>();

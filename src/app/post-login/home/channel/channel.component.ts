@@ -39,17 +39,22 @@ export class ChannelComponent {
 	@Output() channelMemberVisibilityChange = new EventEmitter<boolean>();
 
 	constructor(private route: ActivatedRoute) {
-		
-	}
-
-	ngOnInit(): void {
-		this.route.params.subscribe((params) => {
-			this.firebaseService.currentChanId = params['id'];
-		});
 		this.route.params.subscribe((params) => {
 			this.chatService.docRef = params['id'];
 		});
     console.log('component initialised',this.chatService.docRef);
+
+    // to-do settimeout is needed in case user refreshes the page, otherwise the placeholder is not set because the channelList is not yet loaded
+    setTimeout(() => {
+    this.chatService.initializeChannelPlaceholder(this.chatService.docRef);
+  }, 1500);
+	}
+
+	ngOnInit(): void {
+		// to-do delete this & related stuff e.g. this.firebaseService.currentChanId we dont need that anymore working with chatService.docRef
+		this.route.params.subscribe((params) => {
+			this.firebaseService.currentChanId = params['id'];
+		});
 	}
 
 	/**

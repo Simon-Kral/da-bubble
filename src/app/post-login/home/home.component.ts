@@ -95,6 +95,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 		this.communicationService.isChannelMemberVisible$.subscribe((visible) => {
 			this.isChannelMemberVisible = visible;
 		});
+		
 	}
 
 	ngOnDestroy(): void {

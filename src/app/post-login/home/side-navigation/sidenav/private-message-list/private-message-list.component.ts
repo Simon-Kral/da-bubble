@@ -43,7 +43,7 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
     this.chatService.mainCollection = 'privateNotes';                             // sets the main collection to 'privateNotes'
     this.chatService.docRef = messageId;                                          // sets the docRef to the message id                   
     this.chatService.subscribeMsgList();                                          // subscribes to the message list of the private note       to-do: do we need that?
-    this.chatService.setPlaceholderName(this.firebaseService.currentUser.name) ;  // sets the placeholder name for the shared inputfield to the current user name
+    this.chatService.placeholderName = this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) +' (Du)';                                     // sets the placeholder name to 'currentUserDisplayName'
   }
 
 /**
@@ -58,6 +58,7 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
     this.chatService.docRef = messageId;                                                          // sets the docRef to the message id
     this.communicationService.userProfileId = chatCreator;                                        // sets the user profile id to the chat creator
     this.chatService.subscribeMsgList();                                                          // subscribes to the message list of the private chat    to-do: do we need that?
-    this.chatService.setPlaceholderName(this.firebaseService.getUserDisplayName(chatCreator));    // sets the placeholder name for the shared inputfield to the chat creator name
+    this.chatService.initializeChatPlaceholder(messageId);
+    console.log('placeholder name',this.chatService.placeholderName);
   }
 }

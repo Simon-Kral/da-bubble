@@ -26,7 +26,7 @@ import { SearchService } from '../search/search.service';
 export class FirebaseService {
 	authService = inject(AuthService);
 	firestore: Firestore = inject(Firestore);
-
+	
 	// place for variables
 	currentChanId: string = '';
 	currentUserId: any;

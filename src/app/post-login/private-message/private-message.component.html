@@ -70,7 +70,6 @@
 	<div class="chat-input">
 		<app-chat-input 
 			[sourceComponent]="'privateMessage'" 
-			[placeholderText]="this.chatService.placeholderName"
 			(messageEvent)="this.chatService.onMessageSent($event)"></app-chat-input>
 	</div>
 </div>

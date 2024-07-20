@@ -28,6 +28,8 @@ export class ChatService {
 
   //variable for placeholder Name of shared input field
   placeholderName: string = '';
+// variable fto store ID of chatReciver
+chatCreator = '';
 
 	// variabels needed for chathistory (editing msg´s)
 	mainCollection:string = '';  // will get used to store name of maincollection (privateChats or channels)
@@ -96,12 +98,6 @@ export class ChatService {
     }
   }
   
-/**
- * Sets the placeholder name for the shared input field.
- */
-setPlaceholderName(name: string) {
-  this.placeholderName = name;
-}
 
 // code for fetching messages from private chat or channels
 /**
@@ -314,6 +310,36 @@ async updatePrivateChatId(docRef: any): Promise<void> {
   } catch (e) {
     console.error('Error updating document: ', e);
     throw e;
+  }
+}
+
+initializeChatPlaceholder(chatId: string): void {
+  const chatData = this.firebaseService.privateChatList.find(chat => chat.privatChatId === chatId);
+  if (chatData) {
+    if (chatData.chatCreator === this.firebaseService.currentUserId) {
+      this.chatCreator = chatData.chatReciver;
+    } else {
+      this.chatCreator = chatData.chatCreator;
+    }
+    this.setChatPlaceholderName();
+  } else {
+    console.warn('Chat not found or chatCreator field does not exist in the chat data!');
+  }
+}
+
+setChatPlaceholderName(): void {
+  const placeholderName = this.firebaseService.getUserDisplayName(this.chatCreator);
+  this.placeholderName = placeholderName;
+  console.log('chatCreator ID:', this.chatCreator);
+  console.log('Placeholder name:', this.placeholderName);
+}
+
+initializeChannelPlaceholder(channelId: string): void {
+  const channelData = this.firebaseService.channelList.find(channel => channel.chanId === channelId);
+  if (channelData) {
+    this.placeholderName = channelData.name;
+  } else {
+    console.warn('Channel not found or name field does not exist in the channel data!');
   }
 }
 

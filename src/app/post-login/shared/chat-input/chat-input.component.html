@@ -1,6 +1,6 @@
 <form class="input-container" [formGroup]="messageData" (ngSubmit)="onSubmit()">
   <textarea
-    [placeholder]="'Nachricht an ' + placeholderText"
+    [placeholder]="'Nachricht an ' + this.chatService.placeholderName"
     formControlName="message"
   ></textarea>
   <div class="button-container">

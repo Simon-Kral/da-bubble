@@ -38,9 +38,8 @@ export class ChannelListComponent implements OnInit, OnDestroy{
     this.chatService.mainCollection = 'channels';            // sets the main collection to 'channels'
     this.chatService.docRef = chanId;                        // sets the docRef to the channel id       
     this.selectedChannel= channelName;                       // sets the selected channel name to apply ngClass active       
-
+    this.chatService.initializeChannelPlaceholder(chanId);   // initializes the channel placeholder
     this.chatService.subscribeMsgList();                     // subscribes to the message list of the channel
-    this.chatService.setPlaceholderName(channelName);        // sets the placeholder name for the shared inputfield to the channel name
   }
 
 }
