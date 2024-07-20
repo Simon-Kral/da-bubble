@@ -28,7 +28,6 @@ export class FirebaseService {
 	firestore: Firestore = inject(Firestore);
 	
 	// place for variables
-	currentChanId: string = '';
 	currentUserId: any;
 	currentUser: User = new User();
 

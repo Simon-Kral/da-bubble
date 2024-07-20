@@ -173,7 +173,7 @@ export class SearchService {
 		this.channelSearchResults = [];
 		this.unSubscribeOnChannelSearch();
     }
-
+	//to-do: do we need that really here?!?!
 	handleClickOnUserAndUnSub(userId: string) {
 		this.chatService.initializePrivateChat(this.firebaseService.currentUserId, userId);
 		this.memberSearchActive = false;

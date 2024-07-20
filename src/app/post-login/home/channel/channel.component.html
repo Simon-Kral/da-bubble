@@ -9,7 +9,7 @@
 			(click)="toggleShowChannelDetails()"
 		>
 			<img [src]="hashtag" alt="" />
-			@if (channel.chanId === this.firebaseService.currentChanId) {
+			@if (channel.chanId === this.chatService.docRef) {
 			<span>{{ channel.name }}</span>
 			}
 			<img class="pointer" [src]="dropdownArrow" alt="" />
