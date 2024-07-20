@@ -313,6 +313,14 @@ async updatePrivateChatId(docRef: any): Promise<void> {
   }
 }
 
+/**
+ * Initializes the  placeholder name based on the provided chat ID for the shared inputfiled.
+ * If the current user is the chat creator, sets the chat receiver to the chat receiver from the chat data.
+ * Otherwise, sets the chat receiver to the chat creator.
+ * Sets the chat placeholder name based on the chat creator's user ID.
+ * Retrieves the display name of the user corresponding to `chatCreator` and assigns it to `placeholderName`.
+ * @param {string} chatId - The ID of the chat to initialize the placeholder for.
+ */
 initializeChatPlaceholder(chatId: string): void {
   const chatData = this.firebaseService.privateChatList.find(chat => chat.privatChatId === chatId);
   if (chatData) {
@@ -321,19 +329,18 @@ initializeChatPlaceholder(chatId: string): void {
     } else {
       this.chatCreator = chatData.chatCreator;
     }
-    this.setChatPlaceholderName();
+    let placeholderName = this.firebaseService.getUserDisplayName(this.chatCreator);
+    this.placeholderName = placeholderName;
   } else {
     console.warn('Chat not found or chatCreator field does not exist in the chat data!');
   }
 }
 
-setChatPlaceholderName(): void {
-  const placeholderName = this.firebaseService.getUserDisplayName(this.chatCreator);
-  this.placeholderName = placeholderName;
-  console.log('chatCreator ID:', this.chatCreator);
-  console.log('Placeholder name:', this.placeholderName);
-}
-
+/**
+* Initializes the channel placeholder name based on the provided channel ID for the shared inputfiled.
+* Searches for the channel in the `channelList` using the `channelId` and sets the `placeholderName` to the channel's name.
+* @param {string} channelId - The ID of the channel to initialize the placeholder for.
+*/
 initializeChannelPlaceholder(channelId: string): void {
   const channelData = this.firebaseService.channelList.find(channel => channel.chanId === channelId);
   if (channelData) {
@@ -345,7 +352,6 @@ initializeChannelPlaceholder(channelId: string): void {
 
 /**
  * Sends a message to a private chat or channel by creating a new message document in the messages subcollection.
- *
  * @param {string} messageText - The text of the message to be sent.
  * @param {number} time - The timestamp of the message.
  * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
