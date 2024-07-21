@@ -1,11 +1,4 @@
-import {
-	Component,
-	EventEmitter,
-	inject,
-	Inject,
-	Input,
-	Output,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { ChatService } from '../../../services/chat/chat.service';
@@ -33,13 +26,15 @@ export class UserMenuComponent {
 
 	async logout(): Promise<void> {
 		// to-do OPTIONAL update user status to offline when close tab
+		try {	
 		if (this.authService.firebaseAuth.currentUser?.email != undefined) {
 			this.appComponent.notificateUser('Abmelden');
-			await this.firebaseService.unsubscribeAllLists();
-			await this.chatService.unsubscribeAllLists();
-			await this.threadService.unsubscribeAllLists();
-			await this.firebaseService.updateUserStatus(false);
-			this.firebaseService.clearCurrentUser(); // to-do remove after developement is finished ?!? check first!
+
+		await this.firebaseService.unsubscribeAllLists();
+		await this.chatService.unsubscribeAllLists();
+		await this.threadService.unsubscribeAllLists();
+		await this.firebaseService.updateUserStatus(false);
+
 			this.authService.logout().subscribe({
 				next: () => {
 					sessionStorage.clear();
@@ -49,6 +44,12 @@ export class UserMenuComponent {
 				},
 			});
 		} else {
+		
+			await this.firebaseService.unsubscribeAllLists();
+			await this.chatService.unsubscribeAllLists();
+			await this.threadService.unsubscribeAllLists();
+			await this.firebaseService.updateUserStatus(false);	
+
 			this.authService.logout().subscribe({
 				next: () => {
 					sessionStorage.clear();
@@ -58,5 +59,8 @@ export class UserMenuComponent {
 				},
 			});
 		}
+	} catch (error) {
+		console.error('Error during cleanup before logout:', error);
+	  }
 	}
 }

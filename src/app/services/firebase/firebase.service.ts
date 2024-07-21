@@ -1,25 +1,11 @@
-import { ChatService } from './../chat/chat.service';
 import { Injectable, inject } from '@angular/core';
-import {
-	query,
-	orderBy,
-	where,
-	Firestore,
-	collection,
-	doc,
-	onSnapshot,
-	updateDoc,
-	getDocs,
-	arrayUnion,
-	setDoc,
-} from '@angular/fire/firestore';
+import {query,orderBy,where,Firestore,collection,doc,onSnapshot,updateDoc,getDocs,arrayUnion,setDoc,} from '@angular/fire/firestore';
 import { AuthService } from '../authentication/auth.service';
 import { Channel } from '../../models/channel.class';
 import { User } from '../../models/user.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { PrivateNote } from '../../models/privateNote.class';
-import { user } from '@angular/fire/auth';
-import { SearchService } from '../search/search.service';
+
 @Injectable({
 	providedIn: 'root',
 })
@@ -439,10 +425,7 @@ export class FirebaseService {
 	 * @param {string} chanId - The channel ID to be added.
 	 * @returns {Promise<void[]>} A promise that resolves when all updates are complete.
 	 */
-	updateUserChannelsArray(
-		userIds: string[],
-		chanId: string
-	): Promise<void[]> {
+	updateUserChannelsArray(userIds: string[],chanId: string): Promise<void[]> {
 		const updatePromises = userIds.map((userid) => {
 			const userDocRef = doc(this.firestore, `users/${userid}`);
 			return updateDoc(userDocRef, {
@@ -459,10 +442,7 @@ export class FirebaseService {
 	 * Logs the updated private chat list to the console.
 	 */
 	subPrivateChatList() {
-		const privateChatCollection = collection(
-			this.firestore,
-			'privateChats'
-		);
+		const privateChatCollection = collection(this.firestore,'privateChats');
 		const q = query(privateChatCollection, orderBy('chatCreator'));
 		this.unsubscribePrivateChatList = onSnapshot(
 			q,

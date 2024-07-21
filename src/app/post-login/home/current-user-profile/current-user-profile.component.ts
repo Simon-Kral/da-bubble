@@ -1,22 +1,7 @@
-import {
-	Component,
-	EventEmitter,
-	inject,
-	Input,
-	OnInit,
-	Output,
-	signal,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
-import {
-	AbstractControl,
-	FormBuilder,
-	FormGroup,
-	ReactiveFormsModule,
-	ValidationErrors,
-	Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
 import { Firestore } from '@angular/fire/firestore';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { ChatService } from '../../../services/chat/chat.service';
@@ -240,11 +225,12 @@ export class CurrentUserProfileComponent implements OnInit {
 	 */
 	async logout(): Promise<void> {
 		// to-do OPTIONAL update user status to offline when close tab
+		try {
 		await this.firebaseService.unsubscribeAllLists();
 		await this.chatService.unsubscribeAllLists();
 		await this.threadService.unsubscribeAllLists();
 		await this.firebaseService.updateUserStatus(false);
-		this.firebaseService.clearCurrentUser(); // to-do remove after developement is finished
+
 		this.authService.logout().subscribe({
 			next: () => {
 				sessionStorage.clear();
@@ -253,6 +239,9 @@ export class CurrentUserProfileComponent implements OnInit {
 				console.log(err);
 			},
 		});
+	} catch (error) {
+		console.error('Error during cleanup before logout:', error);
+	  }
 	}
 
 	uploadFile(event: Event) {
