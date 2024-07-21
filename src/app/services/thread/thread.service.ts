@@ -109,7 +109,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
    */
   async getMessageAnswer(): Promise<string> {
     try {
-      const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.threadId}/messageAnswers/${this.editMessageAnswerId}`);
+      const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.messageId}/messageAnswers/${this.editMessageAnswerId}`);
       const docSnap = await getDoc(messageDocRef);
       
       if (docSnap.exists()) {
@@ -192,7 +192,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
    */
   async updateMessageAnswerId(docRef: any): Promise<void> {
     try {
-      await updateDoc(doc(this.firestore, this.chatService.mainCollection, this.chatService.docRef, 'messages', this.messageId, 'messageAnswers', docRef.id), {
+      await updateDoc(doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.messageId}/messageAnswers/${docRef.id}`), {
         messageAnswerId: docRef.id,
       });
       console.log('Message document updated with ID: ', docRef.id);
@@ -202,4 +202,25 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
     }
   }
 
+  /**
+ * Updates the text of a message in a specific doc in Firestore.
+ * @param {string} mainCollection - The name of the main collection.
+ * @param {string} docRef - The document reference in the main collection.
+ * @param {string} messageId - The ID of the message document in the subcollection messages.
+ * @param {string} editMessageAnswerId - The ID of the message document in the subcollection messageAnswers.
+ * @param {string} newText - The new text to update in the message document.
+ * @returns {Promise<void>} A promise that resolves when the message text is updated.
+ */
+async updateMessageAnswer(newText: string): Promise<void> {
+  try {
+    const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.messageId}/messageAnswers/${this.editMessageAnswerId}`);
+    await updateDoc(messageDocRef, {
+      text: newText
+    });
+    console.log('Message text updated successfully');
+  } catch (error) {
+    console.error('Error updating message text:', error);
+    throw error;
+  }
+}
 }

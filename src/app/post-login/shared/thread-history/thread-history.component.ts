@@ -56,11 +56,11 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
-
+    this.threadService.subscribeAllLists();
   }
 
   ngOnDestroy(): void {
-
+    this.threadService.unsubscribeAllLists();
   }
 
   openEditMsgMenu() {
@@ -100,10 +100,11 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
  * Handles the click event for editing a message.
  * Sets the ID of the message to be edited, loads the message text, and shows the edit message overlay.
  *
- * @param {string} messageId - The ID of the message to be edited.
+ * @param {string} messageAnswerId - The ID of the message to be edited.
  */
-  handleClickOnEditMsg(messageId: string) {
-    this.chatService.editMessageId = messageId;  // set the id of the message to be edited into the chatService
+  handleClickOnEditMsg(messageAnswerId: string) {
+    this.threadService.editMessageAnswerId = messageAnswerId;  // set the id of the message to be edited into the chatService
+    console.log('Message Answer ID:', messageAnswerId);
      this.loadMessageText();                     // load the text of the message to be edited
     this.showEditMsgOverlay = true;             // show the edit message overlay
   }
@@ -114,12 +115,12 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
   *
   * @returns {Promise<void>} A promise that resolves when the message text has been successfully updated.
   */
-  async onSubmitEditMsg() {
+  async onSubmitEditMsgAnswer() {
     this.editMsgMenu = false;                         // close the edit message menu
     if (this.newMsgData.valid) {                      // check if the new message text is valid
       const updatedText = this.newMsgData.value.text; // get the new message text
       try {
-        await this.chatService.updateMessage(         // update the message text
+        await this.threadService.updateMessageAnswer(         // update the message text
           updatedText
         );
         console.log('Message text updated successfully');
@@ -146,7 +147,7 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
   */
   async loadMessageText() {
     try {
-      const text = await this.chatService.getMessage();  // get the text of the message to be edited
+      const text = await this.threadService.getMessageAnswer();  // get the text of the message to be edited
       this.currentMsgData = { text: text };             // set the text of the message to be edited
       this.newMsgData.patchValue({ text: text });       // set the text of the message to be edited in the form
     } catch (error) {

@@ -1,2 +1,6 @@
 @import '../../../../styles.scss';
 @import '../chat-history/chat-history.component.scss';
+
+.thread-history-wrapper {
+    position: relative;
+}
