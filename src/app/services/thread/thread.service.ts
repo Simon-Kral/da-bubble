@@ -38,6 +38,7 @@ export class ThreadService {
 
   async handleCreateThread(message: Message) {
     console.log('Thread created for message: ' + message.messageId);
+    this.communicationService.isThreadVisible = false;  // in case user has opened a thread before
     this.communicationService.toggleThreadVisibility(true);
     this.chatService.messageId = message.messageId;
     this.createMessageAnswer(message);
