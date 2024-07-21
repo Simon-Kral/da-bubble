@@ -103,9 +103,23 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
         this.currentIconSourceComment = this.comment;
         break;
       case 'addReaction':
-        this.currentIconSourceAddReaction = this.addReaction;
+        this.currentIconSourceAddReaction = this.addReactionHover;
         break;
     }
+  }
+
+  onMouseOverReaction(imgName: string, mousePosition: string, index: number) : void {
+    console.log('mouse is over', imgName, mousePosition, index);
+
+        this.currentIconSourceAddReaction = this.addReactionHover;
+
+
+  }
+
+  onMouseOutReaction(imgName: string, mousePosition: string, index: number) : void {
+    console.log('mouse is over', imgName, mousePosition, index);
+        this.currentIconSourceAddReaction = this.addReaction;
+
   }
 
   // edit msg functions
