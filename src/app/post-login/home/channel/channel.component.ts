@@ -1,6 +1,6 @@
 import { CommunicationService } from './../../../services/communication/communication.service';
 import { FirebaseService } from './../../../services/firebase/firebase.service';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../../shared/chat-input/chat-input.component';
 import { ChatService } from '../../../services/chat/chat.service';
@@ -9,6 +9,7 @@ import { ChatHistoryComponent } from '../../shared/chat-history/chat-history.com
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../models/user.class';
 import { ChannelMemberComponent } from './channel-member/channel-member.component';
+import { ThreadService } from '../../../services/thread/thread.service';
 @Component({
 	selector: 'app-channel',
 	standalone: true,
@@ -22,18 +23,16 @@ import { ChannelMemberComponent } from './channel-member/channel-member.componen
 	templateUrl: './channel.component.html',
 	styleUrl: './channel.component.scss',
 })
-export class ChannelComponent {
+export class ChannelComponent implements OnInit, OnDestroy{
 	chatService = inject(ChatService);
 	communicationService = inject(CommunicationService);
 	firebaseService = inject(FirebaseService);
+	threadService = inject(ThreadService);
+
 	showChannelDetails = false;
 	showAddMembersToChannel = false;
 	hashtag = 'assets/img/icons/hashtag_chat_inactive.png';
 	dropdownArrow = 'assets/img/icons/keyboard_arrow_down_inactive.png';
-
-
-
-
 	
 	@Input() isChannelMemberVisible: boolean = false;
 	@Output() channelMemberVisibilityChange = new EventEmitter<boolean>();
@@ -51,6 +50,12 @@ export class ChannelComponent {
 	}
 
 	ngOnInit(): void {
+		this.chatService.subscribeAllLists();
+	}
+
+	ngOnDestroy(): void {
+		this.chatService.unsubscribeAllLists();
+		this.threadService.unsubscribeAllLists();
 	}
 
 	/**

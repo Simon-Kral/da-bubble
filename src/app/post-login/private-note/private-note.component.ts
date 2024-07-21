@@ -8,6 +8,7 @@ import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
 import { CommonModule } from '@angular/common';
 import { PrivateMessageListComponent } from '../home/side-navigation/sidenav/private-message-list/private-message-list.component';
 import { ChatHistoryComponent } from '../shared/chat-history/chat-history.component';
+import { ThreadService } from '../../services/thread/thread.service';
 
 @Component({
   selector: 'app-private-note',
@@ -21,6 +22,7 @@ export class PrivateNoteComponent implements OnInit, OnDestroy{
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
+  threadService = inject(ThreadService);
 
   constructor(private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
@@ -40,6 +42,7 @@ export class PrivateNoteComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.chatService.unsubscribeAllLists();
+    this.threadService.unsubscribeAllLists();
   }
 
 }

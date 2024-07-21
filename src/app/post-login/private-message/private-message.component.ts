@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommunicationService } from '../../services/communication/communication.service';
 import { ChatHistoryComponent } from '../shared/chat-history/chat-history.component';
 import { SearchService } from '../../services/search/search.service';
+import { ThreadService } from '../../services/thread/thread.service';
 
 
 
@@ -25,7 +26,7 @@ export class PrivateMessageComponent implements OnInit, OnDestroy{
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
   searchService = inject(SearchService);
-
+  threadService = inject(ThreadService);
   
   constructor(private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
@@ -47,6 +48,7 @@ export class PrivateMessageComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.chatService.unsubscribeAllLists();
+    this.threadService.unsubscribeAllLists();
   }
 
 }

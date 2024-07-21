@@ -24,6 +24,7 @@ import { CommunicationService } from '../../../services/communication/communicat
 import { AppComponent } from '../../../app.component';
 import { StorageService } from '../../../services/storage/storage.service';
 import { ref } from '@angular/fire/storage';
+import { ThreadService } from '../../../services/thread/thread.service';
 interface UserData {
 	name: string;
 	email: string;
@@ -43,6 +44,7 @@ export class CurrentUserProfileComponent implements OnInit {
 	storageService = inject(StorageService);
 	chatService = inject(ChatService);
 	communicationService = inject(CommunicationService);
+	threadService = inject(ThreadService);
 
 	@Input() isCurrentUserProfileVisible: boolean = false;
 	@Output() currentUserProfileVisibilityChange = new EventEmitter<boolean>();
@@ -240,6 +242,7 @@ export class CurrentUserProfileComponent implements OnInit {
 		// to-do OPTIONAL update user status to offline when close tab
 		await this.firebaseService.unsubscribeAllLists();
 		await this.chatService.unsubscribeAllLists();
+		await this.threadService.unsubscribeAllLists();
 		await this.firebaseService.updateUserStatus(false);
 		this.firebaseService.clearCurrentUser(); // to-do remove after developement is finished
 		this.authService.logout().subscribe({

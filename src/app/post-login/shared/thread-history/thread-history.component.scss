@@ -8,16 +8,12 @@
     height: 100%;
 }
 
-.user-msg {
-    .msg-menu {
+.user-msg .msg-menu{
         width: 66px;
-    }
 }
 
-.current-user-msg {
-    .msg-menu {
+.current-user-msg .msg-menu {
         width: 111px;
-    }
 }
 
 
@@ -34,4 +30,8 @@
         @include Nunito(400, 18px, 24.55px, $light-purple-lines);
         text-wrap: nowrap;
     }
+}
+
+.edit-msg-overlay .bottom-right {
+        gap: 16px!important;
 }
