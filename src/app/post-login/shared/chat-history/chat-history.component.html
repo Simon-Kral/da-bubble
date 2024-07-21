@@ -49,10 +49,14 @@
                 <span>{{ msg.text }}</span>
             </div>   
                 <!--only display if messageAnsers are present-->
-            <div class="msg-bottom" (click)="this.threadService.openExistingThread(msg.messageId)">
-                <span class="pointer">2 Antworten</span>
-                <p>Letzte Antwort 14:56</p>
-            </div>
+
+                @if (msg.answerCount > 0) {
+                    <div class="msg-bottom" (click)="this.threadService.openExistingThread(msg.messageId)">
+                        <span class="pointer"> {{msg.answerCount}} Antworten</span>
+                        <p>Letzte Antwort {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
+                    </div>
+                }
+
                 <!--reactions container-->
                 <div class="reactions-container">
                     <div class="pointer add-reaction"
@@ -124,11 +128,13 @@
                 <div class="current-user-msg">
                     <span>{{ msg.text }}</span>
                 </div>   
-                    <!--only display if messageAnsers are present-->
-                <div class="current-user-msg-bottom" (click)="this.threadService.openExistingThread(msg.messageId)">
-                    <span class="pointer">2 Antworten</span>
-                    <p>Letzte Antwort 14:56</p>
-                </div>
+                <!--only display if messageAnsers are present-->
+                @if (msg.answerCount > 0) {
+                    <div class="current-user-msg-bottom" (click)="this.threadService.openExistingThread(msg.messageId)">
+                        <span class="pointer"> {{msg.answerCount}} Antworten</span>
+                        <p>Letzte Antwort {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
+                    </div>
+                }
                 <!--reactions container-->
                 <div class="reactions-container">
                     <div class="pointer last-reaction">

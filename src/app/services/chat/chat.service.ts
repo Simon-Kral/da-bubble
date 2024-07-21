@@ -35,10 +35,10 @@ export class ChatService {
 
   editMessageId:string = '';  // will get used to store the id of the message that should get edited
 
+  messageId: string = '';  // This is the message ID that the thread is related to
+
   selectedPrivateChatReciver: string = '';  // will get used to store the id of the selected private chat reciver
 
-
- 
 
   constructor(private router: Router, private route: ActivatedRoute) { 
   }
@@ -131,6 +131,8 @@ setMessage(obj: any, id: string): Message{
     time: obj.time || '',
     messageSendBy: obj.messageSendBy || '',
     reactions: obj.reactions || [],
+    answerCount: obj.answerCount || 0,
+    lastAnswer: obj.lastAnswer || '',
   };
 }
   /**
@@ -353,7 +355,9 @@ initializeChannelPlaceholder(channelId: string): void {
         date: new Date().toLocaleDateString(),
         time: time.toString(),
         messageSendBy: this.firebaseService.currentUser.userId,
-        reactions: []
+        reactions: [],
+        answerCount: 0,
+        lastAnswer: '',
       };
 
         const docRef = await this.addMessage(newMessage);
@@ -395,4 +399,7 @@ addMessage(messageData: Message): Promise<any> {
       throw e;
     }
   }
+
+
+
 }

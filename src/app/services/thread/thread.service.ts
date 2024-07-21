@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { ChatService } from '../chat/chat.service';
 import { FirebaseService } from '../firebase/firebase.service';
 import { CommunicationService } from '../communication/communication.service';
-import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc } from '@angular/fire/firestore';
+import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc, increment } from '@angular/fire/firestore';
 import { MessageAnswer } from '../../models/messageAnswer.class';
 import { Message } from '../../models/message.class';
 @Injectable({
@@ -17,8 +17,8 @@ export class ThreadService {
   communicationService = inject(CommunicationService);
   firestore: Firestore = inject(Firestore);
 
-  messageId: string = '';  // This is the message ID that the thread is related to
-  threadId: string = '';  // This is the thread ID that the thread is related to
+  
+
 
   msgAnswerList: MessageAnswer[] = []; // will get used to store msgAnswers from prvt chats or channels
   unsubscribeMsgAnswerList: any;
@@ -39,7 +39,7 @@ export class ThreadService {
   async handleCreateThread(message: Message) {
     console.log('Thread created for message: ' + message.messageId);
     this.communicationService.toggleThreadVisibility(true);
-    this.messageId = message.messageId;
+    this.chatService.messageId = message.messageId;
     this.createMessageAnswer(message);
     await this.subscribeMsgAnswerList();
   }
@@ -47,7 +47,7 @@ export class ThreadService {
   async openExistingThread(threadId: string) {
     console.log('Thread opened for thread: ' + threadId);
     this.communicationService.toggleThreadVisibility(true);
-    this.messageId = threadId;
+    this.chatService.messageId = threadId;
     await this.subscribeMsgAnswerList();
   }
   
@@ -64,7 +64,7 @@ subscribeMsgAnswerList() {
   if (this.unsubscribeMsgAnswerList) {
     this.unsubscribeMsgAnswerList();
   }
-  const collectionRef = collection(this.firestore, this.chatService.mainCollection, this.chatService.docRef, 'messages', this.messageId, 'messageAnswers');
+  const collectionRef = collection(this.firestore, this.chatService.mainCollection, this.chatService.docRef, 'messages', this.chatService.messageId, 'messageAnswers');
   const q = query(collectionRef, orderBy('date'), orderBy('time'));
   this.unsubscribeMsgAnswerList = onSnapshot(
     q,
@@ -109,7 +109,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
    */
   async getMessageAnswer(): Promise<string> {
     try {
-      const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.messageId}/messageAnswers/${this.editMessageAnswerId}`);
+      const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.chatService.messageId}/messageAnswers/${this.editMessageAnswerId}`);
       const docSnap = await getDoc(messageDocRef);
       
       if (docSnap.exists()) {
@@ -156,7 +156,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
       let newMessage: MessageAnswer = {
         messageAnswerId: '',
         text: messageText,
-        messageId: this.messageId,
+        messageId: this.chatService.messageId,
         date: new Date().toLocaleDateString(),
         time: time.toString(),
         messageSendBy: this.firebaseService.currentUser.userId,
@@ -166,6 +166,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
         console.log('Document written with ID: ', docRef.id);
         await this.updateMessageAnswerId(docRef);
         console.log('Document updated with ID: ', docRef.id);
+        await this.updateMessageAnswerCountAndTime(this.chatService.messageId, time.toString());
     }
  /**
    * Adds a new messageAnswer doc to the Firestore.
@@ -176,7 +177,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
    */
   async addMessageAnswer( answerData: MessageAnswer): Promise<any> {
     try {
-      const collectionRef = collection(this.firestore, this.chatService.mainCollection, this.chatService.docRef, 'messages', this.messageId, 'messageAnswers');
+      const collectionRef = collection(this.firestore, this.chatService.mainCollection, this.chatService.docRef, 'messages', this.chatService.messageId, 'messageAnswers');
       return addDoc(collectionRef, answerData);
     } catch (e) {
     console.error('Error adding message document: ', e);
@@ -192,7 +193,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
    */
   async updateMessageAnswerId(docRef: any): Promise<void> {
     try {
-      await updateDoc(doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.messageId}/messageAnswers/${docRef.id}`), {
+      await updateDoc(doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.chatService.messageId}/messageAnswers/${docRef.id}`), {
         messageAnswerId: docRef.id,
       });
       console.log('Message document updated with ID: ', docRef.id);
@@ -213,13 +214,35 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
  */
 async updateMessageAnswer(newText: string): Promise<void> {
   try {
-    const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.messageId}/messageAnswers/${this.editMessageAnswerId}`);
+    const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.chatService.messageId}/messageAnswers/${this.editMessageAnswerId}`);
     await updateDoc(messageDocRef, {
       text: newText
     });
     console.log('Message text updated successfully');
   } catch (error) {
     console.error('Error updating message text:', error);
+    throw error;
+  }
+}
+/**
+ * Updates the answer count and last answer time of a message document in Firestore after adding a new messageAnswer.
+ * 
+ * @param {string} messageId - The ID of the message document to be updated.
+ * @param {string} time - The time of the last answer, represented as a string.
+ * @returns {Promise<void>} A promise that resolves when the message document is successfully updated.
+ */
+async updateMessageAnswerCountAndTime(messageId: string, time: string): Promise<void> {
+  try {
+    const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${messageId}`);
+  
+    await updateDoc(messageDocRef, {
+      answerCount: increment(1),  
+      lastAnswer: time          
+    });
+    
+    console.log('Message document updated successfully');
+  } catch (error) {
+    console.error('Error updating message document:', error);
     throw error;
   }
 }
