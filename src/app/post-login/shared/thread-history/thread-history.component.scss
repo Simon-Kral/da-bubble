@@ -3,7 +3,21 @@
 
 .thread-history-wrapper {
     position: relative;
+    padding-top: 24px;
 }
+
+.user-msg {
+    .msg-menu {
+        width: 66px;
+    }
+}
+
+.current-user-msg {
+    .msg-menu {
+        width: 111px;
+    }
+}
+
 
 .msg-answer-counter {
     @include dFlex(row,center, center);

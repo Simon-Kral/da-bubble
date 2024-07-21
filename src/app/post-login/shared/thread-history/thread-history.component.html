@@ -53,7 +53,7 @@
             <!--current-user-msg-->
             @if (msg.messageSendBy == this.firebaseService.currentUserId) {
             <div class="current-user-msg"> 
-                <!--msg-menu only show for current user-->
+                <!--msg-menu only displayed for current user-->
                 <div class="msg-menu">
                     <div class="pointer menu-content"
                     (mouseover)="onMouseOver('addReaction')"
@@ -61,6 +61,7 @@
                     >
                         <img [src]="currentIconSourceAddReaction" alt="menu-icon">
                     </div>
+                @if (index > 0) {
                     <div class="pointer menu-content"
                     (click)="openEditMsgMenu()"
                     (mouseover)="onMouseOver('moreVert')"
@@ -68,6 +69,7 @@
                     >
                         <img [src]="currentIconSourceMoreVert" alt="menu-icon">
                     </div>
+
                     <!--sub menu "edit-msg"-->
                     <div class="edit-msg-menu"
                     [ngClass]="{'d-flex': editMsgMenu}"
@@ -76,6 +78,7 @@
                             <span>Nachricht bearbeiten</span>
                         </div>
                     </div>
+                }
                 </div>
                 <!--msg-content-->
                 <div class="current-user-msg-content">
