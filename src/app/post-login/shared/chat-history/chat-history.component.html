@@ -54,8 +54,16 @@
 
                 @if (msg.answerCount > 0) {
                     <div class="msg-bottom" (click)="this.threadService.openExistingThread(msg.messageId)">
-                        <span class="pointer"> {{msg.answerCount-1}} Antworten</span>
-                        <p>Letzte Antwort {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
+                        @if (msg.answerCount > 2 || msg.answerCount == 1) {
+                            <span class="pointer"> {{msg.answerCount-1}} Antworten</span>
+                            } @else {
+                            <span class="pointer"> {{msg.answerCount-1}} Antwort</span>
+                            }
+                        @if (msg.answerCount == 1) {
+                            <p>Thread erstellt {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
+                            } @else {
+                            <p>Letzte Antwort {{this.chatService.formatTimeString(msg.time)}}</p>
+                            }
                     </div>
                 }
 
@@ -135,8 +143,16 @@
                 <!--only display if messageAnsers are present-->
                 @if (msg.answerCount > 0) {
                     <div class="current-user-msg-bottom" (click)="this.threadService.openExistingThread(msg.messageId)">
+                        @if (msg.answerCount > 2 || msg.answerCount == 1) {
                         <span class="pointer"> {{msg.answerCount-1}} Antworten</span>
-                        <p>Letzte Antwort {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
+                        } @else {
+                        <span class="pointer"> {{msg.answerCount-1}} Antwort</span>
+                        }
+                        @if (msg.answerCount == 1) {
+                        <p>Thread erstellt {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
+                        } @else {
+                        <p>Letzte Antwort {{this.chatService.formatTimeString(msg.time)}}</p>
+                        }
                     </div>
                 }
                 <!--reactions container-->
