@@ -55,7 +55,7 @@ export class ThreadService {
   async onMessageSent(event: { message: string, source: string, timestamp: number }) {
     this.sendMessageAnswer(event.message, event.timestamp);
   }
-// code for fetching messages from private chat or channels
+// code for fetching messages of subcollection "messageAnswers" from privateChats / privateNotes  or channels
 /**
  * Subscribes to the messageAns subcollection and updates the message list in real-time.
  * Orders the messages by the 'date' and then 'time' field.
@@ -124,7 +124,12 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
     }
   }
 
-
+  /**
+   * Creates a initial messageAnswer in the Firestore subcollection 'messageAnswers' for privateChats / privateNotes  or channels.
+   * 
+   * @param {Message} message - The message object containing the details of the messageAnswer to be created.
+   * @returns {Promise<void>} A promise that resolves when the message answer is successfully created and updated.
+   */
   async createMessageAnswer(message: Message) {
     let newMessage: MessageAnswer = {
       messageAnswerId: '',
@@ -140,7 +145,35 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
       await this.updateMessageAnswerId(docRef);
       console.log('Document updated with ID: ', docRef.id);
   }
-
+    /**
+   * Sends a new messageAnswer and updates its document ID in Firestore.
+   * 
+   * @param {string} messageText - The text of the message answer to be sent.
+   * @param {number} time - The time the message answer is sent, represented as a number.
+   * @returns {Promise<void>} A promise that resolves when the message answer is successfully sent and updated.
+   */
+    async sendMessageAnswer(messageText: string, time:number) {
+      let newMessage: MessageAnswer = {
+        messageAnswerId: '',
+        text: messageText,
+        messageId: this.messageId,
+        date: new Date().toLocaleDateString(),
+        time: time.toString(),
+        messageSendBy: this.firebaseService.currentUser.userId,
+        reactions: []
+      };
+        const docRef = await this.addMessageAnswer(newMessage);
+        console.log('Document written with ID: ', docRef.id);
+        await this.updateMessageAnswerId(docRef);
+        console.log('Document updated with ID: ', docRef.id);
+    }
+ /**
+   * Adds a new messageAnswer doc to the Firestore.
+   * 
+   * @param {MessageAnswer} answerData - The message answer object to be added.
+   * @returns {Promise<any>} A promise that resolves with the document reference of the added message answer.
+   * @throws {Error} Throws an error if adding the document fails.
+   */
   async addMessageAnswer( answerData: MessageAnswer): Promise<any> {
     try {
       const collectionRef = collection(this.firestore, this.chatService.mainCollection, this.chatService.docRef, 'messages', this.messageId, 'messageAnswers');
@@ -150,7 +183,13 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
     throw e;
     }
   }
-
+  /**
+   * Updates the messageAnswerId field of a message answer in the Firestore.
+   * 
+   * @param {any} docRef - The document reference of the message answer to be updated.
+   * @returns {Promise<void>} A promise that resolves when the messageAnswerId field is successfully updated.
+   * @throws {Error} Throws an error if updating the document fails.
+   */
   async updateMessageAnswerId(docRef: any): Promise<void> {
     try {
       await updateDoc(doc(this.firestore, this.chatService.mainCollection, this.chatService.docRef, 'messages', this.messageId, 'messageAnswers', docRef.id), {
@@ -163,19 +202,4 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
     }
   }
 
-  async sendMessageAnswer(messageText: string, time:number) {
-    let newMessage: MessageAnswer = {
-      messageAnswerId: '',
-      text: messageText,
-      messageId: this.messageId,
-      date: new Date().toLocaleDateString(),
-      time: time.toString(),
-      messageSendBy: this.firebaseService.currentUser.userId,
-      reactions: []
-    };
-      const docRef = await this.addMessageAnswer(newMessage);
-      console.log('Document written with ID: ', docRef.id);
-      await this.updateMessageAnswerId(docRef);
-      console.log('Document updated with ID: ', docRef.id);
-  }
 }
