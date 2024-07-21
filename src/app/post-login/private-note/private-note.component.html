@@ -1,7 +1,7 @@
 <div class="private-msg-wrapper">
 	<div class="top-section">
 		@for (privateNote of firebaseService.privateNoteList; track privateNote.privatNoteId; let index = $index) {
-			<div class="user-content pointer" (click)="handleClickOnMember(true)">
+			<div class="user-content pointer" (click)="this.communicationService.handleClickCurrentUser(true)">
 				<img [src]="this.firebaseService.getUserAvatar(privateNote.privateNoteCreator)" alt="User Avatar" />
 				<div class="user-status"
 					[ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(privateNote.privateNoteCreator), 'offline': !this.firebaseService.getUserOnlineStatus(privateNote.privateNoteCreator) }">
@@ -20,7 +20,7 @@
 						<div class="user-avatar">
 							<img [src]="this.firebaseService.getUserAvatar(privateNote.privateNoteCreator)" alt="User Avatar" />
 						</div>
-						<h1 class="pointer" (click)="handleClickOnMember(true)" >{{this.firebaseService.getUserDisplayName(privateNote.privateNoteCreator)+' (Du)'}}</h1>
+						<h1 class="pointer" (click)="this.communicationService.handleClickCurrentUser(true)" >{{this.firebaseService.getUserDisplayName(privateNote.privateNoteCreator)+' (Du)'}}</h1>
 					</div>
 					<div class="bottom-section">
 						<span>Dieser Raum ist nur für dich da.</span><p>Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.</p>

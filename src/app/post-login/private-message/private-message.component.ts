@@ -49,12 +49,6 @@ export class PrivateMessageComponent implements OnInit, OnDestroy{
     this.chatService.unsubscribeAllLists();
   }
 
-
-  handleClickOnMember(memberId: string) {
-    this.communicationService.toggleUserProfileVisibility(true);
-    this.communicationService.userProfileId = memberId;
-  }
-
 }
 
 

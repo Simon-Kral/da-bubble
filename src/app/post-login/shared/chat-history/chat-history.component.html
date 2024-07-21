@@ -41,7 +41,7 @@
         <!--msg-content-->
         <div class="msg-content">
             <div class="msg-top">
-                <span>{{ this.firebaseService.getUserDisplayName(msg.messageSendBy) }}</span>
+                <span class="pointer" (click)="this.communicationService.handleClickOnUser(msg.messageSendBy)">{{ this.firebaseService.getUserDisplayName(msg.messageSendBy) }}</span>
                 <p>{{ this.chatService.formatTimeString(msg.time) }}</p>
             </div>
 
@@ -118,7 +118,7 @@
             <div class="current-user-msg-content">
                 <div class="current-user-msg-top">
                     <p>{{ this.chatService.formatTimeString(msg.time) }}</p>
-                    <span>{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }}</span>
+                    <span class="pointer" (click)="this.communicationService.handleClickCurrentUser(true)">{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) }}</span>
                 </div>
     
                 <div class="current-user-msg">

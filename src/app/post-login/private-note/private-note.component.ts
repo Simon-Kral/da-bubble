@@ -42,10 +42,4 @@ export class PrivateNoteComponent implements OnInit, OnDestroy{
     this.chatService.unsubscribeAllLists();
   }
 
-
-
-  handleClickOnMember(visible: boolean) {
-    this.communicationService.toggleCurrentUserProfileVisibility(visible);
-  }
-
 }

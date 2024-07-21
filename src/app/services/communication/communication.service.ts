@@ -59,4 +59,13 @@ export class CommunicationService {
 	toggleChannelMemberVisibility(visible: boolean) {
 		this.isChannelMemberVisibleSource.next(visible);
 	}
+
+	handleClickOnUser(memberId: string) {
+		this.toggleUserProfileVisibility(true);
+		this.userProfileId = memberId;
+	  }
+	
+	 handleClickCurrentUser(visible: boolean) {
+		this.toggleCurrentUserProfileVisibility(visible);
+	  }
 }

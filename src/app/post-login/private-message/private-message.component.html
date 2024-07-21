@@ -5,7 +5,7 @@
 			@if (privateMsg.privatChatId === this.chatService.docRef) {
 				@if (privateMsg.chatCreator == this.firebaseService.currentUserId) {
 
-			<div class="user-content pointer" (click)="handleClickOnMember(privateMsg.chatReciver)">
+			<div class="user-content pointer" (click)="this.communicationService.handleClickOnUser(privateMsg.chatReciver)">
 				<img [src]="this.firebaseService.getUserAvatar(privateMsg.chatReciver)" alt="User Avatar" />
 				<div class="user-status"
 					[ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(privateMsg.chatReciver), 'offline': !this.firebaseService.getUserOnlineStatus(privateMsg.chatReciver) }">
@@ -18,7 +18,7 @@
 		@for (privateMsg of firebaseService.privateChatList; track privateMsg.privatChatId; let index = $index) {
 			@if (privateMsg.privatChatId === this.chatService.docRef) {
 				@if (privateMsg.chatReciver == this.firebaseService.currentUserId) {
-			<div class="user-content pointer" (click)="handleClickOnMember(privateMsg.chatCreator)">
+			<div class="user-content pointer" (click)="this.communicationService.handleClickOnUser(privateMsg.chatCreator)">
 				<img [src]="this.firebaseService.getUserAvatar(privateMsg.chatCreator)" alt="User Avatar" />
 				<div class="user-status"
 					[ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(privateMsg.chatCreator), 'offline': !this.firebaseService.getUserOnlineStatus(privateMsg.chatCreator) }">
@@ -47,18 +47,18 @@
 					}
 					</div>
 					@if (privateMsg.chatCreator == this.firebaseService.currentUserId) {
-					<h1 class="pointer" (click)="handleClickOnMember(privateMsg.chatReciver)">{{this.firebaseService.getUserDisplayName(privateMsg.chatReciver)}}</h1>
+					<h1 class="pointer" (click)="this.communicationService.handleClickOnUser(privateMsg.chatReciver)">{{this.firebaseService.getUserDisplayName(privateMsg.chatReciver)}}</h1>
 					}
 					@if (privateMsg.chatReciver == this.firebaseService.currentUserId) {
-						<h1 class="pointer" (click)="handleClickOnMember(privateMsg.chatCreator)">{{this.firebaseService.getUserDisplayName(privateMsg.chatCreator)}}</h1>
+						<h1 class="pointer" (click)="this.communicationService.handleClickOnUser(privateMsg.chatCreator)">{{this.firebaseService.getUserDisplayName(privateMsg.chatCreator)}}</h1>
 						}
 				</div>
 				<div class="bottom-section">
 					@if (privateMsg.chatCreator == this.firebaseService.currentUserId) {
-					<span>Diese Unterhaltung findet nur zwischen</span><p class="pointer" (click)="handleClickOnMember(privateMsg.chatReciver)">{{'@'+this.firebaseService.getUserDisplayName(privateMsg.chatReciver)}}</p><span>und dir statt.</span>
+					<span>Diese Unterhaltung findet nur zwischen</span><p class="pointer" (click)="this.communicationService.handleClickOnUser(privateMsg.chatReciver)">{{'@'+this.firebaseService.getUserDisplayName(privateMsg.chatReciver)}}</p><span>und dir statt.</span>
 					}
 					@if (privateMsg.chatReciver == this.firebaseService.currentUserId) {
-						<span>Diese Unterhaltung findet nur zwischen</span><p class="pointer" (click)="handleClickOnMember(privateMsg.chatCreator)">{{'@'+this.firebaseService.getUserDisplayName(privateMsg.chatCreator)}}</p><span>und dir statt.</span>
+						<span>Diese Unterhaltung findet nur zwischen</span><p class="pointer" (click)="this.communicationService.handleClickOnUser(privateMsg.chatCreator)">{{'@'+this.firebaseService.getUserDisplayName(privateMsg.chatCreator)}}</p><span>und dir statt.</span>
 						}
 				</div>
 			</div>
