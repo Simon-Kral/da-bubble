@@ -1,13 +1,5 @@
 <div class="thread-history-wrapper">
     @for (msg of this.threadService.msgAnswerList; track msg; let index = $index) {
-        <!--msg date seperator to-do implement logic to check if msg is sent today, or in past days-->
-        <div class="msg-date">
-            <div class="seperator"></div>
-                <div class="date-container">
-                    <span>{{ msg.date }}</span>
-                </div>
-            <div class="seperator"></div>
-        </div>
         @if (msg.messageSendBy !== this.firebaseService.currentUserId) {
         <!--user-msg-->
         <div class="user-msg">
@@ -49,7 +41,15 @@
                     </div>
             </div>
         </div>
+            <!--seperator with answer count-->
+    @if (index == 0) {
+        <div class="msg-answer-counter">
+            <span>{{this.threadService.msgAnswerList.length - 1}} Anworten</span>
+            <div class="seperator"></div>
+        </div>      
         }
+   }
+
             <!--current-user-msg-->
             @if (msg.messageSendBy == this.firebaseService.currentUserId) {
             <div class="current-user-msg"> 
@@ -105,8 +105,16 @@
                     <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
                 </div>
             </div>
+
+
+    <!--seperator with answer count-->
+    @if (index == 0) {
+        <div class="msg-answer-counter">
+            <span>{{this.threadService.msgAnswerList.length - 1}} Anworten</span>
+            <div class="seperator"></div>
+        </div>      
         }
-    
+    }
     
     
     }
