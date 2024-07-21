@@ -25,7 +25,8 @@
             >
                 <img [src]="currentIconSourceAddReaction" alt="menu-icon">
             </div>
-            <!--show only if thread doesnt exists?!? thats not clear in figma! create new thread for specific msg or open existing thread?!?-->
+            <!--show only if no msgAnsers exist,-->
+            @if (msg.answerCount ==  0) {
             <div class="pointer menu-content"    
             (mouseover)="onMouseOver('comment')"
             (mouseout)="onMouseOut('comment')"
@@ -33,6 +34,7 @@
             >
                 <img [src]="currentIconSourceComment" alt="menu-icon">
             </div>
+        }
         </div>
         <!--user-avatar-->
         <div class="user-avatar">
@@ -94,14 +96,16 @@
                 >
                     <img [src]="currentIconSourceAddReaction" alt="menu-icon">
                 </div>
-                <!--show only if thread doesnt exists?!? thats not clear in figma! create new thread for specific msg or open existing thread?!?-->
-                <div class="pointer menu-content"
+            <!--show only if no msgAnsers exist,-->
+            @if (msg.answerCount ==  0) {
+                <div class="pointer menu-content"    
                 (mouseover)="onMouseOver('comment')"
                 (mouseout)="onMouseOut('comment')"
                 (click)="this.threadService.handleCreateThread(msg)"
                 >
                     <img [src]="currentIconSourceComment" alt="menu-icon">
                 </div>
+            }
                 <div class="pointer menu-content"
                 (click)="openEditMsgMenu()"
                 (mouseover)="onMouseOver('moreVert')"
