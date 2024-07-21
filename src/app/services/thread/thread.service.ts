@@ -144,6 +144,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
       console.log('Document written with ID: ', docRef.id);
       await this.updateMessageAnswerId(docRef);
       console.log('Document updated with ID: ', docRef.id);
+      await this.updateMessageAnswerCountAndTime(this.chatService.messageId, message.time.toString());
   }
     /**
    * Sends a new messageAnswer and updates its document ID in Firestore.

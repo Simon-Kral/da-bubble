@@ -54,7 +54,7 @@
 
                 @if (msg.answerCount > 0) {
                     <div class="msg-bottom" (click)="this.threadService.openExistingThread(msg.messageId)">
-                        <span class="pointer"> {{msg.answerCount}} Antworten</span>
+                        <span class="pointer"> {{msg.answerCount-1}} Antworten</span>
                         <p>Letzte Antwort {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
                     </div>
                 }
@@ -135,7 +135,7 @@
                 <!--only display if messageAnsers are present-->
                 @if (msg.answerCount > 0) {
                     <div class="current-user-msg-bottom" (click)="this.threadService.openExistingThread(msg.messageId)">
-                        <span class="pointer"> {{msg.answerCount}} Antworten</span>
+                        <span class="pointer"> {{msg.answerCount-1}} Antworten</span>
                         <p>Letzte Antwort {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
                     </div>
                 }
