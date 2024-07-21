@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
 import { CommunicationService } from '../../../services/communication/communication.service';
 import { ThreadService } from '../../../services/thread/thread.service';
+import { ChatService } from '../../../services/chat/chat.service';
 @Component({
   selector: 'app-thread',
   standalone: true,
@@ -14,7 +15,7 @@ import { ThreadService } from '../../../services/thread/thread.service';
 export class ThreadComponent {
   communicationService = inject(CommunicationService);
   threadService = inject(ThreadService);
-
+  chatService = inject(ChatService);
   constructor() {}
 
   // Default icon sources

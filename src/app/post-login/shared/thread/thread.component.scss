@@ -26,6 +26,7 @@
             }
             span {
                 @include Nunito(400, 14px, 19.1px, $purple-2);
+                text-wrap: nowrap;
             }
         }
 
