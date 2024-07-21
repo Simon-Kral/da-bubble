@@ -8,6 +8,7 @@ import { ChatService } from '../../../../../services/chat/chat.service';
 import { User } from '../../../../../models/user.class';
 import { PrivateMessageComponent } from '../../../../private-message/private-message.component';
 import { CommunicationService } from '../../../../../services/communication/communication.service';
+import { ThreadService } from '../../../../../services/thread/thread.service';
 @Component({
   selector: 'app-private-message-list',
   standalone: true,
@@ -21,7 +22,7 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
-  
+  threadService = inject(ThreadService);
   constructor(private router: Router, private route: ActivatedRoute) {
 
    }
@@ -42,8 +43,10 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
   handleNoteMessageClick(messageId: string) {
     this.chatService.mainCollection = 'privateNotes';                             // sets the main collection to 'privateNotes'
     this.chatService.docRef = messageId;                                          // sets the docRef to the message id                   
-    this.chatService.subscribeMsgList();                                          // subscribes to the message list of the private note       to-do: do we need that?
-    this.chatService.placeholderName = this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) +' (Du)';                                     // sets the placeholder name to 'currentUserDisplayName'
+    this.chatService.subscribeMsgList();                                          // subscribes to the message list of the private note   
+    this.chatService.placeholderName = this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) +' (Du)';   // sets the placeholder name to 'currentUserDisplayName'
+    this.communicationService.isThreadVisible = false;
+    this.threadService.unsubscribeAllLists();
   }
 
 /**
@@ -57,8 +60,9 @@ export class PrivateMessageListComponent implements OnInit, OnDestroy{
     this.chatService.mainCollection = 'privateChats';                                             // sets the main collection to 'privateChats'
     this.chatService.docRef = messageId;                                                          // sets the docRef to the message id
     this.communicationService.userProfileId = chatCreator;                                        // sets the user profile id to the chat creator
-    this.chatService.subscribeMsgList();                                                          // subscribes to the message list of the private chat    to-do: do we need that?
+    this.chatService.subscribeMsgList();                                                          // subscribes to the message list of the private chat  
     this.chatService.initializeChatPlaceholder(messageId);
-    console.log('placeholder name',this.chatService.placeholderName);
+    this.communicationService.isThreadVisible = false;
+    this.threadService.unsubscribeAllLists();
   }
 }

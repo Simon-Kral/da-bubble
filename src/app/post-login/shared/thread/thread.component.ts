@@ -41,7 +41,6 @@ export class ThreadComponent {
   }
 
   handleClickOnClose() {
-    console.log('handleClickOnClose');
     this.communicationService.toggleThreadVisibility(true);
     this.threadService.unsubscribeAllLists();
 

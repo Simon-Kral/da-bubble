@@ -4,6 +4,8 @@ import { Router, RouterModule } from '@angular/router';
 import { Firestore, collection, onSnapshot, orderBy, query } from '@angular/fire/firestore';
 import { FirebaseService } from '../../../../../services/firebase/firebase.service';
 import { ChatService } from '../../../../../services/chat/chat.service';
+import { CommunicationService } from '../../../../../services/communication/communication.service';
+import { ThreadService } from '../../../../../services/thread/thread.service';
 @Component({
   selector: 'app-channel-list',
   standalone: true,
@@ -16,6 +18,8 @@ export class ChannelListComponent implements OnInit, OnDestroy{
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
+  communicationService = inject(CommunicationService);
+  threadService = inject(ThreadService);
   selectedChannel: string | null = null;
 
   constructor(private router: Router) { }
@@ -40,6 +44,8 @@ export class ChannelListComponent implements OnInit, OnDestroy{
     this.selectedChannel= channelName;                       // sets the selected channel name to apply ngClass active       
     this.chatService.initializeChannelPlaceholder(chanId);   // initializes the channel placeholder
     this.chatService.subscribeMsgList();                     // subscribes to the message list of the channel
+    this.communicationService.isThreadVisible = false;
+    this.threadService.unsubscribeAllLists();
   }
 
 }

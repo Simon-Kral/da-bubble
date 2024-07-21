@@ -5,10 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 	providedIn: 'root',
 })
 export class CommunicationService {
-	//prvt msg component
+	//prvt msg component  to-do: do we really need this?
 	showPrivateNote: boolean = false;
-
-	// moved from chat.service -- variabels for currentUser & userProfile visibility
 
 	isCurrentUserProfileVisibleSource = new BehaviorSubject<boolean>(false);
 	isCurrentUserProfileVisible$ = this.isCurrentUserProfileVisibleSource.asObservable();
@@ -25,7 +23,7 @@ export class CommunicationService {
 	isChannelMemberVisibleSource = new BehaviorSubject<boolean>(false);
 	isChannelMemberVisible$ = this.isChannelMemberVisibleSource.asObservable();
 
-	// moved from home.component -- variabels thread visibility
+
 	//thread variables
 	isThreadVisible: boolean = false;
 
