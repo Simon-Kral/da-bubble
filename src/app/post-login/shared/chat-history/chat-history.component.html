@@ -62,7 +62,7 @@
                         @if (msg.answerCount == 1) {
                             <p>Thread erstellt {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
                             } @else {
-                            <p>Letzte Antwort {{this.chatService.formatTimeString(msg.time)}}</p>
+                            <p>Letzte Antwort {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
                             }
                     </div>
                 }
@@ -151,7 +151,7 @@
                         @if (msg.answerCount == 1) {
                         <p>Thread erstellt {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
                         } @else {
-                        <p>Letzte Antwort {{this.chatService.formatTimeString(msg.time)}}</p>
+                        <p>Letzte Antwort {{this.chatService.formatTimeString(msg.lastAnswer)}}</p>
                         }
                     </div>
                 }
