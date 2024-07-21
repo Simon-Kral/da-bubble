@@ -294,7 +294,7 @@ redirectIfChatExists(existingChatId: string | null): boolean {
 async updatePrivateChatId(docRef: any): Promise<void> {
   try {
     await updateDoc(doc(this.firestore, 'privateChats', docRef.id), {
-      id: docRef.id,
+      privatChatId: docRef.id,
     });
     this.newPrivateChatId = docRef.id;
     console.log('Document updated with ID: ', docRef.id);
