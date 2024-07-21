@@ -47,6 +47,7 @@ export class ThreadService {
 
   async openExistingThread(threadId: string) {
     console.log('Thread opened for thread: ' + threadId);
+    this.communicationService.isThreadVisible = false;  // in case user has opened a thread before
     this.communicationService.toggleThreadVisibility(true);
     this.chatService.messageId = threadId;
     await this.subscribeMsgAnswerList();
