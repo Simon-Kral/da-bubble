@@ -135,6 +135,7 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
 
 // delete msg functions
   handleClickOnDeleteMsg(messageId: string) {
+    this.toggleMsgMenu(); 
     this.communicationService.isDeleteMsgDialogVisible = true;
     this.chatService.editMessageId = messageId;  
   }
