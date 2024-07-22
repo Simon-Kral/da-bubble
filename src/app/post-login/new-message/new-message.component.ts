@@ -31,6 +31,7 @@ export class NewMessageComponent implements OnDestroy {
 		this.searchText = this.fb.group({
 			search: ['']
 		});
+    this.chatService.placeholderName = '';
 	}
 
   ngOnDestroy() {

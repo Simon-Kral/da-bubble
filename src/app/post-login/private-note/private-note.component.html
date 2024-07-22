@@ -33,9 +33,6 @@
 	</div>
 	
 	<div class="chat-input">
-		<app-chat-input 
-			[sourceComponent]="'privateNote'" 
-			[placeholderText]="this.chatService.placeholderName"
-			(messageEvent)="this.onMessageSent($event)"></app-chat-input>
+		<app-chat-input (messageEvent)="this.onMessageSent($event)"></app-chat-input>
 	</div>
 </div>
