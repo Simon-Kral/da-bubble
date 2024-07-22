@@ -100,7 +100,7 @@
         }
 
         .msg {
-            @include dFlex(row,flex-end, flex-start);
+            @include dFlex(column,flex-end, flex-start);
             min-height: 55px;
             height: fit-content;
             max-width: 90%;
@@ -112,6 +112,12 @@
                 @include Nunito(400, 18px, 24.55px, $black);
                 text-wrap: wrap;
                 text-align: start;
+            }
+            p {
+                @include Nunito(400, 14px, 19.1px, $white);
+                text-wrap: wrap;
+                height: fit-content;
+                text-align: end;
             }
         }
 
@@ -273,7 +279,7 @@
         }
 
         .current-user-msg {
-            @include dFlex(row,flex-end, flex-start);
+            @include dFlex(column,flex-end, flex-start);
             min-height: 55px;
             height: fit-content;
             width: fit-content;
@@ -284,6 +290,12 @@
             background-color: $purple-2;
             span {
                 @include Nunito(400, 18px, 24.55px, $white);
+                text-wrap: wrap;
+                height: fit-content;
+                text-align: end;
+            }
+            p {
+                @include Nunito(400, 14px, 19.1px, $white);
                 text-wrap: wrap;
                 height: fit-content;
                 text-align: end;

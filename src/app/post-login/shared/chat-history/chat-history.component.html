@@ -49,6 +49,11 @@
 
             <div class="msg">
                 <span>{{ msg.text }}</span>
+                @if (msg.editCount > 0) {
+                    <div class="edited-msg-info">
+                        <p>Bearbeitet: {{this.chatService.formatTimeString(msg.lastEdit)}}</p>
+                    </div>
+                }
             </div>   
                 <!--only display if messageAnsers are present-->
 
@@ -145,6 +150,11 @@
     
                 <div class="current-user-msg">
                     <span>{{ msg.text }}</span>
+                    @if (msg.editCount > 0) {
+                        <div class="edited-msg-info">
+                            <p>Bearbeitet: {{this.chatService.formatTimeString(msg.lastEdit)}}</p>
+                        </div>
+                    }
                 </div>   
                 <!--only display if messageAnsers are present-->
                 @if (msg.answerCount > 0) {
