@@ -39,7 +39,7 @@ export class NewMessageComponent implements OnDestroy {
     this.chatService.selectedPrivateChatReciver = '';
     this.searchService.selectedChannel = '';
   }
-
+  // to-do shorten this function
   handleSearch() {
     let searchInput  = this.searchText.get('search')?.value || '';
     this.searchInput = searchInput;
