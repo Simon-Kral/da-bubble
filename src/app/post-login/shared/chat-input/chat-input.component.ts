@@ -18,9 +18,6 @@ export class ChatInputComponent {
   @Output() messageEvent = new EventEmitter<{ message: string, source: string, timestamp: number }>();
 
   messageData: FormGroup;
-  iconSourceAdd = 'assets/img/icons/add_grey.png';
-  iconSourceSmiley = 'assets/img/icons/smiley_grey.png';
-  iconSourceAlternateEmail = 'assets/img/icons/alternate_email_grey.png';
   iconSourceSend = 'assets/img/icons/send_dark_blue.png';
 
   //emoji picker
@@ -83,50 +80,4 @@ export class ChatInputComponent {
     this.messageData.setValue({ message: text });
   }
   
-  /**
-   * Handles the mouse over event for the chat input icons.
-   * Changes the icon source based on the provided image name.
-   * @param imgName - The name of the image being hovered over.
-   */
-  onMouseOver(imgName: string): void {
-    switch (imgName) {
-      case 'add':
-        this.iconSourceAdd = 'assets/img/icons/add_blue.png';
-        break;
-      case 'smiley':
-        this.iconSourceSmiley = 'assets/img/icons/smiley_blue.png';
-        break;
-      case 'alternate_email':
-        this.iconSourceAlternateEmail = 'assets/img/icons/alternate_email_blue.png';
-        break;
-      case 'send':
-        this.iconSourceSend = 'assets/img/icons/send_ligth_blue.png';
-        break;
-      default:
-        break;
-    }
-  }
-
-  /**
-   * Handles the mouse out event for the specified image.
-   * @param imgName - The name of the image.
-   */
-  onMouseOut(imgName: string): void {
-    switch (imgName) {
-      case 'add':
-        this.iconSourceAdd = 'assets/img/icons/add_grey.png';
-        break;
-      case 'smiley':
-        this.iconSourceSmiley = 'assets/img/icons/smiley_grey.png';
-        break;
-      case 'alternate_email':
-        this.iconSourceAlternateEmail = 'assets/img/icons/alternate_email_grey.png';
-        break;
-      case 'send':
-        this.iconSourceSend = 'assets/img/icons/send_dark_blue.png';
-        break;
-      default:
-        break;
-    }
-  }
 }
