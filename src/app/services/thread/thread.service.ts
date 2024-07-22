@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { ChatService } from '../chat/chat.service';
 import { FirebaseService } from '../firebase/firebase.service';
 import { CommunicationService } from '../communication/communication.service';
-import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc, increment } from '@angular/fire/firestore';
+import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc, increment, deleteDoc } from '@angular/fire/firestore';
 import { MessageAnswer } from '../../models/messageAnswer.class';
 import { Message } from '../../models/message.class';
 @Injectable({
@@ -249,4 +249,5 @@ async updateMessageAnswerCountAndTime(messageId: string, time: string): Promise<
     throw error;
   }
 }
+
 }

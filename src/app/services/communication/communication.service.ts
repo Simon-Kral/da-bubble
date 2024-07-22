@@ -29,7 +29,8 @@ export class CommunicationService {
 
 	// user profile variabels
 	userProfileId: string = ''; // is getting used to store userId of the user whose profile is being viewed
-
+	// delete msg dialog
+	isDeleteMsgDialogVisible: boolean = false;
 	constructor() {}
 
 

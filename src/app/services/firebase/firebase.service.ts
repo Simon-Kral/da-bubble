@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import {query,orderBy,where,Firestore,collection,doc,onSnapshot,updateDoc,getDocs,arrayUnion,setDoc,} from '@angular/fire/firestore';
+import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, arrayUnion, setDoc } from '@angular/fire/firestore';
 import { AuthService } from '../authentication/auth.service';
 import { Channel } from '../../models/channel.class';
 import { User } from '../../models/user.class';

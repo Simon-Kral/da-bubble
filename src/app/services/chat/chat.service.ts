@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
-import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc } from '@angular/fire/firestore';
+import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc, deleteDoc } from '@angular/fire/firestore';
 import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -176,6 +176,23 @@ async updateMessage(newText: string): Promise<void> {
     console.log('Message text updated successfully');
   } catch (error) {
     console.error('Error updating message text:', error);
+    throw error;
+  }
+}
+
+/**
+ * Deletes a message document from Firestore.
+ *
+ * @returns {Promise<void>} A promise that resolves when the message is successfully deleted.
+ * @throws Will throw an error if the deletion fails.
+ */
+async deleteMessage(): Promise<void> {
+  try {
+    const messageDocRef = doc(this.firestore, `${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`);
+    await deleteDoc(messageDocRef);
+    console.log('Message deleted successfully');
+  } catch (error) {
+    console.error('Error deleting message:', error);
     throw error;
   }
 }

@@ -135,6 +135,23 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
     this.showEditMsgOverlay = true;             // show the edit message overlay
   }
 
+// delete msg functions
+  handleClickOnDeleteMsg(messageId: string) {
+
+    this.communicationService.isDeleteMsgDialogVisible = true;
+    this.chatService.editMessageId = messageId;  
+  }
+
+  handleClickOnCancelDeleteMsg() {
+    this.communicationService.isDeleteMsgDialogVisible = false;
+    this.chatService.editMessageId = '';  
+  }
+
+  handleClickOnConfirmDeleteMsg() {
+    this.communicationService.isDeleteMsgDialogVisible = false;
+     this.chatService.deleteMessage();
+  }
+
   /**
   * Handles the submission of the edited message.
    * Closes the edit message menu, validates the new message text, updates the message, and closes the edit message overlay.
