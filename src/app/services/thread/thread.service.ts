@@ -225,7 +225,9 @@ async updateMessageAnswer(newText: string): Promise<void> {
   try {
     const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.chatService.messageId}/messageAnswers/${this.editMessageAnswerId}`);
     await updateDoc(messageDocRef, {
-      text: newText
+      text: newText,
+      editCount: increment(1),
+      lastEdit: Date.now().toString(),
     });
     console.log('Message text updated successfully');
   } catch (error) {

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
-import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc, deleteDoc } from '@angular/fire/firestore';
+import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc, deleteDoc, increment } from '@angular/fire/firestore';
 import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -173,7 +173,9 @@ async updateMessage(newText: string): Promise<void> {
   try {
     const messageDocRef = doc(this.firestore, `${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`);
     await updateDoc(messageDocRef, {
-      text: newText
+      text: newText,
+      editCount: increment(1),
+      lastEdit: Date.now().toString(),
     });
     console.log('Message text updated successfully');
   } catch (error) {
