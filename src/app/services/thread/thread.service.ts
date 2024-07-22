@@ -18,9 +18,7 @@ export class ThreadService {
   firestore: Firestore = inject(Firestore);
 
   
-
-
-  msgAnswerList: MessageAnswer[] = []; // will get used to store msgAnswers from prvt chats or channels
+  msgAnswerList: MessageAnswer[] = []; // will get used to store msgAnswers from prvt chats or channels or privateNotes
   unsubscribeMsgAnswerList: any;
 
   editMessageAnswerId:string = '';  // will get used to store the id of the message that should get edited or deleted
@@ -153,7 +151,8 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
       await this.updateMessageAnswerCountAndTime(this.chatService.messageId, message.time.toString(), 'increase');
       await this.chatService.updateMessageThreadId(message.messageId, docRef.id);
   }
-    /**
+
+  /**
    * Sends a new messageAnswer and updates its document ID in Firestore.
    * 
    * @param {string} messageText - The text of the message answer to be sent.
@@ -178,6 +177,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
         console.log('Document updated with ID: ', docRef.id);
         await this.updateMessageAnswerCountAndTime(this.chatService.messageId, time.toString(), 'increase');
     }
+
  /**
    * Adds a new messageAnswer doc to the Firestore.
    * 
@@ -194,6 +194,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
     throw e;
     }
   }
+
   /**
    * Updates the messageAnswerId field of a message answer in the Firestore.
    * 
@@ -213,7 +214,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
     }
   }
 
-  /**
+/**
  * Updates the text of a message in a specific doc in Firestore.
  * @param {string} mainCollection - The name of the main collection.
  * @param {string} docRef - The document reference in the main collection.
@@ -256,9 +257,7 @@ async updateMessageAnswerCountAndTime(messageId: string, time: string, operation
       answerCount: increment(incrementValue),
       lastAnswer: time
     };
-
     await updateDoc(messageDocRef, updateData);
-    
     console.log(`Message document ${operation}d successfully`);
   } catch (error) {
     console.error(`Error ${operation}ing message document:`, error);
@@ -268,9 +267,7 @@ async updateMessageAnswerCountAndTime(messageId: string, time: string, operation
 
 /**
  * Updates the text of the initial message document in Firestore.
- *
  * It increments the edit count and sets the last edit time to the current system time in milliseconds.
- *
  * @param {string} newText - The new text to update in the message document.
  * @returns {Promise<void>} A promise that resolves when the message text is updated.
  * @throws Will throw an error if the update operation fails.
@@ -327,9 +324,7 @@ async findLatestMsgTime(): Promise<string> {
     const time = parseInt(msg.time);
     return new Date(year, month - 1, day).getTime() + time;
   };
-
   const latestMsg = filteredList.sort((a, b) => parseDateTime(b) - parseDateTime(a))[0];
-
   return latestMsg.time;
 }
 }

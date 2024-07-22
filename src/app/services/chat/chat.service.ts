@@ -44,9 +44,6 @@ export class ChatService {
   constructor(private router: Router, private route: ActivatedRoute) { 
   }
 
-    
-
-
   subscribeAllLists() {
     this.subscribeMsgList();
   }
@@ -139,6 +136,7 @@ setMessage(obj: any, id: string): Message{
     lastEdit: obj.lastEdit || '',
   };
 }
+
   /**
    * Retrieves the text of a message from a specific doc in Firestore.
    * @param {string} mainCollection - The name of the main collection.
@@ -185,6 +183,7 @@ async updateMessage(newText: string): Promise<void> {
     throw error;
   }
 }
+
 /**
  * Updates the text of a thread messageAnswer document in Firestore.
  *
@@ -210,8 +209,6 @@ async updateInitialThreadMessage(newText: string, threadId: string): Promise<voi
     throw error;
   }
 }
-
-
 
 /**
  * Deletes a message document from Firestore, including all documents in the messageAnswers subcollection.
@@ -253,22 +250,6 @@ async deleteMessage(): Promise<void> {
     console.error('Error deleting subcollection:', error);
     throw error;
   }
-}
-
-// general helper functions code to display messages
-/**
- * Formats a Unix timestamp string into the format "HH:mm Uhr".
- *
- * @param {string} timestampStr - The Unix timestamp string to be formatted.
- * @returns {string} The formatted time string in the format "HH:mm Uhr".
- * @throws {Error} Throws an error if the input format is incorrect.
- */
-formatTimeString(timestampStr: string): string {
-  const timestamp = parseInt(timestampStr, 10);
-  const date = new Date(timestamp);
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  return `${hours}:${minutes} Uhr`;
 }
 
 //code for privateChats
@@ -380,43 +361,6 @@ async updatePrivateChatId(docRef: any): Promise<void> {
 }
 
 /**
- * Initializes the  placeholder name based on the provided chat ID for the shared inputfiled.
- * If the current user is the chat creator, sets the chat receiver to the chat receiver from the chat data.
- * Otherwise, sets the chat receiver to the chat creator.
- * Sets the chat placeholder name based on the chat creator's user ID.
- * Retrieves the display name of the user corresponding to `chatCreator` and assigns it to `placeholderName`.
- * @param {string} chatId - The ID of the chat to initialize the placeholder for.
- */
-initializeChatPlaceholder(chatId: string): void {
-  const chatData = this.firebaseService.privateChatList.find(chat => chat.privatChatId === chatId);
-  if (chatData) {
-    if (chatData.chatCreator === this.firebaseService.currentUserId) {
-      this.chatCreator = chatData.chatReciver;
-    } else {
-      this.chatCreator = chatData.chatCreator;
-    }
-    let placeholderName = this.firebaseService.getUserDisplayName(this.chatCreator);
-    this.placeholderName = placeholderName;
-  } else {
-    console.warn('Chat not found or chatCreator field does not exist in the chat data!');
-  }
-}
-
-/**
-* Initializes the channel placeholder name based on the provided channel ID for the shared inputfiled.
-* Searches for the channel in the `channelList` using the `channelId` and sets the `placeholderName` to the channel's name.
-* @param {string} channelId - The ID of the channel to initialize the placeholder for.
-*/
-initializeChannelPlaceholder(channelId: string): void {
-  const channelData = this.firebaseService.channelList.find(channel => channel.chanId === channelId);
-  if (channelData) {
-    this.placeholderName = channelData.name;
-  } else {
-    console.warn('Channel not found or name field does not exist in the channel data!');
-  }
-}
-
-/**
  * Sends a message to a private chat or channel by creating a new message document in the messages subcollection.
  * @param {string} messageText - The text of the message to be sent.
  * @param {number} time - The timestamp of the message.
@@ -477,7 +421,15 @@ addMessage(messageData: Message): Promise<any> {
       throw e;
     }
   }
-
+  
+/**
+ * This function sets the threadId field of a specific message document to the provided threadId.
+ *
+ * @param {string} messageId - The ID of the message document to be updated.
+ * @param {string} threadId - The thread ID to set in the message document.
+ * @returns {Promise<void>} A promise that resolves when the threadId field is successfully updated.
+ * @throws Will throw an error if the update operation fails.
+ */
   async updateMessageThreadId(messageId: string, threadId: string): Promise<void> {
     try {
       await updateDoc(doc(this.firestore, this.mainCollection, this.docRef, 'messages', messageId), {
@@ -490,4 +442,57 @@ addMessage(messageData: Message): Promise<any> {
     }
   }
 
+// code for placeholder of the shared inputfield
+/**
+ * Initializes the  placeholder name based on the provided chat ID for the shared inputfiled.
+ * If the current user is the chat creator, sets the chat receiver to the chat receiver from the chat data.
+ * Otherwise, sets the chat receiver to the chat creator.
+ * Sets the chat placeholder name based on the chat creator's user ID.
+ * Retrieves the display name of the user corresponding to `chatCreator` and assigns it to `placeholderName`.
+ * @param {string} chatId - The ID of the chat to initialize the placeholder for.
+ */
+initializeChatPlaceholder(chatId: string): void {
+  const chatData = this.firebaseService.privateChatList.find(chat => chat.privatChatId === chatId);
+  if (chatData) {
+    if (chatData.chatCreator === this.firebaseService.currentUserId) {
+      this.chatCreator = chatData.chatReciver;
+    } else {
+      this.chatCreator = chatData.chatCreator;
+    }
+    let placeholderName = this.firebaseService.getUserDisplayName(this.chatCreator);
+    this.placeholderName = placeholderName;
+  } else {
+    console.warn('Chat not found or chatCreator field does not exist in the chat data!');
+  }
+}
+
+/**
+* Initializes the channel placeholder name based on the provided channel ID for the shared inputfiled.
+* Searches for the channel in the `channelList` using the `channelId` and sets the `placeholderName` to the channel's name.
+* @param {string} channelId - The ID of the channel to initialize the placeholder for.
+*/
+initializeChannelPlaceholder(channelId: string): void {
+  const channelData = this.firebaseService.channelList.find(channel => channel.chanId === channelId);
+  if (channelData) {
+    this.placeholderName = channelData.name;
+  } else {
+    console.warn('Channel not found or name field does not exist in the channel data!');
+  }
+}
+
+// general helper functions code to display messages
+/**
+ * Formats a Unix timestamp string into the format "HH:mm Uhr".
+ *
+ * @param {string} timestampStr - The Unix timestamp string to be formatted.
+ * @returns {string} The formatted time string in the format "HH:mm Uhr".
+ * @throws {Error} Throws an error if the input format is incorrect.
+ */
+formatTimeString(timestampStr: string): string {
+  const timestamp = parseInt(timestampStr, 10);
+  const date = new Date(timestamp);
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes} Uhr`;
+}
 }
