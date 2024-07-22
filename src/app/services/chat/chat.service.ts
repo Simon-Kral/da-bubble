@@ -133,6 +133,8 @@ setMessage(obj: any, id: string): Message{
     reactions: obj.reactions || [],
     answerCount: obj.answerCount || 0,
     lastAnswer: obj.lastAnswer || '',
+    editCount: obj.editCount || 0,
+    lastEdit: obj.lastEdit || '',
   };
 }
   /**
@@ -375,6 +377,8 @@ initializeChannelPlaceholder(channelId: string): void {
         reactions: [],
         answerCount: 0,
         lastAnswer: '',
+        editCount: 0,
+        lastEdit: '',
       };
 
         const docRef = await this.addMessage(newMessage);

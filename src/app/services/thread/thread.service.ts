@@ -100,6 +100,8 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
     time: obj.time || '',
     messageSendBy: obj.messageSendBy || '',
     reactions: obj.reactions || [],
+    editCount: obj.editCount || 0,
+    lastEdit: obj.lastEdit || ''
   };
 }
   /**
@@ -140,7 +142,9 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
       date: new Date().toLocaleDateString(),
       time: message.time,
       messageSendBy: message.messageSendBy,
-      reactions: []
+      reactions: [],
+      editCount: 0,
+      lastEdit: '',
     };
       const docRef = await this.addMessageAnswer(newMessage);
       console.log('Document written with ID: ', docRef.id);
@@ -163,7 +167,9 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
         date: new Date().toLocaleDateString(),
         time: time.toString(),
         messageSendBy: this.firebaseService.currentUser.userId,
-        reactions: []
+        reactions: [],
+        editCount: 0,
+        lastEdit: '',
       };
         const docRef = await this.addMessageAnswer(newMessage);
         console.log('Document written with ID: ', docRef.id);
@@ -284,7 +290,7 @@ async deleteMessageAnswer(): Promise<void> {
  */
 async findLatestMsgTime(): Promise<string> {
   const filteredList = this.msgAnswerList.filter(msg => msg.messageAnswerId !== this.editMessageAnswerId);
-
+  
   if (filteredList.length === 0) {
     return '';
   }
