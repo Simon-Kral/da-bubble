@@ -244,12 +244,9 @@ async updateMessageAnswerCountAndTime(messageId: string, time: string, operation
     const incrementValue = operation === 'increase' ? 1 : -1;
 
     const updateData: any = {
-      answerCount: increment(incrementValue)
+      answerCount: increment(incrementValue),
+      lastAnswer: time
     };
-
-    if (operation === 'increase') {
-      updateData.lastAnswer = time;
-    }
 
     await updateDoc(messageDocRef, updateData);
     
@@ -272,11 +269,34 @@ async deleteMessageAnswer(): Promise<void> {
     await deleteDoc(messageDocRef);
     console.log('Message deleted successfully');
     
-    await this.updateMessageAnswerCountAndTime(this.chatService.editMessageId, '', 'decrease');
+    const latestTime = await this.findLatestMsgTime();
+    await this.updateMessageAnswerCountAndTime(this.chatService.editMessageId, latestTime, 'decrease');
   } catch (error) {
     console.error('Error deleting message:', error);
     throw error;
   }
 }
 
+/**
+ * Finds the latest message answer time in the list excluding the current message to be deleted.
+ * 
+ * @returns {Promise<string>} A promise that resolves to the time of the latest message answer.
+ */
+async findLatestMsgTime(): Promise<string> {
+  const filteredList = this.msgAnswerList.filter(msg => msg.messageAnswerId !== this.editMessageAnswerId);
+
+  if (filteredList.length === 0) {
+    return '';
+  }
+
+  const parseDateTime = (msg: MessageAnswer) => {
+    const [day, month, year] = msg.date.split('.').map(Number);
+    const time = parseInt(msg.time);
+    return new Date(year, month - 1, day).getTime() + time;
+  };
+
+  const latestMsg = filteredList.sort((a, b) => parseDateTime(b) - parseDateTime(a))[0];
+
+  return latestMsg.time;
+}
 }
