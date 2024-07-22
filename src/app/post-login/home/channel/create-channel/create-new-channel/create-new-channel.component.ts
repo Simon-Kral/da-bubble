@@ -35,12 +35,7 @@ export class CreateNewChannelComponent {
   searchText: FormGroup;
   selectedMembers: string[] = [];
 
-  // Default icon sources
-	close = '../../../../assets/img/icons/close_black.png';
-  // Hover icon sources
-  closeHover = '../../../../assets/img/icons/close_blue.png';
-  // current Icon Source
-  currentIconSourceClose = this.close;
+
 
   @Input() isCreateChannelVisible: boolean = false;
   @Output() createChannelVisibilityChange = new EventEmitter<boolean>();
@@ -238,18 +233,5 @@ export class CreateNewChannelComponent {
     if (this.isAddMemberVisibleForm === false) {
       this.toggleCreateChannelVisibility();
     }
-  }
-	/**
-	 * Handles the mouse over event for the sideNav icons.
-	 */
-	onMouseOver(): void {
-    this.currentIconSourceClose = this.closeHover;
-	}
-
-	/**
-	 * Handles the mouse out event for the specified image.
-	 */
-	onMouseOut(): void {
-    this.currentIconSourceClose = this.close;
   }
 }

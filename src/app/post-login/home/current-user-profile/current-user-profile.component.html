@@ -4,11 +4,8 @@
 		<h1>Profil</h1>
 		<div
 			class="pointer close-btn"
-			(click)="toggleCurrentUserProfile(false)"
-			(mouseover)="onMouseOver()"
-			(mouseout)="onMouseOut()"
-		>
-			<img [src]="currentIconSourceClose" alt="close-icon" />
+			(click)="toggleCurrentUserProfile(false)">
+			<img src="assets/img/icons/close_black.png" alt="close-icon" />
 		</div>
 	</div>
 	<div
@@ -99,11 +96,8 @@
 		<h1>Dein Profil bearbeiten</h1>
 		<div
 			class="pointer close-btn"
-			(click)="toggleCurrentUserProfile(false); onCancel('editProfile')"
-			(mouseover)="onMouseOver()"
-			(mouseout)="onMouseOut()"
-		>
-			<img [src]="currentIconSourceClose" alt="close-icon" />
+			(click)="toggleCurrentUserProfile(false); onCancel('editProfile')">
+		<img src="assets/img/icons/close_black.png" alt="close-icon" />
 		</div>
 	</div>
 	<div class="profile-avatar">
@@ -237,12 +231,8 @@
 	<div class="profile-top-section">
 		<h1>Avatar wechseln</h1>
 		<div
-			class="pointer close-btn"
-			(click)="onCancel('editAvatar')"
-			(mouseover)="onMouseOver()"
-			(mouseout)="onMouseOut()"
-		>
-			<img [src]="currentIconSourceClose" alt="close-icon" />
+			class="pointer close-btn">
+		<img src="assets/img/icons/close_black.png" alt="close-icon" />
 		</div>
 	</div>
 	<div class="profile-avatar">

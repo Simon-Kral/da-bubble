@@ -20,21 +20,6 @@
                 @include Nunito(700, 24px, 32.74px, $black);
             }
         }
-        .close-icon {
-            @include dFlex(row, center, center);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transition: ease-in-out 0.1s;
-            &:hover {
-                background-color: $bg-color;
-            }
-
-            img {
-                width: 24px;
-                height: 24px;
-            }
-        }
    }
 
     .member-container {

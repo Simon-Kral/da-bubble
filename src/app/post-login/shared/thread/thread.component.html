@@ -5,10 +5,8 @@
             <!--channel name or Name of user who initially sent msg which got answers-->
             <span>{{this.chatService.placeholderName}}</span>
         </div>
-        <div class="top-section-right">
-            <div class="close pointer" (mouseover)="onMouseOver()"(mouseout)="onMouseOut()" (click)="handleClickOnClose()">
-                <img [src]="currentIconSourceClose" alt="close">
-            </div>
+        <div class="top-section-right pointer" (click)="handleClickOnClose()">
+                <img src="assets/img/icons/close_black.png" alt="close">
         </div>
     </div>
     <div class="thread-history">

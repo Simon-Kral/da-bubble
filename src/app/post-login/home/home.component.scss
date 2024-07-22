@@ -43,6 +43,9 @@
       @include Nunito(700, 20px, 24px, $purple-3);
     }
   }
+  &:hover img {
+    filter: invert(50%) sepia(37%) saturate(6446%) hue-rotate(220deg) brightness(99%) contrast(93%);
+}
 
   span {
     @include Nunito(500, 20px, 24px, $black);

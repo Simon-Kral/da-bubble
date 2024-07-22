@@ -39,7 +39,9 @@
             &:hover {
                 background-color: $bg-color;
             }
-
+            &:hover img {
+                filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
+            }
             img {
                 width: 24px;
                 height: 24px;

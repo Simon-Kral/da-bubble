@@ -45,13 +45,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 	chatService = inject(ChatService);
 	communicationService = inject(CommunicationService);
 
-	// Default icon sources
-	menu = '../../assets/img/icons/menu_black.png';
-	// Hover icon sources
-	menuHover = '../../assets/img/icons/menu_blue.png';
-	// current Icon Source
-	currentIconSourceMenu = this.menu;
-
 	//sidenav variables
 	isSidenavVisible: boolean = true;
 	//create channel variables
@@ -171,18 +164,5 @@ export class HomeComponent implements OnInit, OnDestroy {
 				console.warn(`Unknown popup name: ${name}`);
 				break;
 		}
-	}
-	/**
-	 * Handles the mouse over event for the sideNav Controller icons.
-	 */
-	onMouseOver(): void {
-		this.currentIconSourceMenu = this.menuHover;
-	}
-
-	/**
-	 * Handles the mouse out event for the sideNav Controller icons.
-	 */
-	onMouseOut(): void {
-		this.currentIconSourceMenu = this.menu;
 	}
 }

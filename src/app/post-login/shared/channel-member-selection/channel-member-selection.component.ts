@@ -14,14 +14,6 @@ export class ChannelMemberSelectionComponent {
   firebaseService = inject(FirebaseService);
   searchService = inject(SearchService);
   
-  // Default icon sources
-	close = '../../../../assets/img/icons/close_black.png';
-  // Hover icon sources
-  closeHover = '../../../../assets/img/icons/close_blue.png';
-  // current Icon Source
-  currentIconSourceClose = this.close;
-  
-  
   constructor() {}
 
 /**
@@ -43,19 +35,5 @@ export class ChannelMemberSelectionComponent {
   handleClickOnClose() {
     this.searchService.memberSearchActive = false;
   }
-
-/**
-* Handles the mouse over event for the sideNav icons.
-*/
-onMouseOver(): void {
-  this.currentIconSourceClose = this.closeHover;
-}
-
-/**
-* Handles the mouse out event for the specified image.
-*/
-onMouseOut(): void {
-  this.currentIconSourceClose = this.close;
-}
 
 }

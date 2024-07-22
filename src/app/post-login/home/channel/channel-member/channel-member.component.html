@@ -3,8 +3,8 @@
         <div class="top-section-left">
             <h1>Mitglieder</h1>
         </div>
-        <div class="close-icon pointer" (mouseover)="onMouseOver()" (mouseout)="onMouseOut()" (click)="this.communicationService.toggleChannelMemberVisibility(false)" >
-                <img [src]="currentIconSourceClose" alt="close">
+        <div class="close-btn pointer"(click)="this.communicationService.toggleChannelMemberVisibility(false)" >
+                <img src="../../../../assets/img/icons/close_black.png" alt="close">
         </div>
     </div>
  @for (channel of this.firebaseService.channelList; track channel; let index = $index) {

@@ -17,34 +17,12 @@ export class ChannelSelectionComponent {
   
   channelSearchActive: boolean = false;
 
-   // Default icon sources
-	close = '../../../../assets/img/icons/close_black.png';
-  // Hover icon sources
-  closeHover = '../../../../assets/img/icons/close_blue.png';
-  // current Icon Source
-  currentIconSourceClose = this.close;
-
   handleClickOnChannel(chanId: string) {
     this.searchService.selectedChannel = chanId
     this.searchService.channelSearchActive = false;
-    console.log('selected chan id:',this.searchService.selectedChannel);
   }
 
   handleClickOnClose() {
     this.searchService.channelSearchActive = false;
-  }
-
-  /**
-	 * Handles the mouse over event for the sideNav icons.
-	 */
-	onMouseOver(): void {
-    this.currentIconSourceClose = this.closeHover;
-	}
-
-	/**
-	 * Handles the mouse out event for the specified image.
-	 */
-	onMouseOut(): void {
-    this.currentIconSourceClose = this.close;
   }
 }

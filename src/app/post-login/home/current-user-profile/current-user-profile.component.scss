@@ -16,21 +16,9 @@
 .profile-top-section {
 	@include dFlex(row, space-between, center);
 	width: 100%;
-
+	
 	h1 {
 		@include Nunito(700, 24px, 32.73px, $black);
-	}
-
-	.close-btn {
-		@include dFlex(row, center, center);
-		width: 40px;
-		height: 40px;
-		border-radius: 50%;
-		transition: 0.1s ease-in-out;
-
-		&:hover {
-			background-color: $bg-color;
-		}
 	}
 }
 

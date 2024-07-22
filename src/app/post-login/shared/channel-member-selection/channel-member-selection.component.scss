@@ -17,16 +17,6 @@
       @include dFlex(column,flex-end, flex-end);
       width: 220px;
       position: fixed;
-      .close-icon {
-        @include dFlex(row, center, center);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        transition: ease-in-out 0.1s;
-        &:hover {
-            background-color: $bg-color;
-        }
-      }
     }
 }
 

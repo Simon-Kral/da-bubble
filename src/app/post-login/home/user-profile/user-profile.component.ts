@@ -19,13 +19,6 @@ export class UserProfileComponent {
   @Output() userProfileVisibilityChange = new EventEmitter<boolean>();
 
   showDataOfUser = this.communicationService.userProfileId; 
-  // Default icon sources
-  close = 'assets/img/icons/close_black.png';
-  // Hover icon sources
-  closeHover = 'assets/img/icons/close_blue.png';
-  // current Icon Source
-  currentIconSourceClose = this.close;
-
   /**
   * Closes the user profile by emitting an event to change its visibility.
   * @returns {void}
@@ -42,21 +35,5 @@ export class UserProfileComponent {
     this.chatService.initializePrivateChat(this.firebaseService.currentUserId, this.communicationService.userProfileId);
     this.userProfileVisibilityChange.emit(false);
   }
-
-  /**
-	 * Handles the mouse over event for the sideNav icons.
-	 * Changes the icon source based on the provided image name.
-	 */
-	onMouseOver(): void {
-    this.currentIconSourceClose = this.closeHover;
-	}
-
-	/**
-	 * Handles the mouse out event for the specified image.
-   * Changes the icon source based on the provided image name.
-	 */
-	onMouseOut(): void {
-    this.currentIconSourceClose = this.close;
-	}
 
 }

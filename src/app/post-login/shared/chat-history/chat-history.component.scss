@@ -210,6 +210,9 @@
                 &:hover {
                     background-color: $bg-color;
                 }
+                &:hover img {
+                    filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
+                }
             }
             .edit-msg-menu {
                 @include dFlex(column,center, center);
@@ -236,7 +239,6 @@
                     &:hover {
                         background-color: $bg-color;
                     }
-
                     &:hover span {
                         @include Nunito(700, 20px, 27.28px, $purple-3); 
                     }
@@ -348,6 +350,9 @@
                 &:hover {
                     background-color: $bg-color;
                 }
+                &:hover img {
+                    filter: invert(46%) sepia(14%) saturate(3439%) hue-rotate(204deg) brightness(96%) contrast(98%);
+                }
             }
         }
     }
@@ -403,13 +408,19 @@
                     gap: 5px;
                     transition: ease-in-out 0.3;
 
+
                     &:hover {
                         background-color: $bg-color;
+                    }
+
+                    &:hover img {
+                        filter: invert(46%) sepia(14%) saturate(3439%) hue-rotate(204deg) brightness(96%) contrast(98%);
                     }
 
                     img {
                         width: 24px;
                         height: 24px;
+                        transition: filter;
                     }
 
                 }
@@ -551,5 +562,4 @@ span {
         }
     }
 }
-
 }

@@ -40,13 +40,6 @@ export class CurrentUserProfileComponent implements OnInit {
 	newAvatarPath: string = '';
 	newAvatarChosen: boolean = false;
 
-	// Default icon sources
-	close = 'assets/img/icons/close_black.png';
-	// Hover icon sources
-	closeHover = 'assets/img/icons/close_blue.png';
-	// current Icon Source
-	currentIconSourceClose = this.close;
-
 	submitButtonDisabled: boolean = false;
 
 	avatarList: Array<{ id: number; path: string }> = [
@@ -339,21 +332,5 @@ export class CurrentUserProfileComponent implements OnInit {
 	 */
 	toggleEditAvatar() {
 		this.isEditAvatarVisible = !this.isEditAvatarVisible;
-	}
-
-	/**
-	 * Handles the mouse over event for the sideNav icons.
-	 * Changes the icon source based on the provided image name.
-	 */
-	onMouseOver(): void {
-		this.currentIconSourceClose = this.closeHover;
-	}
-
-	/**
-	 * Handles the mouse out event for the specified image.
-	 * Changes the icon source based on the provided image name.
-	 */
-	onMouseOut(): void {
-		this.currentIconSourceClose = this.close;
 	}
 }
