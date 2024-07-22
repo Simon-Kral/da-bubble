@@ -70,7 +70,6 @@
                     >
                         <img [src]="currentIconSourceAddReaction" alt="menu-icon">
                     </div>
-                @if (index > 0) {
                     <div class="pointer menu-content"
                     (click)="toggleMsgMenu()"
                     (mouseover)="onMouseOver('moreVert')"
@@ -83,7 +82,7 @@
                     @if (this.communicationService.isMsgMenuThreadVisible) {
                     <div class="edit-msg-menu">   
                         <!--add logic to edit msg-->
-                        <div class="edit-msg pointer" (click)="handleClickOnEditMsg(msg.messageAnswerId)">
+                        <div class="edit-msg pointer" (click)="handleClickOnEditMsg(msg.messageAnswerId, msg.messageId)">
                             <span>Nachricht bearbeiten</span>
                         </div>
                         <!--add logic to delete msg-->
@@ -91,8 +90,6 @@
                             <span>Nachricht löschen</span>
                         </div>
                     </div>
-                }
-
                 }
                 </div>
                 <!--msg-content-->

@@ -34,6 +34,7 @@ export class ChatService {
 	docRef:string = '';  // will get used to store the docRef of the currently displayed doc (privateChats or channels)
 
   editMessageId:string = '';  // will get used to store the id of the message that should get edited
+  editThreadId:string = '';  // will get used to store the id of the thread that should get edited
 
   messageId: string = '';  // This is the message ID that the thread is related to
 
@@ -131,6 +132,7 @@ setMessage(obj: any, id: string): Message{
     time: obj.time || '',
     messageSendBy: obj.messageSendBy || '',
     reactions: obj.reactions || [],
+    threadId: obj.threadId || '',
     answerCount: obj.answerCount || 0,
     lastAnswer: obj.lastAnswer || '',
     editCount: obj.editCount || 0,
@@ -183,14 +185,33 @@ async updateMessage(newText: string): Promise<void> {
     throw error;
   }
 }
-
-async updateInitialThreadMessage(newText: string): Promise<void> {
-
+/**
+ * Updates the text of a thread messageAnswer document in Firestore.
+ *
+ * This function updates the text of a message in the messageAnswer subcollection. 
+ * It increments the edit count and sets the last edit time to the current system time in milliseconds.
+ *
+ * @param {string} newText - The new text to update in the thread message document.
+ * @param {string} threadId - The ID of the thread message document to be updated.
+ * @returns {Promise<void>} A promise that resolves when the thread message text is updated.
+ * @throws Will throw an error if the update operation fails.
+ */
+async updateInitialThreadMessage(newText: string, threadId: string): Promise<void> {
+  try {
+    const messageDocRef = doc(this.firestore, `${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}/messageAnswers/${threadId}`);
+    await updateDoc(messageDocRef, {
+      text: newText,
+      editCount: increment(1),
+      lastEdit: Date.now().toString(),
+    });
+    console.log('Message text updated successfully');
+  } catch (error) {
+    console.error('Error updating message text:', error);
+    throw error;
+  }
 }
 
-findInitialThreadMessageId() {
 
-}
 
 /**
  * Deletes a message document from Firestore, including all documents in the messageAnswers subcollection.
@@ -410,6 +431,7 @@ initializeChannelPlaceholder(channelId: string): void {
         time: time.toString(),
         messageSendBy: this.firebaseService.currentUser.userId,
         reactions: [],
+        threadId: '',
         answerCount: 0,
         lastAnswer: '',
         editCount: 0,
@@ -456,6 +478,16 @@ addMessage(messageData: Message): Promise<any> {
     }
   }
 
-
+  async updateMessageThreadId(messageId: string, threadId: string): Promise<void> {
+    try {
+      await updateDoc(doc(this.firestore, this.mainCollection, this.docRef, 'messages', messageId), {
+        threadId: threadId,
+      });
+      console.log('Message document field threadId updated with ', threadId);
+    } catch (e) {
+      console.error('Error updating message document: ', e);
+      throw e;
+    }
+  }
 
 }

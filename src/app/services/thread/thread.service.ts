@@ -24,7 +24,7 @@ export class ThreadService {
   unsubscribeMsgAnswerList: any;
 
   editMessageAnswerId:string = '';  // will get used to store the id of the message that should get edited
-
+  editMessageId:string = '';  // will get used to store the id of the message that should get edited
 
   subscribeAllLists() {
     this.subscribeMsgAnswerList();
@@ -151,6 +151,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
       await this.updateMessageAnswerId(docRef);
       console.log('Document updated with ID: ', docRef.id);
       await this.updateMessageAnswerCountAndTime(this.chatService.messageId, message.time.toString(), 'increase');
+      await this.chatService.updateMessageThreadId(message.messageId, docRef.id);
   }
     /**
    * Sends a new messageAnswer and updates its document ID in Firestore.
@@ -261,6 +262,30 @@ async updateMessageAnswerCountAndTime(messageId: string, time: string, operation
     console.log(`Message document ${operation}d successfully`);
   } catch (error) {
     console.error(`Error ${operation}ing message document:`, error);
+    throw error;
+  }
+}
+
+/**
+ * Updates the text of the initial message document in Firestore.
+ *
+ * It increments the edit count and sets the last edit time to the current system time in milliseconds.
+ *
+ * @param {string} newText - The new text to update in the message document.
+ * @returns {Promise<void>} A promise that resolves when the message text is updated.
+ * @throws Will throw an error if the update operation fails.
+ */
+async updateInitialMessage(newText: string): Promise<void> {
+  try {
+    const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.editMessageId}`);
+    await updateDoc(messageDocRef, {
+      text: newText,
+      editCount: increment(1),
+      lastEdit: Date.now().toString(),
+    });
+    console.log('Message text updated successfully');
+  } catch (error) {
+    console.error('Error updating message text:', error);
     throw error;
   }
 }

@@ -130,7 +130,7 @@
             @if (this.communicationService.isMsgMenuVisible) {
                 <div class="edit-msg-menu">   
                     <!--add logic to edit msg-->
-                    <div class="edit-msg pointer" (click)="handleClickOnEditMsg(msg.messageId)">
+                    <div class="edit-msg pointer" (click)="handleClickOnEditMsg(msg.messageId, msg.threadId)">
                         <span>Nachricht bearbeiten</span>
                     </div>
                     <!--add logic to delete msg-->

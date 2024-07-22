@@ -10,6 +10,7 @@ export class Message {
   time: string;
   messageSendBy: string;
   reactions: Reaction[];
+  threadId: string;
   answerCount: number;
   lastAnswer: string;
   editCount: number;
@@ -23,6 +24,7 @@ export class Message {
     this.time = obj ? obj.time : '';
     this.messageSendBy = obj ? obj.messageSendBy : '';
     this.reactions = obj ? obj.reactions : [];
+    this.threadId = obj ? obj.threadId : '';
     this.answerCount = obj ? obj.answerCount : 0;
     this.lastAnswer = obj ? obj.lastAnswer : '';
     this.editCount = obj ? obj.editCount : 0;

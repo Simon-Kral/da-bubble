@@ -126,9 +126,10 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
  *
  * @param {string} messageId - The ID of the message to be edited.
  */
-  handleClickOnEditMsg(messageId: string) {
+  handleClickOnEditMsg(messageId: string, threadId: string) {
     this.toggleMsgMenu();                    // close the edit message menu
     this.chatService.editMessageId = messageId;  // set the id of the message to be edited into the chatService
+    this.chatService.editThreadId = threadId;  // set the id of the thread to be edited into the chatService (if it exists)
     this.loadMessageText();                     // load the text of the message to be edited
     this.showEditMsgOverlay = true;             // show the edit message overlay
   }
@@ -153,20 +154,22 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * Handles the submission of the edited message.
-   * Closes the edit message menu, validates the new message text, updates the message, and closes the edit message overlay.
+  * Handles the submission of the edited message. If there is a thread message, updates the thread message text as well.
+  * Closes the edit message menu, validates the new message text, updates the message, and closes the edit message overlay.
   *
   * @returns {Promise<void>} A promise that resolves when the message text has been successfully updated.
   */
   async onSubmitEditMsg() {
-    if (this.newMsgData.valid) {                      // check if the new message text is valid
-      const updatedText = this.newMsgData.value.text; // get the new message text
+    if (this.newMsgData.valid) { 
+      const updatedText = this.newMsgData.value.text; 
       try {
-        await this.chatService.updateMessage(         // update the message text
-          updatedText
-        );
-        console.log('Message text updated successfully');
-        this.showEditMsgOverlay = false;              // close the edit message overlay
+        await this.chatService.updateMessage(updatedText);
+        console.log('Main message text updated successfully');
+        if (this.chatService.editThreadId) { 
+          await this.chatService.updateInitialThreadMessage(updatedText, this.chatService.editThreadId);
+          console.log('Thread message text updated successfully');
+        }
+        this.showEditMsgOverlay = false; 
       } catch (error) {
         console.error('Error updating message text:', error);
       }
