@@ -26,7 +26,7 @@ export class ThreadService {
 /**
  * Subscribes to all necessary lists for the thread service.
  */
-  subscribesgAnswerList() {
+subscribeAllLists() {
     this.subscribeMsgAnswerList();
   }
 

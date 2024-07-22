@@ -10,35 +10,22 @@ import { ActivatedRoute, Router } from '@angular/router';
   providedIn: 'root'
 })
 export class ChatService {
-
   firebaseService = inject(FirebaseService);
   firestore: Firestore = inject(Firestore);
 
-
-  msgList: Message[] = [];  // will get used to store msgs from prvt chats or channels
+  msgList: Message[] = [];  
 
   unsubscribeMsgList: any;
   unsubscribeMsgAnswerList: any;
-
-  //variabel for new private chat 
   newPrivateChatId: string = '';
-
-  //variable for placeholder Name of shared input field
   placeholderName: string = '';
-  // variable fto store ID of chatReciver
   chatCreator = '';
-
-	// variabels needed for chathistory (editing msg´s)
-	mainCollection:string = '';  // will get used to store name of maincollection (privateChats or channels)
-
-	docRef:string = '';  // will get used to store the docRef of the currently displayed doc (privateChats or channels)
-
-  editMessageId:string = '';  // will get used to store the id of the message that should get edited
-  editThreadId:string = '';  // will get used to store the id of the thread that should get edited
-
-  messageId: string = '';  // This is the message ID that the thread is related to
-
-  selectedPrivateChatReciver: string = '';  // will get used to store the id of the selected private chat reciver
+	mainCollection:string = ''; 
+	docRef:string = ''; 
+  editMessageId:string = ''; 
+  editThreadId:string = ''; 
+  messageId: string = '';  
+  selectedPrivateChatReciver: string = '';  
 
 
   constructor(private router: Router, private route: ActivatedRoute) { 
@@ -53,38 +40,6 @@ export class ChatService {
       this.unsubscribeMsgList();
     }
   }
-
-
-  async onMessageSent(event: { message: string, source: string, timestamp: number }) {
-    switch (event.source) {
-      case 'privateMessage':
-        this.sendMessage(event.message, event.timestamp);   
-        break;
-      case 'privateNote':
-        this.sendMessage(event.message, event.timestamp);   
-        break;
-
-      case 'channel':
-        this.sendMessage(event.message, event.timestamp);   
-        break;  
-
-      case 'newMessage':
-        if (this.mainCollection === 'privateChats') {
-          await this.initializePrivateChat(this.firebaseService.currentUser.userId, this.selectedPrivateChatReciver);
-          await this.sendMessage(event.message, event.timestamp);
-        } 
-        
-        else if (this.mainCollection === 'channels') {  
-        this.sendMessage(event.message, event.timestamp);
-        this.router.navigate(['/home/channels', this.docRef]);
-        }
-        break;
-        default:
-        console.warn('Invalid destination collection:');
-        break;
-    }
-  }
-  
 
 // code for fetching messages from private chat or channels
 /**
@@ -177,7 +132,6 @@ async updateMessage(newText: string): Promise<void> {
       editCount: increment(1),
       lastEdit: Date.now().toString(),
     });
-    console.log('Message text updated successfully');
   } catch (error) {
     console.error('Error updating message text:', error);
     throw error;
@@ -203,7 +157,6 @@ async updateInitialThreadMessage(newText: string, threadId: string): Promise<voi
       editCount: increment(1),
       lastEdit: Date.now().toString(),
     });
-    console.log('Message text updated successfully');
   } catch (error) {
     console.error('Error updating message text:', error);
     throw error;
@@ -222,7 +175,6 @@ async deleteMessage(): Promise<void> {
 
     await this.deleteSubcollection(messageDocRef);
     await deleteDoc(messageDocRef);
-    console.log('Message and its subcollection deleted successfully');
   } catch (error) {
     console.error('Error deleting message:', error);
     throw error;
@@ -240,12 +192,9 @@ async deleteMessage(): Promise<void> {
  async deleteSubcollection(messageDocRef: DocumentReference): Promise<void> {
   try {
     const subcollectionRef = collection(messageDocRef.firestore, messageDocRef.path, 'messageAnswers');
-
     const querySnapshot = await getDocs(subcollectionRef);
     const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
-
     await Promise.all(deletePromises);
-    console.log('All documents in the subcollection deleted successfully');
   } catch (error) {
     console.error('Error deleting subcollection:', error);
     throw error;
@@ -267,13 +216,11 @@ async initializePrivateChat(chatCreator: string, chatReceiver: string) {
     if (this.redirectIfChatExists(existingChatId)) {
       return;
     }
-
     let newPrivateChat: PrivateChat = {
       privatChatId: '',
       chatCreator: chatCreator,
       chatReciver: chatReceiver,
     };
-
     const docRef = await this.addPrivateChat(newPrivateChat);
     await this.updatePrivateChatId(docRef);
   } catch (error) {
@@ -295,7 +242,6 @@ async addPrivateChat(privateChatData: PrivateChat): Promise<any> {
       collection(this.firestore, 'privateChats'),
       privateChatData
     );
-    console.log('Document added with ID: ', docRef.id);
     this.router.navigate(['/home/privateChats', docRef.id]);
     return docRef;
   } catch (e) {
@@ -353,7 +299,6 @@ async updatePrivateChatId(docRef: any): Promise<void> {
       privatChatId: docRef.id,
     });
     this.newPrivateChatId = docRef.id;
-    console.log('Document updated with ID: ', docRef.id);
   } catch (e) {
     console.error('Error updating document: ', e);
     throw e;
@@ -363,16 +308,15 @@ async updatePrivateChatId(docRef: any): Promise<void> {
 /**
  * Sends a message to a private chat or channel by creating a new message document in the messages subcollection.
  * @param {string} messageText - The text of the message to be sent.
- * @param {number} time - The timestamp of the message.
  * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
  */
-  async sendMessage(messageText:string, time:number) {
+  async sendMessage(messageText:string) {
       let newMessage: Message = {
         messageId: '',
         text: messageText,
         chatId: this.docRef,
         date: new Date().toLocaleDateString(),
-        time: time.toString(),
+        time: Date.now().toString(),
         messageSendBy: this.firebaseService.currentUser.userId,
         reactions: [],
         threadId: '',
@@ -381,7 +325,6 @@ async updatePrivateChatId(docRef: any): Promise<void> {
         editCount: 0,
         lastEdit: '',
       };
-
         const docRef = await this.addMessage(newMessage);
         await this.updateMessageId(docRef);
     }
@@ -415,13 +358,12 @@ addMessage(messageData: Message): Promise<any> {
       await updateDoc(doc(this.firestore, this.mainCollection, this.docRef, 'messages', docRef.id), {
         messageId: docRef.id,
       });
-      console.log('Message document updated with ID: ', docRef.id);
     } catch (e) {
       console.error('Error updating message document: ', e);
       throw e;
     }
   }
-  
+
 /**
  * This function sets the threadId field of a specific message document to the provided threadId.
  *
@@ -435,7 +377,6 @@ addMessage(messageData: Message): Promise<any> {
       await updateDoc(doc(this.firestore, this.mainCollection, this.docRef, 'messages', messageId), {
         threadId: threadId,
       });
-      console.log('Message document field threadId updated with ', threadId);
     } catch (e) {
       console.error('Error updating message document: ', e);
       throw e;

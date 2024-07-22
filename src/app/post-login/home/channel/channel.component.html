@@ -67,7 +67,7 @@
 		<app-chat-input
 			[sourceComponent]="'channel'"
 			[placeholderText]="this.chatService.placeholderName"
-			(messageEvent)="this.chatService.onMessageSent($event)"
+			(messageEvent)="this.onMessageSent($event)"
 		></app-chat-input>
 	</div>
 </div>
