@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { ChannelComponent } from './channel/channel.component';
@@ -82,20 +82,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 		this.communicationService.isUserProfileVisible$.subscribe((visible) => {
 			this.isUserProfileVisible = visible;
 		});
-
-		// Dragan: I have added this subscription to the channel details visibility.
 		this.communicationService.isChannelDetailsVisible$.subscribe((visible) => {
 			this.isChannelDetailsVisible = visible;
 		});
-
-		// Dragan: I have added this subscription to the add members to channel visibility.
 		this.communicationService.isAddMembersToChannelVisible$.subscribe((visible) => {
 			this.isAddMembersToChannelVisible = visible;
 		});
 		this.communicationService.isChannelMemberVisible$.subscribe((visible) => {
 			this.isChannelMemberVisible = visible;
 		});
-		
 	}
 
 	ngOnDestroy(): void {
