@@ -146,7 +146,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
       console.log('Document written with ID: ', docRef.id);
       await this.updateMessageAnswerId(docRef);
       console.log('Document updated with ID: ', docRef.id);
-      await this.updateMessageAnswerCountAndTime(this.chatService.messageId, message.time.toString());
+      await this.updateMessageAnswerCountAndTime(this.chatService.messageId, message.time.toString(), 'increase');
   }
     /**
    * Sends a new messageAnswer and updates its document ID in Firestore.
@@ -169,7 +169,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
         console.log('Document written with ID: ', docRef.id);
         await this.updateMessageAnswerId(docRef);
         console.log('Document updated with ID: ', docRef.id);
-        await this.updateMessageAnswerCountAndTime(this.chatService.messageId, time.toString());
+        await this.updateMessageAnswerCountAndTime(this.chatService.messageId, time.toString(), 'increase');
     }
  /**
    * Adds a new messageAnswer doc to the Firestore.
@@ -227,25 +227,54 @@ async updateMessageAnswer(newText: string): Promise<void> {
     throw error;
   }
 }
+
 /**
- * Updates the answer count and last answer time of a message document in Firestore after adding a new messageAnswer.
+ * Updates the answer count and optionally the last answer time of a message document in Firestore.
  * 
  * @param {string} messageId - The ID of the message document to be updated.
- * @param {string} time - The time of the last answer, represented as a string.
+ * @param {string} time - The time of the last answer, represented as a string. Only used when the operation is 'increase'.
+ * @param {string} operation - The operation to perform on the answer count ('increase' or 'decrease').
  * @returns {Promise<void>} A promise that resolves when the message document is successfully updated.
+ * @throws Will throw an error if the update operation fails.
  */
-async updateMessageAnswerCountAndTime(messageId: string, time: string): Promise<void> {
+async updateMessageAnswerCountAndTime(messageId: string, time: string, operation: 'increase' | 'decrease'): Promise<void> {
   try {
     const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${messageId}`);
-  
-    await updateDoc(messageDocRef, {
-      answerCount: increment(1),  
-      lastAnswer: time          
-    });
     
-    console.log('Message document updated successfully');
+    const incrementValue = operation === 'increase' ? 1 : -1;
+
+    const updateData: any = {
+      answerCount: increment(incrementValue)
+    };
+
+    if (operation === 'increase') {
+      updateData.lastAnswer = time;
+    }
+
+    await updateDoc(messageDocRef, updateData);
+    
+    console.log(`Message document ${operation}d successfully`);
   } catch (error) {
-    console.error('Error updating message document:', error);
+    console.error(`Error ${operation}ing message document:`, error);
+    throw error;
+  }
+}
+
+/**
+ * Deletes a message document from Firestore and updates the parent message's answer count.
+ *
+ * @returns {Promise<void>} A promise that resolves when the message is successfully deleted.
+ * @throws Will throw an error if the deletion fails.
+ */
+async deleteMessageAnswer(): Promise<void> {
+  try {
+    const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.chatService.editMessageId}/messageAnswers/${this.editMessageAnswerId}`);
+    await deleteDoc(messageDocRef);
+    console.log('Message deleted successfully');
+    
+    await this.updateMessageAnswerCountAndTime(this.chatService.editMessageId, '', 'decrease');
+  } catch (error) {
+    console.error('Error deleting message:', error);
     throw error;
   }
 }

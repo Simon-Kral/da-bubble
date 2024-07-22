@@ -81,6 +81,10 @@
                         <div class="edit-msg pointer" (click)="handleClickOnEditMsg(msg.messageAnswerId)">
                             <span>Nachricht bearbeiten</span>
                         </div>
+                        <!--add logic to delete msg-->
+                        <div class="edit-msg pointer" (click)="handleClickOnDeleteMsg(msg.messageId, msg.messageAnswerId)">
+                            <span>Nachricht löschen</span>
+                        </div>
                     </div>
                 }
                 </div>
@@ -162,5 +166,18 @@
         </div>
     </div>
     }
-    
+    <!--popUp overlay for deleting specific current user msg-->
+@if (this.communicationService.isDeleteThreadMsgDialogVisible) {
+    <div class="delete-msg-dialog">
+        <span>Möchtest du diese Nachricht wirklich löschen?</span>
+        <div class="dialog-btns">
+            <button class="cancel-btn pointer" (click)="handleClickOnCancelDeleteMsg()">
+                <span>Abbrechen</span>
+            </button>
+            <button class="delete-btn pointer" (click)="handleClickOnConfirmDeleteMsg()">
+                <span>Löschen</span>
+            </button>
+        </div>
+    </div>
+    }
 </div>

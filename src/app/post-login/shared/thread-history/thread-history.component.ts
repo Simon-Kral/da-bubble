@@ -109,6 +109,24 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
     this.showEditMsgOverlay = true;             // show the edit message overlay
   }
 
+  // delete msg functions
+  handleClickOnDeleteMsg(messageId:string, messageAnswerId: string) {
+    this.communicationService.isDeleteThreadMsgDialogVisible = true;
+    this.threadService.chatService.editMessageId = messageId;
+    this.threadService.editMessageAnswerId = messageAnswerId;  
+  }
+
+  handleClickOnCancelDeleteMsg() {
+    this.communicationService.isDeleteThreadMsgDialogVisible = false;
+    this.threadService.editMessageAnswerId = '';  
+  }
+
+  handleClickOnConfirmDeleteMsg() {
+    this.communicationService.isDeleteThreadMsgDialogVisible = false;
+    this.threadService.deleteMessageAnswer();
+     // decrement the message count in msg document
+  }
+
   /**
   * Handles the submission of the edited message.
    * Closes the edit message menu, validates the new message text, updates the message, and closes the edit message overlay.
