@@ -29,6 +29,10 @@ export class CommunicationService {
 
 	// user profile variabels
 	userProfileId: string = ''; // is getting used to store userId of the user whose profile is being viewed
+	// edit msg menu
+	isMsgMenuVisible: boolean = false;
+	// edit msg menu Thread
+	isMsgMenuThreadVisible: boolean = false;
 	// delete msg dialog
 	isDeleteMsgDialogVisible: boolean = false;
 	// delete msg dialog thread

@@ -218,7 +218,7 @@
                 right: -230px;
                 box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1); //to-do adjust shaddow
                 z-index: 2;
-                display: none;
+
                 .edit-msg {
                     @include dFlex(row,center, center);
                     width: 229px; 

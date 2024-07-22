@@ -26,9 +26,6 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
   communicationService = inject(CommunicationService);
   threadService = inject(ThreadService);
 
-  // Edit message menu
-  editMsgMenu: boolean = false;
-
   // Default icon sources
   moreVert = 'assets/img/icons/more_vert_black.png';
   comment = 'assets/img/icons/comment_black.png';
@@ -75,8 +72,8 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
     this.chatService.unsubscribeAllLists();
   }
 
-  openEditMsgMenu() {
-    this.editMsgMenu = !this.editMsgMenu;
+  toggleMsgMenu() {
+    this.communicationService.isMsgMenuVisible = !this.communicationService.isMsgMenuVisible;
   }
 
 
@@ -130,14 +127,14 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
  * @param {string} messageId - The ID of the message to be edited.
  */
   handleClickOnEditMsg(messageId: string) {
+    this.toggleMsgMenu();                    // close the edit message menu
     this.chatService.editMessageId = messageId;  // set the id of the message to be edited into the chatService
-     this.loadMessageText();                     // load the text of the message to be edited
+    this.loadMessageText();                     // load the text of the message to be edited
     this.showEditMsgOverlay = true;             // show the edit message overlay
   }
 
 // delete msg functions
   handleClickOnDeleteMsg(messageId: string) {
-
     this.communicationService.isDeleteMsgDialogVisible = true;
     this.chatService.editMessageId = messageId;  
   }
@@ -149,7 +146,9 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
 
   handleClickOnConfirmDeleteMsg() {
     this.communicationService.isDeleteMsgDialogVisible = false;
-     this.chatService.deleteMessage();
+    this.communicationService.isThreadVisible = false;
+    this.threadService.unsubscribeAllLists();
+    this.chatService.deleteMessage();
   }
 
   /**
@@ -159,7 +158,6 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
   * @returns {Promise<void>} A promise that resolves when the message text has been successfully updated.
   */
   async onSubmitEditMsg() {
-    this.editMsgMenu = false;                         // close the edit message menu
     if (this.newMsgData.valid) {                      // check if the new message text is valid
       const updatedText = this.newMsgData.value.text; // get the new message text
       try {
@@ -180,7 +178,6 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
   */
   handleClickOnCancel() {
     this.showEditMsgOverlay = false;
-    this.editMsgMenu = false;
   }
   
   /**

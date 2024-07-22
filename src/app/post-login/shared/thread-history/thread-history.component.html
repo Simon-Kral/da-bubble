@@ -67,7 +67,7 @@
                     </div>
                 @if (index > 0) {
                     <div class="pointer menu-content"
-                    (click)="openEditMsgMenu()"
+                    (click)="toggleMsgMenu()"
                     (mouseover)="onMouseOver('moreVert')"
                     (mouseout)="onMouseOut('moreVert')"
                     >
@@ -75,9 +75,9 @@
                     </div>
 
                     <!--sub menu "edit-msg"-->
-                    <div class="edit-msg-menu"
-                    [ngClass]="{'d-flex': editMsgMenu}"
-                    >   <!--add logic to edit msg-->
+                    @if (this.communicationService.isMsgMenuThreadVisible) {
+                    <div class="edit-msg-menu">   
+                        <!--add logic to edit msg-->
                         <div class="edit-msg pointer" (click)="handleClickOnEditMsg(msg.messageAnswerId)">
                             <span>Nachricht bearbeiten</span>
                         </div>
@@ -86,6 +86,8 @@
                             <span>Nachricht löschen</span>
                         </div>
                     </div>
+                }
+
                 }
                 </div>
                 <!--msg-content-->

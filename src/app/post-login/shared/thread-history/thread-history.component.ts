@@ -22,9 +22,6 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
   communicationService = inject(CommunicationService);
   threadService = inject(ThreadService);
 
-    // Edit message menu
-    editMsgMenu: boolean = false;
-
     // Default icon sources
     moreVert = 'assets/img/icons/more_vert_black.png';
     comment = 'assets/img/icons/comment_black.png';
@@ -63,8 +60,8 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
     this.threadService.unsubscribeAllLists();
   }
 
-  openEditMsgMenu() {
-    this.editMsgMenu = !this.editMsgMenu;
+  toggleMsgMenu() {
+    this.communicationService.isMsgMenuThreadVisible = !this.communicationService.isMsgMenuThreadVisible;
   }
 
   onMouseOver(imgName: string) : void {
@@ -103,14 +100,15 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
  * @param {string} messageAnswerId - The ID of the message to be edited.
  */
   handleClickOnEditMsg(messageAnswerId: string) {
+    this.toggleMsgMenu();
     this.threadService.editMessageAnswerId = messageAnswerId;  // set the id of the message to be edited into the chatService
-    console.log('Message Answer ID:', messageAnswerId);
-     this.loadMessageText();                     // load the text of the message to be edited
+    this.loadMessageText();                     // load the text of the message to be edited
     this.showEditMsgOverlay = true;             // show the edit message overlay
   }
 
   // delete msg functions
   handleClickOnDeleteMsg(messageId:string, messageAnswerId: string) {
+    this.toggleMsgMenu();
     this.communicationService.isDeleteThreadMsgDialogVisible = true;
     this.threadService.chatService.editMessageId = messageId;
     this.threadService.editMessageAnswerId = messageAnswerId;  
@@ -134,7 +132,6 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
   * @returns {Promise<void>} A promise that resolves when the message text has been successfully updated.
   */
   async onSubmitEditMsgAnswer() {
-    this.editMsgMenu = false;                         // close the edit message menu
     if (this.newMsgData.valid) {                      // check if the new message text is valid
       const updatedText = this.newMsgData.value.text; // get the new message text
       try {
@@ -155,7 +152,6 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
   */
   handleClickOnCancel() {
     this.showEditMsgOverlay = false;
-    this.editMsgMenu = false;
   }
   
   /**
