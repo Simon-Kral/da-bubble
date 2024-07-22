@@ -75,6 +75,19 @@
 			.user-counter {
 				@include Nunito(600, 20px, 27.28px, $black);
 			}
+			.add-member {
+				@include dFlex(row, center, center);
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				background-color: $bg-color;
+				padding: 8px;
+				gap: 10px;
+				transition: 0.1 ease-in-out;
+				&:hover img {
+                    filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
+                }
+			}
 		}
 	}
 
