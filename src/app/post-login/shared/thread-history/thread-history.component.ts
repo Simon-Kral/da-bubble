@@ -99,10 +99,12 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
  *
  * @param {string} messageAnswerId - The ID of the message to be edited.
  */
-  handleClickOnEditMsg(messageAnswerId: string, messageId: string) {
+  handleClickOnEditMsg(messageAnswerId: string, messageId: string, index: number) {
     this.toggleMsgMenu();
     this.threadService.editMessageAnswerId = messageAnswerId;  // set the id of the message to be edited into the chatService
+    if (index == 0) {
     this.threadService.editMessageId = messageId;
+    }
     this.loadMessageText();                     // load the text of the message to be edited
     this.showEditMsgOverlay = true;             // show the edit message overlay
   }
@@ -123,7 +125,6 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
   handleClickOnConfirmDeleteMsg() {
     this.communicationService.isDeleteThreadMsgDialogVisible = false;
     this.threadService.deleteMessageAnswer();
-     // decrement the message count in msg document
   }
 
   /**
@@ -144,6 +145,7 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
           await this.threadService.updateInitialMessage(updatedText);
           console.log('Thread message text updated successfully');
         }
+        this.threadService.editMessageId = '';
         this.showEditMsgOverlay = false;              
       } catch (error) {
         console.error('Error updating message text:', error);

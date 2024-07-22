@@ -170,6 +170,7 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
           console.log('Thread message text updated successfully');
         }
         this.showEditMsgOverlay = false; 
+        this.chatService.editThreadId = '';
       } catch (error) {
         console.error('Error updating message text:', error);
       }

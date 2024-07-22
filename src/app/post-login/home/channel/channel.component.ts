@@ -47,6 +47,8 @@ export class ChannelComponent implements OnInit, OnDestroy{
     setTimeout(() => {
     this.chatService.initializeChannelPlaceholder(this.chatService.docRef);
   }, 1500);
+  	this.chatService.editThreadId = '';
+  	this.threadService.editMessageId = '';
 	}
 
 	ngOnInit(): void {
@@ -56,6 +58,8 @@ export class ChannelComponent implements OnInit, OnDestroy{
 	ngOnDestroy(): void {
 		this.chatService.unsubscribeAllLists();
 		this.threadService.unsubscribeAllLists();
+		this.chatService.editThreadId = '';
+		this.threadService.editMessageId = '';
 	}
 
 	/**

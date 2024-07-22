@@ -23,8 +23,8 @@ export class ThreadService {
   msgAnswerList: MessageAnswer[] = []; // will get used to store msgAnswers from prvt chats or channels
   unsubscribeMsgAnswerList: any;
 
-  editMessageAnswerId:string = '';  // will get used to store the id of the message that should get edited
-  editMessageId:string = '';  // will get used to store the id of the message that should get edited
+  editMessageAnswerId:string = '';  // will get used to store the id of the message that should get edited or deleted
+  editMessageId:string = '';  // will get used to store the id of the initial message that should get edited
 
   subscribeAllLists() {
     this.subscribeMsgAnswerList();

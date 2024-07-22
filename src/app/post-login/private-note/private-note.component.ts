@@ -33,6 +33,8 @@ export class PrivateNoteComponent implements OnInit, OnDestroy{
       setTimeout(() => {
     this.chatService.placeholderName = this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) +' (Du)';   
   }, 1500);
+      this.chatService.editThreadId = '';
+      this.threadService.editMessageId = '';
   }
 
 
@@ -43,6 +45,8 @@ export class PrivateNoteComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
     this.chatService.unsubscribeAllLists();
     this.threadService.unsubscribeAllLists();
+    this.chatService.editThreadId = '';
+    this.threadService.editMessageId = '';
   }
 
 }
