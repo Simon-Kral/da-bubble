@@ -1,571 +1,566 @@
-@import '../../../../styles.scss';
+@import "../../../../styles.scss";
 
 .chat-history-wrapper {
-    @include dFlex(column,flex-end, flex-start);
-    position: relative;
+	@include dFlex(column, flex-end, flex-start);
+	position: relative;
 }
 //msg date-->
 .msg-date {
-    @include dFlex(row,center, center);
-    width: 100%;
-    padding: 16px 0;
-    .seperator {
-        width: 50%;
-        border: solid 1px $light-purple-lines;   
-    }
-    .date-container {
-        @include dFlex(row,center, center);
-        width: 189px;
-        height: 35px;
-        border-radius: 30px;
-        padding: 5px 15px 5px 15px;
-        gap: 10px;
-        border: solid 1px $light-purple-lines;
-        span {
-            @include Nunito(400, 18px, 24.55px, $black);
-            text-wrap: nowrap;
-        }
-    }
+	@include dFlex(row, center, center);
+	width: 100%;
+	padding: 16px 0;
+	.seperator {
+		width: 50%;
+		border: solid 1px $light-purple-lines;
+	}
+	.date-container {
+		@include dFlex(row, center, center);
+		width: 189px;
+		height: 35px;
+		border-radius: 30px;
+		padding: 5px 15px 5px 15px;
+		gap: 10px;
+		border: solid 1px $light-purple-lines;
+		span {
+			@include Nunito(400, 18px, 24.55px, $black);
+			text-wrap: nowrap;
+		}
+	}
 }
 //user-msg-->
 .user-msg {
-    @include dFlex(row,flex-start, flex-start);
-    width: 100%;
-    gap: 20px;
-    padding: 10px 0px 10px 45px;
-    position: relative;
-    &:hover {
-        background-color: $bg-color;
-    }
-    &:hover .msg-content .msg {
-        background-color: $white;
-    }
-    &:hover .msg-menu {
-        display: flex;
-    }
+	@include dFlex(row, flex-start, flex-start);
+	width: 100%;
+	gap: 20px;
+	padding: 10px 0px 10px 45px;
+	position: relative;
+	&:hover {
+		background-color: $bg-color;
+	}
+	&:hover .msg-content .msg {
+		background-color: $white;
+	}
+	&:hover .msg-menu {
+		display: flex;
+	}
 
-    .msg-menu {
-        @include dFlex(row,center, center);
-        position: absolute;
-        right: 16px;
-        top: -24px;
-        width: 210px;
-        height: 46px;
-        border-radius: 25px 25px 0 25px;
-        border: solid 1px $light-purple-lines;
-        padding: 3px 15px 3px 20px;
-        gap: 5px;
-        background-color: $white;
-        display: none;
+	.msg-menu {
+		@include dFlex(row, center, center);
+		position: absolute;
+		right: 16px;
+		top: -24px;
+		width: 210px;
+		height: 46px;
+		border-radius: 25px 25px 0 25px;
+		border: solid 1px $light-purple-lines;
+		padding: 3px 15px 3px 20px;
+		gap: 5px;
+		background-color: $white;
+		display: none;
 
-            .menu-content {
-                @include dFlex(row,center, center);
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                padding: 10px;
-                gap: 10px;
-                
-                &:hover {
-                    background-color: $bg-color;
-                }
-            }
-        }
-    .user-avatar {
-        @include dFlex(row,flex-end, flex-start);
-        width: 15%;
-        img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-        }
-    }
+		.menu-content {
+			@include dFlex(row, center, center);
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			padding: 10px;
+			gap: 10px;
 
-    .msg-content {
-        @include dFlex(column,flex-start, flex-start);
-        width: 85%;
-        gap: 8px;
+			&:hover {
+				background-color: $bg-color;
+			}
+		}
+	}
+	.user-avatar {
+		@include dFlex(row, flex-end, flex-start);
+		width: 15%;
+		img {
+			width: 70px;
+			height: 70px;
+			border-radius: 50%;
+		}
+	}
 
-        .msg-top {
-            @include dFlex(row,flex-start, center);
-            gap: 20px;
-            span {
-                @include Nunito(700, 18px, 24.55px, $black);
-                text-wrap: nowrap;
-            }
-            p {
-                @include Nunito(400, 14px, 19.1px, $text-gray);
-                text-wrap: nowrap;
-            }
-        }
+	.msg-content {
+		@include dFlex(column, flex-start, flex-start);
+		width: 85%;
+		gap: 8px;
 
-        .msg {
-            @include dFlex(column,flex-end, flex-start);
-            min-height: 55px;
-            height: fit-content;
-            max-width: 90%;
-            border-radius: 0 30px 30px 30px;
-            padding: 15px;
-            gap:8px;
-            background-color: $bg-color;
-            span {
-                @include Nunito(400, 18px, 24.55px, $black);
-                text-wrap: wrap;
-                text-align: start;
-            }
-            p {
-                @include Nunito(400, 14px, 19.1px, $white);
-                text-wrap: wrap;
-                height: fit-content;
-                text-align: end;
-            }
-        }
+		.msg-top {
+			@include dFlex(row, flex-start, center);
+			gap: 20px;
+			span {
+				@include Nunito(700, 18px, 24.55px, $black);
+				text-wrap: nowrap;
+			}
+			p {
+				@include Nunito(400, 14px, 19.1px, $text-gray);
+				text-wrap: nowrap;
+			}
+		}
 
-        .msg-bottom {
-            @include dFlex(row,flex-start, center);
-            gap: 20px;
-            span {
-                @include Nunito(400, 18px, 24.55px, $purple-3);
-                text-wrap: nowrap;
-            }
-            p {
-                @include Nunito(400, 14px, 19.1px, $text-gray);
-                text-wrap: nowrap;
-            }
-        }
-        .reactions-container {
-            @include dFlex(row,flex-start, center);
-            width: 90%;
-            gap: 16px;
-            .last-reaction {
-                @include dFlex(row, center, center);
-                width: 64px;
-                height: 34px;
-                border-radius: 20px;
-                border: solid 1px $light-purple-lines;
-                padding: 5px 10px 5px 10px;
-                gap: 10px;
-                background-color: $white;
-                    .emoji-container {
-                    @include dFlex(row, center, center);
-                    width: 24px;
-                    height: 24px;
-                    }
-                    .emoji-counter {
-                        @include Nunito(400, 16px, 21.82px, $black);
-                    }
-                }
-                .add-reaction {
-                    @include dFlex(row,center, center);
-                    width: 36px;
-                    height: 34px;
-                    border-radius: 50%;
-                    padding: 5px;
-                    gap: 10px;
-                    background-color: $white;
-                    &:hover {
-                        background-color: $bg-color;
-                    }
-                }
-            }
-    }
+		.msg {
+			@include dFlex(column, flex-end, flex-start);
+			min-height: 55px;
+			height: fit-content;
+			max-width: 90%;
+			border-radius: 0 30px 30px 30px;
+			padding: 15px;
+			gap: 8px;
+			background-color: $bg-color;
+			span {
+				@include Nunito(400, 18px, 24.55px, $black);
+				text-wrap: wrap;
+				text-align: start;
+			}
+			p {
+				@include Nunito(400, 14px, 19.1px, $white);
+				text-wrap: wrap;
+				height: fit-content;
+				text-align: end;
+			}
+		}
+
+		.msg-bottom {
+			@include dFlex(row, flex-start, center);
+			gap: 20px;
+			span {
+				@include Nunito(400, 18px, 24.55px, $purple-3);
+				text-wrap: nowrap;
+			}
+			p {
+				@include Nunito(400, 14px, 19.1px, $text-gray);
+				text-wrap: nowrap;
+			}
+		}
+		.reactions-container {
+			@include dFlex(row, flex-start, center);
+			width: 90%;
+			gap: 16px;
+			.last-reaction {
+				@include dFlex(row, center, center);
+				width: 64px;
+				height: 34px;
+				border-radius: 20px;
+				border: solid 1px $light-purple-lines;
+				padding: 5px 10px 5px 10px;
+				gap: 10px;
+				background-color: $white;
+				.emoji-container {
+					@include dFlex(row, center, center);
+					width: 24px;
+					height: 24px;
+				}
+				.emoji-counter {
+					@include Nunito(400, 16px, 21.82px, $black);
+				}
+			}
+			.add-reaction {
+				@include dFlex(row, center, center);
+				width: 36px;
+				height: 34px;
+				border-radius: 50%;
+				padding: 5px;
+				gap: 10px;
+				background-color: $white;
+				&:hover {
+					background-color: $bg-color;
+				}
+			}
+		}
+	}
 }
 
 //current-user-msg-->
 .current-user-msg {
-    @include dFlex(row,flex-start, flex-start);
-    width: 100%;
-    gap: 20px;
-    padding: 10px 45px 10px 0;
-    position: relative;
-    &:hover {
-        background-color: $bg-color;
-    }
-    &:hover .msg-menu {
-        display: flex;
-    }
-    .msg-menu {
-        @include dFlex(row,center, center);
-        position: absolute;
-        left: 16px;
-        top: -24px;
-        width: 255px;
-        height: 46px;
-        border-radius: 25px 25px 0 25px;
-        border: solid 1px $light-purple-lines;
-        padding: 3px 15px 3px 20px;
-        gap: 5px;
-        background-color: $white;
-        display: none;
+	@include dFlex(row, flex-start, flex-start);
+	width: 100%;
+	gap: 20px;
+	padding: 10px 45px 10px 0;
+	position: relative;
+	&:hover {
+		background-color: $bg-color;
+	}
+	&:hover .msg-menu {
+		display: flex;
+	}
+	.msg-menu {
+		@include dFlex(row, center, center);
+		position: absolute;
+		left: 16px;
+		top: -24px;
+		width: 255px;
+		height: 46px;
+		border-radius: 25px 25px 0 25px;
+		border: solid 1px $light-purple-lines;
+		padding: 3px 15px 3px 20px;
+		gap: 5px;
+		background-color: $white;
+		display: none;
 
-            .menu-content {
-                @include dFlex(row,center, center);
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                padding: 10px;
-                gap: 10px;
-                position: relative;
+		.menu-content {
+			@include dFlex(row, center, center);
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			padding: 10px;
+			gap: 10px;
+			position: relative;
 
-                &:hover {
-                    background-color: $bg-color;
-                }
-                &:hover img {
-                    filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
-                }
-            }
-            .edit-msg-menu {
-                @include dFlex(column,center, center);
-                width: 269px;
-                height: 124px;
-                border-radius: 0 30px 30px 30px;
-                padding: 10px 20px 10px 20px;
-                gap: 15px;
-                background-color: $white;
-                position: absolute;
-                top: 36px;
-                right: -230px;
-                box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1); //to-do adjust shaddow
-                z-index: 2;
+			&:hover {
+				background-color: $bg-color;
+				img {
+					filter: invert(57%) sepia(94%) saturate(4679%)
+						hue-rotate(221deg) brightness(100%) contrast(91%);
+				}
+			}
+		}
+		.edit-msg-menu {
+			@include dFlex(column, center, center);
+			width: 269px;
+			height: 124px;
+			border-radius: 0 30px 30px 30px;
+			padding: 10px 20px 10px 20px;
+			gap: 15px;
+			background-color: $white;
+			position: absolute;
+			top: 36px;
+			right: -230px;
+			box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1); //to-do adjust shaddow
+			z-index: 2;
 
-                .edit-msg {
-                    @include dFlex(row,center, center);
-                    width: 229px; 
-                    height: 47px;
-                    border-radius: 100px;
-                    padding: 10px 20px 10px 20px;
-                    gap: 10px;
+			.edit-msg {
+				@include dFlex(row, center, center);
+				width: 229px;
+				height: 47px;
+				border-radius: 100px;
+				padding: 10px 20px 10px 20px;
+				gap: 10px;
 
-                    &:hover {
-                        background-color: $bg-color;
-                    }
-                    &:hover span {
-                        @include Nunito(700, 20px, 27.28px, $purple-3); 
-                    }
+				&:hover {
+					background-color: $bg-color;
+				}
+				&:hover span {
+					@include Nunito(700, 20px, 27.28px, $purple-3);
+				}
 
-                    span {
-                        @include Nunito(500, 20px, 27.28px, $black); 
-                        text-wrap: nowrap;
-                    }
-                }
+				span {
+					@include Nunito(500, 20px, 27.28px, $black);
+					text-wrap: nowrap;
+				}
+			}
+		}
+	}
+	.current-user-avatar {
+		@include dFlex(row, flex-start, flex-start);
+		width: 15%;
+		img {
+			transform: scaleX(-1);
+			width: 70px;
+			height: 70px;
+			border-radius: 50%;
+		}
+	}
 
-            }
-        }
-    .current-user-avatar {
-        @include dFlex(row,flex-start, flex-start);
-        width: 15%;
-        img {
-            transform:scaleX(-1); 
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-        }
-    }
+	.current-user-msg-content {
+		@include dFlex(column, flex-end, flex-end);
+		width: 85%;
+		gap: 8px;
 
-    .current-user-msg-content {
-        @include dFlex(column,flex-end, flex-end);
-        width: 85%;
-        gap: 8px;
+		.current-user-msg-top {
+			@include dFlex(row, flex-start, center);
+			gap: 20px;
+			span {
+				@include Nunito(700, 18px, 24.55px, $black);
+				text-wrap: nowrap;
+			}
+			p {
+				@include Nunito(400, 14px, 19.1px, $text-gray);
+				text-wrap: nowrap;
+			}
+		}
 
-        .current-user-msg-top {
-            @include dFlex(row,flex-start, center);
-            gap: 20px;
-            span {
-                @include Nunito(700, 18px, 24.55px, $black);
-                text-wrap: nowrap;
-            }
-            p {
-                @include Nunito(400, 14px, 19.1px, $text-gray);
-                text-wrap: nowrap;
-            }
-        }
+		.current-user-msg {
+			@include dFlex(column, flex-end, flex-start);
+			min-height: 55px;
+			height: fit-content;
+			width: fit-content;
+			max-width: 90%;
+			border-radius: 30px 0 30px 30px;
+			padding: 15px;
+			gap: 8px;
+			background-color: $purple-2;
+			span {
+				@include Nunito(400, 18px, 24.55px, $white);
+				text-wrap: wrap;
+				height: fit-content;
+				text-align: end;
+			}
+			p {
+				@include Nunito(400, 14px, 19.1px, $white);
+				text-wrap: wrap;
+				height: fit-content;
+				text-align: end;
+			}
+		}
 
-        .current-user-msg {
-            @include dFlex(column,flex-end, flex-start);
-            min-height: 55px;
-            height: fit-content;
-            width: fit-content;
-            max-width: 90%;
-            border-radius: 30px 0 30px 30px;
-            padding: 15px;
-            gap:8px;
-            background-color: $purple-2;
-            span {
-                @include Nunito(400, 18px, 24.55px, $white);
-                text-wrap: wrap;
-                height: fit-content;
-                text-align: end;
-            }
-            p {
-                @include Nunito(400, 14px, 19.1px, $white);
-                text-wrap: wrap;
-                height: fit-content;
-                text-align: end;
-            }
-        }
+		.current-user-msg-bottom {
+			@include dFlex(row, flex-start, center);
+			gap: 20px;
+			span {
+				@include Nunito(400, 18px, 24.55px, $purple-3);
+				text-wrap: nowrap;
+			}
+			p {
+				@include Nunito(400, 14px, 19.1px, $text-gray);
+				text-wrap: nowrap;
+			}
+		}
 
-        .current-user-msg-bottom {
-            @include dFlex(row,flex-start, center);
-            gap: 20px;
-            span {
-                @include Nunito(400, 18px, 24.55px, $purple-3);
-                text-wrap: nowrap;
-            }
-            p {
-                @include Nunito(400, 14px, 19.1px, $text-gray);
-                text-wrap: nowrap;
-            }
-        }
-
-        .reactions-container {
-            @include dFlex(row,flex-end, center);
-            width: 90%;
-            gap: 16px;
-            .last-reaction {
-                @include dFlex(row, center, center);
-                width: 64px;
-                height: 34px;
-                border-radius: 20px;
-                border: solid 1px $light-purple-lines;
-                padding: 5px 10px 5px 10px;
-                gap: 10px;
-                background-color: $white;
-                    .emoji-container {
-                    @include dFlex(row, center, center);
-                    width: 24px;
-                    height: 24px;
-                    }
-                    .emoji-counter {
-                        @include Nunito(400, 16px, 21.82px, $black);
-                    }
-                }
-            .add-reaction {
-                @include dFlex(row,center, center);
-                width: 36px;
-                height: 34px;
-                border-radius: 50%;
-                padding: 5px;
-                gap: 10px;
-                background-color: $white;
-                &:hover {
-                    background-color: $bg-color;
-                }
-                &:hover img {
-                    filter: invert(46%) sepia(14%) saturate(3439%) hue-rotate(204deg) brightness(96%) contrast(98%);
-                }
-            }
-        }
-    }
+		.reactions-container {
+			@include dFlex(row, flex-end, center);
+			width: 90%;
+			gap: 16px;
+			.last-reaction {
+				@include dFlex(row, center, center);
+				width: 64px;
+				height: 34px;
+				border-radius: 20px;
+				border: solid 1px $light-purple-lines;
+				padding: 5px 10px 5px 10px;
+				gap: 10px;
+				background-color: $white;
+				.emoji-container {
+					@include dFlex(row, center, center);
+					width: 24px;
+					height: 24px;
+				}
+				.emoji-counter {
+					@include Nunito(400, 16px, 21.82px, $black);
+				}
+			}
+			.add-reaction {
+				@include dFlex(row, center, center);
+				width: 36px;
+				height: 34px;
+				border-radius: 50%;
+				padding: 5px;
+				gap: 10px;
+				background-color: $white;
+				&:hover {
+					background-color: $bg-color;
+				}
+				&:hover img {
+					filter: invert(46%) sepia(14%) saturate(3439%)
+						hue-rotate(204deg) brightness(96%) contrast(98%);
+				}
+			}
+		}
+	}
 }
 
 //popUp overlay for editing specific current user msg
 
 .edit-msg-overlay {
-    @include dFlex(row,flex-end, flex-start);
-    width: 100%;
-    height: 200px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    padding: 10px 45px 10px 45px;
-    gap: 30px;
-    background-color: $bg-color;
+	@include dFlex(row, flex-end, flex-start);
+	width: 100%;
+	height: 200px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+	padding: 10px 45px 10px 45px;
+	gap: 30px;
+	background-color: $bg-color;
 
-    .left-section {
-        @include dFlex(row,flex-start, center);
-        width: 75%;
-        .edit-msg-form {
-            @include dFlex(column,flex-start, center);
-            width: 100%;
-            height: 180px;
-            border-radius: 20px;
-            border: solid 1px $light-purple-lines;
-            padding: 20px;
-            gap: 16px;
-            background-color: $white;
+	.left-section {
+		@include dFlex(row, flex-start, center);
+		width: 75%;
+		.edit-msg-form {
+			@include dFlex(column, flex-start, center);
+			width: 100%;
+			height: 180px;
+			border-radius: 20px;
+			border: solid 1px $light-purple-lines;
+			padding: 20px;
+			gap: 16px;
+			background-color: $white;
 
-            .top-section {
-                width: 100%;
-                textarea {
-                    @include Nunito(400, 18px, 24.55px, $text-gray);
-                    width: 100%;
-                    height: 75px;
-                    border: none;
-                }
-            }
+			.top-section {
+				width: 100%;
+				textarea {
+					@include Nunito(400, 18px, 24.55px, $text-gray);
+					width: 100%;
+					height: 75px;
+					border: none;
+				}
+			}
 
+			.bottom-section {
+				@include dFlex(row, space-between, center);
+				width: 100%;
 
-            .bottom-section {
-                @include dFlex(row, space-between, center);
-                width: 100%;
+				.bottom-left {
+					@include dFlex(row, center, center);
+					width: 40px;
+					height: 40px;
+					border-radius: 50%;
+					gap: 5px;
+					transition: ease-in-out 0.3;
 
-                .bottom-left {
-                    @include dFlex(row, center, center);
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    gap: 5px;
-                    transition: ease-in-out 0.3;
+					&:hover {
+						background-color: $bg-color;
+					}
 
+					&:hover img {
+						filter: invert(46%) sepia(14%) saturate(3439%)
+							hue-rotate(204deg) brightness(96%) contrast(98%);
+					}
 
-                    &:hover {
-                        background-color: $bg-color;
-                    }
+					img {
+						width: 24px;
+						height: 24px;
+						transition: filter;
+					}
+				}
 
-                    &:hover img {
-                        filter: invert(46%) sepia(14%) saturate(3439%) hue-rotate(204deg) brightness(96%) contrast(98%);
-                    }
+				.bottom-right {
+					@include dFlex(row, space-between, center);
+					gap: 32px;
 
-                    img {
-                        width: 24px;
-                        height: 24px;
-                        transition: filter;
-                    }
+					.cancel-btn {
+						@include dFlex(row, space-between, center);
+						width: 141px;
+						height: 49px;
+						border-radius: 50px;
+						border: solid 1px $purple-2;
+						padding: 12px 25px 12px 25px;
+						gap: 10px;
+						background-color: $white;
+						transition: ease-in-out 0.3;
+						span {
+							@include Nunito(700, 18px, 24.55px, $purple-1);
+						}
 
-                }
+						&:hover {
+							background-color: $purple-1;
+							border: none;
+						}
 
-                .bottom-right {
-                    @include dFlex(row, space-between, center);
-                    gap: 32px;
+						&:hover span {
+							@include Nunito(700, 18px, 24.55px, $white);
+						}
+					}
 
-                    .cancel-btn {
-                        @include dFlex(row, space-between, center);
-                        width: 141px;
-                        height: 49px;
-                        border-radius: 50px;
-                        border: solid 1px $purple-2;
-                        padding: 12px 25px 12px 25px;
-                        gap: 10px;
-                        background-color: $white;
-                        transition: ease-in-out 0.3;
-                        span {
-                            @include Nunito(700, 18px, 24.55px, $purple-1);
-                        }
+					.save-btn {
+						@include dFlex(row, space-between, center);
+						width: 133px;
+						height: 49px;
+						border-radius: 50px;
+						padding: 12px 25px 12px 25px;
+						gap: 10px;
+						background-color: $purple-1;
+						transition: ease-in-out 0.3;
+						span {
+							@include Nunito(700, 18px, 24.55px, $white);
+						}
+						&:hover {
+							background-color: $white;
+							border: solid 1px $purple-2;
+						}
 
-                        &:hover {
-                            background-color: $purple-1;
-                            border: none;
-                        }
+						&:hover span {
+							@include Nunito(700, 18px, 24.55px, $purple-1);
+						}
+					}
+				}
+			}
+		}
+	}
 
-                        &:hover span {
-                            @include Nunito(700, 18px, 24.55px, $white);
-                        }
-                    }
+	.right-section {
+		width: 15%;
 
-                    .save-btn {
-                        @include dFlex(row, space-between, center);
-                        width: 133px;
-                        height: 49px;
-                        border-radius: 50px;
-                        padding: 12px 25px 12px 25px;
-                        gap: 10px;
-                        background-color: $purple-1;
-                        transition: ease-in-out 0.3;
-                        span {
-                            @include Nunito(700, 18px, 24.55px, $white);
-                        }
-                        &:hover {
-                            background-color: $white;
-                            border: solid 1px $purple-2;
-                        }
-
-                        &:hover span {
-                            @include Nunito(700, 18px, 24.55px, $purple-1);
-                        }
-                    }
-                }
-
-            }
-        }
-
-    }
-
-    .right-section {
-        width: 15%;
-
-
-        .current-user-avatar{
-            @include dFlex(row,flex-start, flex-start);
-            width: 15%;
-            img {
-                transform:scaleX(-1); 
-                width: 70px;
-                height: 70px;
-                border-radius: 50%;
-            }
-        }
-    }
+		.current-user-avatar {
+			@include dFlex(row, flex-start, flex-start);
+			width: 15%;
+			img {
+				transform: scaleX(-1);
+				width: 70px;
+				height: 70px;
+				border-radius: 50%;
+			}
+		}
+	}
 }
 
 // delete msg dialog
 
 .delete-msg-dialog {
-    @include dFlex(column,center, center);
-    width: 100%;
-    height: 200px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    padding: 10px 45px 10px 45px;
-    gap: 30px;
-    background-color: $bg-color;
-span {
-    @include Nunito(700, 18px, 24.55px, $purple-1);
-}
-.dialog-btns {
-    @include dFlex(row, space-between, center);
-    gap: 32px;
-    .cancel-btn {
-        @include dFlex(row, center, center);
-        width: 141px;
-        height: 49px;
-        border-radius: 50px;
-        border: solid 1px $purple-2;
-        padding: 12px 25px 12px 25px;
-        gap: 10px;
-        background-color: $white;
-        transition: ease-in-out 0.3;
-        span {
-            @include Nunito(700, 18px, 24.55px, $purple-1);
-        }
+	@include dFlex(column, center, center);
+	width: 100%;
+	height: 200px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+	padding: 10px 45px 10px 45px;
+	gap: 30px;
+	background-color: $bg-color;
+	span {
+		@include Nunito(700, 18px, 24.55px, $purple-1);
+	}
+	.dialog-btns {
+		@include dFlex(row, space-between, center);
+		gap: 32px;
+		.cancel-btn {
+			@include dFlex(row, center, center);
+			width: 141px;
+			height: 49px;
+			border-radius: 50px;
+			border: solid 1px $purple-2;
+			padding: 12px 25px 12px 25px;
+			gap: 10px;
+			background-color: $white;
+			transition: ease-in-out 0.3;
+			span {
+				@include Nunito(700, 18px, 24.55px, $purple-1);
+			}
 
-        &:hover {
-            background-color: $purple-1;
-            border: none;
-        }
+			&:hover {
+				background-color: $purple-1;
+				border: none;
+			}
 
-        &:hover span {
-            @include Nunito(700, 18px, 24.55px, $white);
-        }
-    }
-    .delete-btn {
-        @include dFlex(row, center, center);
-        width: 133px;
-        height: 49px;
-        border-radius: 50px;
-        padding: 12px 25px 12px 25px;
-        gap: 10px;
-        background-color: $white;
-        border: solid 1px $online-red;
-        transition: ease-in-out 0.3;
-        span {
-            @include Nunito(700, 18px, 24.55px, $online-red);
-        }
-        &:hover {
-            background-color: $online-red;
-        }
+			&:hover span {
+				@include Nunito(700, 18px, 24.55px, $white);
+			}
+		}
+		.delete-btn {
+			@include dFlex(row, center, center);
+			width: 133px;
+			height: 49px;
+			border-radius: 50px;
+			padding: 12px 25px 12px 25px;
+			gap: 10px;
+			background-color: $white;
+			border: solid 1px $online-red;
+			transition: ease-in-out 0.3;
+			span {
+				@include Nunito(700, 18px, 24.55px, $online-red);
+			}
+			&:hover {
+				background-color: $online-red;
+			}
 
-        &:hover span {
-            @include Nunito(700, 18px, 24.55px, $white);
-        }
-    }
-}
-
+			&:hover span {
+				@include Nunito(700, 18px, 24.55px, $white);
+			}
+		}
+	}
 }
 .emoji-picker-container {
-    position: absolute;
-    bottom: 0;
-    left: 16px;
+	position: absolute;
+	bottom: 0;
+	left: 16px;
 }
