@@ -3,16 +3,12 @@
 	$index) { @if (channel.chanId === chatService.docRef) {
 	<div class="group-display">
 		<div
-			class="active-group-chat"
-			(mouseover)="toggleImgSrc()"
-			(mouseout)="toggleImgSrc()"
-			(click)="toggleShowChannelDetails()"
-		>
-			<img [src]="hashtag" alt="" />
+			class="active-group-chat" (click)="toggleShowChannelDetails()">
+			<img src="assets/img/icons/hashtag_chat_black.png" alt="" />
 			@if (channel.chanId === this.chatService.docRef) {
 			<span>{{ channel.name }}</span>
 			}
-			<img class="pointer" [src]="dropdownArrow" alt="" />
+			<img class="pointer" src="assets/img/icons/keyboard_arrow_down_black.png" alt="" />
 		</div>
 		<div class="avatar-collection">
 			<div

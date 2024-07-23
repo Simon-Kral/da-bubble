@@ -30,8 +30,6 @@ export class ChannelComponent implements OnInit, OnDestroy{
 
 	showChannelDetails = false;
 	showAddMembersToChannel = false;
-	hashtag = 'assets/img/icons/hashtag_chat_inactive.png';
-	dropdownArrow = 'assets/img/icons/keyboard_arrow_down_inactive.png';
 	
 	@Input() isChannelMemberVisible: boolean = false;
 	@Output() channelMemberVisibilityChange = new EventEmitter<boolean>();
@@ -82,17 +80,6 @@ export class ChannelComponent implements OnInit, OnDestroy{
 		);
 	}
 
-	toggleImgSrc() {
-		this.hashtag =
-			this.hashtag === 'assets/img/icons/hashtag_chat_inactive.png'
-				? 'assets/img/icons/hashtag_chat_active.png'
-				: 'assets/img/icons/hashtag_chat_inactive.png';
-		this.dropdownArrow =
-			this.dropdownArrow ===
-			'assets/img/icons/keyboard_arrow_down_inactive.png'
-				? 'assets/img/icons/keyboard_arrow_up_active.png'
-				: 'assets/img/icons/keyboard_arrow_down_inactive.png';
-	}
 
 	toggleAddMembersToChannel() {
 		this.communicationService.toggleAddMembersToChannelVisibility(
