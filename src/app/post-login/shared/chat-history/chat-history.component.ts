@@ -37,8 +37,6 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
 	showEditMsgOverlay: boolean = false;
 	currentMsgData: MsgData;
 	newMsgData: FormGroup;
-	showEmojiPicker: boolean = false;
-	emojiPickerIndex: number = 0;
 
 	constructor(private fb: FormBuilder, private route: ActivatedRoute) {
 		this.currentMsgData = { text: '' };
@@ -77,8 +75,8 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
 	}
 
 	toggleEmojiPicker(index: number) {
-		this.showEmojiPicker = !this.showEmojiPicker;
-		this.emojiPickerIndex = index;
+		this.reactionService.showEmojiPicker = !this.reactionService.showEmojiPicker;
+		this.reactionService.emojiPickerIndex = index;
 	}
 
 	// edit msg functions
