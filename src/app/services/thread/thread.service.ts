@@ -160,7 +160,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
       text: message.text,
       messageId: message.messageId,
       date: new Date().toLocaleDateString(),
-      time: message.time,
+      time: Date.now().toString(),
       messageSendBy: message.messageSendBy,
       reactions: [],
       editCount: 0,
