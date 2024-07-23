@@ -57,10 +57,6 @@
 			}
 		}
 
-		span:first-child {
-			@include Nunito(700, 32px, 18.8px, $black);
-			text-wrap: nowrap;
-		}
 
 		.user-status {
 			position: absolute;
@@ -110,7 +106,8 @@ h3 {
 }
 
 .headline {
-	@include Nunito(800, 32px, 18.8px, $black);
+	@include Nunito(700, 32px, 18.8px, $black);
+	text-wrap: nowrap;
 }
 
 .message-container {
@@ -118,9 +115,37 @@ h3 {
 	text-wrap: nowrap;
 	text-overflow:ellipsis;
 	overflow: hidden;
+	border-radius: 20px;
+	padding: 12px;
+	@include dFlex(column, start, start);
+	gap: 12px;
+	>span {
+		@include Nunito(400, 16px, 18.8px, $black);
+
+	}
+
+	&:hover {
+		background-color: $bg-color;
+	}
+}
+
+.message-avatar {
+
+	@include dFlex( start, start);
+	gap: 8px;
 	>img {
 		width: 40px;
 		height: 40px;
 		border-radius: 50%;
+		border: 2px solid $white;
+	}
+	
+}
+
+.message-text {
+	@include dFlex(column, start, start);
+	gap: 4px;
+	>span:first-child {
+		@include Nunito(700, 16px, 18.8px, $black);
 	}
 }
