@@ -168,7 +168,7 @@ setMessageAnswer(obj: any, id: string): MessageAnswer{
     };
       const docRef = await this.addMessageAnswer(newMessage);
       await this.updateMessageAnswerId(docRef);
-      await this.updateMessageAnswerCountAndTime(this.chatService.messageId, message.time.toString(), 'increase');
+      await this.updateMessageAnswerCountAndTime(this.chatService.messageId, Date.now().toString(), 'increase');
       await this.chatService.updateMessageThreadId(message.messageId, docRef.id);
   }
 
