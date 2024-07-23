@@ -12,6 +12,7 @@ import { PrivateMessageComponent } from '../private-message/private-message.comp
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CurrentUserProfileComponent } from './current-user-profile/current-user-profile.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
+import { MobileUserMenuComponent } from './mobile-user-menu/mobile-user-menu.component';
 import { ChannelDetailsComponent } from './channel/channel-details/channel-details.component';
 import { CommunicationService } from '../../services/communication/communication.service';
 import { AddMembersToChannelComponent } from './channel/add-members-to-channel/add-members-to-channel.component';
@@ -35,6 +36,7 @@ import { SearchService } from '../../services/search/search.service';
 		UserProfileComponent,
 		CurrentUserProfileComponent,
 		UserMenuComponent,
+		MobileUserMenuComponent,
 		ChannelDetailsComponent,
 		AddMembersToChannelComponent,
 		ChannelMemberComponent
@@ -66,6 +68,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 	isAddMembersToChannelVisible: boolean = false;
 	// channel members
 	isChannelMemberVisible: boolean = false;
+
+
+	//mobile view variables
+	isMobileUserMenuVisible: boolean = true;
+
+
 
 	ngOnInit(): void {
 		this.firebaseService.getCurrentUserId();
