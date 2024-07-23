@@ -58,31 +58,17 @@
 		background-color: $white;
 		display: none;
 
-            .menu-content {
-                @include dFlex(row,center, center);
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                padding: 10px;
-                gap: 10px;
-                &:hover img {
-                    filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
-                }
-                &:hover {
-                    background-color: $bg-color;
-                }
-            }
-        }
-    .user-avatar {
-        @include dFlex(row,flex-end, flex-start);
-        width: 15%;
-        img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-        }
-    }
-
+		.menu-content {
+			@include dFlex(row, center, center);
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			padding: 10px;
+			gap: 10px;
+			&:hover img {
+				filter: invert(57%) sepia(94%) saturate(4679%)
+					hue-rotate(221deg) brightness(100%) contrast(91%);
+			}
 			&:hover {
 				background-color: $bg-color;
 			}
@@ -116,57 +102,80 @@
 			}
 		}
 
-        .msg-bottom {
-            @include dFlex(row,flex-start, center);
-            gap: 20px;
-            span {
-                @include Nunito(400, 18px, 24.55px, $purple-3);
-                text-wrap: nowrap;
-            }
-            p {
-                @include Nunito(400, 14px, 19.1px, $text-gray);
-                text-wrap: nowrap;
-            }
-        }
-        .reactions-container {
-            @include dFlex(row,flex-start, center);
-            width: 90%;
-            gap: 16px;
-            .last-reaction {
-                @include dFlex(row, center, center);
-                width: 64px;
-                height: 34px;
-                border-radius: 20px;
-                border: solid 1px $light-purple-lines;
-                padding: 5px 10px 5px 10px;
-                gap: 10px;
-                background-color: $white;
-                    .emoji-container {
-                    @include dFlex(row, center, center);
-                    width: 24px;
-                    height: 24px;
-                    }
-                    .emoji-counter {
-                        @include Nunito(400, 16px, 21.82px, $black);
-                    }
-                }
-                .add-reaction {
-                    @include dFlex(row,center, center);
-                    width: 36px;
-                    height: 34px;
-                    border-radius: 50%;
-                    padding: 5px;
-                    gap: 10px;
-                    background-color: $white;
-                    &:hover img {
-                        filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
-                    }
-                    &:hover {
-                        background-color: $bg-color;
-                    }
-                }
-            }
-    }
+		.msg {
+			@include dFlex(column, flex-end, flex-start);
+			min-height: 55px;
+			height: fit-content;
+			max-width: 90%;
+			border-radius: 0 30px 30px 30px;
+			padding: 15px;
+			gap: 8px;
+			background-color: $bg-color;
+			span {
+				@include Nunito(400, 18px, 24.55px, $black);
+				text-wrap: wrap;
+				text-align: start;
+			}
+			p {
+				@include Nunito(400, 14px, 19.1px, $white);
+				text-wrap: wrap;
+				height: fit-content;
+				text-align: end;
+			}
+		}
+
+		.msg-bottom {
+			@include dFlex(row, flex-start, center);
+			gap: 20px;
+			span {
+				@include Nunito(400, 18px, 24.55px, $purple-3);
+				text-wrap: nowrap;
+			}
+			p {
+				@include Nunito(400, 14px, 19.1px, $text-gray);
+				text-wrap: nowrap;
+			}
+		}
+		.reactions-container {
+			@include dFlex(row, flex-start, center);
+			width: 90%;
+			gap: 16px;
+			.last-reaction {
+				@include dFlex(row, center, center);
+				width: 64px;
+				height: 34px;
+				border-radius: 20px;
+				border: solid 1px $light-purple-lines;
+				padding: 5px 10px 5px 10px;
+				gap: 10px;
+				background-color: $white;
+				.emoji-container {
+					@include dFlex(row, center, center);
+					width: 24px;
+					height: 24px;
+				}
+				.emoji-counter {
+					@include Nunito(400, 16px, 21.82px, $black);
+				}
+			}
+			.add-reaction {
+				@include dFlex(row, center, center);
+				width: 36px;
+				height: 34px;
+				border-radius: 50%;
+				padding: 5px;
+				gap: 10px;
+				background-color: $white;
+				&:hover img {
+					filter: invert(57%) sepia(94%) saturate(4679%)
+						hue-rotate(221deg) brightness(100%) contrast(91%);
+				}
+				&:hover {
+					background-color: $bg-color;
+				}
+			}
+		}
+	}
 }
 
 //current-user-msg-->
@@ -207,10 +216,10 @@
 
 			&:hover {
 				background-color: $bg-color;
-				img {
-					filter: invert(57%) sepia(94%) saturate(4679%)
-						hue-rotate(221deg) brightness(100%) contrast(91%);
-				}
+			}
+			&:hover img {
+				filter: invert(57%) sepia(94%) saturate(4679%)
+					hue-rotate(221deg) brightness(100%) contrast(91%);
 			}
 		}
 		.edit-msg-menu {
