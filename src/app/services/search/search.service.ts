@@ -3,7 +3,7 @@ import { Channel } from './../../models/channel.class';
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
 import { Observable, of, Subscription } from 'rxjs';
-import { DocumentData, Firestore, collection, doc, onSnapshot, orderBy, query, where, } from '@angular/fire/firestore';
+import { DocumentData, Firestore, collection, doc, getDocs, onSnapshot, orderBy, query, where, } from '@angular/fire/firestore';
 import { User } from '../../../app/models/user.class';
 import { ChatService } from '../chat/chat.service';
 import { Message } from '../../models/message.class';
@@ -219,23 +219,20 @@ export class SearchService {
 	 * Subscribes to changes in the messages collection for each private chat.
 	 * Updates the `privteMessageSearchResults` array with the retrieved messages.
 	 */
-	getPrivateChatMessages() {
+	async getPrivateChatMessages() {
 		if(this.unsubPrivteMessageList){
 			this.unsubPrivteMessageList();
 		}
 		this.privateMessageSearchResults  = [];
-		this.firebaseService.privateChatList.forEach((chat) => {
+		for (const chat of this.firebaseService.privateChatList) {
 			const collectionRef = collection(this.firestore, `privateChats/${chat.privatChatId}/messages`);
 			const q = query(collectionRef, orderBy('time'));
-			this.unsubPrivteMessageList = onSnapshot(q, (querySnapshot) => {
-				querySnapshot.forEach((doc) => {
-					const data = doc.data();
-					this.privateMessageSearchResults.push(data);
-				});
+			const querySnapshot = await getDocs(q);
+			querySnapshot.forEach((doc) => {
+				const data = doc.data();
+				this.privateMessageSearchResults.push(data);
 			});
-		});
-		console.log("All private masseges",this.privateMessageSearchResults);
-		
+		}
 	}	
 
 	/**
@@ -244,34 +241,37 @@ export class SearchService {
 	 * Updates the `channelMessageSearchResults` array with the retrieved messages.
 	 */
 
-	getChannelMessages() {
+	async getChannelMessages() {
 		if(this.unsubChannelMessageList){
 			this.unsubChannelMessageList();
 		}
 		this.channelMessageSearchResults = [];
-		this.firebaseService.channelList.forEach((channel) => {
+		for (const channel of this.firebaseService.channelList) {
 			const collectionRef = collection(this.firestore, `channels/${channel.chanId}/messages`);
 			const q = query(collectionRef, orderBy('time'));
-			this.unsubChannelMessageList = onSnapshot(q, (querySnapshot) => {
-				querySnapshot.forEach((doc) => {
-					const data = doc.data();
-					this.channelMessageSearchResults.push(data);
-					console.log("All channel masseges",this.channelMessageSearchResults);
-				});
+			const querySnapshot = await getDocs(q);
+			querySnapshot.forEach((doc) => {
+				const data = doc.data();
+				if(data['answerCount'] > 0) {
+
+				}
+				this.channelMessageSearchResults.push(data);
 			});
-		});
+		}
 	}
 
 	searchSesificMessage(searchText: string) {
 		let searchTextTrimmed = searchText.toLowerCase().trim();
 		this.searchSpesificPrivetMessageResault = [];
 		this.searchSpesificChannelMessageResault = [];
-		this.privateMessageSearchResults .forEach((message) => {
+
+		console.log("searchSpesificPrivetMessageResault", this.searchSpesificPrivetMessageResault);
+		
+		this.privateMessageSearchResults.forEach((message) => {
 			if (message['text'].toLowerCase().includes(searchTextTrimmed)) {
 				this.searchSpesificPrivetMessageResault.push(message);
 			}
 		});
-		console.log("searchSpesificPrivetMessageResault",this.searchSpesificPrivetMessageResault);
 		
 		this.channelMessageSearchResults.forEach((message) => {
 			if (message['text'].toLowerCase().includes(searchTextTrimmed)) {
