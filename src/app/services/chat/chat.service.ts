@@ -565,13 +565,13 @@ export class ChatService {
 			user: this.firebaseService.currentUserId,
 			message_id: messageId,
 			amount: 1,
-			nativeEmoji: nativeEmoji,			
+			nativeEmoji: nativeEmoji,		
 		};
 		console.log('newReaction:', newReaction);
-		this.addReaction(reactionId, messageId);
+		this.addReaction(newReaction, messageId);
 	}
 
-	async addReaction(newReaction: string, messageId: string):Promise<void> {
+	async addReaction(newReaction: Reaction, messageId: string):Promise<void> {
 		console.log('reaction:', newReaction);
 		try {
 			const messageDocRef = doc(
