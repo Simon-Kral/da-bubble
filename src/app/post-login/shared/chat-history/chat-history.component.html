@@ -15,16 +15,18 @@
 		<!--msg-menu-->
 		<div class="msg-menu">
 			<div class="pointer menu-content">
-				<img
-					src="assets/img/icons/add_reaction_black.png"
-					alt="menu-icon"
-				/><!--Placeholder for last 2 reactions-->
+				@for (reaction of msg.reactions; track reaction; let index = $index) {
+					@if (index == msg.reactions.length - 1) {
+						<div class="emoji-container" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
+					}
+				}
 			</div>
 			<div class="pointer menu-content">
-				<img
-					src="assets/img/icons/add_reaction_black.png"
-					alt="menu-icon"
-				/><!--Placeholder for last 2 reactions-->
+				@for (reaction of msg.reactions; track reaction; let index = $index) {
+					@if (index == msg.reactions.length - 2) {
+						<div class="emoji-container" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
+					}
+				}
 			</div>
 			<div
 				class="pointer menu-content reaction-icon"
@@ -150,16 +152,18 @@
 		<!--msg-menu only show for current user-->
 		<div class="msg-menu">
 			<div class="menu-content">
-				<img
-					src="assets/img/icons/add_reaction_black.png"
-					alt="menu-icon"
-				/><!--Placeholder for last 2 reactions-->
+				@for (reaction of msg.reactions; track reaction; let index = $index) {
+					@if (index == msg.reactions.length - 1) {
+						<div class="emoji-container" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
+					}
+				}
 			</div>
 			<div class="pointer menu-content">
-				<img
-					src="assets/img/icons/add_reaction_black.png"
-					alt="menu-icon"
-				/><!--Placeholder for last 2 reactions-->
+				@for (reaction of msg.reactions; track reaction; let index = $index) {
+					@if (index == msg.reactions.length - 2) {
+						<div class="emoji-container" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
+					}
+				}
 			</div>
 			<div
 				class="pointer menu-content"
@@ -298,12 +302,14 @@
 			/>
 		</div>
 	</div>
-	<!-- emoji Picker-->
-	@if (index === emojiPickerIndex) { @if (showEmojiPicker) {
-	<div class="emoji-picker-container">
-		<emoji-mart (emojiClick)="this.reactionService.setReaction($event, msg.messageId)"></emoji-mart>
-	</div>
-	} } } }
+			<!-- emoji Picker-->
+			@if (index === emojiPickerIndex) { @if (showEmojiPicker) {
+				<div class="emoji-picker-container">
+					<emoji-mart (emojiClick)="this.reactionService.setReaction($event, msg.messageId)"></emoji-mart>
+				</div>
+				} }
+	} 
+}
 	<!--popUp overlay for editing specific current user msg-->
 	@if (showEditMsgOverlay) {
 	<div class="edit-msg-overlay">
