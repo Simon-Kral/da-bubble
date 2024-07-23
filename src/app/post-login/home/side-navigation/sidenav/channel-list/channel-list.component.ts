@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component,  inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { Firestore, collection, onSnapshot, orderBy, query } from '@angular/fire/firestore';
+import { RouterModule } from '@angular/router';
+import { Firestore } from '@angular/fire/firestore';
 import { FirebaseService } from '../../../../../services/firebase/firebase.service';
 import { ChatService } from '../../../../../services/chat/chat.service';
 import { CommunicationService } from '../../../../../services/communication/communication.service';
@@ -13,7 +13,7 @@ import { ThreadService } from '../../../../../services/thread/thread.service';
   templateUrl: './channel-list.component.html',
   styleUrl: './channel-list.component.scss'
 })
-export class ChannelListComponent implements OnInit, OnDestroy{
+export class ChannelListComponent  {
 
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
@@ -22,15 +22,9 @@ export class ChannelListComponent implements OnInit, OnDestroy{
   threadService = inject(ThreadService);
   selectedChannel: string | null = null;
 
-  constructor(private router: Router) { }
+  constructor() { }
 
-  ngOnInit(): void{
-	
-  }
 
-  ngOnDestroy(): void{
-
-  }
  /**
  * Handles the click event on a channel.
  * Sets the relevant chat service properties and subscribes to the message list of the selected channel.

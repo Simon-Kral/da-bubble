@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
-import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc } from '@angular/fire/firestore';
+import { query, orderBy, where, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc, deleteDoc, increment, DocumentReference } from '@angular/fire/firestore';
 import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,41 +10,26 @@ import { ActivatedRoute, Router } from '@angular/router';
   providedIn: 'root'
 })
 export class ChatService {
-
   firebaseService = inject(FirebaseService);
   firestore: Firestore = inject(Firestore);
 
-
-  msgList: Message[] = [];  // will get used to store msgs from prvt chats or channels
+  msgList: Message[] = [];  
 
   unsubscribeMsgList: any;
   unsubscribeMsgAnswerList: any;
-
-  //variabel for new private chat 
   newPrivateChatId: string = '';
-
-  //variable for placeholder Name of shared input field
   placeholderName: string = '';
-  // variable fto store ID of chatReciver
   chatCreator = '';
-
-	// variabels needed for chathistory (editing msg´s)
-	mainCollection:string = '';  // will get used to store name of maincollection (privateChats or channels)
-
-	docRef:string = '';  // will get used to store the docRef of the currently displayed doc (privateChats or channels)
-
-  editMessageId:string = '';  // will get used to store the id of the message that should get edited
-
-  messageId: string = '';  // This is the message ID that the thread is related to
-
-  selectedPrivateChatReciver: string = '';  // will get used to store the id of the selected private chat reciver
+	mainCollection:string = ''; 
+	docRef:string = ''; 
+  editMessageId:string = ''; 
+  editThreadId:string = ''; 
+  messageId: string = '';  
+  selectedPrivateChatReciver: string = '';  
 
 
   constructor(private router: Router, private route: ActivatedRoute) { 
   }
-
-    
-
 
   subscribeAllLists() {
     this.subscribeMsgList();
@@ -55,38 +40,6 @@ export class ChatService {
       this.unsubscribeMsgList();
     }
   }
-
-
-  async onMessageSent(event: { message: string, source: string, timestamp: number }) {
-    switch (event.source) {
-      case 'privateMessage':
-        this.sendMessage(event.message, event.timestamp);   
-        break;
-      case 'privateNote':
-        this.sendMessage(event.message, event.timestamp);   
-        break;
-
-      case 'channel':
-        this.sendMessage(event.message, event.timestamp);   
-        break;  
-
-      case 'newMessage':
-        if (this.mainCollection === 'privateChats') {
-          await this.initializePrivateChat(this.firebaseService.currentUser.userId, this.selectedPrivateChatReciver);
-          await this.sendMessage(event.message, event.timestamp);
-        } 
-        
-        else if (this.mainCollection === 'channels') {  
-        this.sendMessage(event.message, event.timestamp);
-        this.router.navigate(['/home/channels', this.docRef]);
-        }
-        break;
-        default:
-        console.warn('Invalid destination collection:');
-        break;
-    }
-  }
-  
 
 // code for fetching messages from private chat or channels
 /**
@@ -131,10 +84,14 @@ setMessage(obj: any, id: string): Message{
     time: obj.time || '',
     messageSendBy: obj.messageSendBy || '',
     reactions: obj.reactions || [],
+    threadId: obj.threadId || '',
     answerCount: obj.answerCount || 0,
     lastAnswer: obj.lastAnswer || '',
+    editCount: obj.editCount || 0,
+    lastEdit: obj.lastEdit || '',
   };
 }
+
   /**
    * Retrieves the text of a message from a specific doc in Firestore.
    * @param {string} mainCollection - The name of the main collection.
@@ -171,29 +128,77 @@ async updateMessage(newText: string): Promise<void> {
   try {
     const messageDocRef = doc(this.firestore, `${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`);
     await updateDoc(messageDocRef, {
-      text: newText
+      text: newText,
+      editCount: increment(1),
+      lastEdit: Date.now().toString(),
     });
-    console.log('Message text updated successfully');
   } catch (error) {
     console.error('Error updating message text:', error);
     throw error;
   }
 }
 
-// general helper functions code to display messages
 /**
- * Formats a Unix timestamp string into the format "HH:mm Uhr".
+ * Updates the text of a thread messageAnswer document in Firestore.
  *
- * @param {string} timestampStr - The Unix timestamp string to be formatted.
- * @returns {string} The formatted time string in the format "HH:mm Uhr".
- * @throws {Error} Throws an error if the input format is incorrect.
+ * This function updates the text of a message in the messageAnswer subcollection. 
+ * It increments the edit count and sets the last edit time to the current system time in milliseconds.
+ *
+ * @param {string} newText - The new text to update in the thread message document.
+ * @param {string} threadId - The ID of the thread message document to be updated.
+ * @returns {Promise<void>} A promise that resolves when the thread message text is updated.
+ * @throws Will throw an error if the update operation fails.
  */
-formatTimeString(timestampStr: string): string {
-  const timestamp = parseInt(timestampStr, 10);
-  const date = new Date(timestamp);
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  return `${hours}:${minutes} Uhr`;
+async updateInitialThreadMessage(newText: string, threadId: string): Promise<void> {
+  try {
+    const messageDocRef = doc(this.firestore, `${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}/messageAnswers/${threadId}`);
+    await updateDoc(messageDocRef, {
+      text: newText,
+      editCount: increment(1),
+      lastEdit: Date.now().toString(),
+    });
+  } catch (error) {
+    console.error('Error updating message text:', error);
+    throw error;
+  }
+}
+
+/**
+ * Deletes a message document from Firestore, including all documents in the messageAnswers subcollection.
+ * 
+ * @returns {Promise<void>} A promise that resolves when the message and its subcollection are successfully deleted.
+ * @throws Will throw an error if the deletion fails.
+ */
+async deleteMessage(): Promise<void> {
+  try {
+    const messageDocRef = doc(this.firestore, `${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`);
+
+    await this.deleteSubcollection(messageDocRef);
+    await deleteDoc(messageDocRef);
+  } catch (error) {
+    console.error('Error deleting message:', error);
+    throw error;
+  }
+}
+
+
+/**
+ * Deletes all documents in a given subcollection.
+ * 
+ * @param {DocumentReference} messageDocRef - A reference to the message document whose subcollection is to be deleted.
+ * @returns {Promise<void>} A promise that resolves when the subcollection is successfully deleted.
+ * @throws Will throw an error if the deletion fails.
+ */
+ async deleteSubcollection(messageDocRef: DocumentReference): Promise<void> {
+  try {
+    const subcollectionRef = collection(messageDocRef.firestore, messageDocRef.path, 'messageAnswers');
+    const querySnapshot = await getDocs(subcollectionRef);
+    const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+  } catch (error) {
+    console.error('Error deleting subcollection:', error);
+    throw error;
+  }
 }
 
 //code for privateChats
@@ -211,13 +216,11 @@ async initializePrivateChat(chatCreator: string, chatReceiver: string) {
     if (this.redirectIfChatExists(existingChatId)) {
       return;
     }
-
     let newPrivateChat: PrivateChat = {
       privatChatId: '',
       chatCreator: chatCreator,
       chatReciver: chatReceiver,
     };
-
     const docRef = await this.addPrivateChat(newPrivateChat);
     await this.updatePrivateChatId(docRef);
   } catch (error) {
@@ -239,7 +242,6 @@ async addPrivateChat(privateChatData: PrivateChat): Promise<any> {
       collection(this.firestore, 'privateChats'),
       privateChatData
     );
-    console.log('Document added with ID: ', docRef.id);
     this.router.navigate(['/home/privateChats', docRef.id]);
     return docRef;
   } catch (e) {
@@ -297,13 +299,91 @@ async updatePrivateChatId(docRef: any): Promise<void> {
       privatChatId: docRef.id,
     });
     this.newPrivateChatId = docRef.id;
-    console.log('Document updated with ID: ', docRef.id);
   } catch (e) {
     console.error('Error updating document: ', e);
     throw e;
   }
 }
 
+/**
+ * Sends a message to a private chat or channel by creating a new message document in the messages subcollection.
+ * @param {string} messageText - The text of the message to be sent.
+ * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
+ */
+  async sendMessage(messageText:string) {
+      let newMessage: Message = {
+        messageId: '',
+        text: messageText,
+        chatId: this.docRef,
+        date: new Date().toLocaleDateString(),
+        time: Date.now().toString(),
+        messageSendBy: this.firebaseService.currentUser.userId,
+        reactions: [],
+        threadId: '',
+        answerCount: 0,
+        lastAnswer: '',
+        editCount: 0,
+        lastEdit: '',
+      };
+        const docRef = await this.addMessage(newMessage);
+        await this.updateMessageId(docRef);
+    }
+
+ /**
+ * Adds a new message document to the messages subcollection of a private chat or a channel.
+ *
+ * @param {Message} messageData - The data of the new message.
+ * @returns {Promise<any>} A promise that resolves with the document reference of the newly added message.
+ */
+addMessage(messageData: Message): Promise<any> {
+	try {
+	const collectionRef = collection(this.firestore, this.mainCollection, this.docRef, 'messages');
+	return addDoc(collectionRef, messageData);
+	} catch (e) {
+	console.error('Error adding message document: ', e);
+	throw e;
+	}
+}
+    
+/**
+ * Updates the message document with its own ID in the messages subcollection of a private chat.
+ *
+ * @param {any} docRef - The document reference of the newly added message.
+ * @returns {Promise<void>} A promise that resolves when the document has been successfully updated.
+ * @throws {Error} Throws an error if updating the document fails.
+ * 
+ */
+  async updateMessageId(docRef: any): Promise<void> {
+    try {
+      await updateDoc(doc(this.firestore, this.mainCollection, this.docRef, 'messages', docRef.id), {
+        messageId: docRef.id,
+      });
+    } catch (e) {
+      console.error('Error updating message document: ', e);
+      throw e;
+    }
+  }
+
+/**
+ * This function sets the threadId field of a specific message document to the provided threadId.
+ *
+ * @param {string} messageId - The ID of the message document to be updated.
+ * @param {string} threadId - The thread ID to set in the message document.
+ * @returns {Promise<void>} A promise that resolves when the threadId field is successfully updated.
+ * @throws Will throw an error if the update operation fails.
+ */
+  async updateMessageThreadId(messageId: string, threadId: string): Promise<void> {
+    try {
+      await updateDoc(doc(this.firestore, this.mainCollection, this.docRef, 'messages', messageId), {
+        threadId: threadId,
+      });
+    } catch (e) {
+      console.error('Error updating message document: ', e);
+      throw e;
+    }
+  }
+
+// code for placeholder of the shared inputfield
 /**
  * Initializes the  placeholder name based on the provided chat ID for the shared inputfiled.
  * If the current user is the chat creator, sets the chat receiver to the chat receiver from the chat data.
@@ -341,65 +421,19 @@ initializeChannelPlaceholder(channelId: string): void {
   }
 }
 
+// general helper functions code to display messages
 /**
- * Sends a message to a private chat or channel by creating a new message document in the messages subcollection.
- * @param {string} messageText - The text of the message to be sent.
- * @param {number} time - The timestamp of the message.
- * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
- */
-  async sendMessage(messageText:string, time:number) {
-      let newMessage: Message = {
-        messageId: '',
-        text: messageText,
-        chatId: this.docRef,
-        date: new Date().toLocaleDateString(),
-        time: time.toString(),
-        messageSendBy: this.firebaseService.currentUser.userId,
-        reactions: [],
-        answerCount: 0,
-        lastAnswer: '',
-      };
-
-        const docRef = await this.addMessage(newMessage);
-        await this.updateMessageId(docRef);
-    }
-
- /**
- * Adds a new message document to the messages subcollection of a private chat or a channel.
+ * Formats a Unix timestamp string into the format "HH:mm Uhr".
  *
- * @param {Message} messageData - The data of the new message.
- * @returns {Promise<any>} A promise that resolves with the document reference of the newly added message.
+ * @param {string} timestampStr - The Unix timestamp string to be formatted.
+ * @returns {string} The formatted time string in the format "HH:mm Uhr".
+ * @throws {Error} Throws an error if the input format is incorrect.
  */
-addMessage(messageData: Message): Promise<any> {
-	try {
-	const collectionRef = collection(this.firestore, this.mainCollection, this.docRef, 'messages');
-	return addDoc(collectionRef, messageData);
-	} catch (e) {
-	console.error('Error adding message document: ', e);
-	throw e;
-	}
+formatTimeString(timestampStr: string): string {
+  const timestamp = parseInt(timestampStr, 10);
+  const date = new Date(timestamp);
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes} Uhr`;
 }
-    
-/**
- * Updates the message document with its own ID in the messages subcollection of a private chat.
- *
- * @param {any} docRef - The document reference of the newly added message.
- * @returns {Promise<void>} A promise that resolves when the document has been successfully updated.
- * @throws {Error} Throws an error if updating the document fails.
- * 
- */
-  async updateMessageId(docRef: any): Promise<void> {
-    try {
-      await updateDoc(doc(this.firestore, this.mainCollection, this.docRef, 'messages', docRef.id), {
-        messageId: docRef.id,
-      });
-      console.log('Message document updated with ID: ', docRef.id);
-    } catch (e) {
-      console.error('Error updating message document: ', e);
-      throw e;
-    }
-  }
-
-
-
 }

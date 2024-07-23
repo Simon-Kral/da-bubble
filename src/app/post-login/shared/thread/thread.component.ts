@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ThreadHistoryComponent } from '../thread-history/thread-history.component';
 import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
@@ -17,29 +17,19 @@ export class ThreadComponent {
   threadService = inject(ThreadService);
   chatService = inject(ChatService);
   constructor() {}
-
-  // Default icon sources
-    close = 'assets/img/icons/close_black.png';
-  // Hover icon sources
-    closeHover = 'assets/img/icons/close_blue.png';
-  // current Icon Source
-    currentIconSourceClose = this.close;
-
-
-    /**
-	 * Handles the mouse over event for the sideNav icons.
-	 */
-	onMouseOver(): void {
-    this.currentIconSourceClose = this.closeHover;
-	}
-
-	/**
-	 * Handles the mouse out event for the specified image.
-	 */
-	onMouseOut(): void {
-    this.currentIconSourceClose = this.close;
-  }
-
+  
+/**
+ * Handles the action when the close button is clicked in the thread interface.
+ * 
+ * This function performs two actions:
+ * 1. Sets the visibility of the thread interface to true by calling `toggleThreadVisibility(true)` 
+ *    on the `communicationService`. This is typically used to hide or show the thread UI.
+ * 2. Unsubscribes from all active subscriptions related to threads by calling 
+ *    `unsubscribeAllLists()` on the `threadService`. This is usually done to clean up resources
+ *    and prevent memory leaks when closing or navigating away from the thread interface.
+ * 
+ * @returns {void}
+ */
   handleClickOnClose() {
     this.communicationService.toggleThreadVisibility(true);
     this.threadService.unsubscribeAllLists();

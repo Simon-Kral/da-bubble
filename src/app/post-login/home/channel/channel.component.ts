@@ -7,7 +7,6 @@ import { ChatService } from '../../../services/chat/chat.service';
 import { ChannelDetailsComponent } from './channel-details/channel-details.component';
 import { ChatHistoryComponent } from '../../shared/chat-history/chat-history.component';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '../../../models/user.class';
 import { ChannelMemberComponent } from './channel-member/channel-member.component';
 import { ThreadService } from '../../../services/thread/thread.service';
 @Component({
@@ -41,12 +40,12 @@ export class ChannelComponent implements OnInit, OnDestroy{
 		this.route.params.subscribe((params) => {
 			this.chatService.docRef = params['id'];
 		});
-    console.log('component initialised',this.chatService.docRef);
-
     // to-do settimeout is needed in case user refreshes the page, otherwise the placeholder is not set because the channelList is not yet loaded
     setTimeout(() => {
     this.chatService.initializeChannelPlaceholder(this.chatService.docRef);
   }, 1500);
+  	this.chatService.editThreadId = '';
+  	this.threadService.editMessageId = '';
 	}
 
 	ngOnInit(): void {
@@ -56,6 +55,8 @@ export class ChannelComponent implements OnInit, OnDestroy{
 	ngOnDestroy(): void {
 		this.chatService.unsubscribeAllLists();
 		this.threadService.unsubscribeAllLists();
+		this.chatService.editThreadId = '';
+		this.threadService.editMessageId = '';
 	}
 
 	/**
@@ -74,9 +75,6 @@ export class ChannelComponent implements OnInit, OnDestroy{
 		}
 	}
 
-	handleMessage(message: object): void {
-		console.log(message);
-	}
 
 	toggleShowChannelDetails() {
 		this.communicationService.toggleChannelDetailsVisibility(
@@ -103,9 +101,17 @@ export class ChannelComponent implements OnInit, OnDestroy{
 	}
 
 	handleClickOnMember() {
-		console.log('Member clicked');
 		this.communicationService.toggleChannelMemberVisibility(true);
 	}
 
-	
+/**
+ * This function is triggered when a message is sent and it calls the sendMessage
+ * function with the message text from the event.
+ *
+ * @param {{ message: string }} event - The event object containing the sent message text.
+ * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
+ */
+	async onMessageSent(event: { message: string }) {
+        this.chatService.sendMessage(event.message);   
+  }
 }

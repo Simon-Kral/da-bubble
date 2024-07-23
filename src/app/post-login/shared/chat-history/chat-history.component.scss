@@ -100,7 +100,7 @@
         }
 
         .msg {
-            @include dFlex(row,flex-end, flex-start);
+            @include dFlex(column,flex-end, flex-start);
             min-height: 55px;
             height: fit-content;
             max-width: 90%;
@@ -112,6 +112,12 @@
                 @include Nunito(400, 18px, 24.55px, $black);
                 text-wrap: wrap;
                 text-align: start;
+            }
+            p {
+                @include Nunito(400, 14px, 19.1px, $white);
+                text-wrap: wrap;
+                height: fit-content;
+                text-align: end;
             }
         }
 
@@ -204,11 +210,14 @@
                 &:hover {
                     background-color: $bg-color;
                 }
+                &:hover img {
+                    filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
+                }
             }
             .edit-msg-menu {
-                @include dFlex(row,center, center);
+                @include dFlex(column,center, center);
                 width: 269px;
-                height: 67px;
+                height: 124px;
                 border-radius: 0 30px 30px 30px;
                 padding: 10px 20px 10px 20px;
                 gap: 15px;
@@ -218,7 +227,7 @@
                 right: -230px;
                 box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1); //to-do adjust shaddow
                 z-index: 2;
-                display: none;
+
                 .edit-msg {
                     @include dFlex(row,center, center);
                     width: 229px; 
@@ -230,7 +239,6 @@
                     &:hover {
                         background-color: $bg-color;
                     }
-
                     &:hover span {
                         @include Nunito(700, 20px, 27.28px, $purple-3); 
                     }
@@ -273,7 +281,7 @@
         }
 
         .current-user-msg {
-            @include dFlex(row,flex-end, flex-start);
+            @include dFlex(column,flex-end, flex-start);
             min-height: 55px;
             height: fit-content;
             width: fit-content;
@@ -284,6 +292,12 @@
             background-color: $purple-2;
             span {
                 @include Nunito(400, 18px, 24.55px, $white);
+                text-wrap: wrap;
+                height: fit-content;
+                text-align: end;
+            }
+            p {
+                @include Nunito(400, 14px, 19.1px, $white);
                 text-wrap: wrap;
                 height: fit-content;
                 text-align: end;
@@ -335,6 +349,9 @@
                 background-color: $white;
                 &:hover {
                     background-color: $bg-color;
+                }
+                &:hover img {
+                    filter: invert(46%) sepia(14%) saturate(3439%) hue-rotate(204deg) brightness(96%) contrast(98%);
                 }
             }
         }
@@ -391,13 +408,19 @@
                     gap: 5px;
                     transition: ease-in-out 0.3;
 
+
                     &:hover {
                         background-color: $bg-color;
+                    }
+
+                    &:hover img {
+                        filter: invert(46%) sepia(14%) saturate(3439%) hue-rotate(204deg) brightness(96%) contrast(98%);
                     }
 
                     img {
                         width: 24px;
                         height: 24px;
+                        transition: filter;
                     }
 
                 }
@@ -475,3 +498,74 @@
     }
 }
 
+// delete msg dialog
+
+.delete-msg-dialog {
+    @include dFlex(column,center, center);
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    padding: 10px 45px 10px 45px;
+    gap: 30px;
+    background-color: $bg-color;
+span {
+    @include Nunito(700, 18px, 24.55px, $purple-1);
+}
+.dialog-btns {
+    @include dFlex(row, space-between, center);
+    gap: 32px;
+    .cancel-btn {
+        @include dFlex(row, center, center);
+        width: 141px;
+        height: 49px;
+        border-radius: 50px;
+        border: solid 1px $purple-2;
+        padding: 12px 25px 12px 25px;
+        gap: 10px;
+        background-color: $white;
+        transition: ease-in-out 0.3;
+        span {
+            @include Nunito(700, 18px, 24.55px, $purple-1);
+        }
+
+        &:hover {
+            background-color: $purple-1;
+            border: none;
+        }
+
+        &:hover span {
+            @include Nunito(700, 18px, 24.55px, $white);
+        }
+    }
+    .delete-btn {
+        @include dFlex(row, center, center);
+        width: 133px;
+        height: 49px;
+        border-radius: 50px;
+        padding: 12px 25px 12px 25px;
+        gap: 10px;
+        background-color: $white;
+        border: solid 1px $online-red;
+        transition: ease-in-out 0.3;
+        span {
+            @include Nunito(700, 18px, 24.55px, $online-red);
+        }
+        &:hover {
+            background-color: $online-red;
+        }
+
+        &:hover span {
+            @include Nunito(700, 18px, 24.55px, $white);
+        }
+    }
+}
+
+}
+.emoji-picker-container {
+    position: absolute;
+    bottom: 0;
+    left: 16px;
+}

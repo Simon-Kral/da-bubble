@@ -24,26 +24,6 @@ export class ChannelMemberComponent {
 	@Input() isChannelMemberVisible: boolean = false;
 	@Output() channelMemberVisibilityChange = new EventEmitter<boolean>();
 
-	// Default icon sources
-	close = '../../../../assets/img/icons/close_black.png';
-	// Hover icon sources
-	closeHover = '../../../../assets/img/icons/close_blue.png';
-	// current Icon Source
-	currentIconSourceClose = this.close;
-
-	/**
-	 * Handles the mouse over event for the sideNav icons.
-	 */
-	onMouseOver(): void {
-		this.currentIconSourceClose = this.closeHover;
-	}
-
-	/**
-	 * Handles the mouse out event for the specified image.
-	 */
-	onMouseOut(): void {
-		this.currentIconSourceClose = this.close;
-	}
 	/**
 	 * Handles the click event on a member ond toggles the visibility of the user profile or the current user profile.
 	 *

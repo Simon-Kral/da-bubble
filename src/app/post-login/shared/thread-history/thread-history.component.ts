@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { ChatService } from '../../../services/chat/chat.service';
 import { CommunicationService } from '../../../services/communication/communication.service';
@@ -6,13 +6,14 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ThreadService } from '../../../services/thread/thread.service';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 interface MsgData {
   text: string;
 }
 @Component({
   selector: 'app-thread-history',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, PickerComponent],
   templateUrl: './thread-history.component.html',
   styleUrl: './thread-history.component.scss'
 })
@@ -21,23 +22,8 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
   threadService = inject(ThreadService);
-
-    // Edit message menu
-    editMsgMenu: boolean = false;
-
-    // Default icon sources
-    moreVert = 'assets/img/icons/more_vert_black.png';
-    comment = 'assets/img/icons/comment_black.png';
-    addReaction = 'assets/img/icons/add_reaction_black.png';
-    // Hover icon sources
-    moreVertHover = 'assets/img/icons/more_vert_blue.png';
-    commentHover = 'assets/img/icons/comment_blue.png';
-    addReactionHover = 'assets/img/icons/add_reaction_blue.png';
-    // current Icon Source
-    currentIconSourceMoreVert = this.moreVert;
-    currentIconSourceComment = this.comment;
-    currentIconSourceAddReaction = this.addReaction;
-  
+  showEmojiPicker: boolean = false;
+  emojiPickerIndex: number = 0;
     // Edit message variables
     showEditMsgOverlay: boolean = false;
     currentMsgData: MsgData;
@@ -63,36 +49,13 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
     this.threadService.unsubscribeAllLists();
   }
 
-  openEditMsgMenu() {
-    this.editMsgMenu = !this.editMsgMenu;
+  toggleMsgMenu() {
+    this.communicationService.isMsgMenuThreadVisible = !this.communicationService.isMsgMenuThreadVisible;
   }
-
-  onMouseOver(imgName: string) : void {
-    switch (imgName) {
-      case 'moreVert':
-        this.currentIconSourceMoreVert = this.moreVertHover;
-        break;
-      case 'comment':
-        this.currentIconSourceComment = this.commentHover;
-        break;
-      case 'addReaction':
-        this.currentIconSourceAddReaction = this.addReactionHover;
-        break;
-    }
-  }
-
-  onMouseOut(imgName: string) : void {
-    switch (imgName) {
-      case 'moreVert':
-        this.currentIconSourceMoreVert = this.moreVert;
-        break;
-      case 'comment':
-        this.currentIconSourceComment = this.comment;
-        break;
-      case 'addReaction':
-        this.currentIconSourceAddReaction = this.addReaction;
-        break;
-    }
+  
+  toggleEmojiPicker(index: number) {
+    this.showEmojiPicker = !this.showEmojiPicker;
+    this.emojiPickerIndex = index;
   }
 
   // edit msg functions
@@ -102,29 +65,54 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
  *
  * @param {string} messageAnswerId - The ID of the message to be edited.
  */
-  handleClickOnEditMsg(messageAnswerId: string) {
+  handleClickOnEditMsg(messageAnswerId: string, messageId: string, index: number) {
+    this.toggleMsgMenu();
     this.threadService.editMessageAnswerId = messageAnswerId;  // set the id of the message to be edited into the chatService
-    console.log('Message Answer ID:', messageAnswerId);
-     this.loadMessageText();                     // load the text of the message to be edited
+    if (index == 0) {
+    this.threadService.editMessageId = messageId;
+    }
+    this.loadMessageText();                     // load the text of the message to be edited
     this.showEditMsgOverlay = true;             // show the edit message overlay
+  }
+
+  // delete msg functions
+  handleClickOnDeleteMsg(messageId:string, messageAnswerId: string) {
+    this.toggleMsgMenu();
+    this.communicationService.isDeleteThreadMsgDialogVisible = true;
+    this.threadService.chatService.editMessageId = messageId;
+    this.threadService.editMessageAnswerId = messageAnswerId;  
+  }
+
+  handleClickOnCancelDeleteMsg() {
+    this.communicationService.isDeleteThreadMsgDialogVisible = false;
+    this.threadService.editMessageAnswerId = '';  
+  }
+
+  handleClickOnConfirmDeleteMsg() {
+    this.communicationService.isDeleteThreadMsgDialogVisible = false;
+    this.threadService.deleteMessageAnswer();
   }
 
   /**
   * Handles the submission of the edited message.
-   * Closes the edit message menu, validates the new message text, updates the message, and closes the edit message overlay.
-  *
+  * Closes the edit message menu, validates the new message text, updates the message, and closes the edit message overlay.
+  * Updates the initial message 
   * @returns {Promise<void>} A promise that resolves when the message text has been successfully updated.
   */
   async onSubmitEditMsgAnswer() {
-    this.editMsgMenu = false;                         // close the edit message menu
-    if (this.newMsgData.valid) {                      // check if the new message text is valid
-      const updatedText = this.newMsgData.value.text; // get the new message text
+    if (this.newMsgData.valid) {                     
+      const updatedText = this.newMsgData.value.text;
       try {
-        await this.threadService.updateMessageAnswer(         // update the message text
+        await this.threadService.updateMessageAnswer(       
           updatedText
         );
         console.log('Message text updated successfully');
-        this.showEditMsgOverlay = false;              // close the edit message overlay
+        if (this.threadService.editMessageId) { 
+          await this.threadService.updateInitialMessage(updatedText);
+          console.log('Thread message text updated successfully');
+        }
+        this.threadService.editMessageId = '';
+        this.showEditMsgOverlay = false;              
       } catch (error) {
         console.error('Error updating message text:', error);
       }
@@ -137,7 +125,6 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
   */
   handleClickOnCancel() {
     this.showEditMsgOverlay = false;
-    this.editMsgMenu = false;
   }
   
   /**

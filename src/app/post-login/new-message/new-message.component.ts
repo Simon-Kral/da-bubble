@@ -3,8 +3,9 @@ import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
 import { ChatService } from '../../services/chat/chat.service';
 import { SearchService } from '../../services/search/search.service';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FirebaseService } from '../../services/firebase/firebase.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-new-message',
   standalone: true,
@@ -26,10 +27,11 @@ export class NewMessageComponent implements OnDestroy {
   showChannels: boolean = false;
   isFocusActive: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
 		this.searchText = this.fb.group({
 			search: ['']
 		});
+    this.chatService.placeholderName = '';
 	}
 
   ngOnDestroy() {
@@ -37,7 +39,7 @@ export class NewMessageComponent implements OnDestroy {
     this.chatService.selectedPrivateChatReciver = '';
     this.searchService.selectedChannel = '';
   }
-
+  // to-do shorten this function
   handleSearch() {
     let searchInput  = this.searchText.get('search')?.value || '';
     this.searchInput = searchInput;
@@ -120,5 +122,21 @@ handleFocus() {
   this.showChannels = false;
   this.showUsersByEmail = false;
 }
-
+/**
+ * This function is triggered when a message is sent and it calls the sendMessage
+ * function with the message text from the event.
+ *
+ * @param {{ message: string }} event - The event object containing the sent message text.
+ * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
+ */
+async onMessageSent(event: { message: string }) {
+  if (this.chatService.mainCollection === 'privateChats') {
+    await this.chatService.initializePrivateChat(this.firebaseService.currentUser.userId, this.chatService.selectedPrivateChatReciver);
+    await this.chatService.sendMessage(event.message);
+  } 
+  else if (this.chatService.mainCollection === 'channels') {  
+  this.chatService.sendMessage(event.message);
+  this.router.navigate(['/home/channels', this.chatService.docRef]);
+  }  
+}
 }

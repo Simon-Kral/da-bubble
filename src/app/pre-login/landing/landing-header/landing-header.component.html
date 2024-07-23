@@ -1,4 +1,8 @@
-<header [@intro]="introAnimationStarted" (@intro.done)="onAnimationDone()">
+<header
+	[@intro]="introAnimationStarted"
+	(@intro.done)="onAnimationDone()"
+	[@.disabled]="appComponent.introIsDisabled"
+>
 	<div class="logo-with-text">
 		<img src="assets/img/logos/da_bubble_logo.png" />
 		<div class="span-wrap">

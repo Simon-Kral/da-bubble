@@ -16,7 +16,6 @@ import { ChannelSelectionComponent } from './post-login/home/channel/channel-sel
 import { applyActionCode, User } from '@angular/fire/auth';
 import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 
-
 @Component({
 	selector: 'app-root',
 	standalone: true,
@@ -34,7 +33,7 @@ import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 		ThreadComponent,
 		ChannelMemberComponent,
 		ChannelMemberSelectionComponent,
-		ChannelSelectionComponent
+		ChannelSelectionComponent,
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
@@ -46,6 +45,7 @@ export class AppComponent implements OnInit {
 	router = inject(Router);
 	notificate: boolean = false;
 	notification: string = '';
+	introIsDisabled: boolean = false;
 
 	/**
 	 * Constructor to initialize the component with the activated route.

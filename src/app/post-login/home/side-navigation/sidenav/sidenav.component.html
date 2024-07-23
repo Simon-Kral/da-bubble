@@ -9,14 +9,8 @@
         />
         <h1>Devspace</h1>
       </div>
-      <div class="sidenav-headline-right pointer" [routerLink]="['/home/new-message']"
-      (mouseover)="onMouseOver('editSquare')"
-      (mouseout)="onMouseOut('editSquare')">
-        <img
-          class=""
-          [src]="currentIconSourceEditSquare"
-          alt="edit-icon"
-        />
+      <div class="sidenav-headline-right pointer" [routerLink]="['/home/new-message']">
+        <img src="assets/img/icons/edit_square_black.png" alt="edit-icon"/>
       </div>
     </div>
 
@@ -24,33 +18,15 @@
       <div class="channels-headline-wrapper">
         <div
           class="pointer channels-sidenav-left"
-          (click)="toggleChannels()"
-          (mouseover)="onMouseOver('channels')"
-          (mouseout)="onMouseOut('channels')"
-        >
-          <img
-            class=""
-            [src]="currentIconSourceDownArrowChannels"
-            alt="arrow-icon"
-          />
-          <img
-            class=""
-            [src]="currentIconSourceWorkspace"
-            alt="workspaces-icon"
-          />
+          (click)="toggleChannels()">
+          <img [ngClass]="{'rotate-90-plus': chanListExpanded, 'rotate-back': !chanListExpanded}" src="assets/img/icons/arrow_drop_down_closed_black.png" alt="arrow-icon"/>
+          <img src="assets/img/icons/workspaces_black.png" alt="workspaces-icon"/>
           <h2>Channels</h2>
         </div>
         <div
           class="channels-sidenav-right pointer"
-          (click)="toggleCreateChannelVisibility()"
-          (mouseover)="onMouseOver('addChannelFromHeadline')"
-          (mouseout)="onMouseOut('addChannelFromHeadline')"
-        >
-          <img
-            class=""
-            [src]="currentIconSourceAdd"
-            alt="add-icon"
-          />
+          (click)="toggleCreateChannelVisibility()" >
+          <img src="assets/img/icons/add_black.png" alt="add-icon"/>
         </div>
       </div>
 
@@ -59,15 +35,8 @@
         <app-channel-list></app-channel-list>
         <div
           class="pointer add-channel"
-          (click)="toggleCreateChannelVisibility()"
-          (mouseover)="onMouseOver('addChannelFromList')"
-          (mouseout)="onMouseOut('addChannelFromList')"
-        >
-          <img
-            class=""
-            [src]="currentIconSourceAddCircle"
-            alt="add-icon"
-          />
+          (click)="toggleCreateChannelVisibility()">
+          <img src="assets/img/icons/add_circle_black.png" alt="add-icon"/>
           <span>Channel hinzufügen</span>
         </div>
       </div>
@@ -77,20 +46,9 @@
     <div class="private-msg-container">
       <div
         class="pointer private-msg-headline"
-        (click)="togglePrivateMessages()"
-        (mouseover)="onMouseOver('privateMessages')"
-        (mouseout)="onMouseOut('privateMessages')"
-      >
-        <img
-          class=""
-          [src]="currentIconSourceDownArrowPrivateMessages"
-          alt="arrow-icon"
-        />
-        <img
-          class=""
-          [src]="currentIconSourceAccountCircle"
-          alt="account-circle-icon"
-        />
+        (click)="togglePrivateMessages()">
+        <img [ngClass]="{'rotate-90-plus': privateMsgListExpanded, 'rotate-back': !privateMsgListExpanded}" src="assets/img/icons/arrow_drop_down_closed_black.png" alt="arrow-icon"/>
+        <img src="assets/img/icons/account_circle_black.png" alt="account-circle-icon"/>
         <h2>Direktnachrichten</h2>
       </div>
       @if (privateMsgListExpanded) {

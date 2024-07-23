@@ -6,41 +6,23 @@
   <div class="button-container">
     <div class="left-section">
       <div
-        class="icon-container pointer"
-        (mouseover)="onMouseOver('add')"
-        (mouseout)="onMouseOut('add')"
-      >
-        <img [src]="iconSourceAdd" alt="" />
+        class="icon-container pointer">
+        <img src="assets/img/icons/add_grey.png" alt="icon-add" />
       </div>
-      <img
-        class=""
-        src="assets/img/icons/vertical_line_grey.png"
-        alt=""
-      />
+      <img class="" src="assets/img/icons/vertical_line_grey.png" alt="icon-vertical-line"/>
       <div
         class="icon-container pointer"
-        (mouseover)="onMouseOver('smiley')"
-        (mouseout)="onMouseOut('smiley')"
         (click)="toggleEmojiPicker()"
       >
-        <img [src]="iconSourceSmiley" alt="" />
+        <img src="assets/img/icons/smiley_grey.png" alt="icon-smiley" />
       </div>
-      <div
-        class="icon-container pointer"
-        (mouseover)="onMouseOver('alternate_email')"
-        (mouseout)="onMouseOut('alternate_email')"
-      >
-        <img [src]="iconSourceAlternateEmail" alt="" />
+      <div class="icon-container pointer">
+        <img src="assets/img/icons/alternate_email_grey.png" alt="icon-email" />
       </div>
     </div>
     <div class="right-section">
-      <button
-        class="pointer"
-        type="submit"
-        (mouseover)="onMouseOver('send')"
-        (mouseout)="onMouseOut('send')"
-      >
-        <img [src]="iconSourceSend" alt="" />
+      <button class="pointer" type="submit">
+        <img src="assets/img/icons/send_dark_blue.png" alt="icon-send" />
       </button>
     </div>
   </div>
@@ -48,5 +30,7 @@
 
 <!-- to-do needs right position-->
 @if (showEmojiPicker) {
-  <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
+  <div class="emoji-picker-container">
+    <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
+  </div>
 }

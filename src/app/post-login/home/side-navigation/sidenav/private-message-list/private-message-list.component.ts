@@ -1,12 +1,9 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Firestore, collection, onSnapshot, orderBy, query } from '@angular/fire/firestore';
-import { PrivateChat } from '../../../../../models/privateChat.class';
+import { RouterModule } from '@angular/router';
+import { Firestore } from '@angular/fire/firestore';
 import { FirebaseService } from '../../../../../services/firebase/firebase.service';
 import { ChatService } from '../../../../../services/chat/chat.service';
-import { User } from '../../../../../models/user.class';
-import { PrivateMessageComponent } from '../../../../private-message/private-message.component';
 import { CommunicationService } from '../../../../../services/communication/communication.service';
 import { ThreadService } from '../../../../../services/thread/thread.service';
 @Component({
@@ -16,24 +13,16 @@ import { ThreadService } from '../../../../../services/thread/thread.service';
   templateUrl: './private-message-list.component.html',
   styleUrl: './private-message-list.component.scss'
 })
-export class PrivateMessageListComponent implements OnInit, OnDestroy{
+export class PrivateMessageListComponent {
 
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
   threadService = inject(ThreadService);
-  constructor(private router: Router, private route: ActivatedRoute) {
 
-   }
+  constructor() { }
 
-  ngOnInit(): void{
-
-  }
-
-  ngOnDestroy(): void {
-
-  }
 
 /**
  * Handles the click event on a private note message.

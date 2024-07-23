@@ -9,6 +9,8 @@ export class MessageAnswer {
   time: string;
   messageSendBy: string;
   reactions: Reaction[];
+  editCount: number;
+  lastEdit: string;
 
   constructor(obj?: any) {
     this.messageAnswerId = obj ? obj.id : '';
@@ -18,5 +20,7 @@ export class MessageAnswer {
     this.time = obj ? obj.time : '';
     this.messageSendBy = obj ? obj.messageSendBy : '';
     this.reactions = obj ? obj.reactions : [];
+    this.editCount = obj ? obj.editCount : 0;
+    this.lastEdit = obj ? obj.lastEdit : '';
   }
 }

@@ -19,11 +19,8 @@
 			<!-- onFocus -->
 			@if (isFocusActive) {
 			<div class="search-results">
-				<div class="round-button close-icon pointer" (click)="this.handleToggleFocus()">
-					<img
-						src="assets/img/icons/close_black.png"
-						alt=""
-					/>
+				<div class="close-btn pointer" (click)="this.handleToggleFocus()">
+					<img src="assets/img/icons/close_black.png" alt="" />
 				</div>
 				<h3>Users:</h3>
 				@for (user of this.firebaseService.userList; track user; let

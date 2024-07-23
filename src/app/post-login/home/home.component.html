@@ -6,17 +6,14 @@
 	<!-- Sidenav Controller -->
 	<div
 		class="sidenav-controller pointer"
-		(click)="toggleSidenav()"
-		(mouseover)="onMouseOver()"
-		(mouseout)="onMouseOut()"
-	>
+		(click)="toggleSidenav()">
 		<span
 			>Workspace-Menü
 			{{ isSidenavVisible ? "schließen" : "öffnen" }}</span
 		>
 		<img
 			class="start-conversation"
-			[src]="currentIconSourceMenu"
+			src="../../assets/img/icons/menu_black.png"
 			alt="show-menu-icon"
 			[class.sidenav-open]="isSidenavVisible"
 			[class.sidenav-close]="!isSidenavVisible"

@@ -1,9 +1,8 @@
 <div [ngClass]="{'d-none': !isCreateChannelFormVisible}" class="create-new-channel-form-wrapper">
   <div class="top-section">
     <h1>Channel erstellen</h1>
-    <div class="pointer close-icon" (click)="toggleCreateChannelVisibility()" (mouseover)="onMouseOver()"
-      (mouseout)="onMouseOut()">
-      <img [src]="currentIconSourceClose" alt="close-icon" />
+    <div class="pointer close-btn" (click)="toggleCreateChannelVisibility()">
+      <img src="../../../../assets/img/icons/close_black.png" alt="close-icon" />
     </div>
   </div>
   <span>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie
@@ -34,9 +33,8 @@
 <div [ngClass]="{'d-none': !isAddMemberVisibleForm}" class="add-member-wrapper">
   <div class="top-section" (click)="this.toggleAddMemberFormVisibility()">
     <h1>Leute hinzufügen</h1>
-    <div class="pointer close-icon" (click)="toggleCreateChannelVisibility()" (mouseover)="onMouseOver()"
-      (mouseout)="onMouseOut()">
-      <img [src]="currentIconSourceClose" alt="close-icon" />
+    <div class="pointer close-btn" (click)="toggleCreateChannelVisibility()">
+      <img src="../../../../assets/img/icons/close_black.png" alt="close-icon" />
     </div>
   </div>
   <div class="add-member-container">

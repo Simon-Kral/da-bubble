@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Firestore, collection, onSnapshot, orderBy, query, addDoc, doc, updateDoc, getDocs, getDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, doc, updateDoc, getDoc } from '@angular/fire/firestore';
 import { Channel } from '../../../../../models/channel.class';
 import { FirebaseService } from '../../../../../services/firebase/firebase.service';
 import { SearchService } from '../../../../../services/search/search.service';
@@ -26,27 +26,16 @@ export class CreateNewChannelComponent {
   channel = new Channel();
   isCreateChannelFormVisible: boolean = true;  // to-do: Change Variable Name
   isAddMemberVisibleForm: boolean = false;
-
   showChannelSerach: boolean = false;
   showUserSearch: boolean = false;
-
-
   newChanId = '';
   chanNameExists: boolean = false;
   errorMsgChanExists: string = 'Channel Name existiert bereits!';
   errorMsgChanNameInvalid: string = 'Bitte geben Sie einen gültigen Channel-Namen ein.';
-
   searchText: FormGroup;
-
-
   selectedMembers: string[] = [];
 
-  // Default icon sources
-	close = '../../../../assets/img/icons/close_black.png';
-  // Hover icon sources
-  closeHover = '../../../../assets/img/icons/close_blue.png';
-  // current Icon Source
-  currentIconSourceClose = this.close;
+
 
   @Input() isCreateChannelVisible: boolean = false;
   @Output() createChannelVisibilityChange = new EventEmitter<boolean>();
@@ -121,7 +110,6 @@ export class CreateNewChannelComponent {
         collection(this.firestore, 'channels'),
         channelData
       );
-      console.log('Document added with ID: ', docRef.id);
       return docRef;
     } catch (e) {
       console.error('Error adding document: ', e);
@@ -140,14 +128,21 @@ export class CreateNewChannelComponent {
         chanId: docRef.id,
       });
       this.newChanId = docRef.id;
-      console.log('Document updated with ID: ', docRef.id);
     } catch (e) {
       console.error('Error updating document: ', e);
       throw e;
     }
   }
 
-
+/**
+ * Toggles the visibility of the search input fields for channels or users based on the provided name.
+ * 
+ * This function will toggle the visibility of the search input for channels or users. It will also 
+ * reset the search text and clear the selected user or channel depending on which search input is being toggled.
+ * 
+ * @param {string} name - The type of search input to toggle. It can be either 'channel' or 'user'.
+ * @returns {void}
+ */
   toggleSearchInput(name: string) {
     if (name === 'channel') {
       this.showChannelSerach = !this.showChannelSerach;
@@ -160,11 +155,23 @@ export class CreateNewChannelComponent {
       this.searchText.reset();
     }
   }
-
+  
+/**
+ * Handles adding a member to a channel.
+ *
+ * This function performs the following steps:
+ * 1. Checks if a channel is selected.
+ * 2. Extracts member IDs from the selected channel and updates the channel members array in Firestore.
+ * 3. Updates the user channels array in Firestore for the selected user.
+ * 4. Emits an event to change channel visibility and navigates to the new channel.
+ * 5. If no channel is selected but a user is selected, it directly updates the Firestore arrays and navigates to the new channel.
+ *
+ * @returns {Promise<void>} A promise that resolves when the member has been successfully added and the navigation is complete.
+ * @throws Will throw an error if any of the Firestore operations or navigation fails.
+ */
   async handleAddMember() {
     if (this.searchService.selectedChannel.length > 0) {
       await this.extractMemberIdsFromChannel(this.searchService.selectedChannel);
-      console.log('extracted member ids from channel', this.selectedMembers);
       await this.firebaseService.updateChannelMembersArray(this.newChanId, this.selectedMembers);
       await this.firebaseService.updateUserChannelsArray(this.searchService.selectedUser, this.newChanId);
       this.createChannelVisibilityChange.emit(false);
@@ -174,11 +181,13 @@ export class CreateNewChannelComponent {
       await this.firebaseService.updateChannelMembersArray(this.newChanId, this.searchService.selectedUser);
       await this.firebaseService.updateUserChannelsArray(this.searchService.selectedUser, this.newChanId);
       this.createChannelVisibilityChange.emit(false);
-      console.log('chan id of new created channel', this.newChanId)
       this.router.navigate([`/home/channels/${this.newChanId}`]);
     }
 	}
 
+/**
+ * Removes the selected channel ID from the search service.
+ */
   removeSelectedChannel() {
     this.searchService.selectedChannel = '';
   }
@@ -197,7 +206,6 @@ export class CreateNewChannelComponent {
       const channelData = channelDocSnapshot.data();
       if (channelData && channelData['members'] && Array.isArray(channelData['members'])) {
         const memberIds = channelData['members'] as string[];
-        // Update the selectedMembers array in searchService
         this.selectedMembers = Array.from(new Set([
           ...this.selectedMembers,
           ...memberIds
@@ -225,18 +233,5 @@ export class CreateNewChannelComponent {
     if (this.isAddMemberVisibleForm === false) {
       this.toggleCreateChannelVisibility();
     }
-  }
-	/**
-	 * Handles the mouse over event for the sideNav icons.
-	 */
-	onMouseOver(): void {
-    this.currentIconSourceClose = this.closeHover;
-	}
-
-	/**
-	 * Handles the mouse out event for the specified image.
-	 */
-	onMouseOut(): void {
-    this.currentIconSourceClose = this.close;
   }
 }

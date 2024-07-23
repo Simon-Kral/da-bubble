@@ -33,6 +33,8 @@ export class PrivateNoteComponent implements OnInit, OnDestroy{
       setTimeout(() => {
     this.chatService.placeholderName = this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) +' (Du)';   
   }, 1500);
+      this.chatService.editThreadId = '';
+      this.threadService.editMessageId = '';
   }
 
 
@@ -43,6 +45,17 @@ export class PrivateNoteComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
     this.chatService.unsubscribeAllLists();
     this.threadService.unsubscribeAllLists();
+    this.chatService.editThreadId = '';
+    this.threadService.editMessageId = '';
   }
-
+/**
+ * This function is triggered when a message is sent and it calls the sendMessage
+ * function with the message text from the event.
+ *
+ * @param {{ message: string }} event - The event object containing the sent message text.
+ * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
+ */
+async onMessageSent(event: { message: string }) {
+  this.chatService.sendMessage(event.message);   
+}
 }
