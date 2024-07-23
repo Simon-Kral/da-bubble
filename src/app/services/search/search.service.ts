@@ -1,8 +1,9 @@
+import { PrivateMessageListComponent } from './../../post-login/home/side-navigation/sidenav/private-message-list/private-message-list.component';
 import { Channel } from './../../models/channel.class';
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
 import { Observable, of, Subscription } from 'rxjs';
-import { DocumentData, Firestore, collection, doc, onSnapshot, orderBy, query, where } from '@angular/fire/firestore';
+import { DocumentData, Firestore, collection, doc, onSnapshot, orderBy, query, where, } from '@angular/fire/firestore';
 import { User } from '../../../app/models/user.class';
 import { ChatService } from '../chat/chat.service';
 import { Message } from '../../models/message.class';
@@ -21,7 +22,7 @@ export class SearchService {
 	channelSearchResults: string[] = [];
 	//Private chat messages search
 	unsubPrivteMessageList: any;
-	privteMessageSearchResults: any[] = [];
+	privateMessageSearchResults : DocumentData[] = [];
 	searchSpesificPrivetMessageResault: DocumentData[] = [];
 	//channel messages search
 	unsubChannelMessageList: any;
@@ -222,18 +223,19 @@ export class SearchService {
 		if(this.unsubPrivteMessageList){
 			this.unsubPrivteMessageList();
 		}
-		this.privteMessageSearchResults = [];
+		this.privateMessageSearchResults  = [];
 		this.firebaseService.privateChatList.forEach((chat) => {
 			const collectionRef = collection(this.firestore, `privateChats/${chat.privatChatId}/messages`);
 			const q = query(collectionRef, orderBy('time'));
 			this.unsubPrivteMessageList = onSnapshot(q, (querySnapshot) => {
 				querySnapshot.forEach((doc) => {
 					const data = doc.data();
-					this.privteMessageSearchResults.push(data);
-					console.log("All privet masseges",this.privteMessageSearchResults);
+					this.privateMessageSearchResults.push(data);
 				});
 			});
 		});
+		console.log("All private masseges",this.privateMessageSearchResults);
+		
 	}	
 
 	/**
@@ -255,7 +257,6 @@ export class SearchService {
 					const data = doc.data();
 					this.channelMessageSearchResults.push(data);
 					console.log("All channel masseges",this.channelMessageSearchResults);
-					
 				});
 			});
 		});
@@ -265,7 +266,7 @@ export class SearchService {
 		let searchTextTrimmed = searchText.toLowerCase().trim();
 		this.searchSpesificPrivetMessageResault = [];
 		this.searchSpesificChannelMessageResault = [];
-		this.privteMessageSearchResults.forEach((message) => {
+		this.privateMessageSearchResults .forEach((message) => {
 			if (message['text'].toLowerCase().includes(searchTextTrimmed)) {
 				this.searchSpesificPrivetMessageResault.push(message);
 			}
@@ -279,5 +280,7 @@ export class SearchService {
 			}
 		});
 	}
+
+
 
 }

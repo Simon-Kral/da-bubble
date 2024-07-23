@@ -17,6 +17,7 @@ import { CommunicationService } from '../../services/communication/communication
 import { AddMembersToChannelComponent } from './channel/add-members-to-channel/add-members-to-channel.component';
 import { ThreadComponent } from '../shared/thread/thread.component';
 import { ChannelMemberComponent } from './channel/channel-member/channel-member.component';
+import { SearchService } from '../../services/search/search.service';
 @Component({
 	selector: 'app-home',
 	standalone: true,
@@ -44,6 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	firebaseService = inject(FirebaseService);
 	chatService = inject(ChatService);
 	communicationService = inject(CommunicationService);
+	searchService = inject(SearchService);
 
 	//sidenav variables
 	isSidenavVisible: boolean = true;
