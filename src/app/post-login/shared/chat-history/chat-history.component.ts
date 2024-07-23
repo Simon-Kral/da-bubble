@@ -13,6 +13,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ThreadService } from '../../../services/thread/thread.service';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { ReactionService } from '../../../services/reactions/reaction.service';
 
 interface MsgData {
 	text: string;
@@ -30,7 +31,8 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
 	chatService = inject(ChatService);
 	communicationService = inject(CommunicationService);
 	threadService = inject(ThreadService);
-
+	reactionService = inject(ReactionService);
+	
 	// Edit message variables
 	showEditMsgOverlay: boolean = false;
 	currentMsgData: MsgData;

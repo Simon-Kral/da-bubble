@@ -121,7 +121,7 @@
 				@for (reaction of msg.reactions; track reaction; let index = $index) {
 					@if (index == msg.reactions.length - 1) {
 					<div class="pointer last-reaction">
-						<div class="emoji-container" (click)="this.chatService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
+						<div class="emoji-container" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
 						<span class="emoji-counter">{{reaction.amount}}</span>
 					</div>
 					}
@@ -129,7 +129,7 @@
 				@for (reaction of msg.reactions; track reaction; let index = $index) {
 					@if (index == msg.reactions.length - 2) {
 					<div class="pointer last-reaction">
-						<div class="emoji-container" (click)="this.chatService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
+						<div class="emoji-container" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
 						<span class="emoji-counter">{{reaction.amount}}</span>
 					</div>
 					}
@@ -138,7 +138,7 @@
 			<!-- emoji Picker-->
 			@if (index === emojiPickerIndex) { @if (showEmojiPicker) {
 			<div class="emoji-picker-container">
-				<emoji-mart (emojiClick)="this.chatService.setReaction($event, msg.messageId)"></emoji-mart>
+				<emoji-mart (emojiClick)="this.reactionService.setReaction($event, msg.messageId)"></emoji-mart>
 			</div>
 			} }
 		</div>
@@ -263,7 +263,7 @@
 			@for (reaction of msg.reactions; track reaction; let index = $index) {
 				@if (index == msg.reactions.length - 1) {
 				<div class="pointer last-reaction">
-					<div class="emoji-container" (click)="this.chatService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
+					<div class="emoji-container" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
 					<span class="emoji-counter">{{reaction.amount}}</span>
 				</div>
 				}
@@ -271,7 +271,7 @@
 			@for (reaction of msg.reactions; track reaction; let index = $index) {
 				@if (index == msg.reactions.length - 2) {
 				<div class="pointer last-reaction">
-					<div class="emoji-container" (click)="this.chatService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
+					<div class="emoji-container" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">{{reaction.nativeEmoji}}</div>
 					<span class="emoji-counter">{{reaction.amount}}</span>
 				</div>
 				}
@@ -301,7 +301,7 @@
 	<!-- emoji Picker-->
 	@if (index === emojiPickerIndex) { @if (showEmojiPicker) {
 	<div class="emoji-picker-container">
-		<emoji-mart (emojiClick)="this.chatService.setReaction($event, msg.messageId)"></emoji-mart>
+		<emoji-mart (emojiClick)="this.reactionService.setReaction($event, msg.messageId)"></emoji-mart>
 	</div>
 	} } } }
 	<!--popUp overlay for editing specific current user msg-->
