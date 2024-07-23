@@ -1,3 +1,4 @@
+import { ThreadService } from './../thread/thread.service';
 import { PrivateMessageListComponent } from './../../post-login/home/side-navigation/sidenav/private-message-list/private-message-list.component';
 import { Channel } from './../../models/channel.class';
 import { inject, Injectable } from '@angular/core';
@@ -7,6 +8,7 @@ import { DocumentData, Firestore, collection, doc, getDocs, onSnapshot, orderBy,
 import { User } from '../../../app/models/user.class';
 import { ChatService } from '../chat/chat.service';
 import { Message } from '../../models/message.class';
+import { TmplAstUnknownBlock } from '@angular/compiler';
 
 
 @Injectable({
@@ -16,6 +18,7 @@ export class SearchService {
 	firestore: Firestore = inject(Firestore);
 	firebaseService = inject(FirebaseService);
 	chatService = inject(ChatService);
+	threadService = inject(ThreadService);
 	router: any;
 	//subscriptions 
 	userSearchResults: string[] = [];
@@ -25,10 +28,12 @@ export class SearchService {
 	privateMessageSearchResults : DocumentData[] = [];
 	searchSpesificPrivateMessageResaults: DocumentData[] = [];
 
+	channelThreadList: any[] = [];
+
 	//channel messages search
 	unsubChannelMessageList: any;
 	channelMessageSearchResults: DocumentData[] = [];
-	searchSpesificChannelMessageResault: DocumentData[] = [];
+	searchSpesificChannelMessageResault: any[] = [];
 
 	private channelSubscription: Subscription = new Subscription();
 	private userSubscription: Subscription = new Subscription();
@@ -239,40 +244,28 @@ export class SearchService {
 	 * Updates the `channelMessageSearchResults` array with the retrieved messages.
 	 */
 
-	async getChannelMessages() {
-		this.channelMessageSearchResults = [];
-		for (const channel of this.firebaseService.channelList) {
-			const collectionRef = collection(this.firestore, `channels/${channel.chanId}/messages`);
-			const q = query(collectionRef, orderBy('time'));
-			const querySnapshot = await getDocs(q);
-			querySnapshot.forEach(async (doc) => {
-				const messagesData = doc.data();
+	getChannelMessages() {
 
-				this.channelMessageSearchResults.push(messagesData);
-			});
-		}
-		console.log("channelMessageSearchResults",this.channelMessageSearchResults);
-		
 	}
 
+
 	searchSesificMessage(searchText: string) {
+		if (searchText === '') {
+			this.searchSpesificPrivateMessageResaults = [];
+			this.searchSpesificChannelMessageResault = [];
+			return;
+		}
 		let searchTextTrimmed = searchText.toLowerCase().trim();
 		this.searchSpesificPrivateMessageResaults = [];
 		this.searchSpesificChannelMessageResault = [];
 		
-/* 		this.privateMessageSearchResults.forEach((message) => {
-			if (message['text'].toLowerCase().includes(searchTextTrimmed)) {
-				this.searchSpesificPrivateMessageResaults.push(message);
-				console.log("searchSpesificPrivetMessageResault",this.searchSpesificPrivateMessageResaults);
-			}
-		}) */
-		
-/* 		this.channelMessageSearchResults.forEach((message) => {
-			if (message['text'].toLowerCase().includes(searchTextTrimmed)) {
+		this.chatService.msgList.forEach((message) => {
+			if (message.text.toLowerCase().includes(searchTextTrimmed)) {
 				this.searchSpesificChannelMessageResault.push(message);
-				console.log("searchSpesificChannelMessageResault",this.searchSpesificChannelMessageResault);
+				console.log("searchSpesificPrivetMessageResault",this.searchSpesificChannelMessageResault);
 			}
-		}); */
+		})
+		
 	}
 
 
