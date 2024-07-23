@@ -116,7 +116,7 @@ export class AppComponent implements OnInit {
 			user.email != undefined &&
 			(!user.photoURL ||
 				user.photoURL.includes('googleusercontent') ||
-				user.photoURL.includes('assets/img/profile.png'))
+				user.photoURL.includes('assets/img/logos/profile_logo.png'))
 		) {
 			this.navToAvatar();
 		} else if (!user.emailVerified && user.email != undefined) {

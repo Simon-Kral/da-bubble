@@ -20,7 +20,7 @@ import { getStorage } from '@firebase/storage';
 export const forbiddenAvatarValidator = (
 	control: AbstractControl
 ): ValidationErrors | null => {
-	const avatars = ['assets/img/profile.png'];
+	const avatars = ['assets/img/logos/profile_logo.png'];
 	return avatars.includes(control.value)
 		? { forbiddenAvatar: 'Bitte wählen Sie einen Avatar aus.' }
 		: null;
@@ -48,7 +48,7 @@ export class SelectAvatarComponent implements OnInit {
 	router = inject(Router);
 	avatarForm = this.fb.nonNullable.group({
 		avatar: [
-			'assets/img/profile.png',
+			'assets/img/logos/profile_logo.png',
 			[Validators.required, forbiddenAvatarValidator],
 		],
 	});
