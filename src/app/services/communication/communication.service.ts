@@ -39,7 +39,8 @@ export class CommunicationService {
 	isDeleteThreadMsgDialogVisible: boolean = false;
 	constructor() {}
 
-
+	//mobile view variables
+	isMobileUserMenuVisible: boolean = false;
 
 	toggleThreadVisibility(visible: boolean) {
 		this.isThreadVisible = !this.isThreadVisible;

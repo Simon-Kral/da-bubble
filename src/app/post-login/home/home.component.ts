@@ -70,11 +70,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 	isChannelMemberVisible: boolean = false;
 
 
-	//mobile view variables
-	isMobileUserMenuVisible: boolean = true;
-
-
-
 	ngOnInit(): void {
 		this.firebaseService.getCurrentUserId();
 		this.firebaseService.subscribeAllLists();
@@ -169,6 +164,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 				break;
 			case 'channelMember':
 				this.isChannelMemberVisible = false;
+				break;
+			case 'mobileUserMenu':
+				this.communicationService.isMobileUserMenuVisible = false;
 				break;
 			default:
 				console.warn(`Unknown popup name: ${name}`);
