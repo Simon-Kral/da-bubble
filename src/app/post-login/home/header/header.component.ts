@@ -34,7 +34,8 @@ export class HeaderComponent implements OnInit {
 		});
 	}
 
-	ngOnInit() {}
+	ngOnInit() {
+	}
 
 	handleSearch() {
 		const searchInput = this.searchText.get('search')?.value || '';
@@ -44,8 +45,6 @@ export class HeaderComponent implements OnInit {
 			this.channelSearchActive(searchInput);
 		} else {
 			this.showAllUsersAndChannels();
-			this.searchService.getChannelMessages();
-			this.searchService.getPrivetChatMessages();
 			this.searchService.searchSesificMessage(searchInput);
 		}
 	}

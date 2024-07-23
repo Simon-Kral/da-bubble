@@ -70,6 +70,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		this.firebaseService.getCurrentUserId();
 		this.firebaseService.subscribeAllLists();
+		this.searchService.getChannelMessages();
+		this.searchService.getPrivateChatMessages();
 		this.firebaseService.setCurrentUserAsObjekt(); // to-do remove after developement is finished
 		this.communicationService.isCurrentUserProfileVisible$.subscribe((visible) => {
 				this.isCurrentUserProfileVisible = visible;

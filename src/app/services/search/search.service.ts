@@ -219,7 +219,7 @@ export class SearchService {
 	 * Subscribes to changes in the messages collection for each private chat.
 	 * Updates the `privteMessageSearchResults` array with the retrieved messages.
 	 */
-	getPrivetChatMessages() {
+	getPrivateChatMessages() {
 		if(this.unsubPrivteMessageList){
 			this.unsubPrivteMessageList();
 		}
