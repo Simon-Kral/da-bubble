@@ -33,7 +33,9 @@
         &:hover {
             background-color: $bg-color;
         }
-        .user-avatar {
+
+    }
+	        .user-avatar {
             position: relative;
         
             img {
@@ -57,8 +59,6 @@
 		span:last-child {
 			margin: 0 0 0 -10px;
 		}
-
-    }
 
     .add-member {
         @include dFlex(row, flex-start, center);
