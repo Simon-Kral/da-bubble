@@ -35,18 +35,6 @@ button {
 	@include dFlex(row, space-between, center);
 }
 
-.close-btn {
-	@include dFlex(center, center);
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	&:hover {
-		@include btnHover($bg-color);
-	}
-	&:active {
-		@include btnActive($bg-color);
-	}
-}
 
 .channel-name {
 	@include dFlex(column, flex-start, center);
