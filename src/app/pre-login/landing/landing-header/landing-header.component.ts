@@ -9,6 +9,7 @@ import {
 import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AppComponent } from '../../../app.component';
 
 const enterIntro = transition(':enter', [
 	group([
@@ -76,7 +77,7 @@ const enterIntro = transition(':enter', [
 	]),
 ]);
 
-const intro = trigger('intro', [enterIntro]);
+let intro = trigger('intro', [enterIntro]);
 
 @Component({
 	selector: 'app-landing-header',
@@ -89,6 +90,8 @@ const intro = trigger('intro', [enterIntro]);
 export class LandingHeaderComponent implements OnInit {
 	introAnimationStarted: boolean = false;
 	introAnimationFinished: boolean = false;
+
+	constructor(public appComponent: AppComponent) {}
 
 	/**
 	 * Initiates the intro animation.
@@ -105,5 +108,6 @@ export class LandingHeaderComponent implements OnInit {
 	 */
 	onAnimationDone(): void {
 		this.introAnimationFinished = true;
+		this.appComponent.introIsDisabled = true;
 	}
 }
