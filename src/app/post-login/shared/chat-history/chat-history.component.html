@@ -23,7 +23,7 @@
 						}
 				</div>
 				}
-				@if (msg.reactions.length > 0) {	
+				@if (msg.reactions.length > 1) {	
 					<div class="menu-content pointer">	
 							@for (reaction of msg.reactions; track reaction; let index = $index) {
 								@if (index == msg.reactions.length - 2) {
@@ -144,7 +144,7 @@
 			<!-- emoji Picker-->
 			@if (index === this.reactionService.emojiPickerIndex) { @if (this.reactionService.showEmojiPicker) {
 			<div class="emoji-picker-container">
-				<emoji-mart (emojiClick)="this.reactionService.setReaction($event, msg.messageId)"></emoji-mart>
+				<emoji-mart (emojiClick)="this.reactionService.handleReaction($event, msg.messageId)"></emoji-mart>
 			</div>
 			} }
 		</div>
@@ -164,7 +164,7 @@
 					}
 			</div>
 			}
-			@if (msg.reactions.length > 0) {	
+			@if (msg.reactions.length > 1) {	
 				<div class="menu-content pointer">	
 						@for (reaction of msg.reactions; track reaction; let index = $index) {
 							@if (index == msg.reactions.length - 2) {
@@ -313,7 +313,7 @@
 			<!-- emoji Picker-->
 			@if (index === this.reactionService.emojiPickerIndex) { @if (this.reactionService.showEmojiPicker) {
 				<div class="emoji-picker-container">
-					<emoji-mart (emojiClick)="this.reactionService.setReaction($event, msg.messageId)"></emoji-mart>
+					<emoji-mart (emojiClick)="this.reactionService.handleReaction($event, msg.messageId)"></emoji-mart>
 				</div>
 				} }
 	} 

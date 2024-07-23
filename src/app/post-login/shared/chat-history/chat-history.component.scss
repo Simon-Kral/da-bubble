@@ -49,7 +49,8 @@
 		position: absolute;
 		right: 16px;
 		top: -24px;
-		width: 210px;
+		max-width: 210px;
+		min-width: fit-content;
 		height: 46px;
 		border-radius: 25px 25px 0 25px;
 		border: solid 1px $light-purple-lines;
@@ -117,7 +118,7 @@
 				text-align: start;
 			}
 			p {
-				@include Nunito(400, 14px, 19.1px, $white);
+				@include Nunito(400, 14px, 19.1px, $black);
 				text-wrap: wrap;
 				height: fit-content;
 				text-align: end;
@@ -196,7 +197,8 @@
 		position: absolute;
 		left: 16px;
 		top: -24px;
-		width: 255px;
+		max-width: 255px;
+		min-width: fit-content;
 		height: 46px;
 		border-radius: 25px 25px 0 25px;
 		border: solid 1px $light-purple-lines;
