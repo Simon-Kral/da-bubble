@@ -1,19 +1,15 @@
-import { User } from './user.class';
-
 export class Reaction {
   reactionId: string;
-  user: User;
+  user: string;
   message_id: string;
-  answer_id: string;
   amount: number;
-  emoji: string;
+  nativeEmoji: string;
 
   constructor(obj?: any) {
     this.reactionId = obj ? obj.id : '';
     this.user = obj ? obj.user : '';
     this.message_id = obj ? obj.post_id : '';
-    this.answer_id = obj ? obj.answer_id : '';
     this.amount = obj ? obj.amount : 0;
-    this.emoji = obj ? obj.emoji : '';
+    this.nativeEmoji = obj ? obj.emoji : '';
   }
 }
