@@ -112,3 +112,15 @@ h3 {
 .headline {
 	@include Nunito(800, 32px, 18.8px, $black);
 }
+
+.message-container {
+	width: 320px;
+	text-wrap: nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+	>img {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+	}
+}

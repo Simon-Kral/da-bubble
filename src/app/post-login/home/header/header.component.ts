@@ -35,10 +35,10 @@ export class HeaderComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.searchService.getChannelMessages();
+	
 	}
 
-	async handleSearch() {
+	handleSearch() {
 		const searchInput = this.searchText.get('search')?.value || '';
 		if (searchInput.startsWith('@')) {
 			this.userSearchActive(searchInput);
@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
 			this.channelSearchActive(searchInput);
 		} else {
 			this.showAllUsersAndChannels();
-			await this.searchService.getChannelMessages();
+			this.searchService.getChannelMessages();
 			//await this.searchService.getPrivateChatMessages();
 			this.searchService.searchSesificMessage(searchInput);
 		}

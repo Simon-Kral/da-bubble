@@ -1,3 +1,4 @@
+import { SearchService } from './../../../services/search/search.service';
 import { CommunicationService } from './../../../services/communication/communication.service';
 import { FirebaseService } from './../../../services/firebase/firebase.service';
 import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
@@ -27,6 +28,7 @@ export class ChannelComponent implements OnInit, OnDestroy{
 	communicationService = inject(CommunicationService);
 	firebaseService = inject(FirebaseService);
 	threadService = inject(ThreadService);
+	searchService = inject(SearchService);
 
 	showChannelDetails = false;
 	showAddMembersToChannel = false;
@@ -48,6 +50,7 @@ export class ChannelComponent implements OnInit, OnDestroy{
 
 	ngOnInit(): void {
 		this.chatService.subscribeAllLists();
+		this.searchService.getChannelMessages();
 	}
 
 	ngOnDestroy(): void {
