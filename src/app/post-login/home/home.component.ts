@@ -1,3 +1,4 @@
+import { SearchService } from './../../services/search/search.service';
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
@@ -44,6 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	firebaseService = inject(FirebaseService);
 	chatService = inject(ChatService);
 	communicationService = inject(CommunicationService);
+	searchService = inject(SearchService);
 
 	// Default icon sources
 	menu = '../../assets/img/icons/menu_black.png';
@@ -75,6 +77,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		this.firebaseService.getCurrentUserId();
 		this.firebaseService.subscribeAllLists();
+		this.searchService.getPrivetChatMessages();
 		this.firebaseService.setCurrentUserAsObjekt(); // to-do remove after developement is finished
 		this.communicationService.isCurrentUserProfileVisible$.subscribe((visible) => {
 				this.isCurrentUserProfileVisible = visible;

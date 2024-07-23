@@ -2,9 +2,10 @@ import { Channel } from './../../models/channel.class';
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
 import { Observable, of, Subscription } from 'rxjs';
-import { Firestore } from '@angular/fire/firestore';
+import { DocumentData, Firestore, collection, doc, onSnapshot, orderBy, query, where } from '@angular/fire/firestore';
 import { User } from '../../../app/models/user.class';
 import { ChatService } from '../chat/chat.service';
+import { Message } from '../../models/message.class';
 
 
 @Injectable({
@@ -18,7 +19,15 @@ export class SearchService {
 	//subscriptions 
 	userSearchResults: string[] = [];
 	channelSearchResults: string[] = [];
-	messageSearchResults = [];
+	//Private chat messages search
+	unsubPrivteMessageList: any;
+	privteMessageSearchResults: any[] = [];
+	searchSpesificPrivetMessageResault: DocumentData[] = [];
+	//channel messages search
+	unsubChannelMessageList: any;
+	channelMessageSearchResults: DocumentData[] = [];
+	searchSpesificChannelMessageResault: DocumentData[] = [];
+
 	private channelSubscription: Subscription = new Subscription();
 	private userSubscription: Subscription = new Subscription();
 
@@ -185,11 +194,8 @@ export class SearchService {
 	 * Unsubscribes from the channel search subscription if it exists.
 	 */
 	unSubscribeOnChannelSearch() {
-		console.log('Unsubscribing from channel search subscription', this.channelSubscription);
 		if (this.channelSubscription) {
 			this.channelSubscription.unsubscribe();
-			console.log('Channel search subscription unsubscribed', this.channelSubscription);
-			
 		}
 	}
 	
@@ -197,14 +203,81 @@ export class SearchService {
 	 * Unsubscribes from the user subscription if it exists.
 	 */
 	unSubscribeOnUserSearch() {
-		console.log('Unsubscribing from user search subscription', this.userSubscription);
 		if (this.userSubscription) {
 			this.userSubscription.unsubscribe();
-			console.log('User search subscription unsubscribed', this.userSubscription);
-			
 		}
 	}
 
+	onChatTextSearch(searchText: string) {
+		this.searchText = searchText.trim();
+		
+	}
+
+	/**
+	 * Retrieves private chat messages from the Firebase database.
+	 * Subscribes to changes in the messages collection for each private chat.
+	 * Updates the `privteMessageSearchResults` array with the retrieved messages.
+	 */
+	getPrivetChatMessages() {
+		if(this.unsubPrivteMessageList){
+			this.unsubPrivteMessageList();
+		}
+		this.privteMessageSearchResults = [];
+		this.firebaseService.privateChatList.forEach((chat) => {
+			const collectionRef = collection(this.firestore, `privateChats/${chat.privatChatId}/messages`);
+			const q = query(collectionRef, orderBy('time'));
+			this.unsubPrivteMessageList = onSnapshot(q, (querySnapshot) => {
+				querySnapshot.forEach((doc) => {
+					const data = doc.data();
+					this.privteMessageSearchResults.push(data);
+					console.log("All privet masseges",this.privteMessageSearchResults);
+				});
+			});
+		});
+	}	
+
+	/**
+	 * Retrieves channel messages from the Firebase database.
+	 * Subscribes to changes in the messages collection for the specified channel.
+	 * Updates the `channelMessageSearchResults` array with the retrieved messages.
+	 */
+
+	getChannelMessages() {
+		if(this.unsubChannelMessageList){
+			this.unsubChannelMessageList();
+		}
+		this.channelMessageSearchResults = [];
+		this.firebaseService.channelList.forEach((channel) => {
+			const collectionRef = collection(this.firestore, `channels/${channel.chanId}/messages`);
+			const q = query(collectionRef, orderBy('time'));
+			this.unsubChannelMessageList = onSnapshot(q, (querySnapshot) => {
+				querySnapshot.forEach((doc) => {
+					const data = doc.data();
+					this.channelMessageSearchResults.push(data);
+					console.log("All channel masseges",this.channelMessageSearchResults);
+					
+				});
+			});
+		});
+	}
+
+	searchSesificMessage(searchText: string) {
+		let searchTextTrimmed = searchText.toLowerCase().trim();
+		this.searchSpesificPrivetMessageResault = [];
+		this.searchSpesificChannelMessageResault = [];
+		this.privteMessageSearchResults.forEach((message) => {
+			if (message['text'].toLowerCase().includes(searchTextTrimmed)) {
+				this.searchSpesificPrivetMessageResault.push(message);
+			}
+		});
+		console.log("searchSpesificPrivetMessageResault",this.searchSpesificPrivetMessageResault);
+		
+		this.channelMessageSearchResults.forEach((message) => {
+			if (message['text'].toLowerCase().includes(searchTextTrimmed)) {
+				this.searchSpesificChannelMessageResault.push(message);
+				console.log("searchSpesificChannelMessageResault",this.searchSpesificChannelMessageResault);
+			}
+		});
+	}
+
 }
-
-

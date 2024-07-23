@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { SearchService } from '../../../services/search/search.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-
 @Component({
 	selector: 'app-header',
 	standalone: true,
@@ -29,7 +28,7 @@ export class HeaderComponent implements OnInit {
 	@Output() userProfileToggle = new EventEmitter<boolean>();
 	isFocusActive: boolean = false;
 
-	constructor(private fb: FormBuilder, ) {
+	constructor(private fb: FormBuilder) {
 		this.searchText = this.fb.group({
 			search: [''],
 		});
@@ -40,11 +39,14 @@ export class HeaderComponent implements OnInit {
 	handleSearch() {
 		const searchInput = this.searchText.get('search')?.value || '';
 		if (searchInput.startsWith('@')) {
-			this.userSearchActive(searchInput)
+			this.userSearchActive(searchInput);
 		} else if (searchInput.startsWith('#')) {
-			this.channelSearchActive(searchInput)
+			this.channelSearchActive(searchInput);
 		} else {
-			this.showAllUsersAndChannels()
+			this.showAllUsersAndChannels();
+			this.searchService.getChannelMessages();
+			this.searchService.getPrivetChatMessages();
+			this.searchService.searchSesificMessage(searchInput);
 		}
 	}
 
@@ -82,7 +84,6 @@ export class HeaderComponent implements OnInit {
 		this.searchService.unSubscribeOnUserSearch();
 	}
 
-
 	handleClickOnMember(userId: string) {
 		this.searchText.reset();
 		this.isFocusActive = false;
@@ -97,7 +98,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	handleToggleFocus() {
-		if(this.isFocusActive){
+		if (this.isFocusActive) {
 			this.searchService.unSubscribeOnChannelSearch();
 			this.searchService.unSubscribeOnUserSearch();
 		}
@@ -113,5 +114,5 @@ export class HeaderComponent implements OnInit {
 		this.isFocusActive = false;
 		//unsubscribe from channel search
 		this.searchService.handleClickOnChannelAndUnSub(channelId);
-    }
+	}
 }

@@ -5,6 +5,7 @@ import { Channel } from '../../models/channel.class';
 import { User } from '../../models/user.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { PrivateNote } from '../../models/privateNote.class';
+import { Message } from '../../models/message.class';
 
 @Injectable({
 	providedIn: 'root',
@@ -543,4 +544,6 @@ export class FirebaseService {
 			channels: arrayUnion(chanId),
 		});
 	}
+
+
 }
