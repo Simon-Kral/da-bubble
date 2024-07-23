@@ -26,6 +26,9 @@
 				background-color: $bg-color;
 				transition: all 175ms ease-in;
 			}
+			&:hover img{
+				filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
+			}
 			&:active {
 				@include btnActive($bg-color);
 			}
