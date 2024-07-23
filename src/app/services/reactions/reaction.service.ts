@@ -1,22 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Reaction } from '../../models/reaction.class';
-import {
-	query,
-	orderBy,
-	where,
-	Firestore,
-	collection,
-	doc,
-	onSnapshot,
-	updateDoc,
-	getDocs,
-	addDoc,
-	getDoc,
-	deleteDoc,
-	increment,
-	DocumentReference,
-	arrayUnion,
-} from '@angular/fire/firestore';
+import { Firestore,	doc, updateDoc, getDoc, arrayUnion } from '@angular/fire/firestore';
 import { ChatService } from '../chat/chat.service';
 import { FirebaseService } from '../firebase/firebase.service';
 
@@ -29,6 +13,8 @@ export class ReactionService {
   chatService: ChatService = inject(ChatService);
   firebaseService: FirebaseService = inject(FirebaseService);
 
+  showEmojiPicker: boolean = false;
+  emojiPickerIndex: number = 0;
 
   constructor() { }
 
@@ -63,6 +49,7 @@ export class ReactionService {
 			this.addReaction(newReaction, messageId);
 		  }
 		});
+		this.showEmojiPicker = false;
 	  }
 	  // todo needs logic that currentUser can only add one reaction per message
 	  async addReaction(newReaction: Reaction, messageId: string): Promise<void> {

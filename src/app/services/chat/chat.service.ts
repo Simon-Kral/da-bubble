@@ -1,26 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
-import {
-	query,
-	orderBy,
-	where,
-	Firestore,
-	collection,
-	doc,
-	onSnapshot,
-	updateDoc,
-	getDocs,
-	addDoc,
-	getDoc,
-	deleteDoc,
-	increment,
-	DocumentReference,
-	arrayUnion,
-} from '@angular/fire/firestore';
+import { query, orderBy, Firestore, collection, doc, onSnapshot, updateDoc, getDocs, addDoc, getDoc, deleteDoc, increment,DocumentReference } from '@angular/fire/firestore';
 import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Reaction } from '../../models/reaction.class';
+
 @Injectable({
 	providedIn: 'root',
 })
@@ -41,29 +25,8 @@ export class ChatService {
 	editThreadId: string = '';
 	messageId: string = '';
 	selectedPrivateChatReciver: string = '';
-	weekday = [
-		'Sonntag',
-		'Montag',
-		'Dienstag',
-		'Mittwoch',
-		'Donnerstag',
-		'Freitag',
-		'Samstag',
-	];
-	months = [
-		'Januar',
-		'Februar',
-		'März',
-		'April',
-		'Mai',
-		'Juni',
-		'Juli',
-		'August',
-		'September',
-		'Oktober',
-		'November',
-		'Dezember',
-	];
+	weekday = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag',];
+	months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember',];
 
 	constructor(private router: Router, private route: ActivatedRoute) {}
 
@@ -142,12 +105,8 @@ export class ChatService {
 	 */
 	async getMessage(): Promise<string> {
 		try {
-			const messageDocRef = doc(
-				this.firestore,
-				`${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`
-			);
+			const messageDocRef = doc(this.firestore,`${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`);
 			const docSnap = await getDoc(messageDocRef);
-
 			if (docSnap.exists()) {
 				const data = docSnap.data();
 				return data['text'] || '';
@@ -172,8 +131,7 @@ export class ChatService {
 		try {
 			const messageDocRef = doc(
 				this.firestore,
-				`${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`
-			);
+				`${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`);
 			await updateDoc(messageDocRef, {
 				text: newText,
 				editCount: increment(1),
@@ -228,7 +186,6 @@ export class ChatService {
 				this.firestore,
 				`${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`
 			);
-
 			await this.deleteSubcollection(messageDocRef);
 			await deleteDoc(messageDocRef);
 		} catch (error) {
@@ -246,11 +203,7 @@ export class ChatService {
 	 */
 	async deleteSubcollection(messageDocRef: DocumentReference): Promise<void> {
 		try {
-			const subcollectionRef = collection(
-				messageDocRef.firestore,
-				messageDocRef.path,
-				'messageAnswers'
-			);
+			const subcollectionRef = collection(messageDocRef.firestore, messageDocRef.path, 'messageAnswers');
 			const querySnapshot = await getDocs(subcollectionRef);
 			const deletePromises = querySnapshot.docs.map((doc) =>
 				deleteDoc(doc.ref)
@@ -273,10 +226,7 @@ export class ChatService {
 	 */
 	async initializePrivateChat(chatCreator: string, chatReceiver: string) {
 		try {
-			const existingChatId = await this.checkIfPrivateChatExists(
-				chatReceiver,
-				chatCreator
-			);
+			const existingChatId = await this.checkIfPrivateChatExists( chatReceiver, chatCreator );
 			if (this.redirectIfChatExists(existingChatId)) {
 				return;
 			}
@@ -302,10 +252,7 @@ export class ChatService {
 	 */
 	async addPrivateChat(privateChatData: PrivateChat): Promise<any> {
 		try {
-			const docRef = await addDoc(
-				collection(this.firestore, 'privateChats'),
-				privateChatData
-			);
+			const docRef = await addDoc( collection(this.firestore, 'privateChats'), privateChatData );
 			this.router.navigate(['/home/privateChats', docRef.id]);
 			return docRef;
 		} catch (e) {
@@ -365,9 +312,7 @@ export class ChatService {
 	 */
 	async updatePrivateChatId(docRef: any): Promise<void> {
 		try {
-			await updateDoc(doc(this.firestore, 'privateChats', docRef.id), {
-				privatChatId: docRef.id,
-			});
+			await updateDoc(doc(this.firestore, 'privateChats', docRef.id), { privatChatId: docRef.id,});
 			this.newPrivateChatId = docRef.id;
 		} catch (e) {
 			console.error('Error updating document: ', e);
@@ -401,9 +346,7 @@ export class ChatService {
 
 	convertDate() {
 		const date = new Date();
-		return `${this.weekday[date.getDay()]}, ${date.getDate()}. ${
-			this.months[date.getMonth()]
-		}`;
+		return `${this.weekday[date.getDay()]}, ${date.getDate()}. ${ this.months[date.getMonth()] }`;
 	}
 
 	/**
@@ -414,12 +357,7 @@ export class ChatService {
 	 */
 	addMessage(messageData: Message): Promise<any> {
 		try {
-			const collectionRef = collection(
-				this.firestore,
-				this.mainCollection,
-				this.docRef,
-				'messages'
-			);
+			const collectionRef = collection( this.firestore, this.mainCollection, this.docRef, 'messages' );
 			return addDoc(collectionRef, messageData);
 		} catch (e) {
 			console.error('Error adding message document: ', e);
@@ -438,16 +376,8 @@ export class ChatService {
 	async updateMessageId(docRef: any): Promise<void> {
 		try {
 			await updateDoc(
-				doc(
-					this.firestore,
-					this.mainCollection,
-					this.docRef,
-					'messages',
-					docRef.id
-				),
-				{
-					messageId: docRef.id,
-				}
+				doc( this.firestore, this.mainCollection, this.docRef, 'messages',docRef.id),
+				{ messageId: docRef.id }
 			);
 		} catch (e) {
 			console.error('Error updating message document: ', e);
@@ -469,16 +399,8 @@ export class ChatService {
 	): Promise<void> {
 		try {
 			await updateDoc(
-				doc(
-					this.firestore,
-					this.mainCollection,
-					this.docRef,
-					'messages',
-					messageId
-				),
-				{
-					threadId: threadId,
-				}
+				doc( this.firestore, this.mainCollection, this.docRef, 'messages', messageId ),
+				{ threadId: threadId,}
 			);
 		} catch (e) {
 			console.error('Error updating message document: ', e);

@@ -142,7 +142,7 @@
 				}
 			</div>
 			<!-- emoji Picker-->
-			@if (index === emojiPickerIndex) { @if (showEmojiPicker) {
+			@if (index === this.reactionService.emojiPickerIndex) { @if (this.reactionService.showEmojiPicker) {
 			<div class="emoji-picker-container">
 				<emoji-mart (emojiClick)="this.reactionService.setReaction($event, msg.messageId)"></emoji-mart>
 			</div>
@@ -311,7 +311,7 @@
 		</div>
 	</div>
 			<!-- emoji Picker-->
-			@if (index === emojiPickerIndex) { @if (showEmojiPicker) {
+			@if (index === this.reactionService.emojiPickerIndex) { @if (this.reactionService.showEmojiPicker) {
 				<div class="emoji-picker-container">
 					<emoji-mart (emojiClick)="this.reactionService.setReaction($event, msg.messageId)"></emoji-mart>
 				</div>
