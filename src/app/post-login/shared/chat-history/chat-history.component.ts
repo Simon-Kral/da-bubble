@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ThreadService } from '../../../services/thread/thread.service';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 
 interface MsgData {
   text: string;
@@ -15,7 +16,7 @@ interface MsgData {
 @Component({
   selector: 'app-chat-history',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, PickerComponent],
   templateUrl: './chat-history.component.html',
   styleUrl: './chat-history.component.scss'
 })
@@ -30,7 +31,9 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
   showEditMsgOverlay: boolean = false;
   currentMsgData: MsgData;
   newMsgData: FormGroup;
-
+  showEmojiPicker: boolean = false;
+  emojiPickerIndex: number = 0;
+  
   constructor(private fb: FormBuilder, private route: ActivatedRoute ) {
     this.currentMsgData =  { text: ''}
 
@@ -61,6 +64,11 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
 
   toggleMsgMenu() {
     this.communicationService.isMsgMenuVisible = !this.communicationService.isMsgMenuVisible;
+  }
+
+  toggleEmojiPicker(index: number) {
+    this.showEmojiPicker = !this.showEmojiPicker;
+    this.emojiPickerIndex = index;
   }
 
  // edit msg functions

@@ -19,7 +19,7 @@
             <div class="pointer menu-content">
                 <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon"><!--Placeholder for last 2 reactions-->
             </div>
-            <div class="pointer menu-content reaction-icon">
+            <div class="pointer menu-content reaction-icon" (click)="toggleEmojiPicker(index)">
                 <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
             </div>
             <!--show only if no msgAnsers exist,-->
@@ -67,7 +67,7 @@
                 }
                 <!--reactions container-->
                 <div class="reactions-container">
-                    <div class="pointer add-reaction reaction-icon">
+                    <div class="pointer add-reaction reaction-icon" (click)="toggleEmojiPicker(index)">
                         <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
                     </div>
                     <div class="pointer last-reaction">
@@ -79,6 +79,14 @@
                         <span class="emoji-counter">3</span>
                     </div>
                 </div>
+                    <!-- emoji Picker-->
+                    @if (index === emojiPickerIndex) {
+                        @if (showEmojiPicker) {
+                            <div class="emoji-picker-container">
+                                <emoji-mart></emoji-mart>
+                            </div>
+                            }
+                        }
         </div>
     </div>
     }
@@ -93,7 +101,7 @@
                 <div class="pointer menu-content">
                     <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon"><!--Placeholder for last 2 reactions-->
                 </div>
-                <div class="pointer menu-content">
+                <div class="pointer menu-content" (click)="toggleEmojiPicker(index)">
                     <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
                 </div>
             <!--show only if no msgAnsers exist,-->
@@ -164,7 +172,7 @@
                         <div class="emoji-container">👍</div>
                         <span class="emoji-counter">3</span>
                     </div>
-                    <div class="pointer add-reaction reaction-icon">
+                    <div class="pointer add-reaction reaction-icon" (click)="toggleEmojiPicker(index)">
                         <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
                     </div>
                 </div>
@@ -173,6 +181,14 @@
                 <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
             </div>
         </div>
+        <!-- emoji Picker-->
+         @if (index === emojiPickerIndex) {
+            @if (showEmojiPicker) {
+                <div class="emoji-picker-container">
+                    <emoji-mart></emoji-mart>
+                </div>
+            }
+        }
     }
 
 

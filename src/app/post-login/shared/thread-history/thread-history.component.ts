@@ -6,13 +6,14 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ThreadService } from '../../../services/thread/thread.service';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 interface MsgData {
   text: string;
 }
 @Component({
   selector: 'app-thread-history',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, PickerComponent],
   templateUrl: './thread-history.component.html',
   styleUrl: './thread-history.component.scss'
 })
@@ -21,7 +22,8 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
   threadService = inject(ThreadService);
-
+  showEmojiPicker: boolean = false;
+  emojiPickerIndex: number = 0;
     // Edit message variables
     showEditMsgOverlay: boolean = false;
     currentMsgData: MsgData;
@@ -49,6 +51,11 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
 
   toggleMsgMenu() {
     this.communicationService.isMsgMenuThreadVisible = !this.communicationService.isMsgMenuThreadVisible;
+  }
+  
+  toggleEmojiPicker(index: number) {
+    this.showEmojiPicker = !this.showEmojiPicker;
+    this.emojiPickerIndex = index;
   }
 
   // edit msg functions

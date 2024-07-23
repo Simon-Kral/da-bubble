@@ -30,5 +30,7 @@
 
 <!-- to-do needs right position-->
 @if (showEmojiPicker) {
-  <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
+  <div class="emoji-picker-container">
+    <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
+  </div>
 }
