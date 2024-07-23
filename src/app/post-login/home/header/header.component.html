@@ -128,7 +128,7 @@
 			}
 		</div>
 
-		<div class="user-avatar">
+		<div class="user-avatar pointer" (click)="toggleUserProfile(true)">
 			<span class="headline">{{
 				this.firebaseService.getUserDisplayName(
 					this.firebaseService.currentUserId
@@ -153,9 +153,9 @@
 					)
 				}"
 			></div>
-			<div class="drop-down" (click)="toggleUserProfile(true)">
+			<div class="drop-down">
 				<img
-					class="pointer"
+					class=""
 					src="assets/img/icons/keyboard_arrow_down_inactive.png"
 					alt="Dropdown Arrow"
 				/>

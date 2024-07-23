@@ -41,6 +41,14 @@
 			@include dFlex(center, center);
 			position: relative;
 			gap: 16px;
+			transition: 0.1s ease-in-out;
+			&:hover .drop-down {
+				filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
+			}
+
+			&:hover span:first-child {
+				@include Nunito(700, 32px, 18.8px, $purple-3);
+			}
 
 			> img {
 				border-radius: 50%;
