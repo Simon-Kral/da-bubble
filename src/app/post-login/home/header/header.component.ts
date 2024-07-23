@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
 		} else {
 			this.showAllUsersAndChannels();
 			await this.searchService.getChannelMessages();
-			await this.searchService.getPrivateChatMessages();
+			//await this.searchService.getPrivateChatMessages();
 			this.searchService.searchSesificMessage(searchInput);
 		}
 	}

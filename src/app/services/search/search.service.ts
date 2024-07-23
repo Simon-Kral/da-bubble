@@ -23,7 +23,8 @@ export class SearchService {
 	//Private chat messages search
 	unsubPrivteMessageList: any;
 	privateMessageSearchResults : DocumentData[] = [];
-	searchSpesificPrivetMessageResault: DocumentData[] = [];
+	searchSpesificPrivateMessageResaults: DocumentData[] = [];
+
 	//channel messages search
 	unsubChannelMessageList: any;
 	channelMessageSearchResults: DocumentData[] = [];
@@ -220,9 +221,6 @@ export class SearchService {
 	 * Updates the `privteMessageSearchResults` array with the retrieved messages.
 	 */
 	async getPrivateChatMessages() {
-		if(this.unsubPrivteMessageList){
-			this.unsubPrivteMessageList();
-		}
 		this.privateMessageSearchResults  = [];
 		for (const chat of this.firebaseService.privateChatList) {
 			const collectionRef = collection(this.firestore, `privateChats/${chat.privatChatId}/messages`);
@@ -242,43 +240,39 @@ export class SearchService {
 	 */
 
 	async getChannelMessages() {
-		if(this.unsubChannelMessageList){
-			this.unsubChannelMessageList();
-		}
 		this.channelMessageSearchResults = [];
 		for (const channel of this.firebaseService.channelList) {
 			const collectionRef = collection(this.firestore, `channels/${channel.chanId}/messages`);
 			const q = query(collectionRef, orderBy('time'));
 			const querySnapshot = await getDocs(q);
-			querySnapshot.forEach((doc) => {
-				const data = doc.data();
-				if(data['answerCount'] > 0) {
+			querySnapshot.forEach(async (doc) => {
+				const messagesData = doc.data();
 
-				}
-				this.channelMessageSearchResults.push(data);
+				this.channelMessageSearchResults.push(messagesData);
 			});
 		}
+		console.log("channelMessageSearchResults",this.channelMessageSearchResults);
+		
 	}
 
 	searchSesificMessage(searchText: string) {
 		let searchTextTrimmed = searchText.toLowerCase().trim();
-		this.searchSpesificPrivetMessageResault = [];
+		this.searchSpesificPrivateMessageResaults = [];
 		this.searchSpesificChannelMessageResault = [];
-
-		console.log("searchSpesificPrivetMessageResault", this.searchSpesificPrivetMessageResault);
 		
-		this.privateMessageSearchResults.forEach((message) => {
+/* 		this.privateMessageSearchResults.forEach((message) => {
 			if (message['text'].toLowerCase().includes(searchTextTrimmed)) {
-				this.searchSpesificPrivetMessageResault.push(message);
+				this.searchSpesificPrivateMessageResaults.push(message);
+				console.log("searchSpesificPrivetMessageResault",this.searchSpesificPrivateMessageResaults);
 			}
-		});
+		}) */
 		
-		this.channelMessageSearchResults.forEach((message) => {
+/* 		this.channelMessageSearchResults.forEach((message) => {
 			if (message['text'].toLowerCase().includes(searchTextTrimmed)) {
 				this.searchSpesificChannelMessageResault.push(message);
 				console.log("searchSpesificChannelMessageResault",this.searchSpesificChannelMessageResault);
 			}
-		});
+		}); */
 	}
 
 
