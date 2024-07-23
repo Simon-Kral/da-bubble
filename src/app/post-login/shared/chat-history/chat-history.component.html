@@ -285,7 +285,7 @@
 	<!-- emoji Picker-->
 	@if (index === emojiPickerIndex) { @if (showEmojiPicker) {
 	<div class="emoji-picker-container">
-		<emoji-mart></emoji-mart>
+		<emoji-mart (emojiClick)="this.chatService.setReaction($event, msg.messageId)"></emoji-mart>
 	</div>
 	} } } }
 	<!--popUp overlay for editing specific current user msg-->

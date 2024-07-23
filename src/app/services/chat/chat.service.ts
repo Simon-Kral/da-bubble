@@ -15,11 +15,12 @@ import {
 	deleteDoc,
 	increment,
 	DocumentReference,
+	arrayUnion,
 } from '@angular/fire/firestore';
 import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { Reaction } from '../../models/reaction.class';
 @Injectable({
 	providedIn: 'root',
 })
@@ -547,5 +548,43 @@ export class ChatService {
 		const hours = date.getHours().toString().padStart(2, '0');
 		const minutes = date.getMinutes().toString().padStart(2, '0');
 		return `${hours}:${minutes} Uhr`;
+	}
+
+
+	// code for reactions might be outsourced later
+
+	setReaction(event:any ,messageId: string) {
+		console.log('event:', event);
+		console.log('messageId:', messageId);
+		//update the message with the new reaction in reactions array
+		let nativeEmoji = event.emoji.native;
+		console.log('nativeEmoji:', nativeEmoji);
+		let reactionId = event.emoji.id;
+		let newReaction: Reaction = {
+			reactionId: reactionId,
+			user: this.firebaseService.currentUserId,
+			message_id: messageId,
+			amount: 1,
+			nativeEmoji: nativeEmoji,			
+		};
+		console.log('newReaction:', newReaction);
+		this.addReaction(reactionId, messageId);
+	}
+
+	async addReaction(newReaction: string, messageId: string):Promise<void> {
+		console.log('reaction:', newReaction);
+		try {
+			const messageDocRef = doc(
+				this.firestore,
+				`${this.mainCollection}/${this.docRef}/messages/${messageId}`
+			);
+			await updateDoc(messageDocRef, {
+				reactions: arrayUnion(newReaction),
+			});
+			console.log('reaction added', newReaction);
+		} catch (error) {
+			console.error('Error updating message text:', error);
+			throw error;
+		}
 	}
 }
