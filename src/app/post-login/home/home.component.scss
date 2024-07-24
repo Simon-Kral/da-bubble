@@ -12,12 +12,18 @@
 .sidenav-wrapper {
   width: 366px;
   height: 100%;
-  transition: ease-in-out 0.3s;
 }
 
-.app-wrapper {
+.app-container {
+  @include dFlex(row, center, center);
   width: 100%;
   height: 100%;
+  gap: 24px;
+
+  .app-wrapper {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 
@@ -43,9 +49,10 @@
       @include Nunito(700, 20px, 24px, $purple-3);
     }
   }
+
   &:hover img {
     filter: invert(50%) sepia(37%) saturate(6446%) hue-rotate(220deg) brightness(99%) contrast(93%);
-}
+  }
 
   span {
     @include Nunito(500, 20px, 24px, $black);
@@ -99,6 +106,5 @@
 .popup-channel-members {
   position: absolute;
   top: 190px;
-  right:140px;
+  right: 140px;
 }
-
