@@ -24,7 +24,7 @@ export class CreateNewChannelComponent {
   
   channelData: FormGroup;
   channel = new Channel();
-  isCreateChannelFormVisible: boolean = true;  // to-do: Change Variable Name
+  isCreateChannelFormVisible: boolean = true;  
   isAddMemberVisibleForm: boolean = false;
   showChannelSerach: boolean = false;
   showUserSearch: boolean = false;

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FirebaseService } from '../../services/firebase/firebase.service';
 import { Router } from '@angular/router';
+import { CommunicationService } from '../../services/communication/communication.service';
 @Component({
   selector: 'app-new-message',
   standalone: true,
@@ -17,6 +18,7 @@ export class NewMessageComponent implements OnDestroy {
   chatService = inject(ChatService);
   searchService = inject(SearchService);
   firebaseService = inject(FirebaseService);
+  communicationService = inject(CommunicationService);
 
   searchText: FormGroup;
 
@@ -32,12 +34,16 @@ export class NewMessageComponent implements OnDestroy {
 			search: ['']
 		});
     this.chatService.placeholderName = '';
+    if (this.router.url === '/home/new-message') {
+      this.communicationService.showAllUsers = true;
+    }
 	}
 
   ngOnDestroy() {
     this.searchService.selectedUser = [];
     this.chatService.selectedPrivateChatReciver = '';
     this.searchService.selectedChannel = '';
+    this.communicationService.showAllUsers = false;
   }
   // to-do shorten this function
   handleSearch() {

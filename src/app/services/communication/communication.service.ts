@@ -34,6 +34,9 @@ export class CommunicationService {
 	isDeleteMsgDialogVisible: boolean = false;
 	// delete msg dialog thread
 	isDeleteThreadMsgDialogVisible: boolean = false;
+	// flag for tag container displaying all Users in new-message comp
+	showAllUsers: boolean = false;
+
 	constructor() {}
 
 	//mobile view variables
