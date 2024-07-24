@@ -50,7 +50,6 @@ export class ChannelComponent implements OnInit, OnDestroy{
 
 	ngOnInit(): void {
 		this.chatService.subscribeAllLists();
-		this.searchService.getChannelMessages();
 	}
 
 	ngOnDestroy(): void {

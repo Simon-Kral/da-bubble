@@ -24,15 +24,8 @@ export class SearchService {
 	userSearchResults: string[] = [];
 	channelSearchResults: string[] = [];
 	//Private chat messages search
-	unsubPrivteMessageList: any;
-	privateMessageSearchResults : DocumentData[] = [];
-	searchSpesificPrivateMessageResaults: DocumentData[] = [];
-
-	channelThreadList: any[] = [];
-
+	searchSpesificThreadMessageResaults: any[] = [];
 	//channel messages search
-	unsubChannelMessageList: any;
-	channelMessageSearchResults: DocumentData[] = [];
 	searchSpesificChannelMessageResault: any[] = [];
 
 	private channelSubscription: Subscription = new Subscription();
@@ -221,53 +214,72 @@ export class SearchService {
 	}
 
 	/**
-	 * Retrieves private chat messages from the Firebase database.
-	 * Subscribes to changes in the messages collection for each private chat.
-	 * Updates the `privteMessageSearchResults` array with the retrieved messages.
+	 * Searches for specific messages in threads and channels based on the provided search text.
+	 * @param searchText - The text to search for.
 	 */
-	async getPrivateChatMessages() {
-		this.privateMessageSearchResults  = [];
-		for (const chat of this.firebaseService.privateChatList) {
-			const collectionRef = collection(this.firestore, `privateChats/${chat.privatChatId}/messages`);
-			const q = query(collectionRef, orderBy('time'));
-			const querySnapshot = await getDocs(q);
-			querySnapshot.forEach((doc) => {
-				const data = doc.data();
-				this.privateMessageSearchResults.push(data);
-			});
-		}
-	}	
-
-	/**
-	 * Retrieves channel messages from the Firebase database.
-	 * Subscribes to changes in the messages collection for the specified channel.
-	 * Updates the `channelMessageSearchResults` array with the retrieved messages.
-	 */
-
-	getChannelMessages() {
-
-	}
-
-
 	searchSesificMessage(searchText: string) {
 		if (searchText === '') {
-			this.searchSpesificPrivateMessageResaults = [];
+			this.searchSpesificThreadMessageResaults = [];
 			this.searchSpesificChannelMessageResault = [];
 			return;
 		}
 		let searchTextTrimmed = searchText.toLowerCase().trim();
-		this.searchSpesificPrivateMessageResaults = [];
+		this.searchSpesificThreadMessageResaults = [];
 		this.searchSpesificChannelMessageResault = [];
-		
-		this.chatService.msgList.forEach((message) => {
-			if (message.text.toLowerCase().includes(searchTextTrimmed)) {
-				this.searchSpesificChannelMessageResault.push(message);
-				console.log("searchSpesificPrivetMessageResault",this.searchSpesificChannelMessageResault);
-			}
-		})
-		
+		this.searchForSpecificChannelMessages(searchTextTrimmed);
+		this.searchForSpecificThreadMessages(searchTextTrimmed);
+		this.sortThreadSearchResults();
+		this.sortChannelSearchResults();
 	}
 
+
+	/**
+	 * Searches for specific channel messages based on the given search text.
+	 * @param searchText - The text to search for in the messages.
+	 */
+	searchForSpecificChannelMessages(searchText: string) {
+		if (this.chatService.msgList.length) {
+			this.chatService.msgList.forEach((message) => {
+				if (message.text.toLowerCase().includes(searchText)) {
+					this.searchSpesificChannelMessageResault.push(message);
+					console.log("searchSpesificChannelMessageResault",this.searchSpesificChannelMessageResault);
+				}
+			})
+		}
+	}
+
+	/**
+	 * Searches for specific thread messages based on the given search text.
+	 * @param searchText - The text to search for in the messages.
+	 */
+	searchForSpecificThreadMessages(searchText: string) {
+		if (this.threadService.msgAnswerList.length) {
+			this.threadService.msgAnswerList.forEach((message) => {
+				if (message.text.toLowerCase().includes(searchText)) {
+					this.searchSpesificThreadMessageResaults.push(message);
+					console.log("searchSpesificThreadMessageResaults",this.searchSpesificThreadMessageResaults);
+				}
+			});
+		}
+	}
+
+	/**
+	 * Sorts the search results for a specific thread based on the time property.
+	 */
+	sortThreadSearchResults() {
+		this.searchSpesificThreadMessageResaults.sort((a, b) => {
+			return a.time - b.time;
+		});
+	}
+
+	/**
+	 * Sorts the search results for a specific channel based on the time property.
+	 */
+	sortChannelSearchResults() {
+		this.searchSpesificChannelMessageResault.sort((a, b) => {
+			return a.time - b.time;
+		});
+	}
 
 
 }

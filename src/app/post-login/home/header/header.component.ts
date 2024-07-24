@@ -1,3 +1,4 @@
+import { ThreadService } from './../../../services/thread/thread.service';
 import { ChatService } from './../../../services/chat/chat.service';
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { AuthService } from '../../../services/authentication/auth.service';
@@ -20,6 +21,7 @@ export class HeaderComponent implements OnInit {
   chatService = inject(ChatService);
   firebaseService = inject(FirebaseService);
   searchService = inject(SearchService);
+  threadService = inject(ThreadService);
 
   searchText: FormGroup;
   showUsers: boolean = false;
@@ -44,8 +46,6 @@ export class HeaderComponent implements OnInit {
       this.channelSearchActive(searchInput);
     } else {
       this.showAllUsersAndChannels();
-      this.searchService.getChannelMessages();
-      //await this.searchService.getPrivateChatMessages();
       this.searchService.searchSesificMessage(searchInput);
     }
   }
@@ -114,5 +114,9 @@ export class HeaderComponent implements OnInit {
     this.isFocusActive = false;
     //unsubscribe from channel search
     this.searchService.handleClickOnChannelAndUnSub(channelId);
+  }
+
+  noMessageSearchResult() {
+	return !this.searchService.searchSpesificChannelMessageResault.length || !this.searchService.searchSpesificChannelMessageResault.length;
   }
 }
