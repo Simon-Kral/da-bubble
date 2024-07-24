@@ -5,6 +5,14 @@
         <div class="user-msg">
             <!--msg-menu-->
             <div class="msg-menu">
+                <div class="menu-content pointer"
+                (click)="this.reactionService.addSpecificReaction(msg.messageAnswerId, this.reactionService.setReactionThumbUp, 'thread'); this.reactionService.currentMessageId = msg.messageAnswerId">
+                <div class="emoji-container"> 👍 </div>
+              </div>
+              <div class="menu-content pointer"
+                (click)="this.reactionService.addSpecificReaction(msg.messageAnswerId, this.reactionService.setReactionThumbDown, 'thread'); this.reactionService.currentMessageId = msg.messageAnswerId">
+                <div class="emoji-container"> 👎 </div>
+              </div>
                 <div class="pointer menu-content" (click)="toggleEmojiPicker(index)">
                     <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
                 </div>
@@ -30,10 +38,14 @@
                 </div>   
                     <!--reactions container-->
                     <div class="reactions-container">
-                        <div class="pointer last-reaction">
-                            <div class="emoji-container">👍</div>
-                            <span class="emoji-counter">3</span>
-                        </div>
+                        @for (reaction of msg.reactions; track reaction; let index = $index) {
+                            <div class="pointer last-reaction" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageAnswerId, 'thread')">
+                              <div class="emoji-container">
+                                {{reaction.nativeEmoji}}
+                              </div>
+                              <span class="emoji-counter">{{reaction.amount}}</span>
+                            </div>
+                            } 
                         <div class="pointer add-reaction" (click)="toggleEmojiPicker(index)">
                             <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
                         </div>
@@ -66,6 +78,14 @@
             <div class="current-user-msg"> 
                 <!--msg-menu only displayed for current user-->
                 <div class="msg-menu">
+                    <div class="menu-content pointer"
+                    (click)="this.reactionService.addSpecificReaction(msg.messageAnswerId, this.reactionService.setReactionThumbUp, 'thread'); this.reactionService.currentMessageId = msg.messageAnswerId">
+                    <div class="emoji-container"> 👍 </div>
+                  </div>
+                  <div class="menu-content pointer"
+                    (click)="this.reactionService.addSpecificReaction(msg.messageAnswerId, this.reactionService.setReactionThumbDown, 'thread'); this.reactionService.currentMessageId = msg.messageAnswerId">
+                    <div class="emoji-container"> 👎 </div>
+                  </div>
                     <div class="pointer menu-content">
                         <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon" (click)="toggleEmojiPicker(index)">
                     </div>
@@ -107,10 +127,14 @@
                     </div>   
                     <!--reactions container-->
                     <div class="reactions-container">
-                        <div class="pointer last-reaction">
-                            <div class="emoji-container">👍</div>
-                            <span class="emoji-counter">3</span>
-                        </div>
+                        @for (reaction of msg.reactions; track reaction; let index = $index) {
+                            <div class="pointer last-reaction" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageAnswerId, 'thread')">
+                              <div class="emoji-container">
+                                {{reaction.nativeEmoji}}
+                              </div>
+                              <span class="emoji-counter">{{reaction.amount}}</span>
+                            </div>
+                            } 
                         <div class="pointer add-reaction" (click)="toggleEmojiPicker(index)">
                             <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
                         </div>

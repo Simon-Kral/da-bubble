@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Reaction } from '../../models/reaction.class';
-import { Firestore,	doc, updateDoc, getDoc, arrayUnion } from '@angular/fire/firestore';
+import { Firestore,	doc, updateDoc, getDoc, arrayUnion, DocumentReference } from '@angular/fire/firestore';
 import { ChatService } from '../chat/chat.service';
 import { FirebaseService } from '../firebase/firebase.service';
 
@@ -18,9 +18,10 @@ export class ReactionService {
 
   constructor() { }
 
-	currentMessageId: string = '';
-  
-  setReactionThumbUp: Reaction = {
+	currentMessageId: string = '';  // getting used to store the current message id of chat or thread
+	currentThreadId: string = '';	// getting used to store the current thread id of chat
+
+  	setReactionThumbUp: Reaction = {
 	reactionId: '1F44D',
 	user: [this.firebaseService.currentUserId],
 	message_id: this.currentMessageId,
@@ -35,7 +36,6 @@ export class ReactionService {
 	nativeEmoji: '👎',
   };
 
-
 /**
  * Adds a new reaction to a message.
  *
@@ -44,47 +44,42 @@ export class ReactionService {
  * @returns {Promise<void>} A promise that resolves when the reaction is successfully added.
  * @throws Will throw an error if there is an issue updating the Firestore document.
  */
-async addSpecificReaction(messageId: string, reaction: Reaction): Promise<void> {
-	console.log('reaction:', reaction);
-	try {
-	  const messageDocRef = doc(
-		this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${messageId}`
-	  );
-	  const messageDoc = await getDoc(messageDocRef);
-	  
-	  if (messageDoc.exists()) {
-		const data = messageDoc.data();
-		if (data && data['reactions']) {
-		  const existingReaction = data['reactions'].find((r: Reaction) => r.reactionId === reaction.reactionId);
-		  
-		  if (existingReaction) {
-			// Reaction already exists, check if the user has already reacted
-			if (!existingReaction.user.includes(this.firebaseService.currentUserId)) {
-			  await this.updateReactionAmount(reaction.reactionId, messageId, 'increase');
-			} else {
-			  console.log('User has already reacted with this reaction');
-			}
-		  } else {
-			// Reaction does not exist, add it to the reactions array
-			await updateDoc(messageDocRef, {
-			  reactions: arrayUnion(reaction),
-			});
-			console.log('reaction added', reaction);
-		  }
-		} else {
-		  // No reactions exist, add the new reaction
-		  await updateDoc(messageDocRef, {
-			reactions: [reaction],
-		  });
-		  console.log('reaction added', reaction);
-		}
-	  } else {
-		throw new Error('Message document does not exist.');
-	  }
-	} catch (error) {
-	  console.error('Error updating message text:', error);
-	  throw error;
-	}
+async addSpecificReaction(messageId: string, reaction: Reaction, source: string): Promise<void> {
+    console.log('reaction:', reaction);
+    try {
+      const messageDocRef = this.getDocRef(source, messageId);
+      const messageDoc = await getDoc(messageDocRef);
+
+      if (messageDoc.exists()) {
+        const data = messageDoc.data();
+        if (data && data['reactions']) {
+          const existingReaction = data['reactions'].find((r: Reaction) => r.reactionId === reaction.reactionId);
+
+          if (existingReaction) {
+            if (!existingReaction.user.includes(this.firebaseService.currentUserId)) {
+              await this.updateReactionAmount(reaction.reactionId, messageId, 'increase', source);
+            } else {
+              console.log('User has already reacted with this reaction');
+            }
+          } else {
+            await updateDoc(messageDocRef, {
+              reactions: arrayUnion(reaction),
+            });
+            console.log('reaction added', reaction);
+          }
+        } else {
+          await updateDoc(messageDocRef, {
+            reactions: [reaction],
+          });
+          console.log('reaction added', reaction);
+        }
+      } else {
+        throw new Error('Message document does not exist.');
+      }
+    } catch (error) {
+      console.error('Error updating message text:', error);
+      throw error;
+    }
   }
 
 
@@ -98,46 +93,44 @@ async addSpecificReaction(messageId: string, reaction: Reaction): Promise<void> 
  * @returns {Promise<void>} A promise that resolves when the reaction is deleted or updated.
  * @throws Will throw an error if there is an issue accessing or updating the Firestore document.
  */
-async deleteReaction(reactionId: string, messageId: string): Promise<void> {
-	try {
-	  const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${messageId}`);
-	  const messageDoc = await getDoc(messageDocRef);
-  
-	  if (messageDoc.exists()) {
-		const data = messageDoc.data();
-		if (data && data['reactions']) {
-		  const reaction = data['reactions'].find((r: Reaction) => r.reactionId === reactionId && r.user.includes(this.firebaseService.currentUserId));
-		  if (reaction) {
-			if (reaction.user.length > 1) {
-			  // Remove the currentUserId from the user array and decrease the amount by 1
-			  const updatedUsers = reaction.user.filter((userId: string) => userId !== this.firebaseService.currentUserId);
-			  const updatedReactions = data['reactions'].map((r: Reaction) => {
-				if (r.reactionId === reactionId) {
-				  return {
-					...r,
-					user: updatedUsers,
-					amount: r.amount - 1
-				  };
-				}
-				return r;
-			  });
-			  await updateDoc(messageDocRef, { reactions: updatedReactions });
-			  console.log('User removed from reaction');
-			} else {
-			  // If the amount is 1 and the current user is the only one, remove the reaction
-			  const updatedReactions = data['reactions'].filter((r: Reaction) => r.reactionId !== reactionId);
-			  await updateDoc(messageDocRef, { reactions: updatedReactions });
-			  console.log('Reaction deleted');
-			}
-		  } else {
-			console.log('No reaction found for the current user');
-		  }
-		}
-	  }
-	} catch (error) {
-	  console.error('Error deleting reaction:', error);
-	  throw error;
-	}
+async deleteReaction(reactionId: string, messageId: string, source: string): Promise<void> {
+    try {
+      const messageDocRef = this.getDocRef(source, messageId);
+      const messageDoc = await getDoc(messageDocRef);
+
+      if (messageDoc.exists()) {
+        const data = messageDoc.data();
+        if (data && data['reactions']) {
+          const reaction = data['reactions'].find((r: Reaction) => r.reactionId === reactionId && r.user.includes(this.firebaseService.currentUserId));
+          if (reaction) {
+            if (reaction.user.length > 1) {
+              const updatedUsers = reaction.user.filter((userId: string) => userId !== this.firebaseService.currentUserId);
+              const updatedReactions = data['reactions'].map((r: Reaction) => {
+                if (r.reactionId === reactionId) {
+                  return {
+                    ...r,
+                    user: updatedUsers,
+                    amount: r.amount - 1
+                  };
+                }
+                return r;
+              });
+              await updateDoc(messageDocRef, { reactions: updatedReactions });
+              console.log('User removed from reaction');
+            } else {
+              const updatedReactions = data['reactions'].filter((r: Reaction) => r.reactionId !== reactionId);
+              await updateDoc(messageDocRef, { reactions: updatedReactions });
+              console.log('Reaction deleted');
+            }
+          } else {
+            console.log('No reaction found for the current user');
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting reaction:', error);
+      throw error;
+    }
   }
 
 
@@ -147,26 +140,26 @@ async deleteReaction(reactionId: string, messageId: string): Promise<void> {
  * @param {any} event - The event object from the emoji picker.
  * @param {string} messageId - The ID of the message to which the reaction is to be added or updated.
  */
-handleReaction(event: any, messageId: string) {
-	console.log('event:', event);          
-	console.log('messageId:', messageId);
-	let nativeEmoji = event.emoji.native;
-	console.log('nativeEmoji:', nativeEmoji);
-	let reactionId = event.emoji.unified;
+handleReaction(event: any, messageId: string, source: string) {
+    console.log('event:', event);          
+    console.log('messageId:', messageId);
+    let nativeEmoji = event.emoji.native;
+    console.log('nativeEmoji:', nativeEmoji);
+    let reactionId = event.emoji.unified;
 
-	let newReaction: Reaction = {
-	  reactionId: reactionId,
-	  user: [this.firebaseService.currentUserId],
-	  message_id: messageId,
-	  amount: 1,
-	  nativeEmoji: nativeEmoji,
-	};
-  
-	console.log('newReaction:', newReaction);
-  
-	this.addSpecificReaction(messageId, newReaction)
+    let newReaction: Reaction = {
+      reactionId: reactionId,
+      user: [this.firebaseService.currentUserId],
+      message_id: messageId,
+      amount: 1,
+      nativeEmoji: nativeEmoji,
+    };
 
-	this.showEmojiPicker = false;
+    console.log('newReaction:', newReaction);
+
+    this.addSpecificReaction(messageId, newReaction, source);
+
+    this.showEmojiPicker = false;
   }
 
 
@@ -178,36 +171,48 @@ handleReaction(event: any, messageId: string) {
  * @returns {Promise<void>} A promise that resolves when the reaction amount is updated.
  * @throws Will throw an error if there is an issue accessing or updating the Firestore document.
  */
-async updateReactionAmount(reactionId: string, messageId: string, operation: 'increase' | 'decrease'): Promise<void> {
-	try {
-	  const messageDocRef = doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${messageId}`);
-	  const messageDoc = await getDoc(messageDocRef);
-  
-	  if (messageDoc.exists()) {
-		const data = messageDoc.data();
-		if (data && data['reactions']) {
-		  const updatedReactions = data['reactions'].map((reaction: Reaction) => {
-			if (reaction.reactionId === reactionId) {
-			  const updatedAmount = operation === 'increase' ? reaction.amount + 1 : reaction.amount - 1;
-			  if (operation === 'increase' && !reaction.user.includes(this.firebaseService.currentUserId)) {
-				reaction.user.push(this.firebaseService.currentUserId);
-			  }
-			  return {
-				...reaction,
-				amount: updatedAmount
-			  };
-			}
-			return reaction;
-		  }).filter((reaction: Reaction) => reaction.amount > 0);
-  
-		  await updateDoc(messageDocRef, { reactions: updatedReactions });
-		  console.log(`Reaction amount ${operation === 'increase' ? 'increased' : 'decreased'}`);
-		}
-	  }
-	} catch (error) {
-	  console.error(`Error updating reaction amount:`, error);
-	  throw error;
-	}
+async updateReactionAmount(reactionId: string, messageId: string, operation: 'increase' | 'decrease', source: string): Promise<void> {
+    try {
+      const messageDocRef = this.getDocRef(source, messageId);
+      const messageDoc = await getDoc(messageDocRef);
+
+      if (messageDoc.exists()) {
+        const data = messageDoc.data();
+        if (data && data['reactions']) {
+          const updatedReactions = data['reactions'].map((reaction: Reaction) => {
+            if (reaction.reactionId === reactionId) {
+              const updatedAmount = operation === 'increase' ? reaction.amount + 1 : reaction.amount - 1;
+              if (operation === 'increase' && !reaction.user.includes(this.firebaseService.currentUserId)) {
+                reaction.user.push(this.firebaseService.currentUserId);
+              }
+              return {
+                ...reaction,
+                amount: updatedAmount
+              };
+            }
+            return reaction;
+          }).filter((reaction: Reaction) => reaction.amount > 0);
+
+          await updateDoc(messageDocRef, { reactions: updatedReactions });
+          console.log(`Reaction amount ${operation === 'increase' ? 'increased' : 'decreased'}`);
+        }
+      }
+    } catch (error) {
+      console.error(`Error updating reaction amount:`, error);
+      throw error;
+    }
+  }
+
+
+
+  private getDocRef(source: string, messageId: string): DocumentReference {
+    if (source === 'chat') {
+      return doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${messageId}`);
+    } else if (source === 'thread') {
+      return doc(this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.currentThreadId}/messageAnswers/${messageId}`);
+    } else {
+      throw new Error('Invalid source');
+    }
   }
 
 
