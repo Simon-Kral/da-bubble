@@ -223,6 +223,7 @@ export class SearchService {
 			this.searchSpesificChannelMessageResault = [];
 			return;
 		}
+		this.searchText = searchText.replace(/\\n/g, ' ');
 		let searchTextTrimmed = searchText.toLowerCase().trim();
 		this.searchSpesificThreadMessageResaults = [];
 		this.searchSpesificChannelMessageResault = [];
@@ -268,7 +269,7 @@ export class SearchService {
 	 */
 	sortThreadSearchResults() {
 		this.searchSpesificThreadMessageResaults.sort((a, b) => {
-			return a.time - b.time;
+			return a.text - b.text;
 		});
 	}
 
@@ -277,7 +278,7 @@ export class SearchService {
 	 */
 	sortChannelSearchResults() {
 		this.searchSpesificChannelMessageResault.sort((a, b) => {
-			return a.time - b.time;
+			return a.text - b.text;
 		});
 	}
 
