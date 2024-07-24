@@ -38,6 +38,17 @@ export class ThreadService {
   editMessageAnswerId: string = '';
   editMessageId: string = '';
 
+  scrollToMessage(messageAnswerId: string) {
+    console.log('Scroll to message:', messageAnswerId);
+    this.messageScrolledSource.next(messageAnswerId);
+  }
+
+  scrollToBottom() {
+    const lastMessage = this.msgAnswerList[this.msgAnswerList.length - 1];
+    const messageId = lastMessage.messageAnswerId;
+    this.scrollToMessage(messageId);
+  }
+
   /**
    * Subscribes to all necessary lists for the thread service.
    */
@@ -54,40 +65,31 @@ export class ThreadService {
     }
   }
 
-  // scroll functions
-  scrollToMessage(messageAnswerId: string) {
-    this.messageScrolledSource.next(messageAnswerId);
-  }
-
-  scrollToBottom() {
-    const lastMessage = this.msgAnswerList[this.msgAnswerList.length - 1];
-    const messageId = lastMessage.messageAnswerId;
-    this.scrollToMessage(messageId);
-  }
-
   /**
    * Handles the creation of a new thread for a given message.
    *
    * @param {Message} message - The message for which a new thread is being created.
+   * @returns {Promise<void>} A promise that resolves when the thread is successfully created and subscribed.
    */
-  handleCreateThread(message: Message) {
+  async handleCreateThread(message: Message) {
     this.communicationService.isThreadVisible = false;
     this.communicationService.toggleThreadVisibility(true);
     this.chatService.messageId = message.messageId;
     this.createMessageAnswer(message);
-    this.subscribeMsgAnswerList();
+    await this.subscribeMsgAnswerList();
   }
 
   /**
    * Opens an existing thread and subscribes to its message answers.
    *
    * @param {string} threadId - The ID of the thread to be opened.
+   * @returns {Promise<void>} A promise that resolves when the thread is successfully opened and subscribed.
    */
-  openExistingThread(threadId: string) {
+  async openExistingThread(threadId: string) {
     this.communicationService.isThreadVisible = false;
     this.communicationService.toggleThreadVisibility(true);
     this.chatService.messageId = threadId;
-    this.subscribeMsgAnswerList();
+    await this.subscribeMsgAnswerList();
   }
 
   /**
@@ -95,10 +97,11 @@ export class ThreadService {
    * function with the message text from the event.
    *
    * @param {{ message: string }} event - The event object containing the sent message text.
+   * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
    */
   async onMessageSent(event: { message: string }) {
-    await this.sendMessageAnswer(event.message);
-    this.scrollToBottom();
+      await this.sendMessageAnswer(event.message);
+      this.scrollToBottom();
   }
 
   // code for fetching messages of subcollection "messageAnswers" from privateChats / privateNotes  or channels
@@ -186,6 +189,7 @@ export class ThreadService {
    * Creates a initial messageAnswer in the Firestore subcollection 'messageAnswers' for privateChats / privateNotes  or channels.
    *
    * @param {Message} message - The message object containing the details of the messageAnswer to be created.
+   * @returns {Promise<void>} A promise that resolves when the message answer is successfully created and updated.
    */
   async createMessageAnswer(message: Message) {
     let newMessage: MessageAnswer = {
@@ -206,9 +210,10 @@ export class ThreadService {
   }
 
   /**
-   * Sends a new messageAnswer in a thread and updates its document ID in Firestore.
+   * Sends a new messageAnswer and updates its document ID in Firestore.
    *
    * @param {string} messageText - The text of the message answer to be sent.
+   * @returns {Promise<void>} A promise that resolves when the message answer is successfully sent and updated.
    */
   async sendMessageAnswer(messageText: string) {
     let newMessage: MessageAnswer = {
@@ -333,7 +338,7 @@ export class ThreadService {
   }
 
   /**
-   * Updates the text of the initial message document in Firestore subcollection messages.
+   * Updates the text of the initial message document in Firestore.
    * It increments the edit count and sets the last edit time to the current system time in milliseconds.
    * @param {string} newText - The new text to update in the message document.
    * @returns {Promise<void>} A promise that resolves when the message text is updated.
@@ -357,7 +362,7 @@ export class ThreadService {
   }
 
   /**
-   * Deletes a message document from Firestore in the messageAnswers subcollection and updates the parent message's answer count.
+   * Deletes a message document from Firestore and updates the parent message's answer count.
    *
    * @returns {Promise<void>} A promise that resolves when the message is successfully deleted.
    * @throws Will throw an error if the deletion fails.

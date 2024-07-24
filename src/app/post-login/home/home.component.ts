@@ -20,155 +20,157 @@ import { ThreadComponent } from '../shared/thread/thread.component';
 import { ChannelMemberComponent } from './channel/channel-member/channel-member.component';
 import { SearchService } from '../../services/search/search.service';
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
-  imports: [
-    HeaderComponent,
-    ChannelComponent,
-    SidenavComponent,
-    ThreadComponent,
-    CommonModule,
-    RouterOutlet,
-    CreateNewChannelComponent,
-    PrivateMessageComponent,
-    UserProfileComponent,
-    CurrentUserProfileComponent,
-    UserMenuComponent,
-    MobileUserMenuComponent,
-    ChannelDetailsComponent,
-    AddMembersToChannelComponent,
-    ChannelMemberComponent,
-  ],
+	selector: 'app-home',
+	standalone: true,
+	templateUrl: './home.component.html',
+	styleUrl: './home.component.scss',
+	imports: [
+		HeaderComponent,
+		ChannelComponent,
+		SidenavComponent,
+		ThreadComponent,
+		CommonModule,
+		RouterOutlet,
+		CreateNewChannelComponent,
+		PrivateMessageComponent,
+		UserProfileComponent,
+		CurrentUserProfileComponent,
+		UserMenuComponent,
+		MobileUserMenuComponent,
+		ChannelDetailsComponent,
+		AddMembersToChannelComponent,
+		ChannelMemberComponent
+	],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  authService = inject(AuthService);
-  firebaseService = inject(FirebaseService);
-  chatService = inject(ChatService);
-  communicationService = inject(CommunicationService);
-  searchService = inject(SearchService);
+	authService = inject(AuthService);
+	firebaseService = inject(FirebaseService);
+	chatService = inject(ChatService);
+	communicationService = inject(CommunicationService);
+	searchService = inject(SearchService);
 
-  //sidenav variables
-  isSidenavVisible: boolean = true;
-  //create channel variables
-  isCreateChannelVisible: boolean = false;
-  //user profile variables
-  isUserProfileVisible: boolean = false;
-  //current user profile variables
-  isCurrentUserProfileVisible: boolean = false;
-  //user menu variables
-  isUserMenuVisible: boolean = false;
-  //thread variables
-  isThreadVisible: boolean = false;
+	//sidenav variables
+	isSidenavVisible: boolean = true;
+	//create channel variables
+	isCreateChannelVisible: boolean = false;
+	//user profile variables
+	isUserProfileVisible: boolean = false;
+	//current user profile variables
+	isCurrentUserProfileVisible: boolean = false;
+	//user menu variables
+	isUserMenuVisible: boolean = false;
+	//thread variables
+	isThreadVisible: boolean = false;
 
-  //Dragan: channel details variables
-  isChannelDetailsVisible: boolean = false;
-  //Dragan: add members to channel variables
-  isAddMembersToChannelVisible: boolean = false;
-  // channel members
-  isChannelMemberVisible: boolean = false;
+	//Dragan: channel details variables
+	isChannelDetailsVisible: boolean = false;
+	//Dragan: add members to channel variables
+	isAddMembersToChannelVisible: boolean = false;
+	// channel members
+	isChannelMemberVisible: boolean = false;
 
-  ngOnInit(): void {
-    this.firebaseService.getCurrentUserId();
-    this.firebaseService.subscribeAllLists();
-    this.communicationService.isCurrentUserProfileVisible$.subscribe((visible) => {
-      this.isCurrentUserProfileVisible = visible;
-    });
-    this.communicationService.isUserProfileVisible$.subscribe((visible) => {
-      this.isUserProfileVisible = visible;
-    });
-    this.communicationService.isChannelDetailsVisible$.subscribe((visible) => {
-      this.isChannelDetailsVisible = visible;
-    });
-    this.communicationService.isAddMembersToChannelVisible$.subscribe((visible) => {
-      this.isAddMembersToChannelVisible = visible;
-    });
-    this.communicationService.isChannelMemberVisible$.subscribe((visible) => {
-      this.isChannelMemberVisible = visible;
-    });
-  }
 
-  ngOnDestroy(): void {
-    this.firebaseService.unsubscribeAllLists();
-    this.chatService.unsubscribeAllLists();
-  }
+	ngOnInit(): void {
+		this.firebaseService.getCurrentUserId();
+		this.firebaseService.subscribeAllLists();
+		this.firebaseService.setCurrentUserAsObjekt(); // to-do remove after developement is finished
+		this.communicationService.isCurrentUserProfileVisible$.subscribe((visible) => {
+				this.isCurrentUserProfileVisible = visible;
+		});
+		this.communicationService.isUserProfileVisible$.subscribe((visible) => {
+			this.isUserProfileVisible = visible;
+		});
+		this.communicationService.isChannelDetailsVisible$.subscribe((visible) => {
+			this.isChannelDetailsVisible = visible;
+		});
+		this.communicationService.isAddMembersToChannelVisible$.subscribe((visible) => {
+			this.isAddMembersToChannelVisible = visible;
+		});
+		this.communicationService.isChannelMemberVisible$.subscribe((visible) => {
+			this.isChannelMemberVisible = visible;
+		});
+	}
 
-  //sidenav functions
-  toggleSidenav() {
-    this.isSidenavVisible = !this.isSidenavVisible;
-  }
-  /**
-   * Toggles the visibility of various components based on the given name.
-   * @param name The name of the component to toggle visibility for.
-   * @param visible Boolean flag indicating whether to show or hide the component.
-   */
-  toggleComponentVisibility(name: string, visible: boolean): void {
-    switch (name) {
-      case 'createChannel':
-        this.isCreateChannelVisible = visible;
-        break;
-      case 'userProfile':
-        this.isUserProfileVisible = visible;
-        break;
-      case 'currentUserProfile':
-        this.isCurrentUserProfileVisible = visible;
-        break;
-      case 'userMenu':
-        this.isUserMenuVisible = visible;
-        break;
-      case 'channelDetails':
-        this.isChannelDetailsVisible = visible;
-        break;
-      case 'addMembersToChannel':
-        this.isAddMembersToChannelVisible = visible;
-        break;
-      case 'channelMember':
-        this.isChannelMemberVisible = visible;
-        break;
-      default:
-        console.warn(`Unknown component name: ${name}`);
-        break;
-    }
-  }
+	ngOnDestroy(): void {
+		this.firebaseService.unsubscribeAllLists();
+		this.chatService.unsubscribeAllLists();
+	}
 
-  // functions for popup overlay
-  preventClose(event: MouseEvent) {
-    event.stopPropagation();
-  }
-  /**
-   * Closes the specified popup overlay.
-   * @param {string} name - The name of the popup to close (e.g.'createChannel' or 'userProfile').
-   */
-  closePopupOverlay(name: string) {
-    switch (name) {
-      case 'createChannel':
-        this.isCreateChannelVisible = false;
-        break;
-      case 'userProfile':
-        this.isUserProfileVisible = false;
-        break;
-      case 'currentUserProfile':
-        this.isCurrentUserProfileVisible = false;
-        break;
-      case 'userMenu':
-        this.isUserMenuVisible = false;
-        break;
-      case 'channelDetails':
-        this.isChannelDetailsVisible = false;
-        break;
-      case 'addMembersToChannel':
-        this.isAddMembersToChannelVisible = false;
-        break;
-      case 'channelMember':
-        this.isChannelMemberVisible = false;
-        break;
-      case 'mobileUserMenu':
-        this.communicationService.isMobileUserMenuVisible = false;
-        break;
-      default:
-        console.warn(`Unknown popup name: ${name}`);
-        break;
-    }
-  }
+	//sidenav functions
+	toggleSidenav() {
+		this.isSidenavVisible = !this.isSidenavVisible;
+	}
+	/**
+	 * Toggles the visibility of various components based on the given name.
+	 * @param name The name of the component to toggle visibility for.
+	 * @param visible Boolean flag indicating whether to show or hide the component.
+	 */
+	toggleComponentVisibility(name: string, visible: boolean): void {
+		switch (name) {
+			case 'createChannel':
+				this.isCreateChannelVisible = visible;
+				break;
+			case 'userProfile':
+				this.isUserProfileVisible = visible;
+				break;
+			case 'currentUserProfile':
+				this.isCurrentUserProfileVisible = visible;
+				break;
+			case 'userMenu':
+				this.isUserMenuVisible = visible;
+				break;
+			case 'channelDetails':
+				this.isChannelDetailsVisible = visible;
+				break;
+			case 'addMembersToChannel':
+				this.isAddMembersToChannelVisible = visible;
+				break;
+			case 'channelMember':
+				this.isChannelMemberVisible = visible;
+				break;
+			default:
+				console.warn(`Unknown component name: ${name}`);
+				break;
+		}
+	}
+
+	// functions for popup overlay
+	preventClose(event: MouseEvent) {
+		event.stopPropagation();
+	}
+	/**
+	 * Closes the specified popup overlay.
+	 * @param {string} name - The name of the popup to close (e.g.'createChannel' or 'userProfile').
+	 */
+	closePopupOverlay(name: string) {
+		switch (name) {
+			case 'createChannel':
+				this.isCreateChannelVisible = false;
+				break;
+			case 'userProfile':
+				this.isUserProfileVisible = false;
+				break;
+			case 'currentUserProfile':
+				this.isCurrentUserProfileVisible = false;
+				break;
+			case 'userMenu':
+				this.isUserMenuVisible = false;
+				break;
+			case 'channelDetails':
+				this.isChannelDetailsVisible = false;
+				break;
+			case 'addMembersToChannel':
+				this.isAddMembersToChannelVisible = false;
+				break;
+			case 'channelMember':
+				this.isChannelMemberVisible = false;
+				break;
+			case 'mobileUserMenu':
+				this.communicationService.isMobileUserMenuVisible = false;
+				break;
+			default:
+				console.warn(`Unknown popup name: ${name}`);
+				break;
+		}
+	}
 }
