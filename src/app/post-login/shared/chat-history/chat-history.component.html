@@ -83,24 +83,14 @@
           <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon" />
         </div>
         @for (reaction of msg.reactions; track reaction; let index = $index) {
-        @if (index == msg.reactions.length - 1) {
-        <div class="pointer last-reaction">
-          <div class="emoji-container"
-            (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">
+        <div class="pointer last-reaction" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">
+          <div class="emoji-container">
             {{reaction.nativeEmoji}}
           </div>
           <span class="emoji-counter">{{reaction.amount}}</span>
         </div>
-        } } @for (reaction of msg.reactions; track reaction; let index = $index)
-        { @if (index == msg.reactions.length - 2) {
-        <div class="pointer last-reaction">
-          <div class="emoji-container"
-            (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">
-            {{reaction.nativeEmoji}}
-          </div>
-          <span class="emoji-counter">{{reaction.amount}}</span>
-        </div>
-        } }
+        } 
+
       </div>
       <!-- emoji Picker-->
       @if (index === this.reactionService.emojiPickerIndex) { @if
@@ -193,24 +183,13 @@
       <!--reactions container-->
       <div class="reactions-container">
         @for (reaction of msg.reactions; track reaction; let index = $index) {
-        @if (index == msg.reactions.length - 1) {
-        <div class="pointer last-reaction">
-          <div class="emoji-container"
-            (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">
-            {{reaction.nativeEmoji}}
+          <div class="pointer last-reaction" (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">
+            <div class="emoji-container">
+              {{reaction.nativeEmoji}}
+            </div>
+            <span class="emoji-counter">{{reaction.amount}}</span>
           </div>
-          <span class="emoji-counter">{{reaction.amount}}</span>
-        </div>
-        } } @for (reaction of msg.reactions; track reaction; let index = $index)
-        { @if (index == msg.reactions.length - 2) {
-        <div class="pointer last-reaction">
-          <div class="emoji-container"
-            (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)">
-            {{reaction.nativeEmoji}}
-          </div>
-          <span class="emoji-counter">{{reaction.amount}}</span>
-        </div>
-        } }
+          } 
         <div class="pointer add-reaction reaction-icon" (click)="toggleEmojiPicker(index)">
           <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon" />
         </div>
