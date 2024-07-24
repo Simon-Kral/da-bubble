@@ -122,4 +122,14 @@ export class HeaderComponent implements OnInit {
   noMessageSearchResult() {
 	return !this.searchService.searchSpesificChannelMessageResault.length || !this.searchService.searchSpesificChannelMessageResault.length;
   }
+
+  convertUnixTimestampToTime(unixTimestamp: string): string {
+    let stringToNumber = parseInt(unixTimestamp, 10); // Specify the base 10 for parsing.
+    const date = new Date(stringToNumber);
+    const hours = date.getHours().toString().padStart(2, '0'); // Get hours and pad with leading zero if necessary.
+    const minutes = date.getMinutes().toString().padStart(2, '0'); // Get minutes and pad with leading zero if necessary.
+    const formattedTime = `${hours}:${minutes}`;
+  
+    return formattedTime;
+  }
 }

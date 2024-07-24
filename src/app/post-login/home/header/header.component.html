@@ -79,7 +79,8 @@
 								</div>
 							</div>
 							<div class="message-text">
-								<span>Nachricht: </span>
+								<span>Datum: {{threadMessage.date}} {{this.convertUnixTimestampToTime(threadMessage.time)}}Uhr</span>
+								<span>Nachricht:</span>
 								<span>{{threadMessage.text}}</span>
 							</div>
 						</div>
@@ -106,7 +107,8 @@
 						</div>
 					</div>
 					<div class="message-text">
-						<span>Nachricht: </span>
+						<span>Datum: {{message.date}} {{this.convertUnixTimestampToTime(message.time)}}Uhr</span>
+						<span>Nachricht:</span>
 						<span>{{message.text}}</span>
 					</div>
 				</div>

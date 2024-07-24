@@ -140,7 +140,15 @@ h3 {
 .message-text {
   @include dFlex(column, start, start);
   gap: 4px;
-  > span:first-child {
+  >span {
+	@include Nunito(400, 14px, 18.8px, $text-gray);
+  
+  }
+  >span:nth-child(2) {
     @include Nunito(700, 16px, 18.8px, $black);
+  
+  }
+  > span:last-child {
+    @include Nunito(400, 16px, 18.8px, $black);
   }
 }
