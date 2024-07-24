@@ -108,11 +108,23 @@ async deleteReaction(reactionId: string, messageId: string): Promise<void> {
 		if (data && data['reactions']) {
 		  const reaction = data['reactions'].find((r: Reaction) => r.reactionId === reactionId && r.user.includes(this.firebaseService.currentUserId));
 		  if (reaction) {
-			if (reaction.amount > 1) {
-			  // If the amount is greater than 1, decrease it by 1
-			  await this.updateReactionAmount(reactionId, messageId, 'decrease');
+			if (reaction.user.length > 1) {
+			  // Remove the currentUserId from the user array and decrease the amount by 1
+			  const updatedUsers = reaction.user.filter((userId: string) => userId !== this.firebaseService.currentUserId);
+			  const updatedReactions = data['reactions'].map((r: Reaction) => {
+				if (r.reactionId === reactionId) {
+				  return {
+					...r,
+					user: updatedUsers,
+					amount: r.amount - 1
+				  };
+				}
+				return r;
+			  });
+			  await updateDoc(messageDocRef, { reactions: updatedReactions });
+			  console.log('User removed from reaction');
 			} else {
-			  // If the amount is 1, remove the reaction
+			  // If the amount is 1 and the current user is the only one, remove the reaction
 			  const updatedReactions = data['reactions'].filter((r: Reaction) => r.reactionId !== reactionId);
 			  await updateDoc(messageDocRef, { reactions: updatedReactions });
 			  console.log('Reaction deleted');
