@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ThreadHistoryComponent } from '../thread-history/thread-history.component';
 import { CommonModule } from '@angular/common';
 import { ChatInputComponent } from '../chat-input/chat-input.component';
@@ -12,12 +12,32 @@ import { ChatService } from '../../../services/chat/chat.service';
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss'
 })
-export class ThreadComponent {
+export class ThreadComponent implements OnInit, OnDestroy {
   communicationService = inject(CommunicationService);
   threadService = inject(ThreadService);
   chatService = inject(ChatService);
   constructor() {}
-  
+
+
+  ngOnInit(): void {
+    this.threadService.subscribeAllLists();
+    setTimeout(() => {
+			this.scrollToBottom();
+		}, 1500);
+  }
+
+  ngOnDestroy(): void {
+    this.chatService.unsubscribeAllLists();
+    this.threadService.unsubscribeAllLists();
+    this.chatService.editThreadId = '';
+    this.threadService.editMessageId = '';
+  }
+
+  scrollToBottom() {
+		const lastMessage = this.threadService.msgAnswerList[this.threadService.msgAnswerList.length - 1];
+		const messageId = lastMessage.messageAnswerId;
+		this.threadService.scrollToMessage(messageId);
+	}
 /**
  * Handles the action when the close button is clicked in the thread interface.
  * 
