@@ -500,7 +500,7 @@ export class FirebaseService {
 			this.firestore,
 			'privateNotes'
 		);
-		this.unsubscribePrivateChatList = onSnapshot(
+		this.unsubscribePrivateNoteList = onSnapshot(
 			privateChatCollection,
 			(snapshot) => {
 				this.privateNoteList = [];
