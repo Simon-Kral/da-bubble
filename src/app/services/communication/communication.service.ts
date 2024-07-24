@@ -5,9 +5,6 @@ import { BehaviorSubject } from 'rxjs';
 	providedIn: 'root',
 })
 export class CommunicationService {
-	//prvt msg component  to-do: do we really need this?
-	showPrivateNote: boolean = false;
-
 	isCurrentUserProfileVisibleSource = new BehaviorSubject<boolean>(false);
 	isCurrentUserProfileVisible$ = this.isCurrentUserProfileVisibleSource.asObservable();
 

@@ -14,31 +14,12 @@
   <div class="user-msg">
     <!--msg-menu-->
     <div class="msg-menu">
-      @if (msg.reactions.length > 0) {
       <div class="menu-content pointer">
-        @for (reaction of msg.reactions; track reaction; let index = $index) {
-        @if (index == msg.reactions.length - 1) {
-        <div
-          class="emoji-container"
-          (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)"
-        >
-          {{reaction.nativeEmoji}}
-        </div>
-        } }
+        <div class="emoji-container"> 👍 </div>
       </div>
-      } @if (msg.reactions.length > 1) {
       <div class="menu-content pointer">
-        @for (reaction of msg.reactions; track reaction; let index = $index) {
-        @if (index == msg.reactions.length - 2) {
-        <div
-          class="emoji-container"
-          (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)"
-        >
-          {{reaction.nativeEmoji}}
-        </div>
-        } }
+        <div class="emoji-container"> 👎 </div>
       </div>
-      }
       <div
         class="pointer menu-content reaction-icon"
         (click)="toggleEmojiPicker(index)"
@@ -159,31 +140,12 @@
   <div class="current-user-msg">
     <!--msg-menu only show for current user-->
     <div class="msg-menu">
-      @if (msg.reactions.length > 0) {
       <div class="menu-content pointer">
-        @for (reaction of msg.reactions; track reaction; let index = $index) {
-        @if (index == msg.reactions.length - 1) {
-        <div
-          class="emoji-container"
-          (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)"
-        >
-          {{reaction.nativeEmoji}}
-        </div>
-        } }
+        <div class="emoji-container"> 👍 </div>
       </div>
-      } @if (msg.reactions.length > 1) {
       <div class="menu-content pointer">
-        @for (reaction of msg.reactions; track reaction; let index = $index) {
-        @if (index == msg.reactions.length - 2) {
-        <div
-          class="emoji-container"
-          (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageId)"
-        >
-          {{reaction.nativeEmoji}}
-        </div>
-        } }
+        <div class="emoji-container"> 👎 </div>
       </div>
-      }
       <div class="pointer menu-content" (click)="toggleEmojiPicker(index)">
         <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon" />
       </div>
