@@ -1,8 +1,8 @@
-<div class="thread-history-wrapper">
+<div class="thread-history-wrapper" #messageContainer>
     @for (msg of this.threadService.msgAnswerList; track msg; let index = $index) {
         @if (msg.messageSendBy !== this.firebaseService.currentUserId) {
         <!--user-msg-->
-        <div class="user-msg">
+        <div class="user-msg" [id]="msg.messageAnswerId">
             <!--msg-menu-->
             <div class="msg-menu">
                 <div class="menu-content pointer"
@@ -74,7 +74,7 @@
 
             <!--current-user-msg-->
             @if (msg.messageSendBy == this.firebaseService.currentUserId) {
-            <div class="current-user-msg"> 
+            <div class="current-user-msg" [id]="msg.messageAnswerId"> 
                 <!--msg-menu only displayed for current user-->
                 <div class="msg-menu">
                     <div class="menu-content pointer"

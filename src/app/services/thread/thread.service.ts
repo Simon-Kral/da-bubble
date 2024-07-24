@@ -5,10 +5,14 @@ import { CommunicationService } from '../communication/communication.service';
 import { query, orderBy, Firestore, collection, doc, onSnapshot, updateDoc, addDoc, getDoc, increment, deleteDoc } from '@angular/fire/firestore';
 import { MessageAnswer } from '../../models/messageAnswer.class';
 import { Message } from '../../models/message.class';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class ThreadService {
+
+  private messageScrolledSource = new BehaviorSubject<string | null>(null);
+  messageScrolled$ = this.messageScrolledSource.asObservable();
 
   constructor() { }
 
@@ -22,6 +26,11 @@ export class ThreadService {
 
   editMessageAnswerId:string = '';  
   editMessageId:string = '';  
+
+  scrollToMessage(messageAnswerId: string) {
+		console.log('Scroll to message:', messageAnswerId);
+		this.messageScrolledSource.next(messageAnswerId);
+	  }
 
 /**
  * Subscribes to all necessary lists for the thread service.

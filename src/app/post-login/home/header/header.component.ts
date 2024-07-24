@@ -39,8 +39,12 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {}
 
 
-  onScrollToMessage(messageId:string) {
+  onScrollToMessageChat(messageId:string) {
     this.chatService.scrollToMessage(messageId);
+  }
+
+  onScrollToMessageThread(messageAnswerId:string) {
+    this.threadService.scrollToMessage(messageAnswerId);
   }
 
 

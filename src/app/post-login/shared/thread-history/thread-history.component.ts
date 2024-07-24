@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { ChatService } from '../../../services/chat/chat.service';
 import { CommunicationService } from '../../../services/communication/communication.service';
@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ThreadService } from '../../../services/thread/thread.service';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ReactionService } from '../../../services/reactions/reaction.service';
+import { Subscription } from 'rxjs';
 interface MsgData {
   text: string;
 }
@@ -31,6 +32,9 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
     currentMsgData: MsgData;
     newMsgData: FormGroup;
 
+    @ViewChild('messageContainer', { static: false }) messageContainer!: ElementRef;
+    private messageScrollSubscription: Subscription = new Subscription();
+
     constructor(private fb: FormBuilder, private route: ActivatedRoute ) {
       this.currentMsgData =  { text: ''}
   
@@ -45,11 +49,26 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.threadService.subscribeAllLists();
+    this.messageScrollSubscription = this.threadService.messageScrolled$.subscribe(messageId => {
+			if (messageId) {
+			  this.scrollToMessage(messageId);
+			}
+		  });
   }
 
   ngOnDestroy(): void {
     this.threadService.unsubscribeAllLists();
+    this.messageScrollSubscription.unsubscribe();
   }
+
+  private scrollToMessage(messageAnswerId: string) {
+		setTimeout(() => {
+		  const element = document.getElementById(messageAnswerId);
+		  if (element) {
+			element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		  }
+		}, 0); // Delay to ensure DOM is updated
+	  }
 
   toggleMsgMenu() {
     this.communicationService.isMsgMenuThreadVisible = !this.communicationService.isMsgMenuThreadVisible;
