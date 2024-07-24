@@ -85,7 +85,7 @@ export class ChatInputComponent {
 	addEmoji(event: { emoji: { native: any } }) {
 		let { message } = this.messageData.value;
 		let text = `${message}${event.emoji.native}`;
-
 		this.messageData.setValue({ message: text });
+		this.toggleEmojiPicker();
 	}
 }
