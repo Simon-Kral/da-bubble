@@ -50,14 +50,13 @@
                             <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
                         </div>
                     </div>
-                    <!-- emoji Picker-->
-                        @if (index === emojiPickerIndex) {
-                            @if (showEmojiPicker) {
-                                <div class="emoji-picker-container">
-                                    <emoji-mart></emoji-mart>
-                                </div>
-                                }
-                            }
+        <!-- emoji Picker-->
+        @if (index === this.reactionService.emojiPickerIndexThread) { @if
+            (this.reactionService.showEmojiPickerThread) {
+            <div class="emoji-picker-container">
+              <emoji-mart (emojiClick)="this.reactionService.handleReaction($event, msg.messageAnswerId ,'thread')"></emoji-mart>
+            </div>
+            } }
             </div>
         </div>
             <!--seperator with answer count-->
@@ -145,13 +144,12 @@
                 </div>
             </div>
         <!-- emoji Picker-->
-         @if (index === emojiPickerIndex) {
-            @if (showEmojiPicker) {
-                <div class="emoji-picker-container">
-                    <emoji-mart></emoji-mart>
-                </div>
-            }
-        }
+        @if (index === this.reactionService.emojiPickerIndexThread) { @if
+            (this.reactionService.showEmojiPickerThread) {
+            <div class="emoji-picker-container">
+              <emoji-mart (emojiClick)="this.reactionService.handleReaction($event, msg.messageAnswerId ,'thread')"></emoji-mart>
+            </div>
+            } }
 
     <!--seperator with answer count-->
     @if (index == 0) {

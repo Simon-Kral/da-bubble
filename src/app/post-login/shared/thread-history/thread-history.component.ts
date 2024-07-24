@@ -55,10 +55,10 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
     this.communicationService.isMsgMenuThreadVisible = !this.communicationService.isMsgMenuThreadVisible;
   }
   
-  toggleEmojiPicker(index: number) {
-    this.showEmojiPicker = !this.showEmojiPicker;
-    this.emojiPickerIndex = index;
-  }
+	toggleEmojiPicker(index: number) {
+		this.reactionService.showEmojiPickerThread = !this.reactionService.showEmojiPickerThread;
+		this.reactionService.emojiPickerIndexThread = index;
+	}
 
   // edit msg functions
  /**

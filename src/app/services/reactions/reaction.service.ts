@@ -14,7 +14,9 @@ export class ReactionService {
   firebaseService: FirebaseService = inject(FirebaseService);
 
   showEmojiPicker: boolean = false;
+  showEmojiPickerThread: boolean = false;
   emojiPickerIndex: number = 0;
+  emojiPickerIndexThread: number = 0;
 
   constructor() { }
 
@@ -160,6 +162,7 @@ handleReaction(event: any, messageId: string, source: string) {
     this.addSpecificReaction(messageId, newReaction, source);
 
     this.showEmojiPicker = false;
+    this.showEmojiPickerThread = false;
   }
 
 
