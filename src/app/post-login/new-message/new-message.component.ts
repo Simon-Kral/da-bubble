@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [ChatInputComponent, CommonModule, ReactiveFormsModule],
   templateUrl: './new-message.component.html',
-  styleUrl: './new-message.component.scss'
+  styleUrl: './new-message.component.scss',
 })
 export class NewMessageComponent implements OnDestroy {
   chatService = inject(ChatService);
@@ -19,20 +19,22 @@ export class NewMessageComponent implements OnDestroy {
   firebaseService = inject(FirebaseService);
 
   searchText: FormGroup;
-
   searchInput: string = '';
-
+  
   showUsersByEmail: boolean = false;
   showUsers: boolean = false;
   showChannels: boolean = false;
   isFocusActive: boolean = false;
 
-  constructor(private fb: FormBuilder, private router: Router) {
-		this.searchText = this.fb.group({
-			search: ['']
-		});
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+  ) {
+    this.searchText = this.fb.group({
+      search: [''],
+    });
     this.chatService.placeholderName = '';
-	}
+  }
 
   ngOnDestroy() {
     this.searchService.selectedUser = [];
@@ -41,27 +43,27 @@ export class NewMessageComponent implements OnDestroy {
   }
   // to-do shorten this function
   handleSearch() {
-    let searchInput  = this.searchText.get('search')?.value || '';
+    let searchInput = this.searchText.get('search')?.value || '';
     this.searchInput = searchInput;
-    
+
     if (searchInput.startsWith('@')) {
-        this.isFocusActive = false;
-        this.showUsers = true;
-        this.showChannels = false;
-        this.showUsersByEmail = false
-        this.searchService.onUserSearch(searchInput.slice(1)); 
+      this.isFocusActive = false;
+      this.showUsers = true;
+      this.showChannels = false;
+      this.showUsersByEmail = false;
+      this.searchService.onUserSearch(searchInput.slice(1));
     } else if (searchInput.startsWith('#')) {
-        this.isFocusActive = false;
-        this.showUsers = false;
-        this.showUsersByEmail = false;
-        this.showChannels = true;
-        this.searchService.onChannelSearch(searchInput.slice(1)); 
+      this.isFocusActive = false;
+      this.showUsers = false;
+      this.showUsersByEmail = false;
+      this.showChannels = true;
+      this.searchService.onChannelSearch(searchInput.slice(1));
     } else if (searchInput.length > 0) {
-        this.isFocusActive = false;
-        this.showUsers = false;
-        this.showChannels = false;
-        this.showUsersByEmail = true;
-        this.searchService.onEmailSearch(searchInput); 
+      this.isFocusActive = false;
+      this.showUsers = false;
+      this.showChannels = false;
+      this.showUsersByEmail = true;
+      this.searchService.onEmailSearch(searchInput);
     } else if (searchInput.length == 0) {
       this.isFocusActive = true;
       this.showUsers = false;
@@ -69,74 +71,113 @@ export class NewMessageComponent implements OnDestroy {
       this.showChannels = false;
       this.searchService.channelSearchResults = [];
       this.showUsersByEmail = false;
+    }
   }
 
-    console.log('Search text received by searchService:', searchInput);
-}
-
-removeSelectedChannel() {
-  this.chatService.mainCollection = '';
-  this.chatService.docRef = '';
-  this.searchService.selectedChannel = '';
-  this.searchText.get('search')?.setValue('');
-  this.chatService.placeholderName = '';
-}
-
-removeSelectedUser(userId: string) {
-  this.searchService.removeSelectedUserFromArray(userId);
-  this.chatService.mainCollection = '';
-  this.chatService.selectedPrivateChatReciver = '';
-  this.searchService.selectedUser = [];
-  this.searchText.get('search')?.setValue('');
-  this.chatService.placeholderName = '';
-}
-
-handleClickOnUser(userId: string) {
-  this.chatService.mainCollection = 'privateChats';
-  this.chatService.selectedPrivateChatReciver = userId;
-  this.searchService.selectedUser = [userId];
-  this.showUsers = false;
-  this.showUsersByEmail = false;
-  this.isFocusActive = false;
-  this.searchText.get('search')?.setValue('');
-  this.searchService.unSubscribeOnUserSearch();
-  this.chatService.placeholderName = this.firebaseService.getUserDisplayName(userId);
-}
-
-handleClickOnChannel(chanId: string) {
-  this.chatService.mainCollection = 'channels';
-  this.chatService.docRef = chanId;
-  this.searchService.selectedChannel = chanId;
-  this.showChannels = false;
-  this.isFocusActive = false;
-  this.searchText.get('search')?.setValue('');
-  this.searchService.unSubscribeOnChannelSearch();
-  this.chatService.initializeChannelPlaceholder(chanId);
-}
-
-
-
-handleFocus() {
-  this.isFocusActive = !this.isFocusActive;
-  this.showUsers = false;
-  this.showChannels = false;
-  this.showUsersByEmail = false;
-}
 /**
- * This function is triggered when a message is sent and it calls the sendMessage
- * function with the message text from the event.
+ * Removes the selected channel and resets the chat and search services.
  *
- * @param {{ message: string }} event - The event object containing the sent message text.
- * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
+ * @function removeSelectedChannel
+ * @memberof MyComponent
+ * @instance
  */
-async onMessageSent(event: { message: string }) {
-  if (this.chatService.mainCollection === 'privateChats') {
-    await this.chatService.initializePrivateChat(this.firebaseService.currentUser.userId, this.chatService.selectedPrivateChatReciver);
-    await this.chatService.sendMessage(event.message);
-  } 
-  else if (this.chatService.mainCollection === 'channels') {  
-  this.chatService.sendMessage(event.message);
-  this.router.navigate(['/home/channels', this.chatService.docRef]);
-  }  
-}
+  removeSelectedChannel() {
+    this.chatService.mainCollection = '';
+    this.chatService.docRef = '';
+    this.searchService.selectedChannel = '';
+    this.searchText.get('search')?.setValue('');
+    this.chatService.placeholderName = '';
+  }
+
+/**
+ * Removes the selected user and resets the chat and search services.
+ *
+ * @function removeSelectedUser
+ * @memberof MyComponent
+ * @instance
+ * 
+ * @param {string} userId - The ID of the user to be removed.
+ */
+  removeSelectedUser(userId: string) {
+    this.searchService.removeSelectedUserFromArray(userId);
+    this.chatService.mainCollection = '';
+    this.chatService.selectedPrivateChatReciver = '';
+    this.searchService.selectedUser = [];
+    this.searchText.get('search')?.setValue('');
+    this.chatService.placeholderName = '';
+  }
+
+/**
+ * Handles the click event on a user, setting the appropriate services and UI states.
+ *
+ * @function handleClickOnUser
+ * @memberof MyComponent
+ * @instance
+ * 
+ * @param {string} userId - The ID of the user that was clicked.
+ */
+  handleClickOnUser(userId: string) {
+    this.chatService.mainCollection = 'privateChats';
+    this.chatService.selectedPrivateChatReciver = userId;
+    this.searchService.selectedUser = [userId];
+    this.showUsers = false;
+    this.showUsersByEmail = false;
+    this.isFocusActive = false;
+    this.searchText.get('search')?.setValue('');
+    this.searchService.unSubscribeOnUserSearch();
+    this.chatService.placeholderName = this.firebaseService.getUserDisplayName(userId);
+  }
+
+/**
+ * Handles the click event on a channel, setting the appropriate services and UI states.
+ *
+ * @function handleClickOnChannel
+ * @memberof MyComponent
+ * @instance
+ * 
+ * @param {string} chanId - The ID of the channel that was clicked.
+ */
+  handleClickOnChannel(chanId: string) {
+    this.chatService.mainCollection = 'channels';
+    this.chatService.docRef = chanId;
+    this.searchService.selectedChannel = chanId;
+    this.showChannels = false;
+    this.isFocusActive = false;
+    this.searchText.get('search')?.setValue('');
+    this.searchService.unSubscribeOnChannelSearch();
+    this.chatService.initializeChannelPlaceholder(chanId);
+  }
+
+/**
+ * Toggles the focus state and hides user, channel, and user by email displays.
+ *
+ * @function handleFocus
+ * @memberof MyComponent
+ * @instance
+ */
+  handleFocus() {
+    this.isFocusActive = !this.isFocusActive;
+    this.showUsers = false;
+    this.showChannels = false;
+    this.showUsersByEmail = false;
+  }
+
+  /**
+   * This function is triggered when a message is sent and it calls the sendMessage
+   * function with the message text from the event.
+   *
+   * @param {{ message: string }} event - The event object containing the sent message text.
+   */
+  async onMessageSent(event: { message: string }) {
+    if (this.chatService.mainCollection === 'privateChats') {
+      await this.chatService.initializePrivateChat(
+        this.firebaseService.currentUser.userId,
+        this.chatService.selectedPrivateChatReciver,
+      );
+      await this.chatService.sendMessage(event.message);
+    } else if (this.chatService.mainCollection === 'channels') {
+      this.chatService.sendMessage(event.message);
+      this.router.navigate(['/home/channels', this.chatService.docRef]);
+    }
+  }
 }
