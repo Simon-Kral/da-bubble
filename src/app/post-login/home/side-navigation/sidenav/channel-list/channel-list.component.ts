@@ -40,6 +40,7 @@ export class ChannelListComponent  {
     this.chatService.subscribeMsgList();                     // subscribes to the message list of the channel
     this.communicationService.isThreadVisible = false;
     this.threadService.unsubscribeAllLists();
+    this.threadService.msgAnswerList = [];
   }
 
 }

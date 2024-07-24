@@ -36,6 +36,7 @@ export class PrivateMessageListComponent {
     this.chatService.placeholderName = this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) +' (Du)';   // sets the placeholder name to 'currentUserDisplayName'
     this.communicationService.isThreadVisible = false;
     this.threadService.unsubscribeAllLists();
+    this.threadService.msgAnswerList = [];
   }
 
 /**
@@ -53,5 +54,6 @@ export class PrivateMessageListComponent {
     this.chatService.initializeChatPlaceholder(messageId);
     this.communicationService.isThreadVisible = false;
     this.threadService.unsubscribeAllLists();
+    this.threadService.msgAnswerList = [];
   }
 }
