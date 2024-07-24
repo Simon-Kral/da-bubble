@@ -11,7 +11,7 @@
   </div>
   } @if (msg.messageSendBy !== this.firebaseService.currentUserId) {
   <!--user-msg-->
-  <div class="user-msg" [id]="'message-' + index">
+  <div class="user-msg" [id]="msg.messageId">
     <!--msg-menu-->
     <div class="msg-menu">
       <div class="menu-content pointer"
@@ -104,7 +104,7 @@
   }
   <!--current-user-msg-->
   @if (msg.messageSendBy == this.firebaseService.currentUserId) {
-  <div class="current-user-msg" [id]="'message-' + index">
+  <div class="current-user-msg" [id]="msg.messageId">
     <!--msg-menu only show for current user-->
     <div class="msg-menu">
       <div class="menu-content pointer"
