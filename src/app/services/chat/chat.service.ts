@@ -49,6 +49,12 @@ export class ChatService {
 		this.messageScrolledSource.next(messageId);
 	  }
 
+	  scrollToBottom() {
+		const lastMessage = this.msgList[this.msgList.length - 1];
+		const messageId = lastMessage.messageId;
+		this.scrollToMessage(messageId);
+	}
+
 	// code for fetching messages from private chat or channels
 	/**
 	 * Subscribes to the messages subcollection and updates the message list in real-time.

@@ -22,7 +22,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.threadService.subscribeAllLists();
     setTimeout(() => {
-			this.scrollToBottom();
+			this.threadService.scrollToBottom();
 		}, 1500);
   }
 
@@ -33,11 +33,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
     this.threadService.editMessageId = '';
   }
 
-  scrollToBottom() {
-		const lastMessage = this.threadService.msgAnswerList[this.threadService.msgAnswerList.length - 1];
-		const messageId = lastMessage.messageAnswerId;
-		this.threadService.scrollToMessage(messageId);
-	}
+
 /**
  * Handles the action when the close button is clicked in the thread interface.
  * 

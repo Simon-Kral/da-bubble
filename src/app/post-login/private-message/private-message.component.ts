@@ -47,7 +47,7 @@ export class PrivateMessageComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.chatService.subscribeAllLists();
     setTimeout(() => {
-			this.scrollToBottom();
+			this.chatService.scrollToBottom();
 		}, 1500);
   }
 
@@ -58,11 +58,6 @@ export class PrivateMessageComponent implements OnInit, OnDestroy{
     this.threadService.editMessageId = '';
   }
 
-  scrollToBottom() {
-		const lastMessage = this.chatService.msgList[this.chatService.msgList.length - 1];
-		const messageId = lastMessage.messageId;
-		this.chatService.scrollToMessage(messageId);
-	}
   
 /**
  * This function is triggered when a message is sent and it calls the sendMessage
@@ -72,7 +67,8 @@ export class PrivateMessageComponent implements OnInit, OnDestroy{
  * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
  */
   async onMessageSent(event: { message: string }) {
-        this.chatService.sendMessage(event.message);   
+      await  this.chatService.sendMessage(event.message);  
+        this.chatService.scrollToBottom(); 
   }
 
 }
