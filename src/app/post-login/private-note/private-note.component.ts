@@ -15,9 +15,9 @@ import { ThreadService } from '../../services/thread/thread.service';
   standalone: true,
   imports: [ChatInputComponent, CommonModule, PrivateMessageListComponent, ChatHistoryComponent],
   templateUrl: './private-note.component.html',
-  styleUrl: './private-note.component.scss',
+  styleUrl: './private-note.component.scss'
 })
-export class PrivateNoteComponent implements OnInit, OnDestroy {
+export class PrivateNoteComponent implements OnInit, OnDestroy{
   firestore: Firestore = inject(Firestore);
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
@@ -26,22 +26,23 @@ export class PrivateNoteComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
-      this.chatService.docRef = params['id'];
-    });
-    // to-do settimeout is needed in case user refreshes the page, otherwise the placeholder is not set because the channelList is not yet loaded
-    setTimeout(() => {
-      this.chatService.placeholderName =
-        this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) + ' (Du)';
-    }, 1500);
-    this.chatService.editThreadId = '';
-    this.threadService.editMessageId = '';
+			this.chatService.docRef = params['id'];
+		});
+    console.log('component initialised',this.chatService.docRef);
+      // to-do settimeout is needed in case user refreshes the page, otherwise the placeholder is not set because the channelList is not yet loaded
+      setTimeout(() => {
+    this.chatService.placeholderName = this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) +' (Du)';   
+  }, 1500);
+      this.chatService.editThreadId = '';
+      this.threadService.editMessageId = '';
   }
+
 
   ngOnInit(): void {
     this.chatService.subscribeAllLists();
     setTimeout(() => {
-      this.chatService.scrollToBottom();
-    }, 1500);
+			this.chatService.scrollToBottom();
+		}, 1500);
   }
 
   ngOnDestroy(): void {
@@ -51,14 +52,15 @@ export class PrivateNoteComponent implements OnInit, OnDestroy {
     this.threadService.editMessageId = '';
   }
 
-  /**
-   * This function is triggered when a message is sent and it calls the sendMessage
-   * function with the message text from the event.
-   *
-   * @param {{ message: string }} event - The event object containing the sent message text.
-   */
-  async onMessageSent(event: { message: string }) {
-    await this.chatService.sendMessage(event.message);
-    this.chatService.scrollToBottom();
-  }
+/**
+ * This function is triggered when a message is sent and it calls the sendMessage
+ * function with the message text from the event.
+ *
+ * @param {{ message: string }} event - The event object containing the sent message text.
+ * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
+ */
+async onMessageSent(event: { message: string }) {
+  await this.chatService.sendMessage(event.message);   
+        this.chatService.scrollToBottom();
+}
 }
