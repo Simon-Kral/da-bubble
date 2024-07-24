@@ -23,7 +23,7 @@
 		  "semi": false,
 		  "singleQuote": false,
 		  "printWidth": 120,
-		  "parser": "angular"
+		  "parser": "html"
 		}
 	  }
 	]
