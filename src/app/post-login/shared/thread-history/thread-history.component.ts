@@ -100,9 +100,9 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
   handleClickOnDeleteMsg(messageId:string, messageAnswerId: string) {
     this.toggleMsgMenu();
     this.communicationService.isDeleteThreadMsgDialogVisible = true;
-    this.threadService.chatService.editMessageId = messageId;
+    this.threadService.editMessageId = messageId;
     this.threadService.editMessageAnswerId = messageAnswerId;  
-  }
+}
 
   handleClickOnCancelDeleteMsg() {
     this.communicationService.isDeleteThreadMsgDialogVisible = false;
