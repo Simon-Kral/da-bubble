@@ -47,6 +47,16 @@ export class HeaderComponent implements OnInit {
     this.threadService.scrollToMessage(messageAnswerId);
   }
 
+  closeSearchAfterMessageClick(id: string) {
+	this.chatService.scrollToMessage(id);
+	this.handleToggleFocus();
+  }
+
+  closeSearchAfterThreadClick(id: string) {
+	this.threadService.scrollToMessage(id);
+	this.handleToggleFocus();
+  }
+
 
   handleSearch() {
     const searchInput = this.searchText.get('search')?.value || '';
@@ -90,8 +100,6 @@ export class HeaderComponent implements OnInit {
     this.showUsers = false;
     this.showChannels = false;
     this.isFocusActive = true;
-    this.searchService.unSubscribeOnChannelSearch();
-    this.searchService.unSubscribeOnUserSearch();
   }
 
   handleClickOnMember(userId: string) {
@@ -142,4 +150,5 @@ export class HeaderComponent implements OnInit {
   
     return formattedTime;
   }
+  
 }

@@ -66,7 +66,7 @@
 			<h3>Thread Messages:</h3>
 				@for (threadMessage of this.searchService.searchSpesificThreadMessageResaults; track threadMessage; let index = $index) {
 					@if(index === 0) {
-						<div class="message-container pointer" (click)="onScrollToMessageThread(threadMessage.messageAnswerId)">
+						<div class="message-container pointer" (click)="closeSearchAfterThreadClick(threadMessage.messageAnswerId)">
 							<div class="message-avatar">
 								<img
 								[src]="this.firebaseService.getUserAvatar(threadMessage.messageSendBy)"
@@ -94,7 +94,7 @@
         <h3>Channel Messages:</h3>
         @for (message of this.searchService.searchSpesificChannelMessageResault; track message; let index = $index) {
 			@if(index === 0) {
-				<div class="message-container pointer" (click)="this.onScrollToMessageChat(message.messageId)">
+				<div class="message-container pointer" (click)="this.closeSearchAfterMessageClick(message.messageId)">
 					<div class="message-avatar">
 						<img
 						[src]="this.firebaseService.getUserAvatar(message.messageSendBy)"
