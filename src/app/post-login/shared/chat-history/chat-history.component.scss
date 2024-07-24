@@ -141,6 +141,7 @@
 			@include dFlex(row, flex-start, center);
 			width: 90%;
 			gap: 16px;
+			flex-wrap: wrap;
 			.last-reaction {
 				@include dFlex(row, center, center);
 				width: 64px;
@@ -329,7 +330,8 @@
 		.reactions-container {
 			@include dFlex(row, flex-end, center);
 			width: 90%;
-			gap: 16px;
+			gap: 16px; 
+			flex-wrap: wrap;
 			.last-reaction {
 				@include dFlex(row, center, center);
 				width: 64px;
