@@ -44,18 +44,43 @@ export class ReactionService {
  * @returns {Promise<void>} A promise that resolves when the reaction is successfully added.
  * @throws Will throw an error if there is an issue updating the Firestore document.
  */
-async addSpecificReaction(messageId: string, reaction:Reaction): Promise<void> {
+async addSpecificReaction(messageId: string, reaction: Reaction): Promise<void> {
 	console.log('reaction:', reaction);
 	try {
 	  const messageDocRef = doc(
 		this.firestore, `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${messageId}`
 	  );
-	  await updateDoc(messageDocRef, {
-		reactions: arrayUnion(reaction),
-	  });
-	  console.log('reaction added', reaction );
-
-	  await this.updateReactionAmount(reaction.reactionId, messageId, 'increase');
+	  const messageDoc = await getDoc(messageDocRef);
+	  
+	  if (messageDoc.exists()) {
+		const data = messageDoc.data();
+		if (data && data['reactions']) {
+		  const existingReaction = data['reactions'].find((r: Reaction) => r.reactionId === reaction.reactionId);
+		  
+		  if (existingReaction) {
+			// Reaction already exists, check if the user has already reacted
+			if (!existingReaction.user.includes(this.firebaseService.currentUserId)) {
+			  await this.updateReactionAmount(reaction.reactionId, messageId, 'increase');
+			} else {
+			  console.log('User has already reacted with this reaction');
+			}
+		  } else {
+			// Reaction does not exist, add it to the reactions array
+			await updateDoc(messageDocRef, {
+			  reactions: arrayUnion(reaction),
+			});
+			console.log('reaction added', reaction);
+		  }
+		} else {
+		  // No reactions exist, add the new reaction
+		  await updateDoc(messageDocRef, {
+			reactions: [reaction],
+		  });
+		  console.log('reaction added', reaction);
+		}
+	  } else {
+		throw new Error('Message document does not exist.');
+	  }
 	} catch (error) {
 	  console.error('Error updating message text:', error);
 	  throw error;
