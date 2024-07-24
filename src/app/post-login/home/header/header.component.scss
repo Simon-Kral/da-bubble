@@ -77,12 +77,12 @@
     @include Nunito(400, 16px, 18.8px, $black);
   }
 }
-
 .close-btn {
   position: absolute;
   top: 28px;
   right: 47px;
 }
+
 
 .mb-8 {
   margin-bottom: 8px;
@@ -111,8 +111,6 @@ h3 {
 }
 
 .message-container {
-  width: 320px;
-  text-wrap: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   border-radius: 20px;

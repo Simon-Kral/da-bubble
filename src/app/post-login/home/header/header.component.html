@@ -17,7 +17,7 @@
       </form>
 
       <!-- onFocus -->
-      @if (isFocusActive && !this.searchService.searchSpesificChannelMessageResault.length && !this.searchService.searchSpesificThreadMessageResaults.length) {
+	@if (isFocusActive && !this.searchService.searchSpesificChannelMessageResault.length && !this.searchService.searchSpesificThreadMessageResaults.length) {
       <div class="search-results">
 			<div class="close-btn pointer" (click)="this.handleToggleFocus()">
 				<img src="assets/img/icons/close_black.png" alt="" />
@@ -58,7 +58,37 @@
       <!-- Search resault -->
       @if (this.showUsers || this.showChannels || this.searchService.searchSpesificChannelMessageResault.length || this.searchService.searchSpesificThreadMessageResaults.length) {
       <div class="search-results">
+		<div class="close-btn pointer" (click)="this.handleToggleFocus()">
+			<img src="assets/img/icons/close_black.png" alt="" />
+		</div>
         <!--user search results-->
+		@if(this.searchService.searchSpesificThreadMessageResaults.length) {
+			<h3>Thread Messages:</h3>
+				@for (threadMessage of this.searchService.searchSpesificThreadMessageResaults; track threadMessage; let index = $index) {
+					@if(index === 0) {
+						<div class="message-container pointer">
+							<div class="message-avatar">
+								<img
+								[src]="this.firebaseService.getUserAvatar(threadMessage.messageSendBy)"
+								alt="User Avatar"
+								/>
+								<div class="message-avatar-name">
+								<span
+									>{{this.firebaseService.getUserDisplayName(threadMessage.messageSendBy)}}</span
+								>
+								</div>
+							</div>
+							<div class="message-text">
+								<span>Nachricht: </span>
+								<span>{{threadMessage.text}}</span>
+							</div>
+						</div>
+					}
+	
+				}
+		}
+
+
         @if(this.searchService.searchSpesificChannelMessageResault.length) {
         <h3>Channel Messages:</h3>
         @for (message of this.searchService.searchSpesificChannelMessageResault; track message; let index = $index) {
@@ -82,32 +112,8 @@
 				</div>
 			}
         } 
-		@if(this.searchService.searchSpesificThreadMessageResaults.length) {
-		<h3>Thread Messages:</h3>
-			@for (threadMessage of this.searchService.searchSpesificThreadMessageResaults; track threadMessage; let index = $index) {
-				@if(index === 0) {
-					<div class="message-container pointer">
-						<div class="message-avatar">
-							<img
-							[src]="this.firebaseService.getUserAvatar(threadMessage.messageSendBy)"
-							alt="User Avatar"
-							/>
-							<div class="message-avatar-name">
-							<span
-								>{{this.firebaseService.getUserDisplayName(threadMessage.messageSendBy)}}</span
-							>
-							</div>
-						</div>
-						<div class="message-text">
-							<span>Nachricht: </span>
-							<span>{{threadMessage.text}}</span>
-						</div>
-					</div>
-				}
-
-			}
-	}
-	} @if(showUsers && this.searchService.userSearchResults.length) {
+	} 
+	@if(showUsers && this.searchService.userSearchResults.length) {
         <h3>Users:</h3>
         @for (userId of this.searchService.userSearchResults; track userId; let index = $index) {
 			 @if(index < 5 && userId !== this.firebaseService.currentUserId) {

@@ -2,7 +2,7 @@ import { ThreadService } from './../../../services/thread/thread.service';
 import { ChatService } from './../../../services/chat/chat.service';
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { AuthService } from '../../../services/authentication/auth.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, TitleStrategy } from '@angular/router';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
 import { SearchService } from '../../../services/search/search.service';
@@ -103,6 +103,9 @@ export class HeaderComponent implements OnInit {
       this.searchService.unSubscribeOnUserSearch();
     }
     this.isFocusActive = !this.isFocusActive;
+	this.searchService.searchSpesificChannelMessageResault = [];
+	this.searchService.searchSpesificThreadMessageResaults = [];
+	this.searchText.reset();
   }
 
   /**
