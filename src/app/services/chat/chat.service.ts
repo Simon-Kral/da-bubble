@@ -4,6 +4,7 @@ import { query, orderBy, Firestore, collection, doc, onSnapshot, updateDoc, getD
 import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -28,6 +29,9 @@ export class ChatService {
 	weekday = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag',];
 	months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember',];
 
+	private messageScrolledSource = new BehaviorSubject<string | null>(null);
+  	messageScrolled$ = this.messageScrolledSource.asObservable();
+
 	constructor(private router: Router, private route: ActivatedRoute) {}
 
 	subscribeAllLists() {
@@ -39,6 +43,11 @@ export class ChatService {
 			this.unsubscribeMsgList();
 		}
 	}
+
+	scrollToMessage(messageId: string) {
+		console.log('Scroll to message:', messageId);
+		this.messageScrolledSource.next(messageId);
+	  }
 
 	// code for fetching messages from private chat or channels
 	/**

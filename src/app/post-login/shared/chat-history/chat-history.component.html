@@ -1,4 +1,4 @@
-<div class="chat-history-wrapper">
+<div class="chat-history-wrapper" #messageContainer>
   @for (msg of this.chatService.msgList; track msg; let index = $index) {
   <!--msg date seperator to-do implement logic to check if msg is sent today, or in past days-->
   @if (index === 0 || msg.date != this.chatService.msgList[index-1].date) {
@@ -11,7 +11,7 @@
   </div>
   } @if (msg.messageSendBy !== this.firebaseService.currentUserId) {
   <!--user-msg-->
-  <div class="user-msg">
+  <div class="user-msg" [id]="'message-' + index">
     <!--msg-menu-->
     <div class="msg-menu">
       <div class="menu-content pointer"
@@ -104,7 +104,7 @@
   }
   <!--current-user-msg-->
   @if (msg.messageSendBy == this.firebaseService.currentUserId) {
-  <div class="current-user-msg">
+  <div class="current-user-msg" [id]="'message-' + index">
     <!--msg-menu only show for current user-->
     <div class="msg-menu">
       <div class="menu-content pointer"

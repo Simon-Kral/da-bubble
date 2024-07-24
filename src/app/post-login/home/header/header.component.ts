@@ -38,6 +38,12 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {}
 
+
+  onScrollToMessage() {
+    this.chatService.scrollToMessage('message-9');
+  }
+
+
   handleSearch() {
     const searchInput = this.searchText.get('search')?.value || '';
     if (searchInput.startsWith('@')) {
