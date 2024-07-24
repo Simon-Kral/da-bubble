@@ -10,51 +10,43 @@ import { PrivateMessageComponent } from '../../../private-message/private-messag
  */
 
 @Component({
-	selector: 'app-sidenav',
-	standalone: true,
-	templateUrl: './sidenav.component.html',
-	styleUrl: './sidenav.component.scss',
-	imports: [
-		ChannelListComponent,
-		PrivateMessageListComponent,
-		PrivateMessageComponent,
-		CommonModule,
-		RouterModule,
-	],
+  selector: 'app-sidenav',
+  standalone: true,
+  templateUrl: './sidenav.component.html',
+  styleUrl: './sidenav.component.scss',
+  imports: [ChannelListComponent, PrivateMessageListComponent, PrivateMessageComponent, CommonModule, RouterModule],
 })
 export class SidenavComponent {
-	@Output() messageEvent = new EventEmitter<object>();
+  @Output() messageEvent = new EventEmitter<object>();
 
-	@Input() isCreateChannelVisible: boolean = false;
-	@Output() createChannelVisibilityChange = new EventEmitter<boolean>();
+  @Input() isCreateChannelVisible: boolean = false;
+  @Output() createChannelVisibilityChange = new EventEmitter<boolean>();
 
-	constructor(private router: Router) {}
+  constructor(private router: Router) {}
 
-	chanListExpanded: boolean = false;
-	privateMsgListExpanded: boolean = false;
+  chanListExpanded: boolean = false;
+  privateMsgListExpanded: boolean = false;
 
-	/**
-	 * Toggles the expansion state of the channel list and updates the icons.
-	 */
-	toggleChannels() {
-		this.chanListExpanded = !this.chanListExpanded;
-	}
+  /**
+   * Toggles the expansion state of the channel list and updates the icons.
+   */
+  toggleChannels() {
+    this.chanListExpanded = !this.chanListExpanded;
+  }
 
-	/**
-	 * Toggles the expansion state of the private message list and updates the icons.
-	 */
-	togglePrivateMessages() {
-		this.privateMsgListExpanded = !this.privateMsgListExpanded;
-	}
+  /**
+   * Toggles the expansion state of the private message list and updates the icons.
+   */
+  togglePrivateMessages() {
+    this.privateMsgListExpanded = !this.privateMsgListExpanded;
+  }
 
-	
-	
-	/**
- 	* Toggles the visibility of the create channel component.
- 	* Emits an event to notify listeners about the visibility change.
- 	*/
-	toggleCreateChannelVisibility() {
-		this.isCreateChannelVisible = !this.isCreateChannelVisible;
-		this.createChannelVisibilityChange.emit(this.isCreateChannelVisible);
-	}
+  /**
+   * Toggles the visibility of the create channel component.
+   * Emits an event to notify listeners about the visibility change.
+   */
+  toggleCreateChannelVisibility() {
+    this.isCreateChannelVisible = !this.isCreateChannelVisible;
+    this.createChannelVisibilityChange.emit(this.isCreateChannelVisible);
+  }
 }
