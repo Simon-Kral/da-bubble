@@ -7,6 +7,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { ActivatedRoute } from '@angular/router';
 import { ThreadService } from '../../../services/thread/thread.service';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { ReactionService } from '../../../services/reactions/reaction.service';
 interface MsgData {
   text: string;
 }
@@ -22,6 +23,7 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
   threadService = inject(ThreadService);
+  reactionService = inject(ReactionService);
   showEmojiPicker: boolean = false;
   emojiPickerIndex: number = 0;
     // Edit message variables

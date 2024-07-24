@@ -113,6 +113,12 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
 		this.chatService.deleteMessage();
 	}
 
+	handleClickOnOpenThread(messageId: string): void {
+		this.threadService.openExistingThread(messageId);
+		this.reactionService.currentThreadId = messageId;
+	  }
+
+
 	/**
 	 * Handles the submission of the edited message. If there is a thread message, updates the thread message text as well.
 	 * Closes the edit message menu, validates the new message text, updates the message, and closes the edit message overlay.
