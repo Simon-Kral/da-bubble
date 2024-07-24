@@ -371,11 +371,11 @@ export class ThreadService {
     try {
       const messageDocRef = doc(
         this.firestore,
-        `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.chatService.editMessageId}/messageAnswers/${this.editMessageAnswerId}`,
+        `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.editMessageId}/messageAnswers/${this.editMessageAnswerId}`,
       );
       await deleteDoc(messageDocRef);
       const latestTime = await this.findLatestMsgTime();
-      await this.updateMessageAnswerCountAndTime(this.chatService.editMessageId, latestTime, 'decrease');
+      await this.updateMessageAnswerCountAndTime(this.editMessageId, latestTime, 'decrease');
     } catch (error) {
       console.error('Error deleting message:', error);
       throw error;
