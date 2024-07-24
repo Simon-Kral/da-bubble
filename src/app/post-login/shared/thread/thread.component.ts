@@ -32,6 +32,7 @@ export class ThreadComponent {
  */
   handleClickOnClose() {
     this.communicationService.toggleThreadVisibility(true);
+    this.threadService.msgAnswerList = [];
     this.threadService.unsubscribeAllLists();
 
   }
