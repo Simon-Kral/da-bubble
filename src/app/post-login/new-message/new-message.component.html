@@ -22,7 +22,7 @@
       <!--selected Channel-->
       @if (this.searchService.selectedChannel) {
         <div class="show-selected-channel">
-            <div class="pointer added-data" (click)="removeSelectedChannel()">
+            <div class="pointer added-data added-data-channel" (click)="removeSelectedChannel()">
               <span>{{ this.firebaseService.getChannelNameById(this.searchService.selectedChannel) }}</span>
               <div class="remove">
                 <img src="assets/img/icons/close_black.png" alt="close-icon" />
