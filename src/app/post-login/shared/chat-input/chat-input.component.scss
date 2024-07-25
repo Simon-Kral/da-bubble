@@ -22,11 +22,16 @@
       top: 0;
       left: 20px;
       span {
+        @include dFlex(row, center, center);
         @include Nunito(400, 16px, 21.82px, $black);
         margin-right: 8px;
-
+        width: fit-content;
+        padding: 4px 8px;
+        height: 22px;
+        border-radius: 20px;
         &:hover {
           @include Nunito(400, 16px, 21.82px, $rosa-error);
+          background-color: $bg-color;
         }
       }
     }

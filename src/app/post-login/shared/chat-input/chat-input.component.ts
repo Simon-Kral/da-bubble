@@ -1,5 +1,5 @@
 import { StorageService } from './../../../services/storage/storage.service';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ChatService } from '../../../services/chat/chat.service';
@@ -15,7 +15,7 @@ import { ref } from '@angular/fire/storage';
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',
 })
-export class ChatInputComponent {
+export class ChatInputComponent implements OnDestroy {
   chatService = inject(ChatService);
   firebaseService = inject(FirebaseService);
   communicationService = inject(CommunicationService)
@@ -46,6 +46,11 @@ export class ChatInputComponent {
     this.messageData = this.fb.group({
       message: new FormControl('', [Validators.required, Validators.minLength(1)]),
     });
+  }
+
+
+  ngOnDestroy(): void {
+    this.chatService.taggedUser = [];
   }
 
   /**
@@ -104,14 +109,24 @@ export class ChatInputComponent {
     this.showTagContainer = !this.showTagContainer;
   }
 
-  tagUser(userName: string, userId: string, index: number,) {
+  tagChannelMember(userName: string, userId: string, index: number) {
     this.chatService.taggedUser.push(userId);
-    console.log(this.chatService.taggedUser);
     this.chatService.taggedUserNames.push(userName);
-    console.log(this.chatService.taggedUserNames);
-
-    console.log('Channel index',index);
     if (this.chatService.taggedUser.length +1  == this.firebaseService.channelList[index].members.length) {
+      this.showTagContainer = false;
+    }
+  }
+
+  tagChatUser(userName: string, userId: string) {
+    this.chatService.taggedUser.push(userId);
+    this.chatService.taggedUserNames.push(userName);
+    this.showTagContainer = false;
+  }
+
+  tagUser(userName: string, userId: string,) {
+    this.chatService.taggedUser.push(userId);
+    this.chatService.taggedUserNames.push(userName);
+    if (this.chatService.taggedUser.length +1  == this.firebaseService.userList.length) {
       this.showTagContainer = false;
     }
   }
