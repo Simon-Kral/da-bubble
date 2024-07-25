@@ -106,6 +106,8 @@ export class ThreadService {
       reactions: obj.reactions || [],
       editCount: obj.editCount || 0,
       lastEdit: obj.lastEdit || '',
+      storageDdata: obj.storageDdata || '',
+      taggedUser: obj.taggedUser || [],
     };
   }
   /**
@@ -152,6 +154,8 @@ export class ThreadService {
       reactions: [],
       editCount: 0,
       lastEdit: '',
+      storageDdata:'',
+      taggedUser: [],
     };
     const docRef = await this.addMessageAnswer(newMessage);
     await this.updateMessageAnswerId(docRef);
@@ -176,6 +180,8 @@ export class ThreadService {
       reactions: [],
       editCount: 0,
       lastEdit: '',
+      storageDdata:'',
+      taggedUser: [],
     };
     const docRef = await this.addMessageAnswer(newMessage);
     await this.updateMessageAnswerId(docRef);

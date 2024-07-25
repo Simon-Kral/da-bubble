@@ -120,6 +120,8 @@ export class ChatService {
       lastAnswer: obj.lastAnswer || '',
       editCount: obj.editCount || 0,
       lastEdit: obj.lastEdit || '',
+      storageDdata: obj.storageDdata || '',
+      taggedUser: obj.taggedUser || [],
     };
   }
 
@@ -351,6 +353,8 @@ export class ChatService {
       lastAnswer: '',
       editCount: 0,
       lastEdit: '',
+      storageDdata:'',
+      taggedUser: [],
     };
     const docRef = await this.addMessage(newMessage);
     await this.updateMessageId(docRef);
