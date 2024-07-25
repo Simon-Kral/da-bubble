@@ -1,3 +1,4 @@
+import { StorageService } from './../../../services/storage/storage.service';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
@@ -18,6 +19,7 @@ export class ChatInputComponent {
   chatService = inject(ChatService);
   firebaseService = inject(FirebaseService);
   communicationService = inject(CommunicationService)
+  storageService = inject(StorageService);
 
   @Input() sourceComponent: string = ''; // Variable to hold the source component's name or identifier
   @Input() placeholderText: string = ''; // Variable to hold the placeholder text for the chat input
@@ -40,7 +42,6 @@ export class ChatInputComponent {
   showTagContainer:boolean = false;
   // tag List for all users
   showAllUser:boolean = false;
-	storageService: any;
   constructor(private fb: FormBuilder) {
     this.messageData = this.fb.group({
       message: new FormControl('', [Validators.required, Validators.minLength(1)]),
@@ -113,8 +114,12 @@ export class ChatInputComponent {
   uploadFile(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput.files?.item(0);
-    console.log(file);
-	this.stotageData = file
+	if (file) {
+		console.log(file);
+		console.log(this.storageService.storage);
+		const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
+		this.storageService.uploadFile(storageRef, file)
+		}
 	}
+	
 }
-
