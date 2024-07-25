@@ -19,6 +19,7 @@ import { Message } from '../../models/message.class';
 import { PrivateChat } from '../../models/privateChat.class';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { CommunicationService } from '../communication/communication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export class ChatService {
   firebaseService = inject(FirebaseService);
   firestore: Firestore = inject(Firestore);
-
+  communicationService = inject(CommunicationService);
   msgList: Message[] = [];
 
   unsubscribeMsgList: any;
@@ -482,4 +483,15 @@ export class ChatService {
     const date = new Date();
     return `${this.weekday[date.getDay()]}, ${date.getDate()}. ${this.months[date.getMonth()]}`;
   }
+
+  handleClickOnUser(userId: string) {
+		this.communicationService.toggleChannelMemberVisibility(false);
+		if (this.firebaseService.currentUserId === userId) {
+			this.communicationService.toggleCurrentUserProfileVisibility(true);
+		} else {
+			this.communicationService.toggleUserProfileVisibility(true);
+			this.communicationService.userProfileId = userId;
+		}
+	}
 }
+

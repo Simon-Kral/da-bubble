@@ -32,8 +32,7 @@
 }
 
 <!--tag a channel Member-->
-@if (showTagContainer) {
-@if (this.chatService.mainCollection == 'channels') {
+@if (showTagContainer && this.chatService.mainCollection == 'channels') {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
@@ -43,6 +42,7 @@
     </div>
     @for (channel of this.firebaseService.channelList; track channel; let index = $index) {
     @for (user of channel.members; track user; let index = $index) {
+    @if (user !== this.firebaseService.currentUserId && channel.chanId === this.chatService.docRef) {
     <div class="member-container pointer" (click)="tagUser(this.firebaseService.getUserDisplayName(user), user)">
       <div class="user-avatar">
         <img [src]="this.firebaseService.getUserAvatar(user)" alt="User Avatar" />
@@ -54,14 +54,14 @@
     </div>
     }
     }
+    }
   </div>
 </div>
 }
-}
+
 
 <!--tag a user-->
-@if (this.communicationService.showAllUsers) {
-@if (showTagContainer) {
+@if (this.communicationService.showAllUsers && showTagContainer) {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
@@ -70,6 +70,7 @@
       </div>
     </div>
     @for (user of this.firebaseService.userList; track user; let index = $index) {
+    @if (user !== this.firebaseService.currentUserId) {
     <div class="member-container pointer" (click)="tagUser(user.name, user.userId)">
       <div class="user-avatar">
         <img [src]="this.firebaseService.getUserAvatar(user.userId)" alt="User Avatar" />
@@ -80,13 +81,13 @@
       <span>{{ this.firebaseService.getUserDisplayName(user.userId) }}</span>
     </div>
     }
+    }
   </div>
 </div>
 }
-}
+
 <!--tag a chat participant-->
-@if (showTagContainer) {
-@if (this.chatService.mainCollection == 'privateChats') {
+@if (showTagContainer && this.chatService.mainCollection == 'privateChats') {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
@@ -97,7 +98,8 @@
     @for (privateChat of this.firebaseService.privateChatList; track privateChat; let index = $index) {
     @if (privateChat.privatChatId === this.chatService.docRef) {
     @if (privateChat.chatReciver == this.firebaseService.currentUserId) {
-    <div class="member-container pointer" (click)="tagUser(this.firebaseService.getUserDisplayName(privateChat.chatCreator), privateChat.chatCreator)">
+    <div class="member-container pointer"
+      (click)="tagUser(this.firebaseService.getUserDisplayName(privateChat.chatCreator), privateChat.chatCreator)">
       <div class="user-avatar">
         <img [src]="this.firebaseService.getUserAvatar(privateChat.chatCreator)" alt="User Avatar" />
         <div class="user-status"
@@ -107,7 +109,8 @@
       <span>{{ this.firebaseService.getUserDisplayName(privateChat.chatCreator) }}</span>
     </div>
     } @if (privateChat.chatReciver !== this.firebaseService.currentUserId) {
-    <div class="member-container pointer" (click)="tagUser(this.firebaseService.getUserDisplayName(privateChat.chatCreator), privateChat.chatCreator)">
+    <div class="member-container pointer"
+      (click)="tagUser(this.firebaseService.getUserDisplayName(privateChat.chatCreator), privateChat.chatCreator)">
       <div class="user-avatar">
         <img [src]="this.firebaseService.getUserAvatar(privateChat.chatCreator)" alt="User Avatar" />
         <div class="user-status"
@@ -121,5 +124,4 @@
     }
   </div>
 </div>
-}
 }
