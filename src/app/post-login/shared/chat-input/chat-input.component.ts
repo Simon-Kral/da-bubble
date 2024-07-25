@@ -83,6 +83,7 @@ export class ChatInputComponent implements OnDestroy {
     this.messageData.reset();
     this.chatService.taggedUser = [];
 	this.storageDataUrl = '';
+
   }
 
   //emoji code
@@ -152,6 +153,7 @@ export class ChatInputComponent implements OnDestroy {
 				this.storageService.getURL(snapshot.ref).subscribe({
 					next: (url) => {
 						this.storageDataUrl = url;
+						this.chatService.storageDataUrl = this.storageDataUrl;
 						console.log(this.storageDataUrl);
 						
 					},
