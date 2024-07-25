@@ -85,7 +85,7 @@
       <span>Nach bestimmten Nutzern suchen</span>
     </div>
 
-    @if (this.searchService.selectedUser.length > 0) {}
+    @if (this.searchService.selectedUser.length > 0) {
     <div class="show-selected-users">
       @for (user of this.searchService.selectedUser; track user; let index = $index) {
         <div class="pointer added-data" (click)="this.searchService.removeSelectedUserFromArray(user)">
@@ -97,7 +97,7 @@
         </div>
       }
     </div>
-    
+  }
 
     @if (showUserSearch) {
       <form class="searchbar-container" [formGroup]="searchText">
