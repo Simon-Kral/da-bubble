@@ -146,10 +146,8 @@
         <div class="current-user-avatar">
             <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar">
         </div>
-
         <!--popUp overlay for editing specific current user msg-->
-        @if (showEditMsgOverlay) {
-        @if (msg.messageAnswerId === this.threadService.editMessageAnswerId) {
+        @if (showEditMsgOverlay && msg.messageAnswerId === this.threadService.editMessageAnswerId) {
         <div class="edit-msg-overlay">
             <div class="left-section">
                 <form class="edit-msg-form" [formGroup]="newMsgData" (submit)="onSubmitEditMsgAnswer()">
@@ -178,7 +176,6 @@
                 </div>
             </div>
         </div>
-        }
         }
         <!--popUp overlay for deleting specific current user msg-->
         @if (this.communicationService.isDeleteThreadMsgDialogVisible) {

@@ -202,8 +202,7 @@
 				" alt="user-avatar" />
     </div>
     <!--popUp overlay for editing specific current user msg-->
-    @if (showEditMsgOverlay) {
-    @if (msg.messageId === this.chatService.editMessageId) {
+    @if (showEditMsgOverlay && msg.messageId === this.chatService.editMessageId) {
     <div class="edit-msg-overlay">
       <div class="left-section">
         <form class="edit-msg-form" [formGroup]="newMsgData" (submit)="onSubmitEditMsg()">
@@ -231,7 +230,6 @@
         </div>
       </div>
     </div>
-    }
     }
     <!--popUp overlay for deleting specific current user msg-->
     @if (this.communicationService.isDeleteMsgDialogVisible) {
