@@ -20,6 +20,8 @@ export class ChatInputComponent {
   firebaseService = inject(FirebaseService);
   communicationService = inject(CommunicationService)
   storageService = inject(StorageService);
+  storageDataUrl: string = '';
+  fileName: string = '';
 
   @Input() sourceComponent: string = ''; // Variable to hold the source component's name or identifier
   @Input() placeholderText: string = ''; // Variable to hold the placeholder text for the chat input
@@ -32,8 +34,6 @@ export class ChatInputComponent {
   messageData: FormGroup;
   iconSourceSend = 'assets/img/icons/send_dark_blue.png';
 
-  //storage data
-  stotageData: any;
 
   //emoji picker
   showEmojiPicker:boolean = false;
@@ -113,12 +113,33 @@ export class ChatInputComponent {
   uploadFile(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput.files?.item(0);
+  	this.fileName = file?.name ?? '';
 	if (file) {
 		console.log(file);
 		console.log(this.storageService.storage);
 		const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
-		this.storageService.uploadFile(storageRef, file)
-		}
+		this.storageService.uploadFile(storageRef, file).subscribe({
+			next: (snapshot) => {
+				this.storageService.getURL(snapshot.ref).subscribe({
+					next: (url) => {
+						this.storageDataUrl = url;
+						console.log(this.storageDataUrl);
+						
+					},
+				});
+			},
+		});
 	}
+  }
+
+  closeAndDelete() {
+	  this.deleteObject();
+	  this.storageDataUrl = '';
+  }
+
+  deleteObject() {
+	const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${this.fileName}`);
+	this.storageService.deleteFile(storageRef);
+  }
 	
 }

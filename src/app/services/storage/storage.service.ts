@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+	deleteObject,
 	getDownloadURL,
 	getStorage,
 	ref,
@@ -25,5 +26,14 @@ export class StorageService {
 	uploadFile(storageRef: StorageReference, file: File) {
 		const promise = uploadBytes(storageRef, file);
 		return from(promise);
+	}
+
+	
+	deleteFile(storageRef: StorageReference) {
+		deleteObject(storageRef).then(() => {
+		console.log('File deleted successfully');
+		}).catch((error) => {
+		console.log('Error deleting file:', error);
+		}); 
 	}
 }
