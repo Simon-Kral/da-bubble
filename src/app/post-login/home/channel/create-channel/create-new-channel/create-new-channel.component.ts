@@ -83,7 +83,7 @@ export class CreateNewChannelComponent {
           name: channelValues.channelName,
           description: channelValues.channelDescription,
           members: [this.firebaseService.currentUserId],
-          createdAt: new Date().getTime(),
+          createdAt: this.chatService.convertDate(),
           createdBy: this.firebaseService.currentUserId,
         };
 
