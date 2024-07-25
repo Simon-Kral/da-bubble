@@ -1,5 +1,5 @@
 import { StorageService } from './../../../services/storage/storage.service';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ChatService } from '../../../services/chat/chat.service';
@@ -15,7 +15,7 @@ import { ref } from '@angular/fire/storage';
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',
 })
-export class ChatInputComponent {
+export class ChatInputComponent implements OnDestroy {
   chatService = inject(ChatService);
   firebaseService = inject(FirebaseService);
   communicationService = inject(CommunicationService)
@@ -48,6 +48,11 @@ export class ChatInputComponent {
     });
   }
 
+
+  ngOnDestroy(): void {
+    this.chatService.taggedUser = [];
+  }
+
   /**
    * Returns the current time in milliseconds.
    * @returns The current time in milliseconds.
@@ -75,6 +80,7 @@ export class ChatInputComponent {
 
     this.messageEvent.emit(messageToSend);
     this.messageData.reset();
+    this.chatService.taggedUser = [];
   }
 
   //emoji code
@@ -103,13 +109,34 @@ export class ChatInputComponent {
     this.showTagContainer = !this.showTagContainer;
   }
 
-  tagUser(userName: string, userId: string) {
+  tagChannelMember(userName: string, userId: string, index: number) {
     this.chatService.taggedUser.push(userId);
-    console.log(this.chatService.taggedUser);
     this.chatService.taggedUserNames.push(userName);
-    console.log(this.chatService.taggedUserNames);
+    if (this.chatService.taggedUser.length +1  == this.firebaseService.channelList[index].members.length) {
+      this.showTagContainer = false;
+    }
   }
 
+  tagChatUser(userName: string, userId: string) {
+    this.chatService.taggedUser.push(userId);
+    this.chatService.taggedUserNames.push(userName);
+    this.showTagContainer = false;
+  }
+
+  tagUser(userName: string, userId: string,) {
+    this.chatService.taggedUser.push(userId);
+    this.chatService.taggedUserNames.push(userName);
+    if (this.chatService.taggedUser.length +1  == this.firebaseService.userList.length) {
+      this.showTagContainer = false;
+    }
+  }
+
+  deleteTaggedUser(index: number) {
+    this.chatService.taggedUser.splice(index, 1);
+    this.chatService.taggedUserNames.splice(index, 1);
+  }
+
+  //upload file code
   uploadFile(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput.files?.item(0);

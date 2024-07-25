@@ -120,14 +120,11 @@
 			width: 100%;
 			h2 {
 			  @include Nunito(400, 20px, 27.28px, $text-gray);
+			  span {
+				@include Nunito(400, 20px, 27.28px, $purple-3);
+			  }
 			}
-			p {
-			  @include Nunito(400, 20px, 27.28px, $purple-3);
-			  margin-left: 6px;
-			}
-			span {
-				@include Nunito(400, 20px, 27.28px, $text-gray);
-			}
+
 		  }
 		}
 	  }

@@ -39,8 +39,13 @@
 }
 
 .submit-btn-container {
-	@include dFlex(row, flex-end, center);
+	@include dFlex(column, flex-end, center);
 	width: 100%;
+	gap: 20px;
+
+	span {
+		@include Nunito(400, 14px, 19.09px, red);
+	}
 }
 
 .add-member-wrapper {

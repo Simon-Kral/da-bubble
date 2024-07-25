@@ -85,7 +85,7 @@
       <span>Nach bestimmten Nutzern suchen</span>
     </div>
 
-    @if (this.searchService.selectedUser.length > 0) {}
+    @if (this.searchService.selectedUser.length > 0) {
     <div class="show-selected-users">
       @for (user of this.searchService.selectedUser; track user; let index = $index) {
         <div class="pointer added-data" (click)="this.searchService.removeSelectedUserFromArray(user)">
@@ -97,7 +97,7 @@
         </div>
       }
     </div>
-    
+  }
 
     @if (showUserSearch) {
       <form class="searchbar-container" [formGroup]="searchText">
@@ -117,9 +117,12 @@
 
   </div>
 <div class="submit-btn-container">
-  <button class="pointer submit-btn" type="button" (click)="handleAddMember()">
+  <button class="pointer submit-btn" type="button" [disabled]="this.searchService.selectedUser.length == 0 && this.searchService.selectedChannel.length == 0 " (click)="handleAddMember()">
     Ausgewählte hinzufügen
   </button>
+  <span class="error-msg" *ngIf="this.searchService.selectedUser.length == 0 && this.searchService.selectedChannel.length == 0">
+    Bitte wähle mindestens einen Nutzer oder Channel aus
+  </span>
 </div>
 
 </div>

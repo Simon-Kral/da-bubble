@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ChannelListComponent } from './channel-list/channel-list.component';
 import { PrivateMessageListComponent } from './private-message-list/private-message-list.component';
 import { PrivateMessageComponent } from '../../../private-message/private-message.component';
+import { CommunicationService } from '../../../../services/communication/communication.service';
+import { HeaderComponent } from '../../header/header.component';
 
 /**
  * The SidenavComponent provides navigation functionality for the sidebar.
@@ -14,13 +16,16 @@ import { PrivateMessageComponent } from '../../../private-message/private-messag
   standalone: true,
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
-  imports: [ChannelListComponent, PrivateMessageListComponent, PrivateMessageComponent, CommonModule, RouterModule],
+  imports: [ChannelListComponent, HeaderComponent, PrivateMessageListComponent, PrivateMessageComponent, CommonModule, RouterModule],
 })
 export class SidenavComponent {
   @Output() messageEvent = new EventEmitter<object>();
 
   @Input() isCreateChannelVisible: boolean = false;
   @Output() createChannelVisibilityChange = new EventEmitter<boolean>();
+
+
+  communicationService = inject(CommunicationService);
 
   constructor(private router: Router) {}
 

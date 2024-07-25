@@ -9,6 +9,7 @@ import { ChannelMemberSelectionComponent } from '../../../../shared/channel-memb
 import { ChannelSelectionComponent } from '../../channel-selection/channel-selection.component';
 import { ChatService } from '../../../../../services/chat/chat.service';
 import { Router } from '@angular/router';
+import { CommunicationService } from '../../../../../services/communication/communication.service';
 @Component({
   selector: 'app-create-new-channel',
   standalone: true,
@@ -21,6 +22,7 @@ export class CreateNewChannelComponent {
   firebaseService = inject(FirebaseService);
   searchService = inject(SearchService);
   chatService = inject(ChatService);
+  communicationService = inject(CommunicationService);
   
   channelData: FormGroup;
   channel = new Channel();
@@ -28,7 +30,6 @@ export class CreateNewChannelComponent {
   isAddMemberVisibleForm: boolean = false;
   showChannelSerach: boolean = false;
   showUserSearch: boolean = false;
-  newChanId = '';
   chanNameExists: boolean = false;
   errorMsgChanExists: string = 'Channel Name existiert bereits!';
   errorMsgChanNameInvalid: string = 'Bitte geben Sie einen gültigen Channel-Namen ein.';
@@ -83,7 +84,7 @@ export class CreateNewChannelComponent {
           name: channelValues.channelName,
           description: channelValues.channelDescription,
           members: [this.firebaseService.currentUserId],
-          createdAt: new Date().getTime(),
+          createdAt: this.chatService.convertDate(),
           createdBy: this.firebaseService.currentUserId,
         };
 
@@ -127,7 +128,7 @@ export class CreateNewChannelComponent {
       await updateDoc(doc(this.firestore, 'channels', docRef.id), {
         chanId: docRef.id,
       });
-      this.newChanId = docRef.id;
+      this.communicationService.newChanId = docRef.id;
     } catch (e) {
       console.error('Error updating document: ', e);
       throw e;
@@ -172,16 +173,16 @@ export class CreateNewChannelComponent {
   async handleAddMember() {
     if (this.searchService.selectedChannel.length > 0) {
       await this.extractMemberIdsFromChannel(this.searchService.selectedChannel);
-      await this.firebaseService.updateChannelMembersArray(this.newChanId, this.selectedMembers);
-      await this.firebaseService.updateUserChannelsArray(this.searchService.selectedUser, this.newChanId);
+      await this.firebaseService.updateChannelMembersArray(this.communicationService.newChanId, this.selectedMembers);
+      await this.firebaseService.updateUserChannelsArray(this.searchService.selectedUser, this.communicationService.newChanId);
       this.createChannelVisibilityChange.emit(false);
-      this.router.navigate([`/home/channels/${this.newChanId}`]);
+      this.router.navigate([`/home/channels/${this.communicationService.newChanId}`]);
     }
     if (this.searchService.selectedUser.length > 0) {
-      await this.firebaseService.updateChannelMembersArray(this.newChanId, this.searchService.selectedUser);
-      await this.firebaseService.updateUserChannelsArray(this.searchService.selectedUser, this.newChanId);
+      await this.firebaseService.updateChannelMembersArray(this.communicationService.newChanId, this.searchService.selectedUser);
+      await this.firebaseService.updateUserChannelsArray(this.searchService.selectedUser, this.communicationService.newChanId);
       this.createChannelVisibilityChange.emit(false);
-      this.router.navigate([`/home/channels/${this.newChanId}`]);
+      this.router.navigate([`/home/channels/${this.communicationService.newChanId}`]);
     }
 	}
 
