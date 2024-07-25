@@ -108,16 +108,16 @@
       </div>
       <span>{{ this.firebaseService.getUserDisplayName(privateChat.chatCreator) }}</span>
     </div>
-    } @if (privateChat.chatReciver !== this.firebaseService.currentUserId) {
+    } @if (privateChat.chatCreator == this.firebaseService.currentUserId) {
     <div class="member-container pointer"
-      (click)="tagUser(this.firebaseService.getUserDisplayName(privateChat.chatCreator), privateChat.chatCreator)">
+      (click)="tagUser(this.firebaseService.getUserDisplayName(privateChat.chatReciver), privateChat.chatReciver)">
       <div class="user-avatar">
-        <img [src]="this.firebaseService.getUserAvatar(privateChat.chatCreator)" alt="User Avatar" />
+        <img [src]="this.firebaseService.getUserAvatar(privateChat.chatReciver)" alt="User Avatar" />
         <div class="user-status"
-          [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(privateChat.chatCreator), 'offline': !this.firebaseService.getUserOnlineStatus(privateChat.chatCreator) }">
+          [ngClass]="{ 'online': this.firebaseService.getUserOnlineStatus(privateChat.chatReciver), 'offline': !this.firebaseService.getUserOnlineStatus(privateChat.chatReciver) }">
         </div>
       </div>
-      <span>{{ this.firebaseService.getUserDisplayName(privateChat.chatCreator) }}</span>
+      <span>{{ this.firebaseService.getUserDisplayName(privateChat.chatReciver) }}</span>
     </div>
     }
     }
