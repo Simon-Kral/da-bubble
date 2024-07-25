@@ -113,7 +113,7 @@
 
 
 	<!-- Popup Overlay mobile User menu -->
-	@if (this.communicationService.isMobileUserMenuVisible) {
+	@if (this.communicationService.isMobileViewActive) {
 	<div class="popup-wrapper" (click)="closePopupOverlay('mobileUserMenu')">
 		<div class="popup-content mobile-user-menu" (click)="preventClose($event)">
 			<app-mobile-user-menu></app-mobile-user-menu>
