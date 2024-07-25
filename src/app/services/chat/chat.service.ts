@@ -43,6 +43,10 @@ export class ChatService {
   weekday = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
   months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember',];
 
+	// tagged users 
+	taggedUser: string[] = [];
+	taggedUserNames: string[] = [];
+
   private messageScrolledSource = new BehaviorSubject<string | null>(null);
   messageScrolled$ = this.messageScrolledSource.asObservable();
 
@@ -354,7 +358,7 @@ export class ChatService {
       editCount: 0,
       lastEdit: '',
       storageData:'',
-      taggedUser: [],
+      taggedUser: this.taggedUser,
     };
     const docRef = await this.addMessage(newMessage);
     await this.updateMessageId(docRef);

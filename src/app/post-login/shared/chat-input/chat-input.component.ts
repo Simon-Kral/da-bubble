@@ -64,7 +64,7 @@ export class ChatInputComponent {
       message: this.messageData.value.message,
       source: this.sourceComponent,
       storageData: '',
-      taggedUser: this.communicationService.taggedUser,
+      taggedUser: this.chatService.taggedUser,
     };
 
     this.messageEvent.emit(messageToSend);
@@ -98,10 +98,10 @@ export class ChatInputComponent {
   }
 
   tagUser(userName: string, userId: string) {
-    this.messageData.setValue({ message: '@' + this.communicationService.taggedUserNames });
-    this.communicationService.taggedUser.push(userId);
-    console.log(this.communicationService.taggedUser);
-    this.communicationService.taggedUserNames.push(userName);
-    console.log(this.communicationService.taggedUserNames);
+    this.messageData.setValue({ message: '@' + this.chatService.taggedUserNames });
+    this.chatService.taggedUser.push(userId);
+    console.log(this.chatService.taggedUser);
+    this.chatService.taggedUserNames.push(userName);
+    console.log(this.chatService.taggedUserNames);
   }
 }
