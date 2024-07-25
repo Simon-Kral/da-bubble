@@ -18,17 +18,33 @@ export class StorageService {
 
 	constructor() {}
 
+	/**
+	 * Retrieves the download URL for the given storage reference.
+	 * @param storageRef - The storage reference to get the download URL for.
+	 * @returns An observable that emits the download URL as a string.
+	 */
 	getURL(storageRef: StorageReference): Observable<string> {
 		const promise = getDownloadURL(storageRef);
 		return from(promise);
 	}
 
+	/**
+	 * Uploads a file to the specified storage reference.
+	 * @param storageRef - The storage reference to upload the file to.
+	 * @param file - The file to be uploaded.
+	 * @returns An Observable that emits the upload progress and completion status.
+	 */
 	uploadFile(storageRef: StorageReference, file: File) {
 		const promise = uploadBytes(storageRef, file);
 		return from(promise);
 	}
 
-	
+
+	/**
+	 * Deletes a file from the storage.
+	 * 
+	 * @param storageRef - The reference to the file in the storage.
+	 */
 	deleteFile(storageRef: StorageReference) {
 		deleteObject(storageRef).then(() => {
 		console.log('File deleted successfully');

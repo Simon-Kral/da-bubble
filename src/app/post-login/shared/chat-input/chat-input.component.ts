@@ -69,18 +69,20 @@ export class ChatInputComponent implements OnDestroy {
     if (this.messageData.invalid) {
       return;
     }
+	console.log('URL', this.storageDataUrl);
 
     const messageToSend = {
       timestamp: this.getCurrentTime(),
       message: this.messageData.value.message,
       source: this.sourceComponent,
-      storageData: '',
+      storageData: this.storageDataUrl,
       taggedUser: this.chatService.taggedUser,
     };
 
     this.messageEvent.emit(messageToSend);
     this.messageData.reset();
     this.chatService.taggedUser = [];
+	this.storageDataUrl = '';
   }
 
   //emoji code
