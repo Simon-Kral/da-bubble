@@ -15,6 +15,7 @@ import { ChannelMemberSelectionComponent } from './post-login/shared/channel-mem
 import { ChannelSelectionComponent } from './post-login/home/channel/channel-selection/channel-selection.component';
 import { applyActionCode, User } from '@angular/fire/auth';
 import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
+import { WelcomeScreenComponent } from './post-login/home/welcome-screen/welcome-screen.component';
 
 @Component({
 	selector: 'app-root',
@@ -34,6 +35,7 @@ import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 		ChannelMemberComponent,
 		ChannelMemberSelectionComponent,
 		ChannelSelectionComponent,
+		WelcomeScreenComponent,
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',

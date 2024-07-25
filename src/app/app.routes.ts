@@ -6,6 +6,7 @@ import { NewMessageComponent } from './post-login/new-message/new-message.compon
 import { ChannelComponent } from '../app/post-login/home/channel/channel.component'
 import { PrivateMessageComponent } from './post-login/private-message/private-message.component';
 import { PrivateNoteComponent } from './post-login/private-note/private-note.component';
+import { WelcomeScreenComponent } from './post-login/home/welcome-screen/welcome-screen.component';
 
 // pre-login components
 import { LandingComponent } from './pre-login/landing/landing.component';
@@ -42,6 +43,7 @@ export const routes: Routes = [
 			{ path: 'privateChats/:id', component: PrivateMessageComponent },
 			{ path: 'new-message', component: NewMessageComponent },
 			{ path: 'privateNotes/:id', component: PrivateNoteComponent },
+			{ path: 'welcome', component:  WelcomeScreenComponent },
 		],
 	},
 ];

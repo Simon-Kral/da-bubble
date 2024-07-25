@@ -19,6 +19,7 @@ import { AddMembersToChannelComponent } from './channel/add-members-to-channel/a
 import { ThreadComponent } from '../shared/thread/thread.component';
 import { ChannelMemberComponent } from './channel/channel-member/channel-member.component';
 import { SearchService } from '../../services/search/search.service';
+import { WelcomeScreenComponent } from './welcome-screen/welcome-screen.component';
 @Component({
 	selector: 'app-home',
 	standalone: true,
@@ -39,7 +40,8 @@ import { SearchService } from '../../services/search/search.service';
 		MobileUserMenuComponent,
 		ChannelDetailsComponent,
 		AddMembersToChannelComponent,
-		ChannelMemberComponent
+		ChannelMemberComponent,
+		WelcomeScreenComponent
 	],
 })
 export class HomeComponent implements OnInit, OnDestroy {

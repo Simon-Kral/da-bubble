@@ -17,7 +17,7 @@
 			"></app-sidenav>
 	</div>
 	}
-	<!--  router-outlet used for channels / prvt-msg & start-new-msg component -->
+	<!--  router-outlet used for channels / prvt-msg & start-new-msg component  & welcome screen -->
 	<div class="app-container">
 		<div class="app-wrapper">
 			<router-outlet></router-outlet>
@@ -30,6 +30,8 @@
 		</div>
 		}
 	</div>
+
+
 	<!-- Popup Overlay Create Channel -->
 	@if (isCreateChannelVisible) {
 	<div class="popup-wrapper" (click)="closePopupOverlay('createChannel')"
