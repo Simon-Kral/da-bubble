@@ -98,7 +98,6 @@ export class ChatInputComponent {
   }
 
   tagUser(userName: string, userId: string) {
-    this.messageData.setValue({ message: '@' + this.chatService.taggedUserNames });
     this.chatService.taggedUser.push(userId);
     console.log(this.chatService.taggedUser);
     this.chatService.taggedUserNames.push(userName);

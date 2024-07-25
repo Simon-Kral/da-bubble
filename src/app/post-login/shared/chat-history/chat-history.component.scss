@@ -4,15 +4,18 @@
 	@include dFlex(column, flex-end, flex-start);
 	position: relative;
 }
+
 //msg date-->
 .msg-date {
 	@include dFlex(row, center, center);
 	width: 100%;
 	padding: 16px 0;
+
 	.seperator {
 		width: 50%;
 		border: solid 1px $light-purple-lines;
 	}
+
 	.date-container {
 		@include dFlex(row, center, center);
 		width: 189px;
@@ -21,12 +24,14 @@
 		padding: 5px 15px 5px 15px;
 		gap: 10px;
 		border: solid 1px $light-purple-lines;
+
 		span {
 			@include Nunito(400, 18px, 24.55px, $black);
 			text-wrap: nowrap;
 		}
 	}
 }
+
 //user-msg-->
 .user-msg {
 	@include dFlex(row, flex-start, flex-start);
@@ -34,12 +39,15 @@
 	gap: 20px;
 	padding: 10px 0px 10px 45px;
 	position: relative;
+
 	&:hover {
 		background-color: $bg-color;
 	}
+
 	&:hover .msg-content .msg {
 		background-color: $white;
 	}
+
 	&:hover .msg-menu {
 		display: flex;
 	}
@@ -66,18 +74,21 @@
 			border-radius: 50%;
 			padding: 10px;
 			gap: 10px;
+
 			&:hover img {
-				filter: invert(57%) sepia(94%) saturate(4679%)
-					hue-rotate(221deg) brightness(100%) contrast(91%);
+				filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
 			}
+
 			&:hover {
 				background-color: $bg-color;
 			}
 		}
 	}
+
 	.user-avatar {
 		@include dFlex(row, flex-end, flex-start);
 		width: 15%;
+
 		img {
 			width: 70px;
 			height: 70px;
@@ -93,10 +104,12 @@
 		.msg-top {
 			@include dFlex(row, flex-start, center);
 			gap: 20px;
+
 			span {
 				@include Nunito(700, 18px, 24.55px, $black);
 				text-wrap: nowrap;
 			}
+
 			p {
 				@include Nunito(400, 14px, 19.1px, $text-gray);
 				text-wrap: nowrap;
@@ -112,11 +125,13 @@
 			padding: 15px;
 			gap: 8px;
 			background-color: $bg-color;
+
 			span {
 				@include Nunito(400, 18px, 24.55px, $black);
 				text-wrap: wrap;
 				text-align: start;
 			}
+
 			p {
 				@include Nunito(400, 14px, 19.1px, $black);
 				text-wrap: wrap;
@@ -128,20 +143,24 @@
 		.msg-bottom {
 			@include dFlex(row, flex-start, center);
 			gap: 20px;
+
 			span {
 				@include Nunito(400, 18px, 24.55px, $purple-3);
 				text-wrap: nowrap;
 			}
+
 			p {
 				@include Nunito(400, 14px, 19.1px, $text-gray);
 				text-wrap: nowrap;
 			}
 		}
+
 		.reactions-container {
 			@include dFlex(row, flex-start, center);
 			width: 90%;
 			gap: 16px;
 			flex-wrap: wrap;
+
 			.last-reaction {
 				@include dFlex(row, center, center);
 				width: 64px;
@@ -151,15 +170,18 @@
 				padding: 5px 10px 5px 10px;
 				gap: 10px;
 				background-color: $white;
+
 				.emoji-container {
 					@include dFlex(row, center, center);
 					width: 24px;
 					height: 24px;
 				}
+
 				.emoji-counter {
 					@include Nunito(400, 16px, 21.82px, $black);
 				}
 			}
+
 			.add-reaction {
 				@include dFlex(row, center, center);
 				width: 36px;
@@ -168,10 +190,11 @@
 				padding: 5px;
 				gap: 10px;
 				background-color: $white;
+
 				&:hover img {
-					filter: invert(57%) sepia(94%) saturate(4679%)
-						hue-rotate(221deg) brightness(100%) contrast(91%);
+					filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
 				}
+
 				&:hover {
 					background-color: $bg-color;
 				}
@@ -187,12 +210,15 @@
 	gap: 20px;
 	padding: 10px 45px 10px 0;
 	position: relative;
+
 	&:hover {
 		background-color: $bg-color;
 	}
+
 	&:hover .msg-menu {
 		display: flex;
 	}
+
 	.msg-menu {
 		@include dFlex(row, center, center);
 		position: absolute;
@@ -220,11 +246,12 @@
 			&:hover {
 				background-color: $bg-color;
 			}
+
 			&:hover img {
-				filter: invert(57%) sepia(94%) saturate(4679%)
-					hue-rotate(221deg) brightness(100%) contrast(91%);
+				filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
 			}
 		}
+
 		.edit-msg-menu {
 			@include dFlex(column, center, center);
 			width: 269px;
@@ -250,6 +277,7 @@
 				&:hover {
 					background-color: $bg-color;
 				}
+
 				&:hover span {
 					@include Nunito(700, 20px, 27.28px, $purple-3);
 				}
@@ -261,9 +289,11 @@
 			}
 		}
 	}
+
 	.current-user-avatar {
 		@include dFlex(row, flex-start, flex-start);
 		width: 15%;
+
 		img {
 			transform: scaleX(-1);
 			width: 70px;
@@ -280,10 +310,12 @@
 		.current-user-msg-top {
 			@include dFlex(row, flex-start, center);
 			gap: 20px;
+
 			span {
 				@include Nunito(700, 18px, 24.55px, $black);
 				text-wrap: nowrap;
 			}
+
 			p {
 				@include Nunito(400, 14px, 19.1px, $text-gray);
 				text-wrap: nowrap;
@@ -300,12 +332,14 @@
 			padding: 15px;
 			gap: 8px;
 			background-color: $purple-2;
+
 			span {
 				@include Nunito(400, 18px, 24.55px, $white);
 				text-wrap: wrap;
 				height: fit-content;
 				text-align: end;
 			}
+
 			p {
 				@include Nunito(400, 14px, 19.1px, $white);
 				text-wrap: wrap;
@@ -317,10 +351,12 @@
 		.current-user-msg-bottom {
 			@include dFlex(row, flex-start, center);
 			gap: 20px;
+
 			span {
 				@include Nunito(400, 18px, 24.55px, $purple-3);
 				text-wrap: nowrap;
 			}
+
 			p {
 				@include Nunito(400, 14px, 19.1px, $text-gray);
 				text-wrap: nowrap;
@@ -330,8 +366,9 @@
 		.reactions-container {
 			@include dFlex(row, flex-end, center);
 			width: 90%;
-			gap: 16px; 
+			gap: 16px;
 			flex-wrap: wrap;
+
 			.last-reaction {
 				@include dFlex(row, center, center);
 				width: 64px;
@@ -341,15 +378,18 @@
 				padding: 5px 10px 5px 10px;
 				gap: 10px;
 				background-color: $white;
+
 				.emoji-container {
 					@include dFlex(row, center, center);
 					width: 24px;
 					height: 24px;
 				}
+
 				.emoji-counter {
 					@include Nunito(400, 16px, 21.82px, $black);
 				}
 			}
+
 			.add-reaction {
 				@include dFlex(row, center, center);
 				width: 36px;
@@ -358,12 +398,13 @@
 				padding: 5px;
 				gap: 10px;
 				background-color: $white;
+
 				&:hover {
 					background-color: $bg-color;
 				}
+
 				&:hover img {
-					filter: invert(46%) sepia(14%) saturate(3439%)
-						hue-rotate(204deg) brightness(96%) contrast(98%);
+					filter: invert(46%) sepia(14%) saturate(3439%) hue-rotate(204deg) brightness(96%) contrast(98%);
 				}
 			}
 		}
@@ -387,6 +428,7 @@
 	.left-section {
 		@include dFlex(row, flex-start, center);
 		width: 75%;
+
 		.edit-msg-form {
 			@include dFlex(column, flex-start, center);
 			width: 100%;
@@ -399,6 +441,7 @@
 
 			.top-section {
 				width: 100%;
+
 				textarea {
 					@include Nunito(400, 18px, 24.55px, $text-gray);
 					width: 100%;
@@ -424,8 +467,7 @@
 					}
 
 					&:hover img {
-						filter: invert(46%) sepia(14%) saturate(3439%)
-							hue-rotate(204deg) brightness(96%) contrast(98%);
+						filter: invert(46%) sepia(14%) saturate(3439%) hue-rotate(204deg) brightness(96%) contrast(98%);
 					}
 
 					img {
@@ -449,6 +491,7 @@
 						gap: 10px;
 						background-color: $white;
 						transition: ease-in-out 0.3;
+
 						span {
 							@include Nunito(700, 18px, 24.55px, $purple-1);
 						}
@@ -477,6 +520,7 @@
 		.current-user-avatar {
 			@include dFlex(row, flex-start, flex-start);
 			width: 15%;
+
 			img {
 				transform: scaleX(-1);
 				width: 70px;
@@ -500,15 +544,19 @@
 	padding: 10px 45px 10px 45px;
 	gap: 30px;
 	background-color: $bg-color;
+
 	span {
 		@include Nunito(700, 18px, 24.55px, $purple-1);
 	}
+
 	.dialog-btns {
 		@include dFlex(row, space-between, center);
 		gap: 32px;
+
 		.cancel-btn {
 			@include buttonWhite();
 		}
+
 		.delete-btn {
 			@include dFlex(row, center, center);
 			width: 133px;
@@ -519,9 +567,11 @@
 			background-color: $white;
 			border: solid 1px $online-red;
 			transition: ease-in-out 0.3;
+
 			span {
 				@include Nunito(700, 18px, 24.55px, $online-red);
 			}
+
 			&:hover {
 				background-color: $online-red;
 			}
@@ -532,9 +582,20 @@
 		}
 	}
 }
+
 .emoji-picker-container {
 	position: absolute;
 	bottom: 0;
 	left: 16px;
 	z-index: 555;
+}
+
+// 
+.tagged-user-container {
+	@include dFlex(row, flex-start, center);
+	.tagged-user {
+		span {
+			@include Nunito(400, 14px, 19.1px, $purple-3);
+		}
+	}
 }

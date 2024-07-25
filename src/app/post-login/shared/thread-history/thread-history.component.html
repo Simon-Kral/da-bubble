@@ -30,6 +30,13 @@
             </div>
 
             <div class="msg">
+                @if (msg.taggedUser) {
+                    <div class="tagged-user-container">
+                      @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
+                        <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{ '@' + this.firebaseService.getUserDisplayName( taggedUser ) }}</span>
+                      }
+                    </div>
+                  }
                 <span>{{ msg.text }}</span>
                 @if (msg.editCount > 0) {
                 <div class="edited-msg-info">
@@ -120,6 +127,13 @@
             </div>
 
             <div class="current-user-msg">
+                @if (msg.taggedUser) {
+                    <div class="tagged-user-container">
+                      @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
+                        <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{ '@' + this.firebaseService.getUserDisplayName( taggedUser ) }}</span>
+                      }
+                    </div>
+                  }
                 <span>{{ msg.text }}</span>
                 @if (msg.editCount > 0) {
                 <div class="edited-msg-info">

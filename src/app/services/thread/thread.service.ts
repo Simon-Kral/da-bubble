@@ -181,7 +181,7 @@ export class ThreadService {
       editCount: 0,
       lastEdit: '',
       storageData:'',
-      taggedUser: [],
+      taggedUser: this.chatService.taggedUser,
     };
     const docRef = await this.addMessageAnswer(newMessage);
     await this.updateMessageAnswerId(docRef);

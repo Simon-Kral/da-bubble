@@ -7,6 +7,7 @@
     border-radius: 30px;
     background-color: $white;
     z-index: 55;
+    position: relative;
     .top-section {
         @include dFlex(row, space-between, center);
         width: 100%;
