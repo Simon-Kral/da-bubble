@@ -93,7 +93,7 @@ export class ChatInputComponent {
     this.showTagContainer = !this.showTagContainer;
   }
 
-  tagUser(userName: string) {
-    this.messageData.setValue({ message: '@' + userName });
+  tagUser(userName: string, userId: string) {
+    this.messageData.setValue({ message: '@' + userName + '+' + userId});
   }
 }
