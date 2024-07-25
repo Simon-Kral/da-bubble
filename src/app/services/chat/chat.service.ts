@@ -40,6 +40,7 @@ export class ChatService {
   editMessageId: string = '';
   editThreadId: string = '';
   messageId: string = '';
+  storageDataUrl: string = '';
   selectedPrivateChatReciver: string = '';
   weekday = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
   months = [
@@ -376,7 +377,7 @@ export class ChatService {
       lastAnswer: '',
       editCount: 0,
       lastEdit: '',
-      storageData: '',
+      storageData: this.storageDataUrl,
       taggedUser: this.taggedUser,
     };
     const docRef = await this.addMessage(newMessage);
