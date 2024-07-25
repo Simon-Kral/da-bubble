@@ -15,6 +15,21 @@
     resize: none;
     @include Nunito(400, 16px, 21.82px, $black);
     }
+    .tagged-user-container {
+      @include dFlex(row, flex-start, center);
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 20px;
+      span {
+        @include Nunito(400, 16px, 21.82px, $black);
+        margin-right: 8px;
+
+        &:hover {
+          @include Nunito(400, 16px, 21.82px, $rosa-error);
+        }
+      }
+    }
     >.button-container {
       @include dFlex(row,space-between, center);
       >.left-section {

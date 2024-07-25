@@ -75,6 +75,7 @@ export class ChatInputComponent {
 
     this.messageEvent.emit(messageToSend);
     this.messageData.reset();
+    this.chatService.taggedUser = [];
   }
 
   //emoji code
@@ -103,13 +104,24 @@ export class ChatInputComponent {
     this.showTagContainer = !this.showTagContainer;
   }
 
-  tagUser(userName: string, userId: string) {
+  tagUser(userName: string, userId: string, index: number,) {
     this.chatService.taggedUser.push(userId);
     console.log(this.chatService.taggedUser);
     this.chatService.taggedUserNames.push(userName);
     console.log(this.chatService.taggedUserNames);
+
+    console.log('Channel index',index);
+    if (this.chatService.taggedUser.length +1  == this.firebaseService.channelList[index].members.length) {
+      this.showTagContainer = false;
+    }
   }
 
+  deleteTaggedUser(index: number) {
+    this.chatService.taggedUser.splice(index, 1);
+    this.chatService.taggedUserNames.splice(index, 1);
+  }
+
+  //upload file code
   uploadFile(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput.files?.item(0);
