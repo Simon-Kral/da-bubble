@@ -42,15 +42,28 @@ export class ChatService {
   messageId: string = '';
   selectedPrivateChatReciver: string = '';
   weekday = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
-  months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember',];
+  months = [
+    'Januar',
+    'Februar',
+    'März',
+    'April',
+    'Mai',
+    'Juni',
+    'Juli',
+    'August',
+    'September',
+    'Oktober',
+    'November',
+    'Dezember',
+  ];
 
-	// tagged users 
-	taggedUser: string[] = [];
-	taggedUserNames: string[] = [];
+  // tagged users
+  taggedUser: string[] = [];
+  taggedUserNames: string[] = [];
 
   private messageScrolledSource = new BehaviorSubject<string | null>(null);
   messageScrolled$ = this.messageScrolledSource.asObservable();
-	firebaseAuth: any;
+  firebaseAuth: any;
 
   constructor(
     private router: Router,
@@ -73,9 +86,13 @@ export class ChatService {
   }
 
   scrollToBottom() {
-    const lastMessage = this.msgList[this.msgList.length - 1];
-    const messageId = lastMessage.messageId;
-    this.scrollToMessage(messageId);
+    if (this.msgList.length === 0) {
+      return;
+    } else {
+      const lastMessage = this.msgList[this.msgList.length - 1];
+      const messageId = lastMessage.messageId;
+      this.scrollToMessage(messageId);
+    }
   }
 
   // code for fetching messages from private chat or channels
@@ -359,7 +376,7 @@ export class ChatService {
       lastAnswer: '',
       editCount: 0,
       lastEdit: '',
-      storageData:'',
+      storageData: '',
       taggedUser: this.taggedUser,
     };
     const docRef = await this.addMessage(newMessage);
@@ -473,25 +490,24 @@ export class ChatService {
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes} Uhr`;
   }
-  
-/**
- * Converts the current date to a formatted string.
- *
- * @returns {string} The formatted date string in the format "Weekday, Day. Month".
- */
+
+  /**
+   * Converts the current date to a formatted string.
+   *
+   * @returns {string} The formatted date string in the format "Weekday, Day. Month".
+   */
   convertDate() {
     const date = new Date();
     return `${this.weekday[date.getDay()]}, ${date.getDate()}. ${this.months[date.getMonth()]}`;
   }
 
   handleClickOnUser(userId: string) {
-		this.communicationService.toggleChannelMemberVisibility(false);
-		if (this.firebaseService.currentUserId === userId) {
-			this.communicationService.toggleCurrentUserProfileVisibility(true);
-		} else {
-			this.communicationService.toggleUserProfileVisibility(true);
-			this.communicationService.userProfileId = userId;
-		}
-	}
+    this.communicationService.toggleChannelMemberVisibility(false);
+    if (this.firebaseService.currentUserId === userId) {
+      this.communicationService.toggleCurrentUserProfileVisibility(true);
+    } else {
+      this.communicationService.toggleUserProfileVisibility(true);
+      this.communicationService.userProfileId = userId;
+    }
+  }
 }
-
