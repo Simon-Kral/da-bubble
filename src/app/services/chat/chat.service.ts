@@ -43,6 +43,10 @@ export class ChatService {
   weekday = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
   months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember',];
 
+	// tagged users 
+	taggedUser: string[] = [];
+	taggedUserNames: string[] = [];
+
   private messageScrolledSource = new BehaviorSubject<string | null>(null);
   messageScrolled$ = this.messageScrolledSource.asObservable();
 	firebaseAuth: any;
@@ -121,6 +125,8 @@ export class ChatService {
       lastAnswer: obj.lastAnswer || '',
       editCount: obj.editCount || 0,
       lastEdit: obj.lastEdit || '',
+      storageData: obj.storageData || '',
+      taggedUser: obj.taggedUser || [],
     };
   }
 
@@ -352,6 +358,8 @@ export class ChatService {
       lastAnswer: '',
       editCount: 0,
       lastEdit: '',
+      storageData:'',
+      taggedUser: this.taggedUser,
     };
     const docRef = await this.addMessage(newMessage);
     await this.updateMessageId(docRef);

@@ -11,6 +11,8 @@ export class MessageAnswer {
   reactions: Reaction[];
   editCount: number;
   lastEdit: string;
+  storageData: string;
+  taggedUser: string[];
 
   constructor(obj?: any) {
     this.messageAnswerId = obj ? obj.id : '';
@@ -22,5 +24,7 @@ export class MessageAnswer {
     this.reactions = obj ? obj.reactions : [];
     this.editCount = obj ? obj.editCount : 0;
     this.lastEdit = obj ? obj.lastEdit : '';
+    this.storageData = obj ? obj.storageData : '';
+    this.taggedUser = obj ? obj.taggedUser : [];
   }
 }

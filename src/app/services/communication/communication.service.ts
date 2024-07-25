@@ -37,6 +37,7 @@ export class CommunicationService {
 	// flag for tag container displaying all Users in new-message comp
 	showAllUsers: boolean = false;
 
+
 	constructor() {}
 
 	//mobile view variables
