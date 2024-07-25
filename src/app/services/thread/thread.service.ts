@@ -38,17 +38,6 @@ export class ThreadService {
   editMessageAnswerId: string = '';
   editMessageId: string = '';
 
-  scrollToMessage(messageAnswerId: string) {
-    console.log('Scroll to message:', messageAnswerId);
-    this.messageScrolledSource.next(messageAnswerId);
-  }
-
-  scrollToBottom() {
-    const lastMessage = this.msgAnswerList[this.msgAnswerList.length - 1];
-    const messageId = lastMessage.messageAnswerId;
-    this.scrollToMessage(messageId);
-  }
-
   /**
    * Subscribes to all necessary lists for the thread service.
    */
@@ -63,45 +52,6 @@ export class ThreadService {
     if (this.unsubscribeMsgAnswerList) {
       this.unsubscribeMsgAnswerList();
     }
-  }
-
-  /**
-   * Handles the creation of a new thread for a given message.
-   *
-   * @param {Message} message - The message for which a new thread is being created.
-   * @returns {Promise<void>} A promise that resolves when the thread is successfully created and subscribed.
-   */
-  async handleCreateThread(message: Message) {
-    this.communicationService.isThreadVisible = false;
-    this.communicationService.toggleThreadVisibility(true);
-    this.chatService.messageId = message.messageId;
-    this.createMessageAnswer(message);
-    await this.subscribeMsgAnswerList();
-  }
-
-  /**
-   * Opens an existing thread and subscribes to its message answers.
-   *
-   * @param {string} threadId - The ID of the thread to be opened.
-   * @returns {Promise<void>} A promise that resolves when the thread is successfully opened and subscribed.
-   */
-  async openExistingThread(threadId: string) {
-    this.communicationService.isThreadVisible = false;
-    this.communicationService.toggleThreadVisibility(true);
-    this.chatService.messageId = threadId;
-    await this.subscribeMsgAnswerList();
-  }
-
-  /**
-   * This function is triggered when a message is sent and it calls the sendMessageAnswer
-   * function with the message text from the event.
-   *
-   * @param {{ message: string }} event - The event object containing the sent message text.
-   * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
-   */
-  async onMessageSent(event: { message: string }) {
-      await this.sendMessageAnswer(event.message);
-      this.scrollToBottom();
   }
 
   // code for fetching messages of subcollection "messageAnswers" from privateChats / privateNotes  or channels
@@ -382,6 +332,46 @@ export class ThreadService {
     }
   }
 
+  //general helper functions
+
+    /**
+   * Handles the creation of a new thread for a given message.
+   *
+   * @param {Message} message - The message for which a new thread is being created.
+   * @returns {Promise<void>} A promise that resolves when the thread is successfully created and subscribed.
+   */
+    async handleCreateThread(message: Message) {
+      this.communicationService.isThreadVisible = false;
+      this.communicationService.toggleThreadVisibility(true);
+      this.chatService.messageId = message.messageId;
+      this.createMessageAnswer(message);
+      await this.subscribeMsgAnswerList();
+    }
+  
+    /**
+     * Opens an existing thread and subscribes to its message answers.
+     *
+     * @param {string} threadId - The ID of the thread to be opened.
+     * @returns {Promise<void>} A promise that resolves when the thread is successfully opened and subscribed.
+     */
+    async openExistingThread(threadId: string) {
+      this.communicationService.isThreadVisible = false;
+      this.communicationService.toggleThreadVisibility(true);
+      this.chatService.messageId = threadId;
+      await this.subscribeMsgAnswerList();
+    }
+  
+    /**
+     * This function is triggered when a message is sent and it calls the sendMessageAnswer
+     * function with the message text from the event.
+     *
+     * @param {{ message: string }} event - The event object containing the sent message text.
+     * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
+     */
+    async onMessageSent(event: { message: string }) {
+      await this.sendMessageAnswer(event.message);
+      this.scrollToBottom();
+    }
   /**
    * Finds the latest message answer time in the list excluding the current message to be deleted.
    *
@@ -399,5 +389,25 @@ export class ThreadService {
     };
     const latestMsg = filteredList.sort((a, b) => parseDateTime(b) - parseDateTime(a))[0];
     return latestMsg.time;
+  }
+
+  /**
+   * Scrolls to a specific message by its answer ID.
+   *
+   * @param {string} messageAnswerId - The ID of the message to scroll to.
+   */
+  scrollToMessage(messageAnswerId: string) {
+    console.log('Scroll to message:', messageAnswerId);
+    this.messageScrolledSource.next(messageAnswerId);
+  }
+
+  /**
+   * Scrolls to the bottom of the message list.
+   * Finds the last message in the list and scrolls to it.
+   */
+  scrollToBottom() {
+    const lastMessage = this.msgAnswerList[this.msgAnswerList.length - 1];
+    const messageId = lastMessage.messageAnswerId;
+    this.scrollToMessage(messageId);
   }
 }
