@@ -356,11 +356,6 @@ export class ChatService {
     await this.updateMessageId(docRef);
   }
 
-  convertDate() {
-    const date = new Date();
-    return `${this.weekday[date.getDay()]}, ${date.getDate()}. ${this.months[date.getMonth()]}`;
-  }
-
   /**
    * Adds a new message document to the messages subcollection of a private chat or a channel.
    *
@@ -467,5 +462,15 @@ export class ChatService {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes} Uhr`;
+  }
+  
+/**
+ * Converts the current date to a formatted string.
+ *
+ * @returns {string} The formatted date string in the format "Weekday, Day. Month".
+ */
+  convertDate() {
+    const date = new Date();
+    return `${this.weekday[date.getDay()]}, ${date.getDate()}. ${this.months[date.getMonth()]}`;
   }
 }
