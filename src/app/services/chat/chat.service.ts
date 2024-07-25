@@ -45,6 +45,7 @@ export class ChatService {
 
   private messageScrolledSource = new BehaviorSubject<string | null>(null);
   messageScrolled$ = this.messageScrolledSource.asObservable();
+	firebaseAuth: any;
 
   constructor(
     private router: Router,
