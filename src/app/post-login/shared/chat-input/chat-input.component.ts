@@ -63,6 +63,8 @@ export class ChatInputComponent {
       timestamp: this.getCurrentTime(),
       message: this.messageData.value.message,
       source: this.sourceComponent,
+      storageData: '',
+      taggedUser: this.communicationService.taggedUser,
     };
 
     this.messageEvent.emit(messageToSend);
@@ -89,11 +91,17 @@ export class ChatInputComponent {
     this.toggleEmojiPicker();
   }
 
+
+  //tag user code
   toggleTagUser() {
     this.showTagContainer = !this.showTagContainer;
   }
 
   tagUser(userName: string, userId: string) {
-    this.messageData.setValue({ message: '@' + userName + '+' + userId});
+    this.messageData.setValue({ message: '@' + this.communicationService.taggedUserNames });
+    this.communicationService.taggedUser.push(userId);
+    console.log(this.communicationService.taggedUser);
+    this.communicationService.taggedUserNames.push(userName);
+    console.log(this.communicationService.taggedUserNames);
   }
 }
