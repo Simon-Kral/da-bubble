@@ -232,8 +232,7 @@
     </div>
     }
     <!--popUp overlay for deleting specific current user msg-->
-    @if (this.communicationService.isDeleteMsgDialogVisible) {
-    @if (msg.messageId === this.chatService.editMessageId) {
+    @if ( this.communicationService.isDeleteMsgDialogVisible && msg.messageId === this.chatService.editMessageId) {
     <div class="delete-msg-dialog">
       <span>Möchtest du diese Nachricht wirklich löschen?</span>
       <div class="dialog-btns">
@@ -246,14 +245,13 @@
       </div>
     </div>
     }
-    }
   </div>
   <!-- emoji Picker-->
-  @if (index === this.reactionService.emojiPickerIndex) { @if
-  (this.reactionService.showEmojiPicker) {
+  @if (index === this.reactionService.emojiPickerIndex && this.reactionService.showEmojiPicker) { 
   <div class="emoji-picker-container">
     <emoji-mart (emojiClick)="this.reactionService.handleReaction($event, msg.messageId, 'chat')"></emoji-mart>
   </div>
-  } } } }
+ }
+ } }
 
 </div>
