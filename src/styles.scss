@@ -50,18 +50,20 @@ body {
 	border: none;
 	padding: 12px 25px;
 	border-radius: 25px;
-	transition: all 0.1s;
 	&:hover {
 		background-color: $purple-2;
+		transition: all 0.1s ease-in;
 		cursor: pointer;
 	}
 	&:active {
 		background-color: $purple-1;
 		color: $white;
+		transition: all 0.1s ease-in;
 	}
 	&:disabled {
 		background-color: $text-gray;
 		cursor: not-allowed;
+		transition: all 0.1s ease-in;
 	}
 }
 
@@ -71,22 +73,25 @@ body {
 	border: 1px solid $purple-2;
 	padding: 12px 25px;
 	border-radius: 25px;
-	transition: all 0.1s;
 	&:hover {
 		background-color: $purple-3;
 		color: $white;
 		cursor: pointer;
+		transition: all 0.1s ease-in;
 	}
 	&:active {
 		background-color: $purple-1;
 		color: $white;
+		transition: all 0.1s ease-in;
 	}
 	&:disabled {
 		color: $text-gray;
 		border: $text-gray;
-		cursor: not-allowed
+		cursor: not-allowed;
+		transition: all 0.1s ease-in;
 	}
 }
+
 @mixin errorMessage {
 	@include Nunito(400, 14px, 19.1px, $rosa-error);
 	margin-top: 6px;

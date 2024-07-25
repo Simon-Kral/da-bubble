@@ -146,10 +146,7 @@
     <div class="current-user-msg-content">
       <div class="current-user-msg-top">
         <p>{{ this.chatService.formatTimeString(msg.time) }}</p>
-        <span class="pointer" (click)="
-						this.communicationService.handleClickCurrentUser(true)
-					">{{ this.firebaseService.getUserDisplayName(
-          this.firebaseService.currentUserId ) }}</span>
+        <span class="pointer" (click)="this.communicationService.handleClickCurrentUser(true)">{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId ) }}</span>
       </div>
 
       <div class="current-user-msg">
