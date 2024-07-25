@@ -117,9 +117,12 @@
 
   </div>
 <div class="submit-btn-container">
-  <button class="pointer submit-btn" type="button" (click)="handleAddMember()">
+  <button class="pointer submit-btn" type="button" [disabled]="this.searchService.selectedUser.length == 0 && this.searchService.selectedChannel.length == 0 " (click)="handleAddMember()">
     Ausgewählte hinzufügen
   </button>
+  <span class="error-msg" *ngIf="this.searchService.selectedUser.length == 0 && this.searchService.selectedChannel.length == 0">
+    Bitte wähle mindestens einen Nutzer oder Channel aus
+  </span>
 </div>
 
 </div>

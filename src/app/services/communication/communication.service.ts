@@ -36,8 +36,9 @@ export class CommunicationService {
 	isDeleteThreadMsgDialogVisible: boolean = false;
 	// flag for tag container displaying all Users in new-message comp
 	showAllUsers: boolean = false;
-
-
+	// is getting used to store channelRef of  the channel which got created in create-channel comp
+	newChanId = '';
+	
 	constructor() {}
 
 	//mobile view variables

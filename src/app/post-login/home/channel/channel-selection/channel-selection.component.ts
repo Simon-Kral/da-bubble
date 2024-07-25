@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { SearchService } from '../../../../services/search/search.service';
 import { ChatService } from '../../../../services/chat/chat.service';
 import { FirebaseService } from '../../../../services/firebase/firebase.service';
+import { CommunicationService } from '../../../../services/communication/communication.service';
 @Component({
   selector: 'app-channel-selection',
   standalone: true,
@@ -14,6 +15,7 @@ export class ChannelSelectionComponent {
   searchService = inject(SearchService);
   chatService = inject(ChatService);
   firebaseService = inject(FirebaseService);
+  communicationService = inject(CommunicationService);
   
   channelSearchActive: boolean = false;
 
