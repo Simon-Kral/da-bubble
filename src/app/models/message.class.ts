@@ -15,7 +15,7 @@ export class Message {
   lastAnswer: string;
   editCount: number;
   lastEdit: string;
-  storageDdata: string;
+  storageData: string;
   taggedUser: string[];
 
   constructor(obj?: any) {
@@ -31,7 +31,7 @@ export class Message {
     this.lastAnswer = obj ? obj.lastAnswer : '';
     this.editCount = obj ? obj.editCount : 0;
     this.lastEdit = obj ? obj.lastEdit : '';
-    this.storageDdata = obj ? obj.storageDdata : '';
+    this.storageData = obj ? obj.storageData : '';
     this.taggedUser = obj ? obj.taggedUser : [];
   }
 
