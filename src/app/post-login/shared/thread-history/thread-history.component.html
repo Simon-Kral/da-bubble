@@ -28,7 +28,7 @@
                     this.firebaseService.getUserDisplayName(msg.messageSendBy) }}</span>
                 <p>{{ this.chatService.formatTimeString(msg.time) }}</p>
             </div>
-
+            <!--tagged user-->
             <div class="msg">
                 @if (msg.taggedUser) {
                     <div class="tagged-user-container">
@@ -38,6 +38,13 @@
                     </div>
                   }
                 <span>{{ msg.text }}</span>
+                <!--storage pic-->
+                @if (msg.storageData) {
+                    <div class="storage-pic-container">
+                      <a href="{{msg.storageData}}"><img class="download-file ponter"></a>
+                      <img [src]="msg.storageData" alt="storage-pic" />
+                    </div>
+                    } 
                 @if (msg.editCount > 0) {
                 <div class="edited-msg-info">
                     <p>Bearbeitet: {{this.chatService.formatTimeString(msg.lastEdit)}}</p>
@@ -127,6 +134,7 @@
             </div>
 
             <div class="current-user-msg">
+                <!--tagged user-->
                 @if (msg.taggedUser) {
                     <div class="tagged-user-container">
                       @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
@@ -135,6 +143,13 @@
                     </div>
                   }
                 <span>{{ msg.text }}</span>
+                 <!--storage pic-->
+                 @if (msg.storageData) {
+                    <div class="storage-pic-container">
+                      <a href="{{msg.storageData}}"><img class="download-file ponter"></a>
+                      <img [src]="msg.storageData" alt="storage-pic" />
+                    </div>
+                    } 
                 @if (msg.editCount > 0) {
                 <div class="edited-msg-info">
                     <p>Bearbeitet: {{this.chatService.formatTimeString(msg.lastEdit)}}</p>

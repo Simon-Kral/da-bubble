@@ -590,12 +590,33 @@
 	z-index: 555;
 }
 
-// 
+// tagged user container
 .tagged-user-container {
 	@include dFlex(row, flex-start, center);
+
 	.tagged-user {
 		span {
 			@include Nunito(400, 14px, 19.1px, $purple-3);
 		}
+	}
+}
+
+// storage
+
+.storage-pic-container {
+	img {
+		width: 120px;
+		height: 120px;
+	}
+	.download-file {
+		background-image: url('../../../../assets/img/icons/download_white.png');
+		background-repeat: no-repeat;
+		background-position:center;
+		background-size: cover;
+		position: absolute;
+		top: 4px;
+		right: 4px;
+		width: 30px;
+		height: 30px;
 	}
 }
