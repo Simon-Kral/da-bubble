@@ -55,13 +55,14 @@
     .empty-chat-overlay {
       @include dFlex(column, flex-end, flex-start);
       position: absolute;
-      width: 90%;
-      height: 100%;
+      width: 80%;
+      height: 90%;
       top: 0;
       left: 28px;
+      gap: 24px;
       .top-section {
         @include dFlex(row, flex-start, flex-end);
-        width: fit-content;
+        width: inherit;
         height: 100px;
         gap: 25px;
         border: unset;
@@ -80,12 +81,13 @@
       }
       .bottom-section {
         @include dFlex(row, flex-start, center);
+        width: inherit;
         height: 27px;
         gap: 5px;
-        span {
+        h2 {
           @include Nunito(400, 20px, 27.28px, $text-gray);
         }
-        p {
+        span {
           @include Nunito(400, 20px, 27.28px, $purple-3);
         }
       }
