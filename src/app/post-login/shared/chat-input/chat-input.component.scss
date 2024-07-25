@@ -70,3 +70,18 @@
   left: 16px;
   z-index: 1;
 }
+
+input[type="file"] {
+	display: none;
+}	
+
+.custom-upload-button {
+	@include dFlex(row, center, center);
+	border: none;
+	background-color: $white;
+	transition: filter 0.3s ease-in-out;
+	&:hover img {
+		filter: brightness(1.3);
+		opacity: 0.8;
+	}
+}

@@ -5,6 +5,7 @@ import { ChatService } from '../../../services/chat/chat.service';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
 import { CommunicationService } from '../../../services/communication/communication.service';
+import { ref } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-chat-input',
@@ -29,6 +30,9 @@ export class ChatInputComponent {
   messageData: FormGroup;
   iconSourceSend = 'assets/img/icons/send_dark_blue.png';
 
+  //storage data
+  stotageData: any;
+
   //emoji picker
   showEmojiPicker:boolean = false;
 
@@ -36,6 +40,7 @@ export class ChatInputComponent {
   showTagContainer:boolean = false;
   // tag List for all users
   showAllUser:boolean = false;
+	storageService: any;
   constructor(private fb: FormBuilder) {
     this.messageData = this.fb.group({
       message: new FormControl('', [Validators.required, Validators.minLength(1)]),
@@ -103,4 +108,12 @@ export class ChatInputComponent {
     this.chatService.taggedUserNames.push(userName);
     console.log(this.chatService.taggedUserNames);
   }
+
+  uploadFile(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+    const file = fileInput.files?.item(0);
+    console.log(file);
+	this.stotageData = file
+	}
 }
+
