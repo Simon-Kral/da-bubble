@@ -1,4 +1,4 @@
-<form class="input-container" [formGroup]="messageData" (ngSubmit)="onSubmit()">
+<form class="input-container" [formGroup]="this.messageData" (ngSubmit)="onSubmit()">
   <textarea [placeholder]="'Nachricht an ' + this.chatService.placeholderName" formControlName="message"></textarea>
   <!--tagged User start-->
   @if (this.taggedUser) {
@@ -45,14 +45,14 @@
 </form>
 
 <!-- emoji Picker-->
-@if (showEmojiPicker) {
+@if (this.showEmojiPicker) {
 <div class="emoji-picker-container">
   <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
 </div>
 }
 
 <!--tag a channel Member-->
-@if (showTagContainer && this.chatService.mainCollection == 'channels') {
+@if (this.showTagContainer && this.chatService.mainCollection == 'channels') {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
@@ -61,8 +61,8 @@
       </div>
     </div>
     @for (channel of this.firebaseService.channelList; track channel; let channelIndex = $index) {
-    @for (user of channel.members; track user; let index = $index) {
-    @if (user !== this.firebaseService.currentUserId && channel.chanId === this.chatService.docRef &&
+    @for (user of this.channel.members; track user; let index = $index) {
+    @if (user !== this.firebaseService.currentUserId && this.channel.chanId === this.chatService.docRef &&
     !this.taggedUser.includes(user)) {
     <div class="member-container pointer" (click)="tagChannelMember(this.firebaseService.getUserDisplayName(user), user, channelIndex)">
       <div class="user-avatar">
@@ -82,7 +82,7 @@
 
 
 <!--tag a user-->
-@if (this.communicationService.showAllUsers && showTagContainer && this.taggedUser.length +1  != this.firebaseService.userList.length) {
+@if (this.communicationService.showAllUsers && this.showTagContainer && this.taggedUser.length +1  != this.firebaseService.userList.length) {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
@@ -108,7 +108,7 @@
 }
 
 <!--tag a chat participant-->
-@if (showTagContainer && this.chatService.mainCollection == 'privateChats') {
+@if (this.showTagContainer && this.chatService.mainCollection == 'privateChats') {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
@@ -117,8 +117,7 @@
       </div>
     </div>
     @for (privateChat of this.firebaseService.privateChatList; track privateChat; let index = $index) {
-    @if (privateChat.privatChatId === this.chatService.docRef) {
-    @if (privateChat.chatReciver == this.firebaseService.currentUserId) {
+    @if (privateChat.privatChatId === this.chatService.docRef && privateChat.chatReciver === this.firebaseService.currentUserId) {
     <div class="member-container pointer"
       (click)="tagChatUser(this.firebaseService.getUserDisplayName(privateChat.chatCreator), privateChat.chatCreator)">
       <div class="user-avatar">
@@ -129,7 +128,7 @@
       </div>
       <span>{{ this.firebaseService.getUserDisplayName(privateChat.chatCreator) }}</span>
     </div>
-    } @if (privateChat.chatCreator == this.firebaseService.currentUserId) {
+    @if (privateChat.chatCreator == this.firebaseService.currentUserId) {
     <div class="member-container pointer"
       (click)="tagChatUser(this.firebaseService.getUserDisplayName(privateChat.chatReciver), privateChat.chatReciver)">
       <div class="user-avatar">
