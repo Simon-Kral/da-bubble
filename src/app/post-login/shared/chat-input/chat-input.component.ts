@@ -1,5 +1,5 @@
 import { StorageService } from './../../../services/storage/storage.service';
-import { Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ChatService } from '../../../services/chat/chat.service';
@@ -15,7 +15,7 @@ import { ref } from '@angular/fire/storage';
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',
 })
-export class ChatInputComponent implements OnDestroy {
+export class ChatInputComponent implements OnDestroy, OnInit {
   chatService = inject(ChatService);
   firebaseService = inject(FirebaseService);
   communicationService = inject(CommunicationService)
@@ -59,9 +59,15 @@ export class ChatInputComponent implements OnDestroy {
     });
   }
 
+ngOnInit(): void {
+  this.taggedUser = [];
+  this.storageDataUrl = '';
+}
+
 
   ngOnDestroy(): void {
     this.taggedUser = [];
+    this.storageDataUrl = '';
   }
 
   /**

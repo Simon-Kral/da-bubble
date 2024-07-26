@@ -180,8 +180,8 @@ export class ThreadService {
       reactions: [],
       editCount: 0,
       lastEdit: '',
-      storageData: storageDataUrl || '',
       taggedUser: taggedUser || [],
+      storageData: storageDataUrl || '',
     };
     const docRef = await this.addMessageAnswer(newMessage);
     await this.updateMessageAnswerId(docRef);
@@ -374,8 +374,8 @@ export class ThreadService {
    * @param {{ message: string }} event - The event object containing the sent message text.
    * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
    */
-  async onMessageSent(event: { message: string, taggedUser: string[], storageDataUrl: string }): Promise<void> {
-    await this.sendMessageAnswer(event.message, event.taggedUser, event.storageDataUrl);
+  async onMessageSent(event: { message: string, taggedUser?: string[], storageDataUrl?: string }): Promise<void> {
+    await this.sendMessageAnswer(event.message, event.taggedUser || [], event.storageDataUrl || '');  
     this.scrollToBottom();
   }
   /**

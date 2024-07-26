@@ -10,24 +10,24 @@
   </div>
   }
   <!--tagged User end-->
+  <!--storage preview start-->
+  @if(this.storageDataUrl) {
+  <div class="preview-container">
+    <div (click)="this.closeAndDelete()" class="close-button pointer">X</div>
+    <div class="image-preview">
+      <img src="{{this.storageDataUrl}}" alt="">
+    </div>
+  </div>
+  }
+  <!--storage preview end-->
   <div class="button-container">
     <div class="left-section">
-        <!--storage preview start-->
-		@if(this.storageDataUrl) {
-			<div class="preview-container">
-				<div (click)="this.closeAndDelete()" class="close-button pointer">X</div>
-				<div class="image-preview">
-					<img src="{{this.storageDataUrl}}" alt="">
-				</div>
-			</div>
-		}
-     <!--storage preview end-->
-		<div class="add-data-container icon-container">
-			<label for="fileUpload" class="button-white">
-				<img class="pointer" src="assets/img/icons/add_grey.png" alt="icon-add" />
-				<input type="file" accept=".jpg, .jpeg, .png, .pdf" id="fileUpload" (change)="uploadFile($event)" />
-			</label>
-		</div>
+      <div class="add-data-container icon-container pointer">
+        <label for="fileUpload" class="button-white pointer">
+          <img class="pointer" src="assets/img/icons/add_grey.png" alt="icon-add" />
+          <input type="file" accept=".jpg, .jpeg, .png, .pdf" id="fileUpload" (change)="uploadFile($event)" />
+        </label>
+      </div>
       <img class="" src="assets/img/icons/vertical_line_grey.png" alt="icon-vertical-line" />
       <div class="icon-container pointer" (click)="toggleEmojiPicker()">
         <img src="assets/img/icons/smiley_grey.png" alt="icon-smiley" />
@@ -64,7 +64,8 @@
     @for (user of channel.members; track user; let index = $index) {
     @if (user !== this.firebaseService.currentUserId && channel.chanId === this.chatService.docRef &&
     !this.taggedUser.includes(user)) {
-    <div class="member-container pointer" (click)="tagChannelMember(this.firebaseService.getUserDisplayName(user), user, channelIndex)">
+    <div class="member-container pointer"
+      (click)="tagChannelMember(this.firebaseService.getUserDisplayName(user), user, channelIndex)">
       <div class="user-avatar">
         <img [src]="this.firebaseService.getUserAvatar(user)" alt="User Avatar" />
         <div class="user-status"
@@ -82,7 +83,8 @@
 
 
 <!--tag a user-->
-@if (this.communicationService.showAllUsers && showTagContainer && this.taggedUser.length +1  != this.firebaseService.userList.length) {
+@if (this.communicationService.showAllUsers && showTagContainer && this.taggedUser.length +1 !=
+this.firebaseService.userList.length) {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
