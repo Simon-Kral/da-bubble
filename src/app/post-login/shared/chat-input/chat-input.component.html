@@ -1,10 +1,10 @@
-<form class="input-container" [formGroup]="messageData" (ngSubmit)="onSubmit()">
+<form class="input-container" [formGroup]="this.messageData" (ngSubmit)="onSubmit()">
   <textarea [placeholder]="'Nachricht an ' + this.chatService.placeholderName" formControlName="message"></textarea>
   <!--tagged User start-->
   @if (this.taggedUser) {
   <div class="tagged-user-container">
     @for (taggedUser of this.taggedUser; track taggedUser; let index = $index) {
-    <span (click)="deleteTaggedUser(index)" class="pointer">{{'@' +
+    <span (click)="this.deleteTaggedUser(index)" class="pointer">{{'@' +
       this.firebaseService.getUserDisplayName(taggedUser)}}</span>
     }
   </div>
@@ -25,14 +25,14 @@
       <div class="add-data-container icon-container pointer">
         <label for="fileUpload" class="button-white pointer">
           <img class="pointer" src="assets/img/icons/add_grey.png" alt="icon-add" />
-          <input type="file" accept=".jpg, .jpeg, .png, .pdf" id="fileUpload" (change)="uploadFile($event)" />
+          <input type="file" accept=".jpg, .jpeg, .png, .pdf" id="fileUpload" (change)="this.uploadFile($event)" />
         </label>
       </div>
       <img class="" src="assets/img/icons/vertical_line_grey.png" alt="icon-vertical-line" />
-      <div class="icon-container pointer" (click)="toggleEmojiPicker()">
+      <div class="icon-container pointer" (click)="this.toggleEmojiPicker()">
         <img src="assets/img/icons/smiley_grey.png" alt="icon-smiley" />
       </div>
-      <div class="icon-container pointer" (click)="toggleTagUser()">
+      <div class="icon-container pointer" (click)="this.toggleTagUser()">
         <img src="assets/img/icons/alternate_email_grey.png" alt="icon-email" />
       </div>
     </div>
@@ -45,14 +45,14 @@
 </form>
 
 <!-- emoji Picker-->
-@if (showEmojiPicker) {
+@if (this.showEmojiPicker) {
 <div class="emoji-picker-container">
-  <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
+  <emoji-mart (emojiClick)="this.addEmoji($event)"></emoji-mart>
 </div>
 }
 
 <!--tag a channel Member-->
-@if (showTagContainer && this.chatService.mainCollection == 'channels') {
+@if (this.showTagContainer && this.chatService.mainCollection == 'channels') {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
@@ -61,8 +61,8 @@
       </div>
     </div>
     @for (channel of this.firebaseService.channelList; track channel; let channelIndex = $index) {
-    @for (user of channel.members; track user; let index = $index) {
-    @if (user !== this.firebaseService.currentUserId && channel.chanId === this.chatService.docRef &&
+    @for (user of this.channel.members; track user; let index = $index) {
+    @if (user !== this.firebaseService.currentUserId && this.channel.chanId === this.chatService.docRef &&
     !this.taggedUser.includes(user)) {
     <div class="member-container pointer"
       (click)="tagChannelMember(this.firebaseService.getUserDisplayName(user), user, channelIndex)">
@@ -88,13 +88,13 @@ this.firebaseService.userList.length) {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
-      <div class="pointer close-btn" (click)="toggleTagUser()">
+      <div class="pointer close-btn" (click)="this.toggleTagUser()">
         <img src="assets/img/icons/close_black.png" alt="close-icon" />
       </div>
     </div>
     @for (user of this.firebaseService.userList; track user; let index = $index) {
     @if (user.userId !== this.firebaseService.currentUserId && !this.taggedUser.includes(user.userId)) {
-    <div class="member-container pointer" (click)="tagUser(user.name, user.userId)">
+    <div class="member-container pointer" (click)="this.tagUser(user.name, user.userId)">
       <div class="user-avatar">
         <img [src]="this.firebaseService.getUserAvatar(user.userId)" alt="User Avatar" />
         <div class="user-status"
@@ -110,19 +110,18 @@ this.firebaseService.userList.length) {
 }
 
 <!--tag a chat participant-->
-@if (showTagContainer && this.chatService.mainCollection == 'privateChats') {
+@if (this.showTagContainer && this.chatService.mainCollection == 'privateChats') {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
-      <div class="pointer close-btn" (click)="toggleTagUser()">
+      <div class="pointer close-btn" (click)="this.toggleTagUser()">
         <img src="assets/img/icons/close_black.png" alt="close-icon" />
       </div>
     </div>
     @for (privateChat of this.firebaseService.privateChatList; track privateChat; let index = $index) {
-    @if (privateChat.privatChatId === this.chatService.docRef) {
-    @if (privateChat.chatReciver == this.firebaseService.currentUserId) {
+    @if (privateChat.privatChatId === this.chatService.docRef && privateChat.chatReciver === this.firebaseService.currentUserId) {
     <div class="member-container pointer"
-      (click)="tagChatUser(this.firebaseService.getUserDisplayName(privateChat.chatCreator), privateChat.chatCreator)">
+      (click)="this.tagChatUser(this.firebaseService.getUserDisplayName(privateChat.chatCreator), privateChat.chatCreator)">
       <div class="user-avatar">
         <img [src]="this.firebaseService.getUserAvatar(privateChat.chatCreator)" alt="User Avatar" />
         <div class="user-status"
@@ -131,9 +130,9 @@ this.firebaseService.userList.length) {
       </div>
       <span>{{ this.firebaseService.getUserDisplayName(privateChat.chatCreator) }}</span>
     </div>
-    } @if (privateChat.chatCreator == this.firebaseService.currentUserId) {
+    @if (privateChat.chatCreator == this.firebaseService.currentUserId) {
     <div class="member-container pointer"
-      (click)="tagChatUser(this.firebaseService.getUserDisplayName(privateChat.chatReciver), privateChat.chatReciver)">
+      (click)="this.tagChatUser(this.firebaseService.getUserDisplayName(privateChat.chatReciver), privateChat.chatReciver)">
       <div class="user-avatar">
         <img [src]="this.firebaseService.getUserAvatar(privateChat.chatReciver)" alt="User Avatar" />
         <div class="user-status"

@@ -160,10 +160,8 @@ ngOnInit(): void {
   uploadFile(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput.files?.item(0);
-  	this.fileName = file?.name ?? '';
+  	this.fileName = file?.name || '';
 	if (file) {
-		console.log(file);
-		console.log(this.storageService.storage);
 		const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
 		this.storageService.uploadFile(storageRef, file).subscribe({
 			next: (snapshot) => {

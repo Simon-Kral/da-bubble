@@ -39,12 +39,18 @@
                   }
                 <span>{{ msg.text }}</span>
                 <!--storage pic-->
-                @if (msg.storageData) {
-                    <div class="storage-pic-container">
-                      <a href="{{msg.storageData}}"><img class="download-file ponter"></a>
-                      <img [src]="msg.storageData" alt="storage-pic" />
-                    </div>
-                    } 
+				@if (msg.storageData) {
+					<div class="storage-pic-container">
+						<div class="wrapper">
+							<a class="download pointer" href="{{msg.storageData}}" download>
+								<img class="download-icon" src="assets/img/icons/download_white.png" alt="">
+							</a>
+							<a href="{{msg.storageData}}" target="_blank">
+								<img src="{{msg.storageData}}">
+							</a>
+						</div>
+					  </div>
+				} 
                 @if (msg.editCount > 0) {
                 <div class="edited-msg-info">
                     <p>Bearbeitet: {{this.chatService.formatTimeString(msg.lastEdit)}}</p>
@@ -144,12 +150,18 @@
                   }
                 <span>{{ msg.text }}</span>
                  <!--storage pic-->
-                 @if (msg.storageData) {
-                    <div class="storage-pic-container">
-                      <a href="{{msg.storageData}}"><img class="download-file ponter"></a>
-                      <img [src]="msg.storageData" alt="storage-pic" />
-                    </div>
-                    } 
+				 @if (msg.storageData) {
+					<div class="storage-pic-container">
+						<div class="wrapper">
+							<a class="download pointer" href="{{msg.storageData}}" download>
+								<img class="download-icon" src="assets/img/icons/download_white.png" alt="">
+							</a>
+							<a href="{{msg.storageData}}" target="_blank">
+								<img src="{{msg.storageData}}">
+							</a>
+						</div>
+					  </div>
+				} 
                 @if (msg.editCount > 0) {
                 <div class="edited-msg-info">
                     <p>Bearbeitet: {{this.chatService.formatTimeString(msg.lastEdit)}}</p>
