@@ -40,7 +40,7 @@ export class ChatService {
   editMessageId: string = '';
   editThreadId: string = '';
   messageId: string = '';
-  storageDataUrl: string = '';
+  
   selectedPrivateChatReciver: string = '';
   weekday = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
   months = [
@@ -58,9 +58,7 @@ export class ChatService {
     'Dezember',
   ];
 
-  // tagged users
-  taggedUser: string[] = [];
-  taggedUserNames: string[] = [];
+
 
   private messageScrolledSource = new BehaviorSubject<string | null>(null);
   messageScrolled$ = this.messageScrolledSource.asObservable();
@@ -363,8 +361,8 @@ export class ChatService {
    * @param {string} messageText - The text of the message to be sent.
    * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
    */
-  async sendMessage(messageText: string) {
-    let newMessage: Message = {
+  async sendMessage(messageText: string, taggedUser: string[], storageDataUrl: string): Promise<void> {
+      let newMessage: Message = {
       messageId: '',
       text: messageText,
       chatId: this.docRef,
@@ -377,8 +375,8 @@ export class ChatService {
       lastAnswer: '',
       editCount: 0,
       lastEdit: '',
-      storageData: this.storageDataUrl,
-      taggedUser: this.taggedUser,
+      taggedUser: taggedUser || [],
+      storageData: storageDataUrl || '',
     };
     const docRef = await this.addMessage(newMessage);
     await this.updateMessageId(docRef);
