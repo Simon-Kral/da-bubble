@@ -12,6 +12,7 @@
   <!--tagged User end-->
   <div class="button-container">
     <div class="left-section">
+        <!--storage preview start-->
 		@if(this.storageDataUrl) {
 			<div class="preview-container">
 				<div (click)="this.closeAndDelete()" class="close-button pointer">X</div>
@@ -20,6 +21,7 @@
 				</div>
 			</div>
 		}
+     <!--storage preview end-->
 		<div class="add-data-container icon-container">
 			<label for="fileUpload" class="button-white">
 				<img class="pointer" src="assets/img/icons/add_grey.png" alt="icon-add" />
