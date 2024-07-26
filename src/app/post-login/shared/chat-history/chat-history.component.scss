@@ -609,7 +609,7 @@
 	padding: 12px;
 	position: relative;
 	>.wrapper {
-		width: 150px;
+		width: 190px;
 		height: 150px;
 		background: $white;
 		@include dFlex(column, center, center);
@@ -627,7 +627,7 @@
 	
 		> a {
 			> img {
-				border-radius: 20px 0 20px 20px;
+				border-radius: 20px 20px 20px 20px;
 				width: 120px;
 				height: 120px;
 			}
