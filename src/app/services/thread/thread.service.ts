@@ -169,8 +169,8 @@ export class ThreadService {
    * @param {string} messageText - The text of the message answer to be sent.
    * @returns {Promise<void>} A promise that resolves when the message answer is successfully sent and updated.
    */
-  async sendMessageAnswer(messageText: string) {
-    let newMessage: MessageAnswer = {
+  async sendMessageAnswer(messageText: string, taggedUser: string[], storageDataUrl: string): Promise<void> {
+      let newMessage: MessageAnswer = {
       messageAnswerId: '',
       text: messageText,
       messageId: this.chatService.messageId,
@@ -180,8 +180,8 @@ export class ThreadService {
       reactions: [],
       editCount: 0,
       lastEdit: '',
-      storageData: '',
-      taggedUser: this.chatService.taggedUser,
+      storageData: storageDataUrl || '',
+      taggedUser: taggedUser || [],
     };
     const docRef = await this.addMessageAnswer(newMessage);
     await this.updateMessageAnswerId(docRef);
@@ -374,8 +374,8 @@ export class ThreadService {
    * @param {{ message: string }} event - The event object containing the sent message text.
    * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
    */
-  async onMessageSent(event: { message: string }) {
-    await this.sendMessageAnswer(event.message);
+  async onMessageSent(event: { message: string, taggedUser: string[], storageDataUrl: string }): Promise<void> {
+    await this.sendMessageAnswer(event.message, event.taggedUser, event.storageDataUrl);
     this.scrollToBottom();
   }
   /**

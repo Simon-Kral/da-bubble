@@ -1,9 +1,9 @@
 <form class="input-container" [formGroup]="messageData" (ngSubmit)="onSubmit()">
   <textarea [placeholder]="'Nachricht an ' + this.chatService.placeholderName" formControlName="message"></textarea>
   <!--tagged User start-->
-  @if (this.chatService.taggedUser) {
+  @if (this.taggedUser) {
   <div class="tagged-user-container">
-    @for (taggedUser of this.chatService.taggedUser; track taggedUser; let index = $index) {
+    @for (taggedUser of this.taggedUser; track taggedUser; let index = $index) {
     <span (click)="deleteTaggedUser(index)" class="pointer">{{'@' +
       this.firebaseService.getUserDisplayName(taggedUser)}}</span>
     }
@@ -61,7 +61,7 @@
     @for (channel of this.firebaseService.channelList; track channel; let channelIndex = $index) {
     @for (user of channel.members; track user; let index = $index) {
     @if (user !== this.firebaseService.currentUserId && channel.chanId === this.chatService.docRef &&
-    !this.chatService.taggedUser.includes(user)) {
+    !this.taggedUser.includes(user)) {
     <div class="member-container pointer" (click)="tagChannelMember(this.firebaseService.getUserDisplayName(user), user, channelIndex)">
       <div class="user-avatar">
         <img [src]="this.firebaseService.getUserAvatar(user)" alt="User Avatar" />
@@ -80,7 +80,7 @@
 
 
 <!--tag a user-->
-@if (this.communicationService.showAllUsers && showTagContainer && this.chatService.taggedUser.length +1  != this.firebaseService.userList.length) {
+@if (this.communicationService.showAllUsers && showTagContainer && this.taggedUser.length +1  != this.firebaseService.userList.length) {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
@@ -89,7 +89,7 @@
       </div>
     </div>
     @for (user of this.firebaseService.userList; track user; let index = $index) {
-    @if (user.userId !== this.firebaseService.currentUserId && !this.chatService.taggedUser.includes(user.userId)) {
+    @if (user.userId !== this.firebaseService.currentUserId && !this.taggedUser.includes(user.userId)) {
     <div class="member-container pointer" (click)="tagUser(user.name, user.userId)">
       <div class="user-avatar">
         <img [src]="this.firebaseService.getUserAvatar(user.userId)" alt="User Avatar" />

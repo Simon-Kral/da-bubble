@@ -20,15 +20,16 @@ export class ChatInputComponent implements OnDestroy {
   firebaseService = inject(FirebaseService);
   communicationService = inject(CommunicationService)
   storageService = inject(StorageService);
-  storageDataUrl: string = '';
-  fileName: string = '';
+
 
   @Input() sourceComponent: string = ''; // Variable to hold the source component's name or identifier
   @Input() placeholderText: string = ''; // Variable to hold the placeholder text for the chat input
   @Output() messageEvent = new EventEmitter<{
     message: string;
-    source: string;
-    timestamp: number;
+    source: string;   // to-do do we need this?
+    timestamp: number; // to-do do we need this?
+    taggedUser: string[];
+    storageDataUrl: string;
   }>();
 
   messageData: FormGroup;
@@ -42,6 +43,16 @@ export class ChatInputComponent implements OnDestroy {
   showTagContainer:boolean = false;
   // tag List for all users
   showAllUser:boolean = false;
+  // tagged users
+  taggedUser: string[] = [];
+  taggedUserNames: string[] = [];
+
+
+  // storgae data
+  storageDataUrl: string = '';
+  fileName: string = '';
+
+
   constructor(private fb: FormBuilder) {
     this.messageData = this.fb.group({
       message: new FormControl('', [Validators.required, Validators.minLength(1)]),
@@ -50,7 +61,7 @@ export class ChatInputComponent implements OnDestroy {
 
 
   ngOnDestroy(): void {
-    this.chatService.taggedUser = [];
+    this.taggedUser = [];
   }
 
   /**
@@ -69,21 +80,19 @@ export class ChatInputComponent implements OnDestroy {
     if (this.messageData.invalid) {
       return;
     }
-	console.log('URL', this.storageDataUrl);
-
     const messageToSend = {
-      timestamp: this.getCurrentTime(),
+      timestamp: this.getCurrentTime(),     // to-do do we need this?
       message: this.messageData.value.message,
-      source: this.sourceComponent,
-      storageData: this.storageDataUrl,
-      taggedUser: this.chatService.taggedUser,
+      source: this.sourceComponent,        // to-do do we need this?
+      storageDataUrl: this.storageDataUrl,
+      taggedUser: this.taggedUser,
     };
 
     this.messageEvent.emit(messageToSend);
     this.messageData.reset();
-    this.chatService.taggedUser = [];
-	this.storageDataUrl = '';
-
+    this.taggedUser = [];
+    this.storageDataUrl = '';
+    console.log('Message sent:', messageToSend);
   }
 
   //emoji code
@@ -113,30 +122,30 @@ export class ChatInputComponent implements OnDestroy {
   }
 
   tagChannelMember(userName: string, userId: string, index: number) {
-    this.chatService.taggedUser.push(userId);
-    this.chatService.taggedUserNames.push(userName);
-    if (this.chatService.taggedUser.length +1  == this.firebaseService.channelList[index].members.length) {
+    this.taggedUser.push(userId);
+    this.taggedUserNames.push(userName);
+    if (this.taggedUser.length +1  == this.firebaseService.channelList[index].members.length) {
       this.showTagContainer = false;
     }
   }
 
   tagChatUser(userName: string, userId: string) {
-    this.chatService.taggedUser.push(userId);
-    this.chatService.taggedUserNames.push(userName);
+    this.taggedUser.push(userId);
+    this.taggedUserNames.push(userName);
     this.showTagContainer = false;
   }
 
   tagUser(userName: string, userId: string,) {
-    this.chatService.taggedUser.push(userId);
-    this.chatService.taggedUserNames.push(userName);
-    if (this.chatService.taggedUser.length +1  == this.firebaseService.userList.length) {
+    this.taggedUser.push(userId);
+    this.taggedUserNames.push(userName);
+    if (this.taggedUser.length +1  == this.firebaseService.userList.length) {
       this.showTagContainer = false;
     }
   }
 
   deleteTaggedUser(index: number) {
-    this.chatService.taggedUser.splice(index, 1);
-    this.chatService.taggedUserNames.splice(index, 1);
+    this.taggedUser.splice(index, 1);
+    this.taggedUserNames.splice(index, 1);
   }
 
   //upload file code
@@ -153,7 +162,7 @@ export class ChatInputComponent implements OnDestroy {
 				this.storageService.getURL(snapshot.ref).subscribe({
 					next: (url) => {
 						this.storageDataUrl = url;
-						this.chatService.storageDataUrl = this.storageDataUrl;
+						this.storageDataUrl = this.storageDataUrl;
 						console.log(this.storageDataUrl);
 						
 					},

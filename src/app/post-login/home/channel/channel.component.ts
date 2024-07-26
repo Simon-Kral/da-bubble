@@ -104,8 +104,8 @@ export class ChannelComponent implements OnInit, OnDestroy{
  * @param {{ message: string }} event - The event object containing the sent message text.
  * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
  */
-	async onMessageSent(event: { message: string }) {
-        await this.chatService.sendMessage(event.message);
-		this.chatService.scrollToBottom();   
+async onMessageSent(event: { message: string, taggedUser?: string[], storageDataUrl?: string }): Promise<void> {
+	await this.chatService.sendMessage(event.message, event.taggedUser || [], event.storageDataUrl || '');  
+	this.chatService.scrollToBottom();
   }
 }
