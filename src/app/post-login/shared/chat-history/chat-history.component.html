@@ -177,9 +177,9 @@
         <!--storage pic-->
         @if (msg.storageData) {
           <div class="storage-pic-container">
-            <span class="download pointer">
+            <a class="download pointer" href="{{msg.storageData}}" download>
 				<img class="download-icon" src="assets/img/icons/download_white.png" alt="">
-			</span>
+			</a>
 			<a href="{{msg.storageData}}" target="_blank">
 				<img src="{{msg.storageData}}">
 			</a>
