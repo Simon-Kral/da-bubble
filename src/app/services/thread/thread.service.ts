@@ -163,16 +163,30 @@ export class ThreadService {
     await this.chatService.updateMessageThreadId(message.messageId, docRef.id);
   }
 
+      /**
+   * This function is triggered when a message is sent and it calls the sendMessageAnswer
+   * function with the message text from the event.
+   *
+   * @param {{ message: string }} event - The event object containing the sent message text.
+   * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
+   */
+      async onMessageSent(event: { message: string, taggedUser?: string[], storageData?: string }): Promise<void> {
+        console.log('Received event in THREAD SERVICE:', event); // Debug-Ausgabe
+        await this.sendMessageAnswer(event);
+        this.scrollToBottom();
+      }
+
   /**
    * Sends a new messageAnswer and updates its document ID in Firestore.
    *
    * @param {string} messageText - The text of the message answer to be sent.
    * @returns {Promise<void>} A promise that resolves when the message answer is successfully sent and updated.
    */
-  async sendMessageAnswer(messageText: string, taggedUser: string[], storageDataUrl: string): Promise<void> {
+  async sendMessageAnswer(event: { message: string, taggedUser?: string[], storageData?: string }): Promise<void> {
+    console.log('Storage data in thread service:', event.storageData);
       let newMessage: MessageAnswer = {
       messageAnswerId: '',
-      text: messageText,
+      text: event.message,
       messageId: this.chatService.messageId,
       date: new Date().toLocaleDateString(),
       time: Date.now().toString(),
@@ -180,8 +194,8 @@ export class ThreadService {
       reactions: [],
       editCount: 0,
       lastEdit: '',
-      taggedUser: taggedUser || [],
-      storageData: storageDataUrl || '',
+      taggedUser: event.taggedUser || [],
+      storageData: event.storageData || '',
     };
     const docRef = await this.addMessageAnswer(newMessage);
     await this.updateMessageAnswerId(docRef);
@@ -367,17 +381,6 @@ export class ThreadService {
     await this.subscribeMsgAnswerList();
   }
 
-  /**
-   * This function is triggered when a message is sent and it calls the sendMessageAnswer
-   * function with the message text from the event.
-   *
-   * @param {{ message: string }} event - The event object containing the sent message text.
-   * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
-   */
-  async onMessageSent(event: { message: string, taggedUser?: string[], storageDataUrl?: string }): Promise<void> {
-    await this.sendMessageAnswer(event.message, event.taggedUser || [], event.storageDataUrl || '');  
-    this.scrollToBottom();
-  }
   /**
    * Finds the latest message answer time in the list excluding the current message to be deleted.
    *

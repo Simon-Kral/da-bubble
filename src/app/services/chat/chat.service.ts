@@ -357,14 +357,28 @@ export class ChatService {
   }
 
   /**
+ * This function is triggered when a message is sent and it calls the sendMessage
+ * function with the message text from the event.
+ *
+ * @param {{ message: string }} event - The event object containing the sent message text.
+ * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
+ */
+async onMessageSent(event: { message: string, taggedUser?: string[], storageData?: string }): Promise<void> {
+	await this.sendMessage(event);  
+	this.scrollToBottom();
+
+  }
+
+  /**
    * Sends a message to a private chat or channel by creating a new message document in the messages subcollection.
    * @param {string} messageText - The text of the message to be sent.
    * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
    */
-  async sendMessage(messageText: string, taggedUser: string[], storageDataUrl: string): Promise<void> {
+  async sendMessage(event: { message: string, taggedUser?: string[], storageData?: string }): Promise<void> {
+      console.log('Storage data in chat service:', event.storageData);
       let newMessage: Message = {
       messageId: '',
-      text: messageText,
+      text: event.message,
       chatId: this.docRef,
       date: this.convertDate(),
       time: Date.now().toString(),
@@ -375,8 +389,8 @@ export class ChatService {
       lastAnswer: '',
       editCount: 0,
       lastEdit: '',
-      taggedUser: taggedUser || [],
-      storageData: storageDataUrl || '',
+      taggedUser: event.taggedUser || [],
+      storageData: event.storageData || '',
     };
     const docRef = await this.addMessage(newMessage);
     await this.updateMessageId(docRef);

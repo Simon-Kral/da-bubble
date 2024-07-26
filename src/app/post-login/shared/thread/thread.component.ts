@@ -51,4 +51,6 @@ export class ThreadComponent implements OnInit, OnDestroy {
     this.threadService.unsubscribeAllLists();
     this.threadService.msgAnswerList = [];
   }
+
+
 }

@@ -11,11 +11,11 @@
   }
   <!--tagged User end-->
   <!--storage preview start-->
-  @if(this.storageDataUrl) {
+  @if(this.storageData) {
   <div class="preview-container">
     <div (click)="this.closeAndDelete()" class="close-button pointer">X</div>
     <div class="image-preview">
-      <img src="{{this.storageDataUrl}}" alt="">
+      <img src="{{this.storageData}}" alt="">
     </div>
   </div>
   }

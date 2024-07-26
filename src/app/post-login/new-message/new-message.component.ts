@@ -135,12 +135,12 @@ handleFocus() {
  * @param {{ message: string }} event - The event object containing the sent message text.
  * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
  */
-async onMessageSent(event: { message: string, taggedUser: string[], storageDataUrl: string }): Promise<void> {
+async onMessageSent(event: { message: string, taggedUser: string[], storageData: string }): Promise<void> {
   if (this.chatService.mainCollection === 'privateChats') {
     await this.chatService.initializePrivateChat(this.firebaseService.currentUser.userId, this.chatService.selectedPrivateChatReciver);
-    await this.chatService.sendMessage(event.message, event.taggedUser, event.storageDataUrl);
+    await this.chatService.sendMessage(event);
   } else if (this.chatService.mainCollection === 'channels') {
-    await this.chatService.sendMessage(event.message, event.taggedUser, event.storageDataUrl);
+    await this.chatService.sendMessage(event);
     this.router.navigate(['/home/channels', this.chatService.docRef]);
   }
 }

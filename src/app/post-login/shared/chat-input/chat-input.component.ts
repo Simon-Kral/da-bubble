@@ -29,7 +29,7 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     source: string;   // to-do do we need this?
     timestamp: number; // to-do do we need this?
     taggedUser: string[];
-    storageDataUrl: string;
+    storageData: string;
   }>();
 
   messageData: FormGroup;
@@ -49,7 +49,7 @@ export class ChatInputComponent implements OnDestroy, OnInit {
 
 
   // storgae data
-  storageDataUrl: string = '';
+  storageData: string = '';
   fileName: string = '';
 
 
@@ -61,13 +61,13 @@ export class ChatInputComponent implements OnDestroy, OnInit {
 
 ngOnInit(): void {
   this.taggedUser = [];
-  this.storageDataUrl = '';
+  this.storageData = '';
 }
 
 
   ngOnDestroy(): void {
     this.taggedUser = [];
-    this.storageDataUrl = '';
+    this.storageData = '';
   }
 
   /**
@@ -90,15 +90,17 @@ ngOnInit(): void {
       timestamp: this.getCurrentTime(),     // to-do do we need this?
       message: this.messageData.value.message,
       source: this.sourceComponent,        // to-do do we need this?
-      storageDataUrl: this.storageDataUrl,
+      storageData: this.storageData,
       taggedUser: this.taggedUser,
     };
-
     this.messageEvent.emit(messageToSend);
     this.messageData.reset();
+    console.log('Message sent chat input:', messageToSend);
+    console.log('Storage data in child before emit:', this.storageData);
     this.taggedUser = [];
-    this.storageDataUrl = '';
-    console.log('Message sent:', messageToSend);
+    this.storageData = '';
+
+
   }
 
   //emoji code
@@ -167,9 +169,9 @@ ngOnInit(): void {
 			next: (snapshot) => {
 				this.storageService.getURL(snapshot.ref).subscribe({
 					next: (url) => {
-						this.storageDataUrl = url;
-						this.storageDataUrl = this.storageDataUrl;
-						console.log(this.storageDataUrl);
+						this.storageData = url;
+						this.storageData = this.storageData;
+						console.log('uploadFileFunction',this.storageData);
 						
 					},
 				});
@@ -180,7 +182,7 @@ ngOnInit(): void {
 
   closeAndDelete() {
 	  this.deleteObject();
-	  this.storageDataUrl = '';
+	  this.storageData = '';
   }
 
   deleteObject() {
