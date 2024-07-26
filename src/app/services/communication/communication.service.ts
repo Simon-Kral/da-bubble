@@ -39,16 +39,25 @@ export class CommunicationService {
 	// is getting used to store channelRef of  the channel which got created in create-channel comp
 	newChanId = '';
 
+	//sidenav variables
+	isSidenavVisible: boolean = false;
+	isSidenavToggled: boolean = false;
+	isSidenavAnimationComplete: boolean = false;
+
+	// welcome screen variables
+	isWelcomeScreenVisible: boolean = true;
+
 
 	// mobile view variables
 	isMobileViewActive: boolean = false;      // main flag to check if mobile view is active
 
-	isMobileUserMenuVisible: boolean = false;  
+	isMobileUserMenuVisible: boolean = false;
+
 	constructor() {}
 
 
 
-	toggleThreadVisibility(visible: boolean) {
+	toggleThreadVisibility() {
 		this.isThreadVisible = !this.isThreadVisible;
 	}
 
@@ -85,6 +94,24 @@ export class CommunicationService {
 	toggleMobileUserMenu() {
 		this.isMobileUserMenuVisible = !this.isMobileUserMenuVisible;
 	}
+
+
+
+	//sidenav functions
+  /**
+   * Toggles the visibility of the sidenav and sets the toggled flag.
+   */
+  toggleSidenav(): void {
+    this.isSidenavVisible = !this.isSidenavVisible;
+    this.isSidenavToggled = !this.isSidenavToggled;
+    if (this.isSidenavVisible) {
+      setTimeout(() => {
+        this.isSidenavAnimationComplete = true;
+      }, 300); 
+    } else {
+      this.isSidenavAnimationComplete = false;
+    }
+  }
 
 
 	closeMobileMenuPopupOverlay(menu: string) {

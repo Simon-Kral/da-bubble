@@ -54,4 +54,10 @@ export class SidenavComponent {
     this.isCreateChannelVisible = !this.isCreateChannelVisible;
     this.createChannelVisibilityChange.emit(this.isCreateChannelVisible);
   }
+
+  handleOpenNewMessage() {
+    this.router.navigate(['home/new-message']);
+    this.communicationService.toggleSidenav();
+
+  }
 }

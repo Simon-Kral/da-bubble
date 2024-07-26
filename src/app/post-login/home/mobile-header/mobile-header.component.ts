@@ -16,7 +16,10 @@ export class MobileHeaderComponent {
   communicationService = inject(CommunicationService);
 
   
-
+handleBackButtonClick() {
+this.communicationService.toggleSidenav();
+this.communicationService.isThreadVisible=false;
+}
 
 
 }

@@ -43,7 +43,6 @@ export const routes: Routes = [
 			{ path: 'privateChats/:id', component: PrivateMessageComponent },
 			{ path: 'new-message', component: NewMessageComponent },
 			{ path: 'privateNotes/:id', component: PrivateNoteComponent },
-			{ path: 'welcome', component:  WelcomeScreenComponent },
 		],
 	},
 ];

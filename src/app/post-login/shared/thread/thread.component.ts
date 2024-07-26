@@ -47,7 +47,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
  * @returns {void}
  */
   handleClickOnClose() {
-    this.communicationService.toggleThreadVisibility(true);
+    this.communicationService.toggleThreadVisibility();
     this.threadService.unsubscribeAllLists();
     this.threadService.msgAnswerList = [];
   }

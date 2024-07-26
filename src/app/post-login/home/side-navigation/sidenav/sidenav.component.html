@@ -6,7 +6,7 @@
         <img class="sidenav-logo" src="../../assets/img/logos/workspace_logo.png" alt="logo" />
         <h1>Devspace</h1>
       </div>
-      <div class="sidenav-headline-right pointer" [routerLink]="['/home/new-message']">
+      <div (click)="this.communicationService.isWelcomeScreenVisible = false" class="sidenav-headline-right pointer" [routerLink]="['/home/new-message']">
         <img src="assets/img/icons/edit_square_black.png" alt="edit-icon" />
       </div>
     </div>
@@ -59,7 +59,7 @@
 
   <!--mobile button for new-message component-->
   @if (this.communicationService.isMobileViewActive) {
-  <div class="mobile-new-msg-button pointer" [routerLink]="['/home/new-message']">
+  <div class="mobile-new-msg-button pointer" (click)="handleOpenNewMessage()">
     <img src="assets/img/icons/edit_square_white.png" alt="edit-icon" />
   </div>
   }

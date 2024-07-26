@@ -10,6 +10,7 @@
 			<img class="pointer" src="assets/img/icons/keyboard_arrow_down_black.png" alt="" />
 		</div>
 		<div class="avatar-collection">
+			@if (!communicationService.isMobileViewActive) {
 			<div class="user-profile-img-container pointer" (click)="handleClickOnMember()">
 				@for(member of channel.members; track member; let index =
 				$index) { @if(index
@@ -20,6 +21,7 @@
 			<div class="user-counter">
 				<span>{{ channel.members.length }}</span>
 			</div>
+			}
 			<div class="add-member pointer" (click)="toggleAddMembersToChannel()">
 				<img src="assets/img/icons/person_add.png" alt="Add button" />
 			</div>
@@ -35,7 +37,8 @@
 				<h1>{{ "# " + channel.name }}</h1>
 			</div>
 			<div class="bottom-section">
-				<h2> Du hast diesen Channel am {{  channel.createdAt }} erstellt. Dies ist der Anfang des Channels <span>{{ "# " + channel.name + "." }}</span></h2>
+				<h2> Du hast diesen Channel am {{ channel.createdAt }} erstellt. Dies ist der Anfang des Channels
+					<span>{{ "# " + channel.name + "." }}</span></h2>
 			</div>
 		</div>
 		} } }

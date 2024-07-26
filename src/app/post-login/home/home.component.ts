@@ -53,11 +53,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 	communicationService = inject(CommunicationService);
 	searchService = inject(SearchService);
 
-	//sidenav variables
-	isSidenavVisible: boolean = false;
-	isSidenavToggled: boolean = false;
-	isSidenavAnimationComplete: boolean = false;
-	
 
 	//create channel variables
 	isCreateChannelVisible: boolean = false;
@@ -104,21 +99,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 		this.chatService.unsubscribeAllLists();
 	}
 
-	//sidenav functions
-  /**
-   * Toggles the visibility of the sidenav and sets the toggled flag.
-   */
-  toggleSidenav(): void {
-    this.isSidenavVisible = !this.isSidenavVisible;
-    this.isSidenavToggled = true;
-    if (this.isSidenavVisible) {
-      setTimeout(() => {
-        this.isSidenavAnimationComplete = true;
-      }, 300); 
-    } else {
-      this.isSidenavAnimationComplete = false;
-    }
-  }
+
 	/**
 	 * Toggles the visibility of various components based on the given name.
 	 * @param name The name of the component to toggle visibility for.
@@ -147,11 +128,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 			case 'channelMember':
 				this.isChannelMemberVisible = visible;
 				break;
-			case 'sideNav':
-					this.isCreateChannelVisible = visible;
-					this.isSidenavToggled = !this.isSidenavToggled;
-					this.isSidenavAnimationComplete != this.isSidenavAnimationComplete;
-				break
 			default:
 				console.warn(`Unknown component name: ${name}`);
 				break;
