@@ -53,30 +53,4 @@ export class StorageService {
 		}); 
 	}
 
-	/**
-	 * Downloads a file using the provided URL.
-	 * @param url - The URL of the file to download.
-	 */
-	/**
-	 * Downloads a file using the provided URL.
-	 * @param url - The URL of the file to download.
-	 */
-	async downloadFileWithUrl(url: string) {
-		try {
-			const response = await fetch(url);
-			if (response.ok) {
-				const blob = await response.blob();
-				const filename = url.substring(url.lastIndexOf('/') + 1);
-				const a = document.createElement('a');
-				a.href = URL.createObjectURL(blob);
-				a.download = filename;
-				a.click();
-			} else {
-				throw new Error('Failed to fetch file');
-			}
-		} catch (error) {
-			console.error('Error downloading file:', error);
-		}
-	}
-
 }
