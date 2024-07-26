@@ -77,20 +77,21 @@
 }
 }
 
+//emoji picker
 .emoji-picker-container {
   position: absolute;
   bottom: 172px;
   left: 16px;
   z-index: 1;
 }
-
+// tag container
 .tag-container {
   position: absolute;
   bottom: 172px;
   left: 16px;
   z-index: 1;
 }
-
+// file upload
 input[type="file"] {
 	display: none;
 }	
@@ -107,6 +108,7 @@ input[type="file"] {
 }
 
 .preview-container {
+  @include dFlex(row, center, center);
     width: 150px;
     height: 150px;
     padding: 20px;
@@ -115,10 +117,7 @@ input[type="file"] {
     top: -156px;
     left: 10px;
     border-radius: 20px;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: 555;
 	>.close-button {
 		position: absolute;
 		top: 10px;
