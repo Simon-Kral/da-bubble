@@ -20,6 +20,7 @@ import { ThreadComponent } from '../shared/thread/thread.component';
 import { ChannelMemberComponent } from './channel/channel-member/channel-member.component';
 import { SearchService } from '../../services/search/search.service';
 import { WelcomeScreenComponent } from './welcome-screen/welcome-screen.component';
+import { MobileHeaderComponent } from './mobile-header/mobile-header.component';
 @Component({
 	selector: 'app-home',
 	standalone: true,
@@ -41,7 +42,8 @@ import { WelcomeScreenComponent } from './welcome-screen/welcome-screen.componen
 		ChannelDetailsComponent,
 		AddMembersToChannelComponent,
 		ChannelMemberComponent,
-		WelcomeScreenComponent
+		WelcomeScreenComponent,
+		MobileHeaderComponent
 	],
 })
 export class HomeComponent implements OnInit, OnDestroy {
@@ -52,7 +54,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 	searchService = inject(SearchService);
 
 	//sidenav variables
-	isSidenavVisible: boolean = true;
+	isSidenavVisible: boolean = false;
+	isSidenavToggled: boolean = false;
+	isSidenavAnimationComplete: boolean = false;
+	
+
 	//create channel variables
 	isCreateChannelVisible: boolean = false;
 	//user profile variables
@@ -99,9 +105,20 @@ export class HomeComponent implements OnInit, OnDestroy {
 	}
 
 	//sidenav functions
-	toggleSidenav() {
-		this.isSidenavVisible = !this.isSidenavVisible;
-	}
+  /**
+   * Toggles the visibility of the sidenav and sets the toggled flag.
+   */
+  toggleSidenav(): void {
+    this.isSidenavVisible = !this.isSidenavVisible;
+    this.isSidenavToggled = true;
+    if (this.isSidenavVisible) {
+      setTimeout(() => {
+        this.isSidenavAnimationComplete = true;
+      }, 300); 
+    } else {
+      this.isSidenavAnimationComplete = false;
+    }
+  }
 	/**
 	 * Toggles the visibility of various components based on the given name.
 	 * @param name The name of the component to toggle visibility for.
@@ -130,6 +147,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 			case 'channelMember':
 				this.isChannelMemberVisible = visible;
 				break;
+			case 'sideNav':
+					this.isCreateChannelVisible = visible;
+					this.isSidenavToggled = !this.isSidenavToggled;
+					this.isSidenavAnimationComplete != this.isSidenavAnimationComplete;
+				break
 			default:
 				console.warn(`Unknown component name: ${name}`);
 				break;
@@ -175,4 +197,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 				break;
 		}
 	}
+
+
 }

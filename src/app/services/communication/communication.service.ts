@@ -41,8 +41,9 @@ export class CommunicationService {
 
 
 	// mobile view variables
-	isMobileViewActive: boolean = false;
-	isMobileUserMenuVisible: boolean = false;  // to-do change flag to isMobileViewActive
+	isMobileViewActive: boolean = false;      // main flag to check if mobile view is active
+
+	isMobileUserMenuVisible: boolean = false;  
 	constructor() {}
 
 
@@ -78,5 +79,24 @@ export class CommunicationService {
 	
 	 handleClickCurrentUser(visible: boolean) {
 		this.toggleCurrentUserProfileVisibility(visible);
+	  }
+
+	// mobile view functions
+	toggleMobileUserMenu() {
+		this.isMobileUserMenuVisible = !this.isMobileUserMenuVisible;
+	}
+
+
+	closeMobileMenuPopupOverlay(menu: string) {
+		if (menu === 'mobileUserMenu') {
+		  const menuContent = document.querySelector('.mobile-user-menu-content');
+		  if (menuContent) {
+			menuContent.classList.add('hide');
+			setTimeout(() => {
+				this.isMobileUserMenuVisible = false;
+			  menuContent.classList.remove('hide');
+			}, 300); 
+		  }
+		}
 	  }
 }

@@ -12,7 +12,40 @@
 .sidenav-wrapper {
   width: 366px;
   height: 100%;
+  z-index: 10;
+  transform: translateX(0);
+
+  &.slide-in {
+    animation: slide-right 0.3s forwards;
+  }
+
+  &.slide-out {
+    animation: slide-left 0.3s forwards;
+  }
+
+  &.d-none {
+    display: none;
+  }
+
+  @keyframes slide-right {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-120%);
+    }
+  }
 }
+
 
 .app-container {
   @include dFlex(row, center, center);
@@ -36,7 +69,7 @@
   position: absolute;
   top: 400px;
   left: 0;
-  z-index: 2;
+  z-index: 55;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   text-orientation: mixed;
@@ -107,4 +140,48 @@
   position: absolute;
   top: 190px;
   right: 140px;
+}
+
+// mobile view menu wrapper 
+.mobile-popup-wrapper {
+  @include dFlex(row, center, flex-end);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100svw;
+  height: 100svh;
+  transition: background 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
+  background: rgba(0, 0, 0, 0);
+  z-index: 55;
+  &.visible {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: brightness(0.8);
+  }
+
+  .mobile-user-menu-content {
+    animation: slide-up 0.3s forwards;
+
+    @keyframes slide-up {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    &.hide {
+      animation: slide-down 0.3s forwards;
+    }
+
+    @keyframes slide-down {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(100%);
+      }
+    }
+  }
+
 }

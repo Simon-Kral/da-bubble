@@ -1,24 +1,34 @@
 <!--Header app-->
+@if (!this.communicationService.isMobileViewActive) {
 <app-header (userProfileToggle)="toggleComponentVisibility('userMenu', $event)"></app-header>
+}
+<!--mobile Header app-->
+@if (this.communicationService.isMobileViewActive) {
+<app-mobile-header></app-mobile-header>
+}
 <div class="home-wrapper">
-	<!-- Sidenav Controller -->
-	<div class="sidenav-controller pointer" (click)="toggleSidenav()">
-		<span>Workspace-Menü
-			{{ isSidenavVisible ? "schließen" : "öffnen" }}</span>
-		<img class="start-conversation" src="../../assets/img/icons/menu_black.png" alt="show-menu-icon"
-			[class.sidenav-open]="isSidenavVisible" [class.sidenav-close]="!isSidenavVisible" />
-	</div>
+<!-- Sidenav Controller -->
+<div class="sidenav-controller pointer" (click)="toggleSidenav()">
+	<span>Workspace-Menü {{ !isSidenavVisible ? "schließen" : "öffnen" }}</span>
+	<img class="start-conversation" src="../../assets/img/icons/menu_black.png" alt="show-menu-icon"
+		 [class.sidenav-open]="!isSidenavVisible" [class.sidenav-close]="isSidenavVisible" />
+  </div>
 
-	<!--  SideNav -->
-	@if (isSidenavVisible) {
-	<div class="sidenav-wrapper" [ngClass]="{ 'd-none': !isSidenavVisible }">
-		<app-sidenav [isCreateChannelVisible]="isCreateChannelVisible" (createChannelVisibilityChange)="
-				toggleComponentVisibility('createChannel', $event)
-			"></app-sidenav>
-	</div>
-	}
+
+  <div class="app-container">
+  <!-- SideNav -->
+  <div class="sidenav-wrapper" 
+	   [ngClass]="{
+		 'slide-in': !isSidenavVisible, 
+		 'slide-out': isSidenavVisible,
+		 'd-none': isSidenavAnimationComplete
+	   }">
+	<app-sidenav [isCreateChannelVisible]="isCreateChannelVisible"
+				 (createChannelVisibilityChange)="toggleComponentVisibility('createChannel', $event)">
+	</app-sidenav>
+  </div>
+
 	<!--  router-outlet used for channels / prvt-msg & start-new-msg component  & welcome screen -->
-	<div class="app-container">
 		<div class="app-wrapper">
 			<router-outlet></router-outlet>
 		</div>
@@ -115,9 +125,10 @@
 
 
 	<!-- Popup Overlay mobile User menu -->
-	@if (this.communicationService.isMobileViewActive) {
-	<div class="popup-wrapper" (click)="closePopupOverlay('mobileUserMenu')">
-		<div class="popup-content mobile-user-menu" (click)="preventClose($event)">
+	@if (this.communicationService.isMobileViewActive && this.communicationService.isMobileUserMenuVisible) {
+	<div class="mobile-popup-wrapper" (click)="this.communicationService.closeMobileMenuPopupOverlay('mobileUserMenu')"
+		[ngClass]="{ visible: this.communicationService.isMobileUserMenuVisible }">
+		<div class="mobile-user-menu-content" (click)="preventClose($event)">
 			<app-mobile-user-menu></app-mobile-user-menu>
 		</div>
 	</div>
