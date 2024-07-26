@@ -1,0 +1,11 @@
+<div class="header-wrapper">
+    <div class="header-container">
+        <div class="logo-container">
+            <img class="" src="assets/img/logos/da_bubble_logo.png" alt="" />
+            <span class="headline">DABubble</span>
+        </div>
+        <div class="user-avatar pointer" (click)="this.communicationService.toggleMobileUserMenu()">
+            <img src="{{this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)}}" alt="User Image" />
+        </div>
+    </div>
+</div>
