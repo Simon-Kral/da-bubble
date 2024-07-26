@@ -52,4 +52,6 @@ export class StorageService {
 		console.log('Error deleting file:', error);
 		}); 
 	}
+
+	
 }

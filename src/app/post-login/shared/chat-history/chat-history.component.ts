@@ -1,3 +1,4 @@
+import { StorageService } from './../../../services/storage/storage.service';
 import { AfterViewChecked, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { ChatService } from '../../../services/chat/chat.service';
@@ -33,6 +34,7 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
 	communicationService = inject(CommunicationService);
 	threadService = inject(ThreadService);
 	reactionService = inject(ReactionService);
+	storageService = inject(StorageService);
 	
 	// Edit message variables
 	showEditMsgOverlay: boolean = false;
