@@ -12,8 +12,7 @@
         <img class="sidenav-logo" src="../../assets/img/logos/workspace_logo.png" alt="logo" />
         <h1>Devspace</h1>
       </div>
-      <div (click)="this.communicationService.isWelcomeScreenVisible = false" class="sidenav-headline-right pointer"
-        [routerLink]="['/home/new-message']">
+      <div (click)="handleOpenNewMessage()" class="sidenav-headline-right pointer">
         <img src="assets/img/icons/edit_square_black.png" alt="edit-icon" />
       </div>
     </div>

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommunicationService } from '../../../services/communication/communication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mobile-header',
@@ -15,9 +16,12 @@ export class MobileHeaderComponent {
   firebaseService = inject(FirebaseService);
   communicationService = inject(CommunicationService);
 
+  constructor (private router: Router) {}
+
   
 handleBackButtonClick() {
-this.communicationService.toggleSidenav();
+this.router.navigate(['home/']);
+this.communicationService.isSidenavVisible=false;
 this.communicationService.isThreadVisible=false;
 }
 

@@ -56,8 +56,9 @@ export class SidenavComponent {
   }
 
   handleOpenNewMessage() {
-    this.router.navigate(['home/new-message']);
     this.communicationService.toggleSidenav();
-
+    this.router.navigate(['home/new-message']);
+    this.communicationService.isWelcomeScreenVisible = false;
   }
+
 }
