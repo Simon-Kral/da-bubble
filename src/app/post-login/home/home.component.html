@@ -22,8 +22,8 @@
 		<!-- SideNav -->
 		<div class="sidenav-wrapper" [ngClass]="{
 		 'slide-in': !communicationService.isSidenavVisible && !communicationService.isMobileViewActive, 
-		 'slide-out': communicationService.isSidenavVisible && !communicationService.isMobileViewActive,
-		 'd-none': communicationService.isSidenavAnimationComplete || communicationService.isSidenavVisible,
+		 'slide-out': communicationService.isSidenavVisible && !communicationService.isMobileViewActive && communicationService.isSidenavToggled,
+		 'd-none': communicationService.isSidenavAnimationComplete,
 		 'full-width': communicationService.isMobileViewActive,
 		 'padding-unset': communicationService.isMobileViewActive
 	   }">

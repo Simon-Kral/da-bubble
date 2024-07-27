@@ -49,7 +49,7 @@ export class CommunicationService {
 
 
 	// mobile view variables
-	isMobileViewActive: boolean = true;      // main flag to check if mobile view is active
+	isMobileViewActive: boolean = false;      // main flag to check if mobile view is active
 
 	isMobileUserMenuVisible: boolean = false;
 
@@ -102,15 +102,15 @@ export class CommunicationService {
    * Toggles the visibility of the sidenav and sets the toggled flag.
    */
   toggleSidenav(): void {
-    this.isSidenavVisible = !this.isSidenavVisible;
     this.isSidenavToggled = !this.isSidenavToggled;
-    if (this.isSidenavVisible) {
+    if (this.isSidenavToggled) {
       setTimeout(() => {
         this.isSidenavAnimationComplete = true;
       }, 175); 
     } else {
       this.isSidenavAnimationComplete = false;
     }
+	this.isSidenavVisible = !this.isSidenavVisible;
   }
 
 
