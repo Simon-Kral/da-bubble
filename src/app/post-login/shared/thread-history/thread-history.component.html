@@ -6,11 +6,11 @@
         <!--msg-menu-->
         <div class="msg-menu">
             <div class="menu-content pointer"
-                (click)="this.reactionService.addSpecificReaction(msg.messageAnswerId, this.reactionService.setReactionThumbUp, 'thread'); this.reactionService.currentMessageId = msg.messageAnswerId">
+                (click)="this.reactionService.handleAddDefinedReaction(msg.messageAnswerId, 'thumbUp', 'thread')">
                 <div class="emoji-container"> 👍 </div>
             </div>
             <div class="menu-content pointer"
-                (click)="this.reactionService.addSpecificReaction(msg.messageAnswerId, this.reactionService.setReactionThumbDown, 'thread'); this.reactionService.currentMessageId = msg.messageAnswerId">
+                (click)="this.reactionService.handleAddDefinedReaction(msg.messageAnswerId, 'thumbDown', 'thread')">
                 <div class="emoji-container"> 👎 </div>
             </div>
             <div class="pointer menu-content" (click)="this.toggleEmojiPicker(index)">
@@ -61,7 +61,7 @@
             <div class="reactions-container">
                 @for (reaction of msg.reactions; track reaction; let index = $index) {
                 <div class="pointer last-reaction"
-                    (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageAnswerId, 'thread')">
+                    (click)="this.reactionService.handleClickOnLastReaction(reaction, msg.messageAnswerId, 'thread')">
                     <div class="emoji-container">
                         {{reaction.nativeEmoji}}
                     </div>
@@ -116,11 +116,11 @@
         <!--msg-menu only displayed for current user-->
         <div class="msg-menu">
             <div class="menu-content pointer"
-                (click)="this.reactionService.addSpecificReaction(msg.messageAnswerId, this.reactionService.setReactionThumbUp, 'thread'); this.reactionService.currentMessageId = msg.messageAnswerId">
+                (click)="this.reactionService.handleAddDefinedReaction(msg.messageAnswerId, 'thumbUp', 'thread')">
                 <div class="emoji-container"> 👍 </div>
             </div>
             <div class="menu-content pointer"
-                (click)="this.reactionService.addSpecificReaction(msg.messageAnswerId, this.reactionService.setReactionThumbDown, 'thread'); this.reactionService.currentMessageId = msg.messageAnswerId">
+                (click)="this.reactionService.handleAddDefinedReaction(msg.messageAnswerId, 'thumbDown', 'thread')">
                 <div class="emoji-container"> 👎 </div>
             </div>
             <div class="pointer menu-content">
@@ -187,7 +187,7 @@
             <div class="reactions-container">
                 @for (reaction of msg.reactions; track reaction; let index = $index) {
                 <div class="pointer last-reaction"
-                    (click)="this.reactionService.deleteReaction(reaction.reactionId, msg.messageAnswerId, 'thread')">
+                    (click)="this.reactionService.handleClickOnLastReaction(reaction, msg.messageAnswerId, 'thread')">
                     <div class="emoji-container">
                         {{reaction.nativeEmoji}}
                     </div>
