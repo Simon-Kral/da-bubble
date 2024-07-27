@@ -1,4 +1,5 @@
-<div class="sidenav-wrapper">
+<div class="sidenav-wrapper"
+[ngClass]="{ 'border-radius-unset': this.communicationService.isMobileViewActive}">
   <div class="sidenav-content">
     @if (!this.communicationService.isMobileViewActive) {
     <div class="sidenav-top-section">
