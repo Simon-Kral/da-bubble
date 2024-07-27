@@ -43,11 +43,12 @@ export class CommunicationService {
   isSidenavToggled: boolean = false;
   isSidenavAnimationComplete: boolean = false;
 
-  // welcome screen variables
-  isWelcomeScreenVisible: boolean = true;
+	// welcome screen variables
+	isWelcomeScreenVisible: boolean = true;
 
-  // mobile view variables
-  isMobileViewActive: boolean = false; // main flag to check if mobile view is active
+
+	// mobile view variables
+	isMobileViewActive: boolean = true;      // main flag to check if mobile view is active
 
   isMobileUserMenuVisible: boolean = false;
 

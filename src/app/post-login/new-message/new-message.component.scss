@@ -67,11 +67,8 @@
     background-color: $white;
     z-index: 5;
 }
+
 .remove-user {
     @include dFlex(column, center , center);
-
-    img {
-        width: 20px;
-        height: 20px;
-    }
+	
 }
