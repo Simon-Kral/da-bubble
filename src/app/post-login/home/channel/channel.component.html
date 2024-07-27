@@ -1,4 +1,6 @@
-<div class="group-chat-container">
+<div class="group-chat-container"[ngClass]="{
+    'border-radius-unset': this.communicationService.isMobileViewActive
+  }">
 	@for (channel of this.firebaseService.channelList; track channel; let index=
 	$index) { @if (channel.chanId === chatService.docRef) {
 	<div class="group-display">
