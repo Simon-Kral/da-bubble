@@ -4,12 +4,14 @@
 .header-wrapper {
   @include dFlex(column, center, center);
   position: relative;
+
   .header-container {
     width: 100svw;
     padding: 24px;
     height: 100px;
     @include dFlex(row, space-evenly, center);
-    > .logo-container {
+
+    >.logo-container {
       @include dFlex(center, center);
       gap: 16px;
     }
@@ -18,8 +20,9 @@
       position: relative;
       width: 100%;
       margin: 0 24px;
+
       form {
-        > .header-searchbar {
+        >.header-searchbar {
           @include Nunito(400, 24px, 18.8px, $text-gray);
           width: 100%;
           padding: 17.5px 45px;
@@ -37,21 +40,21 @@
       }
     }
 
-    > .user-avatar {
+    >.user-avatar {
       @include dFlex(center, center);
       position: relative;
       gap: 16px;
       transition: 0.1s ease-in-out;
+
       &:hover .drop-down {
-        filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg)
-          brightness(100%) contrast(91%);
+        filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
       }
 
       &:hover span:first-child {
         @include Nunito(700, 32px, 18.8px, $purple-3);
       }
 
-      > img {
+      >img {
         border-radius: 50%;
         width: 70px;
         height: 70px;
@@ -68,6 +71,7 @@
       border: solid 2px white;
     }
   }
+
   .search-results {
     width: inherit;
     position: absolute;
@@ -77,6 +81,7 @@
     @include Nunito(400, 16px, 18.8px, $black);
   }
 }
+
 .close-btn {
   position: absolute;
   top: 28px;
@@ -117,7 +122,8 @@ h3 {
   padding: 12px;
   @include dFlex(column, start, start);
   gap: 12px;
-  > span {
+
+  >span {
     @include Nunito(400, 16px, 18.8px, $black);
   }
 
@@ -129,7 +135,8 @@ h3 {
 .message-avatar {
   @include dFlex(start, start);
   gap: 8px;
-  > img {
+
+  >img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -140,15 +147,38 @@ h3 {
 .message-text {
   @include dFlex(column, start, start);
   gap: 4px;
+
   >span {
-	@include Nunito(400, 14px, 18.8px, $text-gray);
-  
+    @include Nunito(400, 14px, 18.8px, $text-gray);
+
   }
+
   >span:nth-child(2) {
     @include Nunito(700, 16px, 18.8px, $black);
-  
+
   }
-  > span:last-child {
+
+  >span:last-child {
     @include Nunito(400, 16px, 18.8px, $black);
   }
+}
+
+
+
+//responsive
+
+@media screen and (max-width: 600px) {
+
+  .header-wrapper .header-container{
+    width: unset;
+  }
+
+  .header-wrapper .header-container .logo-container {
+    display: none;
+  }
+
+  .header-wrapper .header-container .user-avatar {
+    display: none;
+  }
+
 }

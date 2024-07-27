@@ -20,6 +20,7 @@ import { ThreadComponent } from '../shared/thread/thread.component';
 import { ChannelMemberComponent } from './channel/channel-member/channel-member.component';
 import { SearchService } from '../../services/search/search.service';
 import { WelcomeScreenComponent } from './welcome-screen/welcome-screen.component';
+import { MobileHeaderComponent } from './mobile-header/mobile-header.component';
 @Component({
 	selector: 'app-home',
 	standalone: true,
@@ -41,7 +42,8 @@ import { WelcomeScreenComponent } from './welcome-screen/welcome-screen.componen
 		ChannelDetailsComponent,
 		AddMembersToChannelComponent,
 		ChannelMemberComponent,
-		WelcomeScreenComponent
+		WelcomeScreenComponent,
+		MobileHeaderComponent
 	],
 })
 export class HomeComponent implements OnInit, OnDestroy {
@@ -51,8 +53,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	communicationService = inject(CommunicationService);
 	searchService = inject(SearchService);
 
-	//sidenav variables
-	isSidenavVisible: boolean = true;
+
 	//create channel variables
 	isCreateChannelVisible: boolean = false;
 	//user profile variables
@@ -98,10 +99,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 		this.chatService.unsubscribeAllLists();
 	}
 
-	//sidenav functions
-	toggleSidenav() {
-		this.isSidenavVisible = !this.isSidenavVisible;
-	}
+
 	/**
 	 * Toggles the visibility of various components based on the given name.
 	 * @param name The name of the component to toggle visibility for.
@@ -175,4 +173,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 				break;
 		}
 	}
+
+
 }

@@ -342,7 +342,7 @@ export class ThreadService {
    */
   async handleCreateThread(message: Message) {
     this.communicationService.isThreadVisible = false;
-    this.communicationService.toggleThreadVisibility(true);
+    this.communicationService.toggleThreadVisibility();
     this.chatService.messageId = message.messageId;
     this.createMessageAnswer(message);
     await this.subscribeMsgAnswerList();
@@ -356,7 +356,7 @@ export class ThreadService {
    */
   async openExistingThread(threadId: string) {
     this.communicationService.isThreadVisible = false;
-    this.communicationService.toggleThreadVisibility(true);
+    this.communicationService.toggleThreadVisibility();
     this.chatService.messageId = threadId;
     await this.subscribeMsgAnswerList();
   }
