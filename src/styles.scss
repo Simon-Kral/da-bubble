@@ -409,3 +409,11 @@ body {
 .margin-unset {
 	margin: unset!important;
 }
+
+.svh-100 {
+	height: 100svh!important;
+}
+
+.svh-minus-header {
+	height: calc(100svh - 80px)!important;
+}
