@@ -3,15 +3,15 @@
 .header-wrapper {
     @include dFlex(column, center, center);
     position: relative;
-
+    box-sizing: content-box;
     .header-container {
         width: 100svw;
         height: 80px;
         padding: 15px 16px 15px 16px;
-        @include dFlex(row, space-evenly, center);
+        @include dFlex(row, space-between, center);
 
         >.logo-container {
-            @include dFlex(row, center, center);
+            @include dFlex(row, flex-start, center);
             width: 161.5px;
             height: 45px;
             gap: 10px;
@@ -19,7 +19,7 @@
                 width: 45px;
                 height: 45px;
             }
-            @include Nunito(700, 24px, 16.22px, $black);  //to-do dont find the font size in figma
+            @include Nunito(700, 24px, 16.22px, $black); 
         }
         .back-to-sidenav {
             @include dFlex(row, space-evenly, center);
@@ -38,7 +38,7 @@
             }
 
             span {
-                @include Nunito(700, 24px, 16.22px, $black);  //to-do dont find the font size in figma
+                @include Nunito(700, 24px, 16.22px, $black);  
                 margin-left: 10px;
             }
         }

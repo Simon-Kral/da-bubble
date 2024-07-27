@@ -169,11 +169,11 @@
 
 .rotate-90-plus {
   transform: rotate(90deg);
-  transition: transform 0.3s ease;
+  transition: transform 0.175s ease-in-out;
 }
 .rotate-back {
   transform: rotate(0deg);
-  transition: transform 0.3s ease;
+  transition: transform 0.175s ease-in-out;
 }
 // SideNav end
 

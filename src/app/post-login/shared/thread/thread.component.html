@@ -1,4 +1,7 @@
-<div class="thread-wrapper">
+<div class="thread-wrapper" [ngClass]="{
+    'border-radius-unset': this.communicationService.isMobileViewActive,
+	'svh-minus-header': this.communicationService.isMobileViewActive
+  }">
     <div class="top-section">
         <div class="top-section-left">
             <h1>Thread</h1>

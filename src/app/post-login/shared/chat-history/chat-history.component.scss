@@ -610,7 +610,7 @@
 	padding: 12px;
 	position: relative;
 	>.wrapper {
-		width: 190px;
+		width: 180px;
 		height: 150px;
 		background: $white;
 		@include dFlex(column, center, center);
@@ -637,3 +637,45 @@
 
 
 }
+
+@media screen and (max-width: 600px) {
+	.user-msg {
+		gap: 8px!important;
+
+	}
+	.current-user-msg {
+		gap: 8px!important;
+
+		.msg-menu {
+			top: -30px!important;
+			left: 8px!important;
+			.edit-msg-menu {
+				top: 45px!important;
+				right: -13px!important;
+				height: 88px!important;
+				gap: unset!important;
+			}
+		}
+
+	}
+	.current-user-msg-bottom {
+		flex-direction: column!important;
+		align-items: flex-end!important;
+		gap: 4px!important;
+	}
+
+	.msg-bottom {
+		flex-direction: column!important;
+		align-items: flex-start!important;
+		gap: 4px!important;
+	}
+
+	.current-user-msg-top {
+		gap: 8px!important;
+	}
+
+	.msg-top {
+		gap: 8px!important;
+	}
+
+  }
