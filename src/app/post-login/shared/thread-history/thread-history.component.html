@@ -93,7 +93,9 @@
             @if (index === this.reactionService.emojiPickerIndexThread) { @if
             (this.reactionService.showEmojiPickerThread) {
             <div class="emoji-picker-container">
-                <emoji-mart
+                <emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1"
+                    [darkMode]="true" [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true"
+                    [showSingleCategory]="true" [enableSearch]="false" [showPreview]="false"
                     (emojiClick)="this.reactionService.handleReaction($event, msg.messageAnswerId ,'thread')"></emoji-mart>
             </div>
             } }
@@ -272,7 +274,9 @@
     <!-- emoji Picker-->
     @if (index === this.reactionService.emojiPickerIndexThread && this.reactionService.showEmojiPickerThread) {
     <div class="emoji-picker-container">
-        <emoji-mart
+        <emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1"
+            [darkMode]="true" [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true"
+            [showSingleCategory]="true" [enableSearch]="false" [showPreview]="false"
             (emojiClick)="this.reactionService.handleReaction($event, msg.messageAnswerId ,'thread')"></emoji-mart>
     </div>
     }

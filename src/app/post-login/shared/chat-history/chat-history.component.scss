@@ -1,5 +1,6 @@
 @import "../../../../styles.scss";
 @import url('./chat-history.responsive.component.scss');
+@import '@ctrl/ngx-emoji-mart/picker';
 
 .chat-history-wrapper {
 	@include dFlex(column, flex-end, flex-start);
@@ -651,23 +652,29 @@
 
 .emoji-picker-container {
 	position: absolute;
-	bottom: 0;
+	bottom: 96px;
 	left: 16px;
-	z-index: 555;
+	z-index: 7;
+	width: 150px;
+	height: 150px;
 }
 
 // tagged user container
 .tagged-user-container {
 	@include dFlex(row, flex-start, center);
+	width: 100%;
+	flex-wrap: wrap;
+	gap: 16px;
+	span {
+		@include Nunito(400, 14px, 19.1px, $black!important);
+	}
 
 	.tagged-user {
 		background-color: $bg-color;
 		padding: 10px;
 		margin-right: 4px;
 		border-radius: 20px;
-		span {
-			@include Nunito(400, 14px, 19.1px, $purple-3);
-		}
+		@include Nunito(400, 14px, 19.1px, $black!important);
 	}
 }
 
@@ -745,6 +752,27 @@
 
 	.msg-top {
 		gap: 8px!important;
+	}
+	.tagged-user-container {
+	gap: 8px;
+	padding: 4px!important;
+	span {
+		@include Nunito(400, 12px, 17.1px, $black!important);
+	}
+	}
+	.storage-pic-container {
+		padding: unset!important;
+		
+		.wrapper {
+			width: 160px!important;
+    		height: 130px!important;
+
+			a {
+				top: 4px!important;
+				right: 8px!important;
+			}
+		}
+	
 	}
 
   }

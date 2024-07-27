@@ -1,5 +1,7 @@
 @import '../../../../styles.scss';
 @import '../chat-history/chat-history.component.scss';
+@import '@ctrl/ngx-emoji-mart/picker';
+
 
 .thread-history-wrapper {
     position: relative;

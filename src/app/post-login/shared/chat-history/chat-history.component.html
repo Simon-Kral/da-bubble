@@ -135,7 +135,11 @@
       @if (index === this.reactionService.emojiPickerIndex) { @if
       (this.reactionService.showEmojiPicker) {
       <div class="emoji-picker-container">
-        <emoji-mart (emojiClick)="this.reactionService.handleReaction($event, msg.messageId, 'chat')"></emoji-mart>
+        <emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1"
+          [darkMode]="true" [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true"
+          [showSingleCategory]="true" [enableSearch]="false" [showPreview]="false"
+          (emojiClick)="reactionService.handleReaction($event, msg.messageId, 'chat')">
+        </emoji-mart>
       </div>
       } }
     </div>
@@ -326,7 +330,11 @@
   <!-- emoji Picker-->
   @if (index === this.reactionService.emojiPickerIndex && this.reactionService.showEmojiPicker) {
   <div class="emoji-picker-container">
-    <emoji-mart (emojiClick)="this.reactionService.handleReaction($event, msg.messageId, 'chat')"></emoji-mart>
+    <emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1" [darkMode]="true"
+      [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true" [showSingleCategory]="true"
+      [enableSearch]="false" [showPreview]="false"
+      (emojiClick)="reactionService.handleReaction($event, msg.messageId, 'chat')">
+    </emoji-mart>
   </div>
   }
   } }
