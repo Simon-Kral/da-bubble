@@ -97,8 +97,8 @@
 	<!-- Popup Overlay Channel Details -->
 	@if (this.isChannelDetailsVisible) {
 	<div class="popup-wrapper" (click)="closePopupOverlay('channelDetails')"
-		[ngClass]="{ visible: this.isChannelDetailsVisible }">
-		<div class="popup-channel-details" (click)="preventClose($event)">
+		[ngClass]="{ visible: isChannelDetailsVisible }">
+		<div (click)="preventClose($event)">
 			<app-channel-details [isChannelDetailsVisible]="isChannelDetailsVisible" (isChannelDetailsVisibleChange)="
 					toggleComponentVisibility('channelDetails', $event)
 				"></app-channel-details>

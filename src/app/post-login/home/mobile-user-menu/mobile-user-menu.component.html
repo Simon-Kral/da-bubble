@@ -7,7 +7,7 @@
 		<div class="pointer menu-content" [ngClass]="{'active': activeMenu === 'profile'}"
 			(click)="setActiveMenu('profile')">
 			<img src="assets/img/icons/account_circle_input_black.png" alt="account-circle">
-			<p (click)="this.communicationService.toggleCurrentUserProfileVisibility(true)">Profil</p>
+			<p (click)="this.communicationService.toggleCurrentUserProfileVisibility(true); this.communicationService.toggleMobileUserMenu()">Profil</p>
 		</div>
 		<div class="pointer menu-content" [ngClass]="{'active': activeMenu === 'logout'}"
 			(click)="setActiveMenu('logout')">
