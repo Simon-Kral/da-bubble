@@ -9,23 +9,23 @@
 <div class="home-wrapper"
 [ngClass]="{ 'padding-unset': this.communicationService.isMobileViewActive}">
 	<!-- Sidenav Controller -->
-	@if (!communicationService.isMobileViewActive) {
+	@if (!this.communicationService.isMobileViewActive) {
 	<div class="sidenav-controller pointer" (click)="this.communicationService.toggleSidenav()">
-		<span>Workspace-Menü {{ !communicationService.isSidenavVisible ? "schließen" : "öffnen" }}</span>
+		<span>Workspace-Menü {{ !this.communicationService.isSidenavVisible ? "schließen" : "öffnen" }}</span>
 		<img class="start-conversation" src="../../assets/img/icons/menu_black.png" alt="show-menu-icon"
-			[class.sidenav-open]="!communicationService.isSidenavVisible"
-			[class.sidenav-close]="communicationService.isSidenavVisible" />
+			[class.sidenav-open]="!this.communicationService.isSidenavVisible"
+			[class.sidenav-close]="this.communicationService.isSidenavVisible" />
 	</div>
 	}
 
 	<div class="app-container">
 		<!-- SideNav -->
 		<div class="sidenav-wrapper" [ngClass]="{
-		 'slide-in': !communicationService.isSidenavVisible && !communicationService.isMobileViewActive, 
-		 'slide-out': communicationService.isSidenavVisible && !communicationService.isMobileViewActive && communicationService.isSidenavToggled,
-		 'd-none': communicationService.isSidenavAnimationComplete || (communicationService.isSidenavVisible && communicationService.isMobileViewActive),
-		 'full-width': communicationService.isMobileViewActive,
-		 'padding-unset': communicationService.isMobileViewActive
+		 'slide-in': !this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive, 
+		 'slide-out': this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive && this.communicationService.isSidenavToggled,
+		 'd-none': communicationService.isSidenavAnimationComplete || (this.communicationService.isSidenavVisible && this.communicationService.isMobileViewActive),
+		 'full-width': this.communicationService.isMobileViewActive,
+		 'padding-unset': this.communicationService.isMobileViewActive
 	   }">
 			<app-sidenav [isCreateChannelVisible]="isCreateChannelVisible"
 				(createChannelVisibilityChange)="toggleComponentVisibility('createChannel', $event)">
@@ -35,7 +35,7 @@
 		<!--  router-outlet used for channels / prvt-msg & start-new-msg component  -->
 		@if (!communicationService.isWelcomeScreenVisible) {
 		<div class="app-wrapper" [ngClass]="{
-			'absolute': communicationService.isMobileViewActive
+			'absolute': this.communicationService.isMobileViewActive
 		}">
 			<router-outlet></router-outlet>
 		</div>
@@ -43,13 +43,13 @@
 		<!-- threads -->
 		@if (this.communicationService.isThreadVisible) {
 		<div class="app-wrapper" [ngClass]="{
-			'absolute': communicationService.isMobileViewActive
+			'absolute': this.communicationService.isMobileViewActive
 		  }">
 			<app-thread></app-thread>
 		</div>
 		}
 		<!-- welcome screen-->
-		@if (!communicationService.isMobileViewActive && communicationService.isWelcomeScreenVisible) {
+		@if (!this.communicationService.isMobileViewActive && communicationService.isWelcomeScreenVisible) {
 		<div class="app-wrapper">
 			<app-welcome-screen></app-welcome-screen>
 		</div>
@@ -69,7 +69,7 @@
 	}
 	<!-- Popup Overlay User Profile -->
 	@if (isUserProfileVisible) {
-	<div class="popup-wrapper" (click)="closePopupOverlay('userProfile')" [ngClass]="{ visible: isUserProfileVisible }">
+	<div class="popup-wrapper" (click)="closePopupOverlay('userProfile')" [ngClass]="{ 'visible': this.isUserProfileVisible }">
 		<div class="popup-content" (click)="preventClose($event)">
 			<app-user-profile [isUserProfileVisible]="isUserProfileVisible" (userProfileVisibilityChange)="
 					toggleComponentVisibility('userProfile', $event)
@@ -78,9 +78,9 @@
 	</div>
 	}
 	<!-- Popup Overlay Current User Profile -->
-	@if (isCurrentUserProfileVisible) {
+	@if (this.isCurrentUserProfileVisible) {
 	<div class="popup-wrapper current-user-popup" (click)="closePopupOverlay('currentUserProfile')"
-		[ngClass]="{ visible: isCurrentUserProfileVisible }">
+		[ngClass]="{ 'visible': this.isCurrentUserProfileVisible }">
 		<div class="popup-content-user-profile" (click)="preventClose($event)">
 			<app-current-user-profile [isCurrentUserProfileVisible]="isCurrentUserProfileVisible"
 				(currentUserProfileVisibilityChange)="
@@ -90,8 +90,8 @@
 	</div>
 	}
 	<!-- Popup Overlay User Menu -->
-	@if (isUserMenuVisible) {
-	<div class="popup-wrapper" (click)="closePopupOverlay('userMenu')" [ngClass]="{ visible: isUserMenuVisible }">
+	@if (this.isUserMenuVisible) {
+	<div class="popup-wrapper" (click)="closePopupOverlay('userMenu')" [ngClass]="{ 'visible': isUserMenuVisible }">
 		<div class="popup-content-user-profile" (click)="preventClose($event)">
 			<app-user-menu [isUserMenuVisible]="isUserMenuVisible" (userMenuVisibilityChange)="
 					toggleComponentVisibility('userMenu', $event)
@@ -101,7 +101,7 @@
 	}
 
 	<!-- Popup Overlay Channel Details -->
-	@if (isChannelDetailsVisible) {
+	@if (this.isChannelDetailsVisible) {
 	<div class="popup-wrapper" (click)="closePopupOverlay('channelDetails')"
 		[ngClass]="{ visible: isChannelDetailsVisible }">
 		<div class="popup-channel-details" (click)="preventClose($event)">
@@ -113,7 +113,7 @@
 	}
 
 	<!-- Popup Overlay Add Members To Channel -->
-	@if (isAddMembersToChannelVisible) {
+	@if (this.isAddMembersToChannelVisible) {
 	<div class="popup-wrapper" (click)="closePopupOverlay('addMembersToChannel')"
 		[ngClass]="{ visible: isAddMembersToChannelVisible }">
 		<div class="popup-content" (click)="preventClose($event)">
@@ -125,7 +125,7 @@
 	</div>
 	}
 	<!-- Popup Overlay Channel Members -->
-	@if (isChannelMemberVisible) {
+	@if (this.isChannelMemberVisible) {
 	<div class="popup-wrapper" (click)="closePopupOverlay('channelMember')"
 		[ngClass]="{ visible: isChannelMemberVisible }">
 		<div class="popup-content popup-channel-members" (click)="preventClose($event)">

@@ -661,6 +661,10 @@
 	@include dFlex(row, flex-start, center);
 
 	.tagged-user {
+		background-color: $bg-color;
+		padding: 10px;
+		margin-right: 4px;
+		border-radius: 20px;
 		span {
 			@include Nunito(400, 14px, 19.1px, $purple-3);
 		}
