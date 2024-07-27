@@ -384,6 +384,7 @@ body {
 	height: 40px;
 	border-radius: 50%;
 	transition: ease-in-out 0.1s;
+	z-index: 3;
 	&:hover {
 		background-color: $bg-color;
 	}
