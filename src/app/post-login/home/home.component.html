@@ -6,7 +6,8 @@
 @if (this.communicationService.isMobileViewActive) {
 <app-mobile-header></app-mobile-header>
 }
-<div class="home-wrapper">
+<div class="home-wrapper"
+[ngClass]="{ 'padding-unset': this.communicationService.isMobileViewActive}">
 	<!-- Sidenav Controller -->
 	@if (!communicationService.isMobileViewActive) {
 	<div class="sidenav-controller pointer" (click)="this.communicationService.toggleSidenav()">
@@ -23,6 +24,8 @@
 		 'slide-in': !communicationService.isSidenavVisible && !communicationService.isMobileViewActive, 
 		 'slide-out': communicationService.isSidenavVisible && !communicationService.isMobileViewActive,
 		 'd-none': communicationService.isSidenavAnimationComplete || communicationService.isSidenavVisible,
+		 'full-width': communicationService.isMobileViewActive,
+		 'padding-unset': communicationService.isMobileViewActive
 	   }">
 			<app-sidenav [isCreateChannelVisible]="isCreateChannelVisible"
 				(createChannelVisibilityChange)="toggleComponentVisibility('createChannel', $event)">

@@ -1,5 +1,7 @@
 <div class="sidenav-wrapper"
-[ngClass]="{ 'border-radius-unset': this.communicationService.isMobileViewActive}">
+  [ngClass]="{
+    'border-radius-unset': this.communicationService.isMobileViewActive
+  }">
   <div class="sidenav-content">
     @if (!this.communicationService.isMobileViewActive) {
     <div class="sidenav-top-section">
@@ -7,15 +9,16 @@
         <img class="sidenav-logo" src="../../assets/img/logos/workspace_logo.png" alt="logo" />
         <h1>Devspace</h1>
       </div>
-      <div (click)="this.communicationService.isWelcomeScreenVisible = false" class="sidenav-headline-right pointer" [routerLink]="['/home/new-message']">
+      <div (click)="this.communicationService.isWelcomeScreenVisible = false" class="sidenav-headline-right pointer"
+        [routerLink]="['/home/new-message']">
         <img src="assets/img/icons/edit_square_black.png" alt="edit-icon" />
       </div>
     </div>
     }
-  <!--mobile version of normal header-->
-  @if (this.communicationService.isMobileViewActive) {
+    <!--mobile version of normal header-->
+    @if (this.communicationService.isMobileViewActive) {
     <app-header></app-header>
-  }
+    }
 
 
 
