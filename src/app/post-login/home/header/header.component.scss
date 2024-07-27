@@ -173,4 +173,12 @@ h3 {
     width: unset;
   }
 
+  .header-searchbar {
+	border: 1px solid $purple-3 !important;
+	&:focus { 
+		border: 2px solid $purple-3;
+	}
+
+   }
+
 }
