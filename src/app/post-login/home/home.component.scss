@@ -16,11 +16,11 @@
   transform: translateX(0);
 
   &.slide-in {
-    animation: slide-right 0.3s forwards;
+    animation: slide-right 0.175s forwards;
   }
 
   &.slide-out {
-    animation: slide-left 0.3s forwards;
+    animation: slide-left 0.175s forwards;
   }
 
   &.d-none {
@@ -94,12 +94,12 @@
 
 .sidenav-open {
   transform: scaleX(-1);
-  transition: transform 0.3s;
+  transition: transform 0.175s;
 }
 
 .sidenav-close {
   transform: scaleX(1);
-  transition: transform 0.3s;
+  transition: transform 0.175s;
 }
 
 //popup
@@ -110,7 +110,7 @@
   left: 0;
   width: 100svw;
   height: 100svh;
-  transition: background, ease-in-out 0.3s backdrop-filter;
+  transition: background, ease-in-out 0.175s backdrop-filter;
   background: rgba(0, 0, 0, 0);
   z-index: 5;
 
@@ -150,7 +150,7 @@
   left: 0;
   width: 100svw;
   height: 100svh;
-  transition: background 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
+  transition: background 0.175s ease-in-out, backdrop-filter 0.175s ease-in-out;
   background: rgba(0, 0, 0, 0);
   z-index: 55;
   &.visible {
@@ -159,7 +159,7 @@
   }
 
   .mobile-user-menu-content {
-    animation: slide-up 0.3s forwards;
+    animation: slide-up 0.175s forwards;
 
     @keyframes slide-up {
       from {
@@ -171,7 +171,7 @@
     }
 
     &.hide {
-      animation: slide-down 0.3s forwards;
+      animation: slide-down 0.175s forwards;
     }
 
     @keyframes slide-down {

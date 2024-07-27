@@ -107,7 +107,7 @@ export class CommunicationService {
     if (this.isSidenavVisible) {
       setTimeout(() => {
         this.isSidenavAnimationComplete = true;
-      }, 300); 
+      }, 175); 
     } else {
       this.isSidenavAnimationComplete = false;
     }
@@ -122,7 +122,7 @@ export class CommunicationService {
 			setTimeout(() => {
 				this.isMobileUserMenuVisible = false;
 			  menuContent.classList.remove('hide');
-			}, 300); 
+			}, 175); 
 		  }
 		}
 	  }
