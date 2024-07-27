@@ -23,7 +23,7 @@
 		<div class="sidenav-wrapper" [ngClass]="{
 		 'slide-in': !communicationService.isSidenavVisible && !communicationService.isMobileViewActive, 
 		 'slide-out': communicationService.isSidenavVisible && !communicationService.isMobileViewActive && communicationService.isSidenavToggled,
-		 'd-none': communicationService.isSidenavAnimationComplete,
+		 'd-none': communicationService.isSidenavAnimationComplete || (communicationService.isSidenavVisible && communicationService.isMobileViewActive),
 		 'full-width': communicationService.isMobileViewActive,
 		 'padding-unset': communicationService.isMobileViewActive
 	   }">
@@ -35,8 +35,8 @@
 		<!--  router-outlet used for channels / prvt-msg & start-new-msg component  -->
 		@if (!communicationService.isWelcomeScreenVisible) {
 		<div class="app-wrapper" [ngClass]="{
-				 'd-none': (!communicationService.isSidenavVisible && communicationService.isMobileViewActive)
-				}">
+			'absolute': communicationService.isMobileViewActive
+		}">
 			<router-outlet></router-outlet>
 		</div>
 		}

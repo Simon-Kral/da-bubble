@@ -1,12 +1,12 @@
 <div class="header-wrapper">
     <div class="header-container">
-        @if (!communicationService.isSidenavToggled) { 
+        @if (!communicationService.isSidenavVisible) { 
         <div class="logo-container">
             <img class="" src="assets/img/logos/da_bubble_logo.png" alt="" />
             <span class="headline">DABubble</span>
         </div>
         }
-    @if (communicationService.isSidenavToggled) { 
+    @if (communicationService.isSidenavVisible) { 
         <div class="back-to-sidenav pointer" (click)="handleBackButtonClick()">
             <img src="assets/img/icons/arrow_left_back.png" alt="Back"/>
             <img src="assets/img/logos/workspace_logo.png" alt="devSpace"/>
