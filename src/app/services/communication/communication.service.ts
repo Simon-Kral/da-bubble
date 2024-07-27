@@ -102,16 +102,15 @@ export class CommunicationService {
    * Toggles the visibility of the sidenav and sets the toggled flag.
    */
   toggleSidenav(): void {
-    this.isSidenavVisible = !this.isSidenavVisible;
     this.isSidenavToggled = !this.isSidenavToggled;
-	
-    if (this.isSidenavVisible) {
+    if (this.isSidenavToggled) {
       setTimeout(() => {
         this.isSidenavAnimationComplete = true;
-      }, 300); 
+      }, 175); 
     } else {
       this.isSidenavAnimationComplete = false;
     }
+	this.isSidenavVisible = !this.isSidenavVisible;
   }
 
 
@@ -123,7 +122,7 @@ export class CommunicationService {
 			setTimeout(() => {
 				this.isMobileUserMenuVisible = false;
 			  menuContent.classList.remove('hide');
-			}, 300); 
+			}, 175); 
 		  }
 		}
 	  }

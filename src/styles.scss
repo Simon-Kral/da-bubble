@@ -391,3 +391,20 @@ body {
 		filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
 	}
   }
+// global style for mobileViewActive
+
+.border-radius-unset {
+	border-radius: unset!important;
+}
+
+.padding-unset {
+	padding: unset!important;
+}
+
+.full-width {
+	width: 100%!important;
+}
+
+.margin-unset {
+	margin: unset!important;
+}

@@ -1,20 +1,29 @@
-<div class="sidenav-wrapper">
-  <div class="sidenav-content">
+<div class="sidenav-wrapper"
+  [ngClass]="{
+    'border-radius-unset': this.communicationService.isMobileViewActive
+  }">
+  <div class="sidenav-content"
+  [ngClass]="{
+    'full-width': this.communicationService.isMobileViewActive
+  }">
     @if (!this.communicationService.isMobileViewActive) {
     <div class="sidenav-top-section">
       <div class="sidenav-headline-left">
         <img class="sidenav-logo" src="../../assets/img/logos/workspace_logo.png" alt="logo" />
         <h1>Devspace</h1>
       </div>
-      <div (click)="this.communicationService.isWelcomeScreenVisible = false" class="sidenav-headline-right pointer" [routerLink]="['/home/new-message']">
+      <div (click)="this.communicationService.isWelcomeScreenVisible = false" class="sidenav-headline-right pointer"
+        [routerLink]="['/home/new-message']">
         <img src="assets/img/icons/edit_square_black.png" alt="edit-icon" />
       </div>
     </div>
     }
-  <!--mobile version of normal header-->
-  @if (this.communicationService.isMobileViewActive) {
-    <app-header></app-header>
-  }
+    <!--mobile version of normal header-->
+    @if (this.communicationService.isMobileViewActive) {
+    <app-header  [ngClass]="{
+      'full-width': this.communicationService.isMobileViewActive,
+   }"></app-header>
+    }
 
 
 
