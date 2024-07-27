@@ -1,5 +1,8 @@
 <div class="mobile-menu-wrapper">
-	<div class="toggle-btn pointer" (click)="this.communicationService.closeMobileMenuPopupOverlay('mobileUserMenu')"></div>
+	<div class=" btn-container">
+		<div class="toggle-btn pointer"
+			(click)="this.communicationService.closeMobileMenuPopupOverlay('mobileUserMenu')"></div>
+	</div>
 	<div class="menu-container">
 		<div class="pointer menu-content" [ngClass]="{'active': activeMenu === 'profile'}"
 			(click)="setActiveMenu('profile')">
