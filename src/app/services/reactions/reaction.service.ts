@@ -97,6 +97,9 @@ async handleClickOnLastReaction(reaction: Reaction, messageId: string, source: s
         // Case 3: Another user has reacted, but the current user has not
         await this.updateReactionAmount(reaction.reactionId, messageId, 'increase', source);
       }
+    } else {
+      // Case 3: Another user has reacted, but the current user has not (reaction does not exist for current user)
+      await this.updateReactionAmount(reaction.reactionId, messageId, 'increase', source);
     }
   } else {
     console.log('Message document does not exist.');
@@ -211,12 +214,12 @@ async deleteReaction(reactionId: string, messageId: string, source: string): Pro
 }
 
 /**
- * Retrieves the user's reaction from the message data.
+ * Retrieves the user's reaction for a given reaction ID.
  *
- * @param {any} data - The data object from the Firestore document.
- * @param {string} reactionId - The ID of the reaction to find.
+ * @param {any} data - The data object containing reactions.
+ * @param {string} reactionId - The ID of the reaction to retrieve.
  * @returns {Reaction | undefined} The user's reaction if found, otherwise undefined.
- */  
+ */
 getUserReaction(data: any, reactionId: string): Reaction | undefined {
   return data && data['reactions']
     ? data['reactions'].find((r: Reaction) => r.reactionId === reactionId && r.user.includes(this.firebaseService.currentUserId))
