@@ -11,7 +11,8 @@
 		</div>
 		}
 		<div class="searchbar-container" [ngClass]="{
-			'full-width': this.communicationService.isMobileViewActive
+			'full-width': this.communicationService.isMobileViewActive,
+			'margin-unset': this.communicationService.isMobileViewActive
 		  }">
 			<form class="" [formGroup]="searchText">
 				<input class="header-searchbar" type="text" placeholder="Suche nach Usern mit @ und nach Channel mit #"
