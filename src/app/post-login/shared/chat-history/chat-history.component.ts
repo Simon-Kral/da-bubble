@@ -26,7 +26,7 @@ interface MsgData {
 	standalone: true,
 	imports: [CommonModule, ReactiveFormsModule, PickerComponent],
 	templateUrl: './chat-history.component.html',
-	styleUrl: './chat-history.component.scss',
+	styleUrls: ['./chat-history.component.scss', './chat-history.responsive.component.scss'],
 })
 export class ChatHistoryComponent implements OnInit, OnDestroy {
 	firebaseService = inject(FirebaseService);

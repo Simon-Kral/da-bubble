@@ -9,15 +9,28 @@ button {
 	}
 }
 
+
 .channel-details {
-	width: 872px;
+	max-width: 872px;
+	width: 100%;
+	min-width: 300px;
 	background-color: $white;
 	padding: 30px;
 	border-radius: 0 30px 30px 30px;
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+	position: absolute;
+	top: 171px;
+	left: 495px;
 }
+
+.sidenav-active {
+	position: absolute;
+    top: 185px;
+    left: 124px;
+}
+
 
 .left-section {
 	@include dFlex(row, center, center);
@@ -135,4 +148,36 @@ button {
 	>span {
 		@include Nunito(400, 14px, 20px, $rosa-error);
 	}
+}
+
+
+@media screen and (max-width: 1386px) {
+	.channel-details {
+		max-width: 650px;
+	}
+}
+
+@media screen and (max-width: 1162px) {
+	.channel-details {
+		max-width: 450px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+
+	.sidenav-active {
+		position: unset;
+		top: unset;
+		left: unset;
+	}
+	
+	.channel-details {
+		width: 100%;
+		top: 150px;
+		left: 0;
+		border-radius: 20px;
+		padding: 20px;
+
+	}
+
 }

@@ -2,10 +2,11 @@
 @import "../create-channel/create-new-channel/create-new-channel.component.scss";
 
 .add-members-container {
-	position: relative;
 	display: flex;
 	flex-direction: column;
-	width: 514px;
+	max-width: 514px;
+	width: 100%;
+	min-width: 300px;
 	padding: 40px;
 	background-color: $white;
 	border-radius: 20px 0px 20px 20px;
@@ -40,7 +41,6 @@
 }
 
 button {
-	width: 33%;
 	align-self: flex-end;
 	@include buttonBlue();
 }
@@ -99,4 +99,18 @@ button {
 .search-container {
 	position: relative;
 	width: 100%;
+}
+
+// responsive
+
+@media screen and (max-width: 600px) {
+
+	.add-members-container {
+		width: 320px;
+		position: absolute;
+		right: 0;
+		left: calc(50% - 160px) !important;
+		border-radius: 20px;
+	}
+
 }

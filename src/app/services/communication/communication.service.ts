@@ -49,7 +49,7 @@ export class CommunicationService {
 
 
 	// mobile view variables
-	isMobileViewActive: boolean = false;      // main flag to check if mobile view is active
+	isMobileViewActive: boolean = true;      // main flag to check if mobile view is active
 
 	isMobileUserMenuVisible: boolean = false;
 
@@ -104,6 +104,7 @@ export class CommunicationService {
   toggleSidenav(): void {
     this.isSidenavVisible = !this.isSidenavVisible;
     this.isSidenavToggled = !this.isSidenavToggled;
+	
     if (this.isSidenavVisible) {
       setTimeout(() => {
         this.isSidenavAnimationComplete = true;

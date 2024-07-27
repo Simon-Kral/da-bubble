@@ -1,4 +1,4 @@
-<div class="channel-details">
+<div class="channel-details" [ngClass]="{'sidenav-active': this.communicationService.isSidenavVisible}">
   <div class="headline">
     <div class="left-section">
       <img src="assets/img/icons/hashtag_chat_black.png" alt="Hashtag icon" />
