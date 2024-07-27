@@ -20,7 +20,7 @@ export class ReactionService {
 
   constructor() { }
 
-	currentMessageId: string = '';  // getting used to store the current message id of chat or thread  to-do do-we still nedde that?
+
 	currentThreadId: string = '';	// getting used to store the current thread id of chat
 
 /**
@@ -50,7 +50,7 @@ export class ReactionService {
     amount: 1,
     nativeEmoji: '👍',
   };
-  
+
   /**
  * Predefined Reaction object for a "Thumb Down" reaction.
  */
