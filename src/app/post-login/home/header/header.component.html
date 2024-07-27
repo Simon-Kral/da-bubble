@@ -21,7 +21,7 @@
 
 			<!-- onFocus -->
 			@if (isFocusActive && !this.searchService.searchSpesificChannelMessageResault.length &&
-			!this.searchService.searchSpesificThreadMessageResaults.length) {
+			!this.searchService.searchSpesificThreadMessageResaults.length && !this.communicationService.isMobileViewActive) {
 			<div class="search-results">
 				<div class="close-btn pointer" (click)="this.handleToggleFocus()">
 					<img src="assets/img/icons/close_black.png" alt="" />
@@ -57,7 +57,7 @@
 				<img src="assets/img/icons/close_black.png" alt="" />
 			</div>
 			<!--user search results-->
-			@if(this.searchService.searchSpesificThreadMessageResaults.length) {
+			@if(this.searchService.searchSpesificThreadMessageResaults.length && !this.communicationService.isMobileViewActive) {
 			<h3>Thread Messages:</h3>
 			@for (threadMessage of this.searchService.searchSpesificThreadMessageResaults; track threadMessage; let
 			index = $index) {
@@ -82,7 +82,7 @@
 			}
 
 
-			@if(this.searchService.searchSpesificChannelMessageResault.length) {
+			@if(this.searchService.searchSpesificChannelMessageResault.length && !this.communicationService.isMobileViewActive) {
 			<h3>Channel Messages:</h3>
 			@for (message of this.searchService.searchSpesificChannelMessageResault; track message; let index = $index)
 			{
