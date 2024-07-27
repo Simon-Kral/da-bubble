@@ -4,7 +4,8 @@
 	@include dFlex(column, flex-start, flex-start);
 
 	max-width: 872px;
-	height: 514px;
+	min-height: 514px;
+	height: fit-content;
 	background-color: $white;
 	border-radius: 30px;
 	padding: 40px;
