@@ -7,6 +7,7 @@ import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
 import { SearchService } from '../../../services/search/search.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommunicationService } from '../../../services/communication/communication.service';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,8 @@ export class HeaderComponent implements OnInit {
   firebaseService = inject(FirebaseService);
   searchService = inject(SearchService);
   threadService = inject(ThreadService);
-
+  communicationService = inject(CommunicationService);
+  
   searchText: FormGroup;
   showUsers: boolean = false;
   showChannels: boolean = false;
