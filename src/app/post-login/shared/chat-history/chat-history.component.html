@@ -112,20 +112,21 @@
           </div>
           <span class="emoji-counter">{{reaction.amount}}</span>
           @if (!communicationService.isMobileViewActive) {
-            <div class="show-who-reacted">
-              <div class="emoji-container">
-                {{reaction.nativeEmoji}}
-              </div>
-              @for (user of reaction.user; track user; let index = $index) {
-              @if (user == this.firebaseService.currentUserId) {
-              <span>{{this.firebaseService.getUserDisplayName(user)}} (Du)</span>
+          <div class="show-who-reacted">
+            <div class="emoji-container">
+              {{reaction.nativeEmoji}}
+            </div>
+            @for (user of reaction.user; track user; let index = $index) {
+            @if (index < 2) { @if (user==this.firebaseService.currentUserId) { <span>
+              {{this.firebaseService.getUserDisplayName(user)}} (Du)</span>
               } @else {
               <span>{{this.firebaseService.getUserDisplayName(user)}}</span>
               }
               }
+              }
               <p>hat reagiert</p>
-            </div>
-            }
+          </div>
+          }
         </div>
         }
 
@@ -253,13 +254,14 @@
               {{reaction.nativeEmoji}}
             </div>
             @for (user of reaction.user; track user; let index = $index) {
-            @if (user == this.firebaseService.currentUserId) {
-            <span>{{this.firebaseService.getUserDisplayName(user)}} (Du)</span>
-            } @else {
-            <span>{{this.firebaseService.getUserDisplayName(user)}}</span>
-            }
-            }
-            <p>hat reagiert</p>
+            @if (index < 2) { @if (user==this.firebaseService.currentUserId) { <span>
+              {{this.firebaseService.getUserDisplayName(user)}} (Du)</span>
+              } @else {
+              <span>{{this.firebaseService.getUserDisplayName(user)}}</span>
+              }
+              }
+              }
+              <p>hat reagiert</p>
           </div>
           }
         </div>

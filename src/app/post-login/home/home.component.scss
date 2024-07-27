@@ -186,3 +186,15 @@ app-welcome-screen {
   height: 100%;
 }
 
+@media screen and (max-width: 600px) {
+
+.app-wrapper {
+    position: absolute!important;
+  }
+
+  .sidenav-wrapper {
+    width: 100%!important;
+    padding: unset!important;
+  }
+}
+
