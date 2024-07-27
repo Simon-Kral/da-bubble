@@ -15,6 +15,8 @@ import { PasswordResetRequestComponent } from './pre-login/landing/password-rese
 import { SelectAvatarComponent } from './pre-login/landing/select-avatar/select-avatar.component';
 import { LoginComponent } from './pre-login/landing/login/login.component';
 import { ResetPasswordComponent } from './pre-login/landing/reset-password/reset-password.component';
+import { PrivacyPolicyComponent } from './pre-login/privacy-policy/privacy-policy.component';
+import { ImprintComponent } from './pre-login/imprint/imprint.component';
 
 
 export const routes: Routes = [
@@ -45,4 +47,7 @@ export const routes: Routes = [
 			{ path: 'privateNotes/:id', component: PrivateNoteComponent },
 		],
 	},
+
+	{ path: 'imprint', component: ImprintComponent },
+	{ path: 'privacy-policy', component: PrivacyPolicyComponent },
 ];

@@ -1,19 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { ImprintComponent } from './imprint.component';
 
-import { LandingFooterComponent } from './landing-footer.component';
-
-describe('LandingFooterComponent', () => {
-  let component: LandingFooterComponent;
-  let fixture: ComponentFixture<LandingFooterComponent>;
+describe('ImprintComponent', () => {
+  let component: ImprintComponent;
+  let fixture: ComponentFixture<ImprintComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LandingFooterComponent]
+      imports: [ImprintComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(LandingFooterComponent);
+    fixture = TestBed.createComponent(ImprintComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
