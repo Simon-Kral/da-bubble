@@ -62,9 +62,9 @@
         @if (msg.storageData) {
 			<div class="storage-pic-container">
 				<div class="wrapper">
-					<a class="download pointer" href="{{msg.storageData}}" download>
+					<span class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
 						<img class="download-icon" src="assets/img/icons/download_white.png" alt="">
-					</a>
+					</span>
 					<a href="{{msg.storageData}}" target="_blank">
 						<img src="{{msg.storageData}}">
 					</a>
@@ -184,9 +184,9 @@
         @if (msg.storageData) {
 			<div class="storage-pic-container">
 				<div class="wrapper">
-					<a class="download pointer" href="{{msg.storageData}}" download>
+					<span class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
 						<img class="download-icon" src="assets/img/icons/download_white.png" alt="">
-					</a>
+					</span>
 					<a href="{{msg.storageData}}" target="_blank">
 						<img src="{{msg.storageData}}">
 					</a>

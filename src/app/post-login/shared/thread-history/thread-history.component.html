@@ -13,7 +13,7 @@
                 (click)="this.reactionService.addSpecificReaction(msg.messageAnswerId, this.reactionService.setReactionThumbDown, 'thread'); this.reactionService.currentMessageId = msg.messageAnswerId">
                 <div class="emoji-container"> 👎 </div>
             </div>
-            <div class="pointer menu-content" (click)="toggleEmojiPicker(index)">
+            <div class="pointer menu-content" (click)="this.toggleEmojiPicker(index)">
                 <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
             </div>
         </div>

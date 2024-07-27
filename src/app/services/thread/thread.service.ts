@@ -63,14 +63,7 @@ export class ThreadService {
     if (this.unsubscribeMsgAnswerList) {
       this.unsubscribeMsgAnswerList();
     }
-    const collectionRef = collection(
-      this.firestore,
-      this.chatService.mainCollection,
-      this.chatService.docRef,
-      'messages',
-      this.chatService.messageId,
-      'messageAnswers',
-    );
+    const collectionRef = collection(this.firestore,this.chatService.mainCollection,this.chatService.docRef,'messages',this.chatService.messageId,'messageAnswers');
     const q = query(collectionRef, orderBy('date'), orderBy('time'));
     this.unsubscribeMsgAnswerList = onSnapshot(
       q,
@@ -119,10 +112,7 @@ export class ThreadService {
    */
   async getMessageAnswer(): Promise<string> {
     try {
-      const messageDocRef = doc(
-        this.firestore,
-        `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.chatService.messageId}/messageAnswers/${this.editMessageAnswerId}`,
-      );
+      const messageDocRef = doc(this.firestore,`${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.chatService.messageId}/messageAnswers/${this.editMessageAnswerId}`);
       const docSnap = await getDoc(messageDocRef);
 
       if (docSnap.exists()) {
@@ -211,14 +201,7 @@ export class ThreadService {
    */
   async addMessageAnswer(answerData: MessageAnswer): Promise<any> {
     try {
-      const collectionRef = collection(
-        this.firestore,
-        this.chatService.mainCollection,
-        this.chatService.docRef,
-        'messages',
-        this.chatService.messageId,
-        'messageAnswers',
-      );
+      const collectionRef = collection(this.firestore, this.chatService.mainCollection, this.chatService.docRef,'messages',this.chatService.messageId,'messageAnswers');
       return addDoc(collectionRef, answerData);
     } catch (e) {
       console.error('Error adding message document: ', e);
@@ -339,10 +322,7 @@ export class ThreadService {
    */
   async deleteMessageAnswer(): Promise<void> {
     try {
-      const messageDocRef = doc(
-        this.firestore,
-        `${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.editMessageId}/messageAnswers/${this.editMessageAnswerId}`,
-      );
+      const messageDocRef = doc(this.firestore,`${this.chatService.mainCollection}/${this.chatService.docRef}/messages/${this.editMessageId}/messageAnswers/${this.editMessageAnswerId}`);
       await deleteDoc(messageDocRef);
       const latestTime = await this.findLatestMsgTime();
       await this.updateMessageAnswerCountAndTime(this.editMessageId, latestTime, 'decrease');

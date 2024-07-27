@@ -53,4 +53,20 @@ export class StorageService {
 		}); 
 	}
 
+	downloadFromUrlDirectly(url: string) {
+		const xhr = new XMLHttpRequest();
+		xhr.responseType = 'blob';
+		xhr.onload = (event) => {
+			const blob = xhr.response;
+			const a = document.createElement('a');
+			const url = URL.createObjectURL(blob);
+			a.href = url;
+			a.download = 'test';
+			a.click();
+			URL.revokeObjectURL(url);
+		};
+		xhr.open('GET', url);
+		xhr.send();
+	}
+
 }

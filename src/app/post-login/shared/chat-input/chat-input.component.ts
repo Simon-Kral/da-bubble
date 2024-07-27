@@ -86,6 +86,7 @@ ngOnInit(): void {
     if (this.messageData.invalid) {
       return;
     }
+
     const messageToSend = {
       timestamp: this.getCurrentTime(),     // to-do do we need this?
       message: this.messageData.value.message,
@@ -168,9 +169,7 @@ ngOnInit(): void {
 				this.storageService.getURL(snapshot.ref).subscribe({
 					next: (url) => {
 						this.storageData = url;
-						this.storageData = this.storageData;
-						console.log('uploadFileFunction',this.storageData);
-						
+
 					},
 				});
 			},
@@ -179,11 +178,11 @@ ngOnInit(): void {
   }
 
   closeAndDelete() {
-	  this.deleteObject();
+	  this.delteFileFromStorage();
 	  this.storageData = '';
   }
 
-  deleteObject() {
+  delteFileFromStorage() {
 	const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${this.fileName}`);
 	this.storageService.deleteFile(storageRef);
   }
