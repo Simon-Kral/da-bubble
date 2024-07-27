@@ -31,26 +31,27 @@
             <!--tagged user-->
             <div class="msg">
                 @if (msg.taggedUser) {
-                    <div class="tagged-user-container">
-                      @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
-                        <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{ '@' + this.firebaseService.getUserDisplayName( taggedUser ) }}</span>
-                      }
-                    </div>
-                  }
+                <div class="tagged-user-container">
+                    @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
+                    <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{ '@' +
+                        this.firebaseService.getUserDisplayName( taggedUser ) }}</span>
+                    }
+                </div>
+                }
                 <span>{{ msg.text }}</span>
                 <!--storage pic-->
-				@if (msg.storageData) {
-					<div class="storage-pic-container">
-						<div class="wrapper">
-							<a class="download pointer" href="{{msg.storageData}}" download>
-								<img class="download-icon" src="assets/img/icons/download_white.png" alt="">
-							</a>
-							<a href="{{msg.storageData}}" target="_blank">
-								<img src="{{msg.storageData}}">
-							</a>
-						</div>
-					  </div>
-				} 
+                @if (msg.storageData) {
+                <div class="storage-pic-container">
+                    <div class="wrapper">
+                        <a class="download pointer" href="{{msg.storageData}}" download>
+                            <img class="download-icon" src="assets/img/icons/download_white.png" alt="">
+                        </a>
+                        <a href="{{msg.storageData}}" target="_blank">
+                            <img src="{{msg.storageData}}">
+                        </a>
+                    </div>
+                </div>
+                }
                 @if (msg.editCount > 0) {
                 <div class="edited-msg-info">
                     <p>Bearbeitet: {{this.chatService.formatTimeString(msg.lastEdit)}}</p>
@@ -67,20 +68,21 @@
                     </div>
                     <span class="emoji-counter">{{reaction.amount}}</span>
                     @if (!communicationService.isMobileViewActive) {
-                        <div class="show-who-reacted">
-                          <div class="emoji-container">
+                    <div class="show-who-reacted">
+                        <div class="emoji-container">
                             {{reaction.nativeEmoji}}
-                          </div>
-                          @for (user of reaction.user; track user; let index = $index) {
-                          @if (user == this.firebaseService.currentUserId) {
-                          <span>{{this.firebaseService.getUserDisplayName(user)}} (Du)</span>
-                          } @else {
-                          <span>{{this.firebaseService.getUserDisplayName(user)}}</span>
-                          }
-                          }
-                          <p>hat reagiert</p>
                         </div>
-                        }
+                        @for (user of reaction.user; track user; let index = $index) {
+                        @if (index < 2) { @if (user==this.firebaseService.currentUserId) { <span>
+                            {{this.firebaseService.getUserDisplayName(user)}} (Du)</span>
+                            } @else {
+                            <span>{{this.firebaseService.getUserDisplayName(user)}}</span>
+                            }
+                            }
+                            }
+                            <p>hat reagiert</p>
+                    </div>
+                    }
                 </div>
                 }
                 <div class="pointer add-reaction" (click)="toggleEmojiPicker(index)">
@@ -157,26 +159,27 @@
             <div class="current-user-msg">
                 <!--tagged user-->
                 @if (msg.taggedUser) {
-                    <div class="tagged-user-container">
-                      @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
-                        <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{ '@' + this.firebaseService.getUserDisplayName( taggedUser ) }}</span>
-                      }
-                    </div>
-                  }
+                <div class="tagged-user-container">
+                    @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
+                    <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{ '@' +
+                        this.firebaseService.getUserDisplayName( taggedUser ) }}</span>
+                    }
+                </div>
+                }
                 <span>{{ msg.text }}</span>
-                 <!--storage pic-->
-				 @if (msg.storageData) {
-					<div class="storage-pic-container">
-						<div class="wrapper">
-							<a class="download pointer" href="{{msg.storageData}}" download>
-								<img class="download-icon" src="assets/img/icons/download_white.png" alt="">
-							</a>
-							<a href="{{msg.storageData}}" target="_blank">
-								<img src="{{msg.storageData}}">
-							</a>
-						</div>
-					  </div>
-				} 
+                <!--storage pic-->
+                @if (msg.storageData) {
+                <div class="storage-pic-container">
+                    <div class="wrapper">
+                        <a class="download pointer" href="{{msg.storageData}}" download>
+                            <img class="download-icon" src="assets/img/icons/download_white.png" alt="">
+                        </a>
+                        <a href="{{msg.storageData}}" target="_blank">
+                            <img src="{{msg.storageData}}">
+                        </a>
+                    </div>
+                </div>
+                }
                 @if (msg.editCount > 0) {
                 <div class="edited-msg-info">
                     <p>Bearbeitet: {{this.chatService.formatTimeString(msg.lastEdit)}}</p>
@@ -193,20 +196,21 @@
                     </div>
                     <span class="emoji-counter">{{reaction.amount}}</span>
                     @if (!communicationService.isMobileViewActive) {
-                        <div class="show-who-reacted">
-                          <div class="emoji-container">
+                    <div class="show-who-reacted">
+                        <div class="emoji-container">
                             {{reaction.nativeEmoji}}
-                          </div>
-                          @for (user of reaction.user; track user; let index = $index) {
-                          @if (user == this.firebaseService.currentUserId) {
-                          <span>{{this.firebaseService.getUserDisplayName(user)}} (Du)</span>
-                          } @else {
-                          <span>{{this.firebaseService.getUserDisplayName(user)}}</span>
-                          }
-                          }
-                          <p>hat reagiert</p>
                         </div>
-                        }
+                        @for (user of reaction.user; track user; let index = $index) {
+                        @if(index <2) { @if (user==this.firebaseService.currentUserId) { <span>
+                            {{this.firebaseService.getUserDisplayName(user)}} (Du)</span>
+                            } @else {
+                            <span>{{this.firebaseService.getUserDisplayName(user)}}</span>
+                            }
+                            }
+                            }
+                            <p>hat reagiert</p>
+                    </div>
+                    }
                 </div>
                 }
                 <div class="pointer add-reaction" (click)="toggleEmojiPicker(index)">
@@ -249,7 +253,8 @@
         </div>
         }
         <!--popUp overlay for deleting specific current user msg-->
-        @if (this.communicationService.isDeleteThreadMsgDialogVisible && msg.messageAnswerId === this.threadService.editMessageAnswerId) {
+        @if (this.communicationService.isDeleteThreadMsgDialogVisible && msg.messageAnswerId ===
+        this.threadService.editMessageAnswerId) {
         <div class="delete-msg-dialog">
             <span>Möchtest du diese Nachricht wirklich löschen?</span>
             <div class="dialog-btns">
@@ -262,27 +267,27 @@
             </div>
         </div>
         }
-        
-    </div>
-	<!-- emoji Picker-->
-	@if (index === this.reactionService.emojiPickerIndexThread && this.reactionService.showEmojiPickerThread) {
-		<div class="emoji-picker-container">
-			<emoji-mart
-				(emojiClick)="this.reactionService.handleReaction($event, msg.messageAnswerId ,'thread')"></emoji-mart>
-		</div>
-	} 
 
-	<!--seperator with answer count-->
-	@if (index == 0) {
-		<div class="msg-answer-counter">
-			@if (this.threadService.msgAnswerList.length == 2) {
-			<span>{{this.threadService.msgAnswerList.length - 1}} Anwort</span>
-			} @else {
-			<span>{{this.threadService.msgAnswerList.length - 1}} Anworten</span>
-			}
-			<div class="seperator"></div>
-		</div>
-	}
+    </div>
+    <!-- emoji Picker-->
+    @if (index === this.reactionService.emojiPickerIndexThread && this.reactionService.showEmojiPickerThread) {
+    <div class="emoji-picker-container">
+        <emoji-mart
+            (emojiClick)="this.reactionService.handleReaction($event, msg.messageAnswerId ,'thread')"></emoji-mart>
+    </div>
+    }
+
+    <!--seperator with answer count-->
+    @if (index == 0) {
+    <div class="msg-answer-counter">
+        @if (this.threadService.msgAnswerList.length == 2) {
+        <span>{{this.threadService.msgAnswerList.length - 1}} Anwort</span>
+        } @else {
+        <span>{{this.threadService.msgAnswerList.length - 1}} Anworten</span>
+        }
+        <div class="seperator"></div>
+    </div>
+    }
     }
     }
 
