@@ -48,7 +48,7 @@ export class CommunicationService {
 
 
 	// mobile view variables
-	isMobileViewActive: boolean = true;      // main flag to check if mobile view is active
+	isMobileViewActive: boolean = false;      // main flag to check if mobile view is active
 
   isMobileUserMenuVisible: boolean = false;
 

@@ -51,26 +51,27 @@
       <div class="msg">
         <!--tagged user-->
         @if (msg.taggedUser) {
-          <div class="tagged-user-container">
-            @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
-              <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{ '@' + this.firebaseService.getUserDisplayName( taggedUser ) }}</span>
-            }
-          </div>
+        <div class="tagged-user-container">
+          @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
+          <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{ '@' +
+            this.firebaseService.getUserDisplayName( taggedUser ) }}</span>
+          }
+        </div>
         }
         <span>{{ msg.text }}</span>
         <!--storage pic-->
         @if (msg.storageData) {
-			<div class="storage-pic-container">
-				<div class="wrapper">
-					<a class="download pointer" download="{{msg.storageData}}">
-						<img class="download-icon" src="assets/img/icons/download_white.png" alt="">
-					</a>
-					<a href="{{msg.storageData}}" target="_blank">
-						<img src="{{msg.storageData}}">
-					</a>
-				</div>
-			  </div>
-        } 
+        <div class="storage-pic-container">
+          <div class="wrapper">
+            <a class="download pointer" download="{{msg.storageData}}">
+              <img class="download-icon" src="assets/img/icons/download_white.png" alt="">
+            </a>
+            <a href="{{msg.storageData}}" target="_blank">
+              <img src="{{msg.storageData}}">
+            </a>
+          </div>
+        </div>
+        }
         @if (msg.editCount > 0) {
         <div class="edited-msg-info">
           <p>
@@ -110,6 +111,19 @@
             {{reaction.nativeEmoji}}
           </div>
           <span class="emoji-counter">{{reaction.amount}}</span>
+          <div class="show-who-reacted">
+            <div class="emoji-container">
+              {{reaction.nativeEmoji}}
+            </div>
+            @for (user of reaction.user; track user; let index = $index) {
+            @if (user == this.firebaseService.currentUserId) {
+            <span>{{this.firebaseService.getUserDisplayName(user)}} (Du)</span>
+            } @else {
+            <span>{{this.firebaseService.getUserDisplayName(user)}}</span>
+            }
+            }
+            <p>hat reagiert</p>
+          </div>
         </div>
         }
 
@@ -167,32 +181,34 @@
     <div class="current-user-msg-content">
       <div class="current-user-msg-top">
         <p>{{ this.chatService.formatTimeString(msg.time) }}</p>
-        <span class="pointer" (click)="this.communicationService.handleClickCurrentUser(true)">{{ this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId ) }}</span>
+        <span class="pointer" (click)="this.communicationService.handleClickCurrentUser(true)">{{
+          this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId ) }}</span>
       </div>
 
       <div class="current-user-msg">
         <!--tagged user-->
         @if (msg.taggedUser) {
-          <div class="tagged-user-container">
-            @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
-              <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{ '@' + this.firebaseService.getUserDisplayName( taggedUser ) }}</span>
-            }
-          </div>
+        <div class="tagged-user-container">
+          @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
+          <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{ '@' +
+            this.firebaseService.getUserDisplayName( taggedUser ) }}</span>
+          }
+        </div>
         }
         <span>{{ msg.text }}</span>
         <!--storage pic-->
         @if (msg.storageData) {
-			<div class="storage-pic-container">
-				<div class="wrapper">
-					<a class="download pointer" download="{{msg.storageData}}">
-						<img class="download-icon" src="assets/img/icons/download_white.png" alt="">
-					</a>
-					<a href="{{msg.storageData}}" target="_blank">
-						<img src="{{msg.storageData}}">
-					</a>
-				</div>
-			  </div>
-          } 
+        <div class="storage-pic-container">
+          <div class="wrapper">
+            <a class="download pointer" download="{{msg.storageData}}">
+              <img class="download-icon" src="assets/img/icons/download_white.png" alt="">
+            </a>
+            <a href="{{msg.storageData}}" target="_blank">
+              <img src="{{msg.storageData}}">
+            </a>
+          </div>
+        </div>
+        }
         @if (msg.editCount > 0) {
         <div class="edited-msg-info">
           <p>
@@ -229,6 +245,19 @@
             {{reaction.nativeEmoji}}
           </div>
           <span class="emoji-counter">{{reaction.amount}}</span>
+          <div class="show-who-reacted">
+            <div class="emoji-container">
+              {{reaction.nativeEmoji}}
+            </div>
+            @for (user of reaction.user; track user; let index = $index) {
+            @if (user == this.firebaseService.currentUserId) {
+            <span>{{this.firebaseService.getUserDisplayName(user)}} (Du)</span>
+            } @else {
+            <span>{{this.firebaseService.getUserDisplayName(user)}}</span>
+            }
+            }
+            <p>hat reagiert</p>
+          </div>
         </div>
         }
         <div class="pointer add-reaction reaction-icon" (click)="toggleEmojiPicker(index)">
@@ -289,11 +318,11 @@
     }
   </div>
   <!-- emoji Picker-->
-  @if (index === this.reactionService.emojiPickerIndex && this.reactionService.showEmojiPicker) { 
+  @if (index === this.reactionService.emojiPickerIndex && this.reactionService.showEmojiPicker) {
   <div class="emoji-picker-container">
     <emoji-mart (emojiClick)="this.reactionService.handleReaction($event, msg.messageId, 'chat')"></emoji-mart>
   </div>
- }
- } }
+  }
+  } }
 
 </div>
