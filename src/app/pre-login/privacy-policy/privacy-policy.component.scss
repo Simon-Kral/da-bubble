@@ -34,7 +34,7 @@ main {
     padding: 70px 70px;
     background-color: $white;
     border-radius: 30px;
-	overflow-y: auto;
+	overflow-y: auto !important;
 }
 
 .back-button {
