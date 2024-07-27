@@ -1,12 +1,18 @@
-<div class="header-wrapper">
-	<div class="header-container">
+<div class="header-wrapper" [ngClass]="{
+    'full-width': this.communicationService.isMobileViewActive
+  }">
+	<div class="header-container" [ngClass]="{
+		'padding-unset': this.communicationService.isMobileViewActive
+	  }">
 		@if (!this.communicationService.isMobileViewActive) {
 		<div class="logo-container">
 			<img class="" src="assets/img/logos/da_bubble_logo.png" alt="" />
 			<span class="headline">DABubble</span>
 		</div>
 		}
-		<div class="searchbar-container">
+		<div class="searchbar-container" [ngClass]="{
+			'full-width': this.communicationService.isMobileViewActive
+		  }">
 			<form class="" [formGroup]="searchText">
 				<input class="header-searchbar" type="text" placeholder="Suche nach Usern mit @ und nach Channel mit #"
 					formControlName="search" (input)="this.handleSearch()" (click)="this.handleToggleFocus()" />

@@ -2,7 +2,10 @@
   [ngClass]="{
     'border-radius-unset': this.communicationService.isMobileViewActive
   }">
-  <div class="sidenav-content">
+  <div class="sidenav-content"
+  [ngClass]="{
+    'full-width': this.communicationService.isMobileViewActive
+  }">
     @if (!this.communicationService.isMobileViewActive) {
     <div class="sidenav-top-section">
       <div class="sidenav-headline-left">
@@ -17,7 +20,9 @@
     }
     <!--mobile version of normal header-->
     @if (this.communicationService.isMobileViewActive) {
-    <app-header></app-header>
+    <app-header  [ngClass]="{
+      'full-width': this.communicationService.isMobileViewActive
+    }"></app-header>
     }
 
 
