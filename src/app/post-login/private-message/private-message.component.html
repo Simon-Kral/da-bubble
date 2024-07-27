@@ -1,4 +1,7 @@
-<div class="private-msg-wrapper">
+<div class="private-msg-wrapper"
+[ngClass]="{
+    'border-radius-unset': this.communicationService.isMobileViewActive
+  }">
 	<div class="top-section">
 
 		@for (privateMsg of firebaseService.privateChatList; track privateMsg.privatChatId; let index = $index) {
