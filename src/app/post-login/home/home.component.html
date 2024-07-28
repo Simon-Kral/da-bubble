@@ -143,4 +143,14 @@
 		</div>
 	</div>
 	}
+
 </div>
+
+
+	<!-- Popup overlay rotate your device-->
+	@if ((this.communicationService.isRotateDeviceVisible && !this.communicationService.isMobileViewActive) ) {
+		<div class="rotate-wrapper" >
+			<span>Bitte drehe dein Smartphone</span>
+			<img src="assets/img/icons/rotate_your_device.png" alt="rotate-device-icon" />
+	</div>
+	}

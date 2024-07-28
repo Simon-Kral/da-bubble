@@ -19,267 +19,262 @@ import { WelcomeScreenComponent } from './post-login/home/welcome-screen/welcome
 import { CommunicationService } from './services/communication/communication.service';
 
 @Component({
-	selector: 'app-root',
-	standalone: true,
-	imports: [
-		CommonModule,
-		RouterOutlet,
-		NgStyle,
-		HomeComponent,
-		SidenavComponent,
-		NewMessageComponent,
-		ChannelListComponent,
-		PrivateMessageListComponent,
-		CreateNewChannelComponent,
-		ChatHistoryComponent,
-		ThreadComponent,
-		ChannelMemberComponent,
-		ChannelMemberSelectionComponent,
-		ChannelSelectionComponent,
-		WelcomeScreenComponent,
-	],
-	templateUrl: './app.component.html',
-	styleUrl: './app.component.scss',
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    NgStyle,
+    HomeComponent,
+    SidenavComponent,
+    NewMessageComponent,
+    ChannelListComponent,
+    PrivateMessageListComponent,
+    CreateNewChannelComponent,
+    ChatHistoryComponent,
+    ThreadComponent,
+    ChannelMemberComponent,
+    ChannelMemberSelectionComponent,
+    ChannelSelectionComponent,
+    WelcomeScreenComponent,
+  ],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-	title = 'da-bubble';
-	authService = inject(AuthService);
-	firestore = inject(Firestore);
-	router = inject(Router);
-	communicationService = inject(CommunicationService);
+  title = 'da-bubble';
+  authService = inject(AuthService);
+  firestore = inject(Firestore);
+  router = inject(Router);
+  communicationService = inject(CommunicationService);
 
-	notificate: boolean = false;
-	notification: string = '';
-	introIsDisabled: boolean = false;
+  notificate: boolean = false;
+  notification: string = '';
+  introIsDisabled: boolean = false;
 
-	/**
-	 * Constructor to initialize the component with the activated route.
-	 * @param {ActivatedRoute} route - The activated route to access query parameters.
-	 */
-	constructor(private route: ActivatedRoute) {}
+  /**
+   * Constructor to initialize the component with the activated route.
+   * @param {ActivatedRoute} route - The activated route to access query parameters.
+   */
+  constructor(private route: ActivatedRoute) {}
 
-	/**
-	 * Initializes the component, subscribes to user authentication status, and handles query parameters.
-	 * @returns {void}
-	 */
-	ngOnInit(): void {
-		setTimeout(() => {
-			this.route.queryParams.subscribe({
-				next: (params) => {
-					this.authService.user$.subscribe((user) => {
-						if (this.router.url.includes('?mode=')) {
-							this.handleQueryParams(params);
-						} else if (user) {
-							this.setUserData(user).then(() => {
-								this.handleNavigation(user);
-							});
-						} else {
-							this.handleNoUser();
-						}
-					});
-				},
-			});
-		}, 1);
+  /**
+   * Initializes the component, subscribes to user authentication status, and handles query parameters.
+   * @returns {void}
+   */
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.route.queryParams.subscribe({
+        next: (params) => {
+          this.authService.user$.subscribe((user) => {
+            if (this.router.url.includes('?mode=')) {
+              this.handleQueryParams(params);
+            } else if (user) {
+              this.setUserData(user).then(() => {
+                this.handleNavigation(user);
+              });
+            } else {
+              this.handleNoUser();
+            }
+          });
+        },
+      });
+    }, 1);
 
-		this.checkViewport();
-	}
+    this.checkViewport();
+  }
 
-	@HostListener('window:resize', ['$event'])
-	onResize(event: any) {
-	  this.checkViewport();
-	}
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkViewport();
+  }
 
-	  /**
+  /**
    * Checks the current viewport dimensions and sets the isMobileViewActive flag.
    */
-	  checkViewport() {
-		const height = window.innerHeight;
-		const width = window.innerWidth;
-		this.communicationService.isMobileViewActive = height > width;
-	  }
+  checkViewport() {
+    const height = window.innerHeight;
+    const width = window.innerWidth;
+    // Flag for mobile view (height greater than width)
+    this.communicationService.isMobileViewActive = height > width;
 
-	/**
-	 * Handles various query parameters related to user actions.
-	 * @param {Params} params - The URL parameters containing action codes and other relevant information.
-	 * @returns {void}
-	 */
-	handleQueryParams(params: Params): void {
-		this.handleResetPasswordAction(params);
-		this.handleVerifyEmailAction(params);
-		this.handleVerifyNewEmailAction(params);
-		this.handleRecoverEmailAction(params);
-	}
+    console.log('Mobile view active: ' + this.communicationService.isMobileViewActive);
 
-	/**
-	 * Sets the user data in the session storage.
-	 * @param {User} user - The authenticated user.
-	 * @returns {void}
-	 */
-	setUserData(user: User): Promise<void> {
-		// this.setSignal(user);
-		this.setSessionStorage(user);
-		return updateDoc(
-			doc(
-				this.firestore,
-				`users/${this.authService.firebaseAuth.currentUser!.uid}`
-			),
-			{ status: true }
-		);
-	}
+    // Flag to show rotate device prompt (ratio greater than 1.65) only for smaller screens
+    const ratio = width / height;
+    const isSmallScreen = width < 1024;
+    this.communicationService.isRotateDeviceVisible = ratio > 1.65 && isSmallScreen;
 
-	/**
-	 * Handles navigation based on user properties.
-	 * @param {User} user - The authenticated user.
-	 * @returns {void}
-	 */
-	handleNavigation(user: User): void {
-		if (
-			user.email != undefined &&
-			(!user.photoURL ||
-				user.photoURL.includes('googleusercontent') ||
-				user.photoURL.includes('assets/img/logos/profile_logo.png'))
-		) {
-			this.navToAvatar();
-		} else if (!user.emailVerified && user.email != undefined) {
-			this.handleEmailVerification();
-		} else {
-			this.navToHome();
-		}
-	}
+    console.log('Rotate device visible: ' + this.communicationService.isRotateDeviceVisible);
+  }
 
-	/**
-	 * Sets the user data in a signal.
-	 * @param {User} user - The authenticated user.
-	 * @returns {void}
-	 */
-	setSignal(user: User): void {
-		this.authService.currentUserSig.set({
-			id: user.uid,
-			email: user.email!,
-			username: user.displayName,
-			avatar: user.photoURL,
-		});
-	}
+  /**
+   * Handles various query parameters related to user actions.
+   * @param {Params} params - The URL parameters containing action codes and other relevant information.
+   * @returns {void}
+   */
+  handleQueryParams(params: Params): void {
+    this.handleResetPasswordAction(params);
+    this.handleVerifyEmailAction(params);
+    this.handleVerifyNewEmailAction(params);
+    this.handleRecoverEmailAction(params);
+  }
 
-	/**
-	 * Sets the user data in session storage.
-	 * @param {User} user - The authenticated user.
-	 * @returns {void}
-	 */
-	setSessionStorage(user: User): void {
-		if (!(sessionStorage.getItem('currentUserId') === user.uid)) {
-			sessionStorage.setItem('currentUserId', user.uid);
-		}
-	}
+  /**
+   * Sets the user data in the session storage.
+   * @param {User} user - The authenticated user.
+   * @returns {void}
+   */
+  setUserData(user: User): Promise<void> {
+    // this.setSignal(user);
+    this.setSessionStorage(user);
+    return updateDoc(doc(this.firestore, `users/${this.authService.firebaseAuth.currentUser!.uid}`), { status: true });
+  }
 
-	/**
-	 * Navigates to the avatar selection page.
-	 * @returns {void}
-	 */
-	navToAvatar(): void {
-		this.router.navigateByUrl('/avatar');
-	}
+  /**
+   * Handles navigation based on user properties.
+   * @param {User} user - The authenticated user.
+   * @returns {void}
+   */
+  handleNavigation(user: User): void {
+    if (
+      user.email != undefined &&
+      (!user.photoURL ||
+        user.photoURL.includes('googleusercontent') ||
+        user.photoURL.includes('assets/img/logos/profile_logo.png'))
+    ) {
+      this.navToAvatar();
+    } else if (!user.emailVerified && user.email != undefined) {
+      this.handleEmailVerification();
+    } else {
+      this.navToHome();
+    }
+  }
 
-	/**
-	 * Handles email verification.
-	 * @returns {void}
-	 */
-	handleEmailVerification(): void {
-		this.notificateUser('Bestätigen Sie Ihre E-Mail-Adresse');
-	}
+  /**
+   * Sets the user data in a signal.
+   * @param {User} user - The authenticated user.
+   * @returns {void}
+   */
+  setSignal(user: User): void {
+    this.authService.currentUserSig.set({
+      id: user.uid,
+      email: user.email!,
+      username: user.displayName,
+      avatar: user.photoURL,
+    });
+  }
 
-	/**
-	 * Navigates to the home page if the user is authenticated and the current URL is the root.
-	 * @returns {void}
-	 */
-	navToHome(): void {
-		if (this.router.url === '/') {
-			this.router.navigateByUrl('/home');
-		}
-	}
+  /**
+   * Sets the user data in session storage.
+   * @param {User} user - The authenticated user.
+   * @returns {void}
+   */
+  setSessionStorage(user: User): void {
+    if (!(sessionStorage.getItem('currentUserId') === user.uid)) {
+      sessionStorage.setItem('currentUserId', user.uid);
+    }
+  }
 
-	/**
-	 * Handles the case when there is no authenticated user.
-	 * @returns {void}
-	 */
-	handleNoUser(): void {
-		// this.authService.currentUserSig.set(null);
-		this.router.navigateByUrl('/');
-	}
+  /**
+   * Navigates to the avatar selection page.
+   * @returns {void}
+   */
+  navToAvatar(): void {
+    this.router.navigateByUrl('/avatar');
+  }
 
-	/**
-	 * Handles the reset password action based on the query parameters.
-	 * @param {Params} params - The query parameters.
-	 * @returns {void}
-	 */
-	handleResetPasswordAction(params: Params): void {
-		if (this.router.url.includes('resetPassword')) {
-			this.router.navigate(['/reset-password'], {
-				queryParams: params,
-			});
-		}
-	}
+  /**
+   * Handles email verification.
+   * @returns {void}
+   */
+  handleEmailVerification(): void {
+    this.notificateUser('Bestätigen Sie Ihre E-Mail-Adresse');
+  }
 
-	/**
-	 * Handles the verify email action based on the query parameters.
-	 * @param {Params} params - The query parameters.
-	 * @returns {void}
-	 */
-	handleVerifyEmailAction(params: Params): void {
-		if (this.router.url.includes('verifyEmail')) {
-			applyActionCode(
-				this.authService.firebaseAuth,
-				params['oobCode']
-			).then(() => {
-				this.notificateUser('E-Mail-Adresse bestätigt');
-				this.router.navigateByUrl('/').then(() => {
-					setTimeout(() => {
-						this.router.navigateByUrl('/home');
-					}, 1000);
-				});
-			});
-		}
-	}
+  /**
+   * Navigates to the home page if the user is authenticated and the current URL is the root.
+   * @returns {void}
+   */
+  navToHome(): void {
+    if (this.router.url === '/') {
+      this.router.navigateByUrl('/home');
+    }
+  }
 
-	/**
-	 * Handles the verify new email action on email change based on the query parameters.
-	 * @param {Params} params - The query parameters.
-	 * @returns {void}
-	 */
-	handleVerifyNewEmailAction(params: Params): void {
-		if (this.router.url.includes('verifyAndChangeEmail')) {
-			applyActionCode(
-				this.authService.firebaseAuth,
-				params['oobCode']
-			).then(() => {
-				this.notificateUser('Neue E-Mail-Adresse bestätigt');
-				this.router.navigateByUrl('/');
-			});
-		}
-	}
+  /**
+   * Handles the case when there is no authenticated user.
+   * @returns {void}
+   */
+  handleNoUser(): void {
+    // this.authService.currentUserSig.set(null);
+    this.router.navigateByUrl('/');
+  }
 
-	/**
-	 * Handles the recovery of an email adress based on the query parameters.
-	 * @param {Params} params - The query parameters.
-	 * @returns {void}
-	 */
-	handleRecoverEmailAction(params: Params): void {
-		if (this.router.url.includes('recoverEmail')) {
-			applyActionCode(
-				this.authService.firebaseAuth,
-				params['oobCode']
-			).then(() => {
-				this.notificateUser('E-Mail-Adresse zurückgesetzt');
-				this.router.navigateByUrl('/');
-			});
-		}
-	}
+  /**
+   * Handles the reset password action based on the query parameters.
+   * @param {Params} params - The query parameters.
+   * @returns {void}
+   */
+  handleResetPasswordAction(params: Params): void {
+    if (this.router.url.includes('resetPassword')) {
+      this.router.navigate(['/reset-password'], {
+        queryParams: params,
+      });
+    }
+  }
 
-	notificateUser(message: string) {
-		this.notification = message;
-		this.notificate = true;
-		setTimeout(() => {
-			this.notificate = false;
-		}, 5000);
-	}
+  /**
+   * Handles the verify email action based on the query parameters.
+   * @param {Params} params - The query parameters.
+   * @returns {void}
+   */
+  handleVerifyEmailAction(params: Params): void {
+    if (this.router.url.includes('verifyEmail')) {
+      applyActionCode(this.authService.firebaseAuth, params['oobCode']).then(() => {
+        this.notificateUser('E-Mail-Adresse bestätigt');
+        this.router.navigateByUrl('/').then(() => {
+          setTimeout(() => {
+            this.router.navigateByUrl('/home');
+          }, 1000);
+        });
+      });
+    }
+  }
+
+  /**
+   * Handles the verify new email action on email change based on the query parameters.
+   * @param {Params} params - The query parameters.
+   * @returns {void}
+   */
+  handleVerifyNewEmailAction(params: Params): void {
+    if (this.router.url.includes('verifyAndChangeEmail')) {
+      applyActionCode(this.authService.firebaseAuth, params['oobCode']).then(() => {
+        this.notificateUser('Neue E-Mail-Adresse bestätigt');
+        this.router.navigateByUrl('/');
+      });
+    }
+  }
+
+  /**
+   * Handles the recovery of an email adress based on the query parameters.
+   * @param {Params} params - The query parameters.
+   * @returns {void}
+   */
+  handleRecoverEmailAction(params: Params): void {
+    if (this.router.url.includes('recoverEmail')) {
+      applyActionCode(this.authService.firebaseAuth, params['oobCode']).then(() => {
+        this.notificateUser('E-Mail-Adresse zurückgesetzt');
+        this.router.navigateByUrl('/');
+      });
+    }
+  }
+
+  notificateUser(message: string) {
+    this.notification = message;
+    this.notificate = true;
+    setTimeout(() => {
+      this.notificate = false;
+    }, 5000);
+  }
 }

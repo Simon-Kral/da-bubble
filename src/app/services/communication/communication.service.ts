@@ -49,7 +49,8 @@ export class CommunicationService {
 
 	// mobile view variables
 	isMobileViewActive: boolean = false;      // main flag to check if mobile view is active
-
+  
+  isRotateDeviceVisible: boolean = false;         // flag to show rotate your device message
   isMobileUserMenuVisible: boolean = false;
 
   constructor() {}
