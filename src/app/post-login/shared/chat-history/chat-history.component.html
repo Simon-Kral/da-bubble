@@ -287,7 +287,7 @@
     <!--popUp overlay for editing specific current user msg-->
     @if (showEditMsgOverlay && msg.messageId === this.chatService.editMessageId) {
     <div class="edit-msg-overlay">
-      <div class="left-section">
+      <div class="content-container">
         <form class="edit-msg-form" [formGroup]="newMsgData" (submit)="this.onSubmitEditMsg()">
           <div class="top-section">
             <textarea placeholder="Nachricht bearbeiten" formControlName="text"></textarea>
@@ -306,11 +306,6 @@
             </div>
           </div>
         </form>
-      </div>
-      <div class="right-section">
-        <div class="current-user-avatar">
-          <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)" alt="user-avatar" />
-        </div>
       </div>
           <!-- edit msg emoji Picker-->
     @if (this.reactionService.showEditMsgEmojiPicker) {

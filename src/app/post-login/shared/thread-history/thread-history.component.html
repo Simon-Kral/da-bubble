@@ -93,7 +93,7 @@
         <!-- emoji Picker-->
         @if (index === this.reactionService.emojiPickerIndexThread) { @if
         (this.reactionService.showEmojiPickerThread) {
-            <div class="user-emoji-picker-container">
+        <div class="user-emoji-picker-container">
             <div class="close-btn pointer" (click)="this.toggleEmojiPicker(index)">
                 <img src="assets/img/icons/close_black.png" alt="close-icon" />
             </div>
@@ -132,7 +132,8 @@
                 <div class="emoji-container"> 👎 </div>
             </div>
             <div class="pointer menu-content">
-                <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon" (click)="this.toggleEmojiPicker(index)">
+                <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon"
+                    (click)="this.toggleEmojiPicker(index)">
             </div>
             <div class="pointer menu-content" (click)="this.toggleMsgMenu()">
                 <img src="assets/img/icons/more_vert_black.png" alt="menu-icon">
@@ -142,7 +143,8 @@
             @if (this.communicationService.isMsgMenuThreadVisible) {
             <div class="edit-msg-menu">
                 <!--add logic to edit msg-->
-                <div class="edit-msg pointer" (click)="this.handleClickOnEditMsg(msg.messageAnswerId, msg.messageId, index)">
+                <div class="edit-msg pointer"
+                    (click)="this.handleClickOnEditMsg(msg.messageAnswerId, msg.messageId, index)">
                     <span>Nachricht bearbeiten</span>
                 </div>
                 <!--add logic to delete msg-->
@@ -230,7 +232,7 @@
         <!--popUp overlay for editing specific current user msg-->
         @if (showEditMsgOverlay && msg.messageAnswerId === this.threadService.editMessageAnswerId) {
         <div class="edit-msg-overlay">
-            <div class="left-section">
+            <div class="content-container">
                 <form class="edit-msg-form" [formGroup]="newMsgData" (submit)="onSubmitEditMsgAnswer()">
                     <div class="top-section">
                         <textarea placeholder="Nachricht bearbeiten" formControlName="text"></textarea>
@@ -250,25 +252,19 @@
                     </div>
                 </form>
             </div>
-            <div class="right-section">
-                <div class="current-user-avatar">
-                    <img [src]="this.firebaseService.getUserAvatar(this.firebaseService.currentUserId)"
-                        alt="user-avatar">
+            <!-- edit msg emoji Picker-->
+            @if (this.reactionService.showEditMsgEmojiPickerThread) {
+            <div class="current-user-emoji-picker-container">
+                <div class="close-btn pointer" (click)="this.toggleEditMsgEmojiPicker()">
+                    <img src="assets/img/icons/close_black.png" alt="close-icon" />
                 </div>
+                <emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1"
+                    [darkMode]="true" [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true"
+                    [showSingleCategory]="true" [enableSearch]="false" [showPreview]="false"
+                    (emojiClick)="this.handleEditMsgEmojiClick($event)">
+                </emoji-mart>
             </div>
-                      <!-- edit msg emoji Picker-->
-    @if (this.reactionService.showEditMsgEmojiPickerThread) {
-        <div class="current-user-emoji-picker-container">
-          <div class="close-btn pointer" (click)="this.toggleEditMsgEmojiPicker()">
-            <img src="assets/img/icons/close_black.png" alt="close-icon" />
-          </div>
-          <emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1" [darkMode]="true"
-            [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true" [showSingleCategory]="true"
-            [enableSearch]="false" [showPreview]="false"
-            (emojiClick)="this.handleEditMsgEmojiClick($event)">
-          </emoji-mart>
-        </div>
-        }
+            }
         </div>
         }
         <!--popUp overlay for deleting specific current user msg-->
