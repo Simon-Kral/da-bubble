@@ -203,7 +203,12 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+.header-container {
+  padding: 0px 20px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 850px) {
 
   .sidenav-wrapper {
     padding: 16px 10px 16px 10px;
