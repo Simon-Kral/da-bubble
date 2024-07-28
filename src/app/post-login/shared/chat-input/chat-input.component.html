@@ -49,7 +49,9 @@
 <!-- emoji Picker-->
 @if (this.showEmojiPicker) {
 	<div class="emoji-picker-container">
-	<emoji-mart (emojiClick)="this.addEmoji($event)"></emoji-mart>
+	<emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1"
+	[darkMode]="true" [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true"
+	[showSingleCategory]="true" [enableSearch]="false" [showPreview]="false" (emojiClick)="this.addEmoji($event)"></emoji-mart>
 	</div>
 }
 
