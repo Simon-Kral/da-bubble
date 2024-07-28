@@ -18,12 +18,14 @@
 	</div>
 	}
 
-	<div class="app-container">
+	<div class="app-container"
+	[ngClass]="{    'full-width': this.communicationService.isMobileViewActive}">
 		<!-- SideNav -->
 		<div class="sidenav-wrapper" [ngClass]="{
 		 'slide-in': !this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive, 
 		 'slide-out': this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive && this.communicationService.isSidenavToggled,
 		 'd-none': this.communicationService.isSidenavAnimationComplete || (this.communicationService.isSidenavVisible && this.communicationService.isMobileViewActive),
+		 'full-width': this.communicationService.isMobileViewActive
 	   }">
 			<app-sidenav [isCreateChannelVisible]="isCreateChannelVisible"
 				(createChannelVisibilityChange)="toggleComponentVisibility('createChannel', $event)">
