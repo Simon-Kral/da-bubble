@@ -220,41 +220,43 @@ export class ChatService {
     }
   }
 
-  /**
-   * Deletes a message document from Firestore, including all documents in the messageAnswers subcollection.
-   *
-   * @returns {Promise<void>} A promise that resolves when the message and its subcollection are successfully deleted.
-   * @throws Will throw an error if the deletion fails.
-   */
-  async deleteMessage(): Promise<void> {
-    try {
-      const messageDocRef = doc(this.firestore, `${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`);
-      await this.deleteSubcollection(messageDocRef);
-      await deleteDoc(messageDocRef);
-    } catch (error) {
-      console.error('Error deleting message:', error);
-      throw error;
-    }
+/**
+ * Deletes a message document from Firestore, including all documents in the messageAnswers subcollection.
+ *
+ * @returns {Promise<void>} A promise that resolves when the message and its subcollection are successfully deleted.
+ * @throws Will throw an error if the deletion fails.
+ */
+async deleteMessage(): Promise<void> {
+  try {
+    const messageDocRef = doc(this.firestore, `${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`);
+    await this.deleteSubcollection(messageDocRef);
+    await deleteDoc(messageDocRef);
+    console.log('Message deleted:', this.editMessageId);
+  } catch (error) {
+    console.error('Error deleting message:', error);
+    throw error;
   }
+}
 
-  /**
-   * Deletes all documents in a given subcollection.
-   *
-   * @param {DocumentReference} messageDocRef - A reference to the message document whose subcollection is to be deleted.
-   * @returns {Promise<void>} A promise that resolves when the subcollection is successfully deleted.
-   * @throws Will throw an error if the deletion fails.
-   */
-  async deleteSubcollection(messageDocRef: DocumentReference): Promise<void> {
-    try {
-      const subcollectionRef = collection(messageDocRef.firestore, messageDocRef.path, 'messageAnswers');
-      const querySnapshot = await getDocs(subcollectionRef);
-      const deletePromises = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
-      await Promise.all(deletePromises);
-    } catch (error) {
-      console.error('Error deleting subcollection:', error);
-      throw error;
-    }
+/**
+ * Deletes all documents in a given subcollection.
+ *
+ * @param {DocumentReference} messageDocRef - A reference to the message document whose subcollection is to be deleted.
+ * @returns {Promise<void>} A promise that resolves when the subcollection is successfully deleted.
+ * @throws Will throw an error if the deletion fails.
+ */
+async deleteSubcollection(messageDocRef: DocumentReference): Promise<void> {
+  try {
+    const subcollectionRef = collection(messageDocRef.firestore, messageDocRef.path, 'messageAnswers');
+    const querySnapshot = await getDocs(subcollectionRef);
+    const deletePromises = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+    console.log('Subcollection deleted for message:', messageDocRef.id);
+  } catch (error) {
+    console.error('Error deleting subcollection:', error);
+    throw error;
   }
+}
 
   //code for privateChats
   /**
