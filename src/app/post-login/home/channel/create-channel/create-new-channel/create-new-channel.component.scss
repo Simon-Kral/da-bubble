@@ -51,9 +51,9 @@
 
 .add-member-wrapper {
 	@include dFlex(column, flex-start, flex-start);
-
-	width: 710px;
 	background-color: $white;
+	max-width: 710px;
+	width: 100%;
 	border-radius: 30px;
 	padding: 40px;
 	gap: 20px;
@@ -83,6 +83,7 @@
 
 			span {
 				@include Nunito(400, 18px, 24.55px, $black);
+				width: calc(100% - 30px);
 			}
 
 			.checkbox-outside {
@@ -139,4 +140,12 @@ input {
 button {
 	@include buttonBlue();
 	align-self: flex-end;
+}
+
+@media screen and (max-width: 600px) {
+
+
+  .add-member-wrapper .add-member-container .selector-container {
+	gap: 4px;
+  }
 }
