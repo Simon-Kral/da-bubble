@@ -49,6 +49,9 @@
 <!-- emoji Picker-->
 @if (this.showEmojiPicker) {
 	<div class="emoji-picker-container">
+		<div class="close-btn pointer" (click)="toggleEmojiPicker()">
+			<img src="assets/img/icons/close_black.png" alt="close-icon" />
+		  </div>
 	<emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1"
 	[darkMode]="true" [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true"
 	[showSingleCategory]="true" [enableSearch]="false" [showPreview]="false" (emojiClick)="this.addEmoji($event)"></emoji-mart>
