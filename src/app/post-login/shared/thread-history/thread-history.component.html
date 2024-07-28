@@ -60,6 +60,9 @@
             </div>
             <!--reactions container-->
             <div class="reactions-container">
+                <div class="pointer add-reaction" (click)="toggleEmojiPicker(index)">
+                    <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
+                </div>
                 @for (reaction of msg.reactions; track reaction; let index = $index) {
                 <div class="pointer last-reaction"
                     (click)="this.reactionService.handleClickOnLastReaction(reaction, msg.messageAnswerId, 'thread')">
@@ -85,21 +88,22 @@
                     }
                 </div>
                 }
-                <div class="pointer add-reaction" (click)="toggleEmojiPicker(index)">
-                    <img src="assets/img/icons/add_reaction_black.png" alt="menu-icon">
-                </div>
             </div>
-            <!-- emoji Picker-->
-            @if (index === this.reactionService.emojiPickerIndexThread) { @if
-            (this.reactionService.showEmojiPickerThread) {
-            <div class="emoji-picker-container">
-                <emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1"
-                    [darkMode]="true" [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true"
-                    [showSingleCategory]="true" [enableSearch]="false" [showPreview]="false"
-                    (emojiClick)="this.reactionService.handleReaction($event, msg.messageAnswerId ,'thread')"></emoji-mart>
-            </div>
-            } }
         </div>
+        <!-- emoji Picker-->
+        @if (index === this.reactionService.emojiPickerIndexThread) { @if
+        (this.reactionService.showEmojiPickerThread) {
+            <div class="user-emoji-picker-container">
+            <div class="close-btn pointer" (click)="toggleEmojiPicker(index)">
+                <img src="assets/img/icons/close_black.png" alt="close-icon" />
+            </div>
+            <emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1"
+                [darkMode]="true" [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true"
+                [showSingleCategory]="true" [enableSearch]="false" [showPreview]="false"
+                (emojiClick)="this.reactionService.handleReaction($event, msg.messageAnswerId ,'thread')">
+            </emoji-mart>
+        </div>
+        } }
     </div>
     <!--seperator with answer count-->
     @if (index == 0) {
@@ -269,17 +273,21 @@
             </div>
         </div>
         }
+        <!-- emoji Picker-->
+        @if (index === this.reactionService.emojiPickerIndexThread && this.reactionService.showEmojiPickerThread) {
+        <div class="current-user-emoji-picker-container">
+            <div class="close-btn pointer" (click)="toggleEmojiPicker(index)">
+                <img src="assets/img/icons/close_black.png" alt="close-icon" />
+            </div>
+            <emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1"
+                [darkMode]="true" [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true"
+                [showSingleCategory]="true" [enableSearch]="false" [showPreview]="false"
+                (emojiClick)="this.reactionService.handleReaction($event, msg.messageAnswerId ,'thread')">
+            </emoji-mart>
+        </div>
+        }
+    </div>
 
-    </div>
-    <!-- emoji Picker-->
-    @if (index === this.reactionService.emojiPickerIndexThread && this.reactionService.showEmojiPickerThread) {
-    <div class="emoji-picker-container">
-        <emoji-mart [style]="{ width: '200px', height: '350px' }" [perLine]="1" [totalFrequentLines]="1"
-            [darkMode]="true" [enableFrequentEmojiSort]="true" [emojiTooltip]="false" [hideObsolete]="true"
-            [showSingleCategory]="true" [enableSearch]="false" [showPreview]="false"
-            (emojiClick)="this.reactionService.handleReaction($event, msg.messageAnswerId ,'thread')"></emoji-mart>
-    </div>
-    }
 
     <!--seperator with answer count-->
     @if (index == 0) {

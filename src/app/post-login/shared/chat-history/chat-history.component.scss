@@ -650,14 +650,47 @@
 	}
 }
 
-.emoji-picker-container {
+.current-user-emoji-picker-container {
+	@include dFlex(column, flex-end, flex-end);
 	position: absolute;
-	bottom: 96px;
+	top: 16px;
 	left: 16px;
 	z-index: 7;
-	width: 150px;
-	height: 150px;
+	width: 200px;
+	height: 400px;
+	background-color:darken($color: $bg-color, $amount: 10%);
+	border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+
+	.close-btn {
+		@include dFlex(row, center, center);
+		margin-right:8px;
+   		margin-bottom: 5px;
+	}
 }
+
+.user-emoji-picker-container {
+	@include dFlex(column, flex-end, flex-end);
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	z-index: 7;
+	width: 200px;
+	height: 400px;
+	background-color:darken($color: $bg-color, $amount: 10%);
+	border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+
+
+
+	.close-btn {
+		@include dFlex(row, center, center);
+		margin-right:8px;
+   		margin-bottom: 5px;
+	}
+}
+
+
 
 // tagged user container
 .tagged-user-container {
