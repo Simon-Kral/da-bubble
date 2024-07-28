@@ -141,11 +141,11 @@ export class ThreadService {
       date: new Date().toLocaleDateString(),
       time: Date.now().toString(),
       messageSendBy: message.messageSendBy,
-      reactions: [],
-      editCount: 0,
-      lastEdit: '',
-      storageData: '',
-      taggedUser: [],
+      reactions: message.reactions || [], 
+      editCount: message.editCount || 0,
+      lastEdit: message.lastEdit || '',
+      storageData: message.storageData || '',
+      taggedUser: message.taggedUser || [],
     };
     const docRef = await this.addMessageAnswer(newMessage);
     await this.updateMessageAnswerId(docRef);
