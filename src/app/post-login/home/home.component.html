@@ -6,8 +6,7 @@
 @if (this.communicationService.isMobileViewActive) {
 <app-mobile-header></app-mobile-header>
 }
-<div class="home-wrapper"
-[ngClass]="{ 'padding-unset': this.communicationService.isMobileViewActive}">
+<div class="home-wrapper" [ngClass]="{ 'padding-unset': this.communicationService.isMobileViewActive}">
 	<!-- Sidenav Controller -->
 	@if (!this.communicationService.isMobileViewActive) {
 	<div class="sidenav-controller pointer" (click)="this.communicationService.toggleSidenav()">
@@ -18,8 +17,7 @@
 	</div>
 	}
 
-	<div class="app-container"
-	[ngClass]="{    'full-width': this.communicationService.isMobileViewActive}">
+	<div class="app-container" [ngClass]="{    'full-width': this.communicationService.isMobileViewActive}">
 		<!-- SideNav -->
 		<div class="sidenav-wrapper" [ngClass]="{
 		 'slide-in': !this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive, 
@@ -65,7 +63,8 @@
 	}
 	<!-- Popup Overlay User Profile -->
 	@if (this.isUserProfileVisible) {
-	<div class="popup-wrapper" (click)="closePopupOverlay('userProfile')" [ngClass]="{ 'visible': this.isUserProfileVisible }">
+	<div class="popup-wrapper" (click)="closePopupOverlay('userProfile')"
+		[ngClass]="{ 'visible': this.isUserProfileVisible }">
 		<div class="popup-content" (click)="preventClose($event)">
 			<app-user-profile [isUserProfileVisible]="isUserProfileVisible" (userProfileVisibilityChange)="
 					toggleComponentVisibility('userProfile', $event)
@@ -147,10 +146,10 @@
 </div>
 
 
-	<!-- Popup overlay rotate your device-->
-	@if ((this.communicationService.isRotateDeviceVisible && !this.communicationService.isMobileViewActive) ) {
-		<div class="rotate-wrapper" >
-			<span>Bitte drehe dein Smartphone</span>
-			<img src="assets/img/icons/rotate_your_device.png" alt="rotate-device-icon" />
-	</div>
-	}
+<!-- Popup overlay rotate your device-->
+@if ((this.communicationService.isRotateDeviceVisible && !this.communicationService.isMobileViewActive) ) {
+<div class="rotate-wrapper">
+	<span>Bitte drehe dein Gerät</span>
+	<img src="assets/img/icons/rotate_your_device.png" alt="rotate-device-icon" />
+</div>
+}
