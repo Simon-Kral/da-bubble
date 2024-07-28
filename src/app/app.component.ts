@@ -1,4 +1,4 @@
-import { Component, inject, Input, input, OnInit } from '@angular/core';
+import { Component, HostListener, inject, Input, input, OnInit } from '@angular/core';
 import { CommonModule, NgStyle } from '@angular/common';
 import { ActivatedRoute, Params, Router, RouterOutlet } from '@angular/router';
 import { HomeComponent } from './post-login/home/home.component';
@@ -16,6 +16,7 @@ import { ChannelSelectionComponent } from './post-login/home/channel/channel-sel
 import { applyActionCode, User } from '@angular/fire/auth';
 import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { WelcomeScreenComponent } from './post-login/home/welcome-screen/welcome-screen.component';
+import { CommunicationService } from './services/communication/communication.service';
 
 @Component({
 	selector: 'app-root',
@@ -45,6 +46,8 @@ export class AppComponent implements OnInit {
 	authService = inject(AuthService);
 	firestore = inject(Firestore);
 	router = inject(Router);
+	communicationService = inject(CommunicationService);
+
 	notificate: boolean = false;
 	notification: string = '';
 	introIsDisabled: boolean = false;
@@ -77,7 +80,23 @@ export class AppComponent implements OnInit {
 				},
 			});
 		}, 1);
+
+		this.checkViewport();
 	}
+
+	@HostListener('window:resize', ['$event'])
+	onResize(event: any) {
+	  this.checkViewport();
+	}
+
+	  /**
+   * Checks the current viewport dimensions and sets the isMobileViewActive flag.
+   */
+	  checkViewport() {
+		const height = window.innerHeight;
+		const width = window.innerWidth;
+		this.communicationService.isMobileViewActive = height > width;
+	  }
 
 	/**
 	 * Handles various query parameters related to user actions.
