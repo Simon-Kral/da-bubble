@@ -42,13 +42,15 @@
       </div>
 
       @if (chanListExpanded) {
+      <div class="channels-content-container">
       <div class="channels-content">
         <app-channel-list></app-channel-list>
-        <div class="pointer add-channel" (click)="toggleCreateChannelVisibility()">
-          <img src="assets/img/icons/add_circle_black.png" alt="add-icon" />
-          <span>Channel hinzufügen</span>
-        </div>
       </div>
+      <div class="pointer add-channel" (click)="toggleCreateChannelVisibility()">
+        <img src="assets/img/icons/add_circle_black.png" alt="add-icon" />
+        <span>Channel hinzufügen</span>
+      </div>
+    </div>  
       }
     </div>
 
