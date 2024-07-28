@@ -15,6 +15,8 @@ export class ReactionService {
 
   showEmojiPicker: boolean = false;
   showEmojiPickerThread: boolean = false;
+  showEditMsgEmojiPicker: boolean = false;
+  showEditMsgEmojiPickerThread: boolean = false;
   emojiPickerIndex: number = 0;
   emojiPickerIndexThread: number = 0;
 

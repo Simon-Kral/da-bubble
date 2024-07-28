@@ -79,6 +79,26 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
 		this.reactionService.emojiPickerIndexThread = index;
 	}
 
+  /**
+ * Toggles the visibility of the emoji picker for editing a message.
+ */
+	toggleEditMsgEmojiPicker() {
+		this.reactionService.showEditMsgEmojiPickerThread = !this.reactionService.showEditMsgEmojiPickerThread;
+
+	}
+/**
+ * Handles the event when an emoji is clicked in the emoji picker while editing a message.
+ * Adds the clicked emoji to the text of the message being edited.
+ * @param {any} event - The event object from the emoji picker, which contains the clicked emoji.
+ */
+	handleEditMsgEmojiClick(event: any) {
+		console.log('Emoji clicked:', event.emoji.native);
+		this.toggleEditMsgEmojiPicker();
+		const currentText = this.newMsgData.get('text')?.value || '';
+		const newText = currentText + event.emoji.native;
+		this.newMsgData.get('text')?.setValue(newText);
+	}
+
   // edit msg functions
  /**
  * Handles the click event for editing a message.

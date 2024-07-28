@@ -88,17 +88,44 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
 		  if (element) {
 			element.scrollIntoView({ behavior: 'smooth', block: 'start' });
 		  }
-		}, 0); // Delay to ensure DOM is updated
+		}, ); // Delay to ensure DOM is updated
 	  }
 
+/**
+ * Toggles the visibility of the message menu.
+ */
 	toggleMsgMenu() {
 		this.communicationService.isMsgMenuVisible =
 			!this.communicationService.isMsgMenuVisible;
 	}
 
+/**
+ * Toggles the visibility of the emoji picker for a specific message.
+ * @param {number} index - The index of the message for which the emoji picker should be toggled.
+ */
 	toggleEmojiPicker(index: number) {
 		this.reactionService.showEmojiPicker = !this.reactionService.showEmojiPicker;
 		this.reactionService.emojiPickerIndex = index;
+	}
+
+/**
+ * Toggles the visibility of the emoji picker for editing a message.
+ */
+	toggleEditMsgEmojiPicker() {
+		this.reactionService.showEditMsgEmojiPicker = !this.reactionService.showEditMsgEmojiPicker;
+
+	}
+/**
+ * Handles the event when an emoji is clicked in the emoji picker while editing a message.
+ * Adds the clicked emoji to the text of the message being edited.
+ * @param {any} event - The event object from the emoji picker, which contains the clicked emoji.
+ */
+	handleEditMsgEmojiClick(event: any) {
+		console.log('Emoji clicked:', event.emoji.native);
+		this.toggleEditMsgEmojiPicker();
+		const currentText = this.newMsgData.get('text')?.value || '';
+		const newText = currentText + event.emoji.native;
+		this.newMsgData.get('text')?.setValue(newText);
 	}
 
 
