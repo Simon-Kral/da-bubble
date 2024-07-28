@@ -1,12 +1,20 @@
 @import "../../../styles.scss";
 
 .home-wrapper {
+  @include dFlex(column, flex-start, flex-start);
+  width: 100svw;
+  height: 100svh;
+  box-sizing: border-box;
+}
+
+.home-content {
   @include dFlex(row, flex-start, flex-start);
   position: relative;
-  height: calc(100svh - 148px);
+  height: 100%;
   width: 100%;
   padding: 16px;
   gap: 24px;
+  box-sizing: border-box;
 }
 
 .sidenav-wrapper {
@@ -50,9 +58,10 @@
 .app-container {
   @include dFlex(row, center, center);
   width: 100%;
-  height: 100%;
+  height: calc(100svh - 116px);
   gap: 24px;
-
+  box-sizing: border-box;
+  padding: 16px;
   .app-wrapper {
     width: 100%;
     height: 100%;

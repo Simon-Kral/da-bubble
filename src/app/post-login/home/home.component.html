@@ -1,3 +1,4 @@
+<div class="home-wrapper">
 <!--Header app-->
 @if (!this.communicationService.isMobileViewActive) {
 <app-header (userProfileToggle)="toggleComponentVisibility('userMenu', $event)"></app-header>
@@ -6,7 +7,7 @@
 @if (this.communicationService.isMobileViewActive) {
 <app-mobile-header></app-mobile-header>
 }
-<div class="home-wrapper" [ngClass]="{ 'padding-unset': this.communicationService.isMobileViewActive}">
+<div class="home-content" [ngClass]="{ 'padding-unset': this.communicationService.isMobileViewActive}">
 	<!-- Sidenav Controller -->
 	@if (!this.communicationService.isMobileViewActive) {
 	<div class="sidenav-controller pointer" (click)="this.communicationService.toggleSidenav()">
@@ -17,13 +18,15 @@
 	</div>
 	}
 
-	<div class="app-container" [ngClass]="{    'full-width': this.communicationService.isMobileViewActive}">
+	<div class="app-container" [ngClass]="{
+		'full-width': this.communicationService.isMobileViewActive,
+		'padding-unset': this.communicationService.isMobileViewActive}">
 		<!-- SideNav -->
 		<div class="sidenav-wrapper" [ngClass]="{
 		 'slide-in': !this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive, 
 		 'slide-out': this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive && this.communicationService.isSidenavToggled,
 		 'd-none': this.communicationService.isSidenavAnimationComplete || (this.communicationService.isSidenavVisible && this.communicationService.isMobileViewActive),
-		 'full-width': this.communicationService.isMobileViewActive
+		 'full-width': this.communicationService.isMobileViewActive,
 	   }">
 			<app-sidenav [isCreateChannelVisible]="isCreateChannelVisible"
 				(createChannelVisibilityChange)="toggleComponentVisibility('createChannel', $event)">
@@ -153,3 +156,5 @@
 	<img src="assets/img/icons/rotate_your_device.png" alt="rotate-device-icon" />
 </div>
 }
+
+</div>
