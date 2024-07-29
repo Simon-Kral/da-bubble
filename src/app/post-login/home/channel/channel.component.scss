@@ -140,5 +140,19 @@
 	.active-group-chat {
 		padding: 12px 15px !important;
 	}
+
+	.group-chat-container {
+		>.group-display {
+			>.active-group-chat {
+				> span {
+					display: inline-block;
+					width: 10ch;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+			}
+		}
+	}
   }
 
