@@ -35,13 +35,18 @@
 
 		<!--  router-outlet used for channels / prvt-msg & start-new-msg component  -->
 		@if (!this.communicationService.isWelcomeScreenVisible) {
-		<div class="app-wrapper">
+		<div class="app-wrapper" [ngClass]="{
+			'd-none':!this.communicationService.isMobileViewActive && this.communicationService.isRotateDeviceVisible,
+		  }"
+		>
 			<router-outlet></router-outlet>
 		</div>
 		}
 		<!-- threads -->
 		@if (this.communicationService.isThreadVisible) {
-		<div class="app-wrapper">
+		<div class="app-wrapper" [ngClass]="{
+			'd-none':!this.communicationService.isMobileViewActive && this.communicationService.isRotateDeviceVisible,
+		  }">
 			<app-thread></app-thread>
 		</div>
 		}
