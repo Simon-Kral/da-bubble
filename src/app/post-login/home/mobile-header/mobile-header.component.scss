@@ -4,12 +4,12 @@
     @include dFlex(column, center, center);
     position: relative;
     box-sizing: content-box;
+
     .header-container {
         width: 100svw;
         height: 80px;
         padding: 15px 16px 15px 16px;
         @include dFlex(row, space-between, center);
-
         >.logo-container {
             @include dFlex(row, flex-start, center);
             width: 161.5px;

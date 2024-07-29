@@ -1,11 +1,16 @@
-<div class="channel-member-wrapper">
+<div class="channel-member-wrapper" [ngClass]="
+{'full-width': this.communicationService.isMobileViewActive}">
     <div class="top-section">
         <div class="top-section-left">
             <h1>Mitglieder</h1>
         </div>
-        <div class="close-btn pointer"(click)="this.communicationService.toggleChannelMemberVisibility(false)" >
+
+        <div class="close-btn pointer"
+		[ngClass]="{ 'd-none': this.communicationService.isMobileViewActive }"
+		(click)="this.communicationService.toggleChannelMemberVisibility(false)" >
                 <img src="assets/img/icons/close_black.png" alt="close">
         </div>
+
     </div>
 	@if(this.firebaseService.channelList.length) {
 		<div class="member-section">

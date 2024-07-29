@@ -1,4 +1,10 @@
-<div class="channel-details" [ngClass]="{'sidenav-active': this.communicationService.isSidenavVisible}">
+<div class="channel-details" [ngClass]="{
+'svh-minus-header' : this.communicationService.isMobileViewActive,
+'full-width': this.communicationService.isMobileViewActive,
+'border-radius-unset': this.communicationService.isMobileViewActive,
+
+
+}">
   <div class="headline">
     <div class="left-section">
       <img src="assets/img/icons/hashtag_chat_black.png" alt="Hashtag icon" />
@@ -185,6 +191,12 @@
       </div>
     </form>
   </div>
+
+  @if (this.communicationService.isMobileViewActive) {
+  <div class="channel-member-container border-style">
+  <app-channel-member></app-channel-member>
+  </div>
+}
 
   <button
     type="button"
