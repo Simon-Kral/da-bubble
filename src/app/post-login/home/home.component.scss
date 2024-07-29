@@ -216,6 +216,16 @@ app-welcome-screen {
   }
 }
 
+// channel details content
+
+
+.channel-details-content {
+  @include dFlex(column, center, center);
+}
+
+
+
+ 
 @media  screen and (max-width: 850px) {
 	.home-content {
 		height: unset;

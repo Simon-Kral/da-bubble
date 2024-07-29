@@ -11,24 +11,23 @@ button {
 
 
 .channel-details {
-	max-width: 872px;
-	width: 100%;
-	min-width: 300px;
+	width: 872px;
 	background-color: $white;
 	padding: 30px;
 	border-radius: 0 30px 30px 30px;
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
-	position: absolute;
-	top: 171px;
-	left: 495px;
 }
 
-.sidenav-active {
-	position: absolute;
-    top: 185px;
-    left: 124px;
+.channel-details-mobile {
+	position: absolute!important;
+	left: 0!important;
+	bottom: 0!important;
+	height: calc(100svh - 80px)!important;
+	width: 100svw!important;
+	border-radius: unset!important;
+	overflow-y: auto!important;
 }
 
 
@@ -150,26 +149,24 @@ button {
 }
 
 
-
 @media screen and (max-width: 1386px) {
-	.channel-details {
-		max-width: 650px;
-	}
-}
 
-@media screen and (max-width: 1162px) {
-	.channel-details {
-		max-width: 450px;
-	}
 }
 
 @media screen and (max-width: 800px) {
+	.border-style {
+		padding: 8px !important;
+	}
+	.channel-details {
+		padding: 8px!important;
+	}
 
-	//.sidenav-active {
-	//	position: unset;
-	//	top: unset;
-//		left: unset;
-//	}
+
+}
+
+@media screen and (max-width: 600px) {
+
+
 
 	.left-section {
 		> span {
@@ -179,16 +176,6 @@ button {
 			text-overflow: ellipsis;
 		}
 	}
-	
-	.channel-details {
-		width: 100%;
-		max-width: unset;
-		top: 80px;
-		left: 0;
-		border-radius: 20px;
-		padding: 20px;
-		overflow-y: scroll;
 
-	}
 
 }

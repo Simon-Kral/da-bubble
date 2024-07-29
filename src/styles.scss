@@ -414,6 +414,14 @@ body {
 	height: 100svh!important;
 }
 
+.svw-100 {
+	width: 100svw!important;
+}
+
 .svh-minus-header {
 	height: calc(100svh - 80px)!important;
+}
+
+.overflow-y-auto {
+	overflow-y: auto!important;
 }
