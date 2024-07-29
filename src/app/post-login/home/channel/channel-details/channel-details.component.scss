@@ -169,6 +169,15 @@ button {
 		top: unset;
 		left: unset;
 	}
+
+	.left-section {
+		> span {
+			width: 10ch;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
 	
 	.channel-details {
 		width: 100%;
