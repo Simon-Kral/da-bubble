@@ -113,6 +113,16 @@ button {
 		left: calc(50% - 160px) !important;
 		border-radius: 20px;
 	}
+	
+	.current-channel-name {
+		> span {
+			@include Nunito(400, 18px, 24.55px, $purple-2);
+			width: 10ch;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
 
 	.search-results {
 		position: absolute;
@@ -120,4 +130,10 @@ button {
 		left: -30px;
 	}
 
+}
+
+@media screen and (max-width: 375px) {
+	.add-members-container {
+		top: 90px;
+	}
 }
