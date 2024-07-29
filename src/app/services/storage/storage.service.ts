@@ -53,6 +53,7 @@ export class StorageService {
 		}); 
 	}
 
+	
 	downloadFromUrlDirectly(url: string) {
 		const xhr = new XMLHttpRequest();
 		xhr.responseType = 'blob';

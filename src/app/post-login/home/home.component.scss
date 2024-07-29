@@ -227,3 +227,9 @@ app-welcome-screen {
     height: 100px;
   }
 }
+
+@media  screen and (max-width: 600px) {
+	.home-content {
+		height: unset;
+	}
+}
