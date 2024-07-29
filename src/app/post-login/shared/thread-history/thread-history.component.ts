@@ -1,3 +1,4 @@
+import { StorageService } from './../../../services/storage/storage.service';
 import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { ChatService } from '../../../services/chat/chat.service';
@@ -20,6 +21,7 @@ interface MsgData {
   styleUrl: './thread-history.component.scss'
 })
 export class ThreadHistoryComponent implements OnInit, OnDestroy {
+  storageService = inject(StorageService);
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);

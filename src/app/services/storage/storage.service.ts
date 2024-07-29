@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
 	deleteObject,
@@ -16,7 +17,7 @@ export class StorageService {
 	storage = getStorage();
 	profilePicturesRef = ref(this.storage, 'profilePictures');
 
-	constructor() {}
+	constructor(private http: HttpClient) {}
 
 	/**
 	 * Retrieves the download URL for the given storage reference.

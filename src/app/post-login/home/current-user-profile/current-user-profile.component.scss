@@ -318,15 +318,7 @@ input[type="file"] {
 	}
 }
 
-@media screen and (max-width: 376px) {
-	.current-user-profile-wrapper {
-        width: 280px;
-		height: 647px;
-		min-height: unset;
-        padding: 20px;
-		gap: 4px;
-	}
-
+@media screen and (max-width: 600px) {
 	.avatar-container {
 		.avatar-selection {
 			img {
@@ -334,6 +326,16 @@ input[type="file"] {
 				height: 40px;
 			}
 		}
+	}
+}
+
+@media screen and (max-width: 376px) {
+	.current-user-profile-wrapper {
+        width: 280px;
+		height: 647px;
+		min-height: unset;
+        padding: 20px;
+		gap: 4px;
 	}
 
 }
