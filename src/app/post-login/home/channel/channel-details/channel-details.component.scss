@@ -14,7 +14,7 @@ button {
 	width: 872px;
 	background-color: $white;
 	padding: 30px;
-	border-radius: 0 30px 30px 30px;
+	border-radius: 30px;
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
@@ -170,7 +170,7 @@ button {
 
 	.left-section {
 		> span {
-			width: 10ch;
+			max-width: 10ch;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;

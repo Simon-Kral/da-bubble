@@ -41,7 +41,8 @@
 			> span {
 				@include Nunito(700, 24px, 18.8px, $black);
 				display: inline-block;
-				width: 20ch;
+				width: 100%;
+				max-width: 20ch;
 				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;
@@ -150,7 +151,7 @@
 		>.group-display {
 			>.active-group-chat {
 				> span {
-					width: 10ch;
+					max-width: 10ch;
 				}
 			}
 		}

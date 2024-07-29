@@ -117,7 +117,7 @@ button {
 	.current-channel-name {
 		> span {
 			@include Nunito(400, 18px, 24.55px, $purple-2);
-			width: 10ch;
+			max-width: 10ch;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
