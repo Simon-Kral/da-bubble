@@ -47,6 +47,7 @@ export class CommunicationService {
 	isWelcomeScreenVisible: boolean = true;
 
 
+
 	// mobile view variables
 	isMobileViewActive: boolean = false;      // main flag to check if mobile view is active
   
@@ -103,6 +104,8 @@ export class CommunicationService {
     if (!this.isMobileViewActive) {
 		this.isSidenavVisible = !this.isSidenavVisible;
       this.isSidenavToggled = !this.isSidenavToggled;
+      console.log('isSidenavToggled: ', this.isSidenavToggled);
+      console.log('isSidenavVisible: ', this.isSidenavVisible);
       if (this.isSidenavToggled) {
         setTimeout(() => {
           this.isSidenavAnimationComplete = true;

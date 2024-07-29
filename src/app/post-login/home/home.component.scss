@@ -120,7 +120,7 @@
   height: 100svh;
   transition: background, ease-in-out 0.175s backdrop-filter;
   background: rgba(0, 0, 0, 0);
-  z-index: 5;
+  z-index: 7;
 
   &.visible {
     background: rgba(0, 0, 0, 0.5);
@@ -216,6 +216,16 @@ app-welcome-screen {
   }
 }
 
+// channel details content
+
+
+.channel-details-content {
+  @include dFlex(column, center, center);
+}
+
+
+
+ 
 @media  screen and (max-width: 850px) {
 	.home-content {
 		height: unset;
