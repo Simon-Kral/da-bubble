@@ -3,8 +3,8 @@
   <span
     class="pointer"
     [routerLink]="['/home/channels', channel.chanId]"
-    [ngClass]="{ 'active': selectedChannel === channel.name }"
-    (click)="this.handleChannelClick(channel.name, channel.chanId)"
+    [ngClass]="{ 'active': this.chatService.docRef === (channel.chanId) }"
+    (click)="this.handleChannelClick(channel.chanId)"
   >
     # {{ channel.name }}
   </span>

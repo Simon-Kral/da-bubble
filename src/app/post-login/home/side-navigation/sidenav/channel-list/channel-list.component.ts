@@ -19,7 +19,6 @@ export class ChannelListComponent {
   chatService = inject(ChatService);
   communicationService = inject(CommunicationService);
   threadService = inject(ThreadService);
-  selectedChannel: string | null = null;
 
   constructor() {}
 
@@ -27,13 +26,11 @@ export class ChannelListComponent {
    * Handles the click event on a channel.
    * Sets the relevant chat service properties and subscribes to the message list of the selected channel.
    *
-   * @param {string} channelName - The name of the channel.
    * @param {string} chanId - The ID of the channel.
    */
-  handleChannelClick(channelName: string, chanId: string) {
+  handleChannelClick( chanId: string) {
     this.chatService.mainCollection = 'channels';
     this.chatService.docRef = chanId;
-    this.selectedChannel = channelName;
     this.chatService.initializeChannelPlaceholder(chanId);
     this.chatService.subscribeMsgList();
     this.communicationService.isThreadVisible = false;
