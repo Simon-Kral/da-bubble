@@ -29,7 +29,8 @@
 		 'slide-out': this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive && this.communicationService.isSidenavToggled,
 		 'd-none': this.communicationService.isSidenavAnimationComplete || (this.communicationService.isSidenavVisible && this.communicationService.isMobileViewActive) ||
 		 (!this.communicationService.isMobileViewActive &&  !this.communicationService.isRotateDeviceVisible && this.communicationService.isSmallScreenVisible && this.communicationService.isSidenavToggled) ||
-		(this.communicationService.isSmallScreenVisible && !this.communicationService.isMobileViewActive && this.communicationService.isSidenavVisible),
+		(this.communicationService.isSmallScreenVisible && !this.communicationService.isMobileViewActive && this.communicationService.isSidenavVisible) ||
+		(this.communicationService.isSmallScreenVisible && this.communicationService.isMobileViewActive  && !this.communicationService.isSidenavVisible),
 		'absolute-sidenav': (this.communicationService.isSmallScreenVisible && !this.communicationService.isMobileViewActive  && !this.communicationService.isSidenavToggled && !this.communicationService.isSidenavVisible && !this.communicationService.isWelcomeScreenVisible),
 		 'full-width': this.communicationService.isMobileViewActive,
 	   }">
@@ -42,7 +43,7 @@
 			@if (!this.communicationService.isWelcomeScreenVisible) {
 			<div class="app-wrapper" [ngClass]="{
 			'd-none':!this.communicationService.isMobileViewActive && this.communicationService.isRotateDeviceVisible ||
-			(this.communicationService.isSmallScreenVisible && !this.communicationService.isMobileViewActive && this.communicationService.isThreadVisible && this.communicationService.isSidenavVisible) ,
+			(this.communicationService.isSmallScreenVisible && !this.communicationService.isMobileViewActive && this.communicationService.isThreadVisible && this.communicationService.isSidenavVisible),
 		  }">
 				<router-outlet></router-outlet>
 			</div>
