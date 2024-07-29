@@ -216,25 +216,22 @@ export class CurrentUserProfileComponent implements OnInit {
 	 * Logs the user out and performs cleanup actions.
 	 * @returns {void}
 	 */
-	async logout(): Promise<void> {
+	logout(): void {
 		// to-do OPTIONAL update user status to offline when close tab
-		try {
-		await this.firebaseService.unsubscribeAllLists();
-		await this.chatService.unsubscribeAllLists();
-		await this.threadService.unsubscribeAllLists();
-		await this.firebaseService.updateUserStatus(false);
-
-		this.authService.logout().subscribe({
-			next: () => {
-				sessionStorage.clear();
-			},
-			error: (err) => {
-				console.log(err);
-			},
-		});
-	} catch (error) {
-		console.error('Error during cleanup before logout:', error);
-	  }
+		this.firebaseService.unsubscribeAllLists();
+		this.chatService.unsubscribeAllLists();
+		this.threadService.unsubscribeAllLists();
+		this.firebaseService.updateUserStatus(false)
+			.then(()=>{
+					this.authService.logout().subscribe({
+					next: () => {
+						sessionStorage.clear();
+					},
+					error: (err) => {
+						console.log(err);
+					},
+				});
+			})
 	}
 
 	uploadFile(event: Event) {

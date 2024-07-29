@@ -54,10 +54,10 @@ export class SelectAvatarComponent implements OnInit {
 	});
 	avatarSig = signal(this.avatarForm.get('avatar')!.value);
 	defaultAvatars = [
-		'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_2.png?alt=media&token=8d5e74ae-1d05-4745-8234-b41484173f2e',
-		'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_4.png?alt=media&token=e187e007-0c7a-43b8-9109-5959cf9e34c2',
-		'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_3.png?alt=media&token=f0fd0c8a-990f-426f-a272-d5791929fe3d',
 		'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_1.png?alt=media&token=78cc464e-e1aa-4b92-9c40-cdadf9ebd2ab',
+		'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_2.png?alt=media&token=8d5e74ae-1d05-4745-8234-b41484173f2e',
+		'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_3.png?alt=media&token=f0fd0c8a-990f-426f-a272-d5791929fe3d',
+		'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_4.png?alt=media&token=e187e007-0c7a-43b8-9109-5959cf9e34c2',
 		'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_5.png?alt=media&token=017af2c4-e467-4170-9aa6-2e4123f1d0b0',
 		'https://firebasestorage.googleapis.com/v0/b/da-bubble-b7d76.appspot.com/o/profilePictures%2Fcharacter_6.png?alt=media&token=676b7ea4-44e0-423e-814e-ea973ef60389',
 	];

@@ -36,25 +36,25 @@ export class FirebaseService {
 		console.log('Current User ID:', this.currentUserId); // to-do remove after developement is finished
 	}
 
-	async subscribeAllLists() {
-		await this.subChannelsList();
-		await this.subUsersList();
-		await this.subPrivateChatList();
-		await this.subPrivateNoteList();
+	subscribeAllLists() {
+		this.subChannelsList();
+		this.subUsersList();
+		this.subPrivateChatList();
+		this.subPrivateNoteList();
 	}
 
-	async unsubscribeAllLists() {
+	unsubscribeAllLists() {
 		if (this.unsubscribePrivateChatList) {
-			await this.unsubscribePrivateChatList();
+			this.unsubscribePrivateChatList();
 		}
 		if (this.unsubscribeChannelList) {
-			await this.unsubscribeChannelList();
+			this.unsubscribeChannelList();
 		}
 		if (this.unsubscribeUserList) {
-			await this.unsubscribeUserList();
+			this.unsubscribeUserList();
 		}
 		if (this.unsubscribePrivateNoteList) {
-			await this.unsubscribePrivateNoteList();
+			this.unsubscribePrivateNoteList();
 		}
 	}
 

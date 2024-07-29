@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, Input, input, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { CommonModule, NgStyle } from '@angular/common';
 import { ActivatedRoute, Params, Router, RouterOutlet } from '@angular/router';
 import { HomeComponent } from './post-login/home/home.component';
@@ -126,7 +126,6 @@ export class AppComponent implements OnInit {
    * @returns {void}
    */
   setUserData(user: User): Promise<void> {
-    // this.setSignal(user);
     this.setSessionStorage(user);
     return updateDoc(doc(this.firestore, `users/${this.authService.firebaseAuth.currentUser!.uid}`), { status: true });
   }
@@ -152,20 +151,6 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Sets the user data in a signal.
-   * @param {User} user - The authenticated user.
-   * @returns {void}
-   */
-  setSignal(user: User): void {
-    this.authService.currentUserSig.set({
-      id: user.uid,
-      email: user.email!,
-      username: user.displayName,
-      avatar: user.photoURL,
-    });
-  }
-
-  /**
    * Sets the user data in session storage.
    * @param {User} user - The authenticated user.
    * @returns {void}
@@ -178,66 +163,80 @@ export class AppComponent implements OnInit {
 
   /**
    * Navigates to the avatar selection page.
-   * @returns {void}
+   * @returns {boolean}
    */
-  navToAvatar(): void {
+  navToAvatar(): boolean {
     this.router.navigateByUrl('/avatar');
+    return false;
   }
 
   /**
    * Handles email verification.
-   * @returns {void}
+   * @returns {boolean}
    */
   handleEmailVerification(): void {
     this.notificateUser('Bestätigen Sie Ihre E-Mail-Adresse');
-  }
-
-  /**
-   * Navigates to the home page if the user is authenticated and the current URL is the root.
-   * @returns {void}
-   */
-  navToHome(): void {
-    if (this.router.url === '/') {
-      this.router.navigateByUrl('/home');
+    if (this.router.url === '/home') {
+      this.navToLogin();
     }
   }
 
   /**
-   * Handles the case when there is no authenticated user.
-   * @returns {void}
+   * Navigates to the home page if the user is authenticated and the current URL is the root.
+   * @returns {boolean}
    */
-  handleNoUser(): void {
-    // this.authService.currentUserSig.set(null);
+  navToHome(): boolean {
+    if (this.router.url === '/') {
+      this.router.navigateByUrl('/home');
+    }
+    return false;
+  }
+
+  /**
+   * Navigates to the home page if the user is authenticated and the current URL is the root.
+   * @returns {boolean}
+   */
+  navToLogin(): boolean {
     this.router.navigateByUrl('/');
+    return false;
+  }
+
+  /**
+   * Handles the case when there is no authenticated user.
+   * @returns {boolean}
+   */
+  handleNoUser(): boolean {
+    this.navToLogin();
+    return false;
   }
 
   /**
    * Handles the reset password action based on the query parameters.
    * @param {Params} params - The query parameters.
-   * @returns {void}
+   * @returns {boolean}
    */
-  handleResetPasswordAction(params: Params): void {
+  handleResetPasswordAction(params: Params): boolean | void {
     if (this.router.url.includes('resetPassword')) {
       this.router.navigate(['/reset-password'], {
         queryParams: params,
       });
+      return false;
     }
   }
 
   /**
    * Handles the verify email action based on the query parameters.
    * @param {Params} params - The query parameters.
-   * @returns {void}
+   * @returns {boolean}
    */
   handleVerifyEmailAction(params: Params): void {
     if (this.router.url.includes('verifyEmail')) {
       applyActionCode(this.authService.firebaseAuth, params['oobCode']).then(() => {
         this.notificateUser('E-Mail-Adresse bestätigt');
-        this.router.navigateByUrl('/').then(() => {
-          setTimeout(() => {
-            this.router.navigateByUrl('/home');
-          }, 1000);
-        });
+        this.navToLogin();
+        setTimeout(() => {
+          this.navToHome();
+        }, 1000);
       });
     }
   }
@@ -245,13 +244,13 @@ export class AppComponent implements OnInit {
   /**
    * Handles the verify new email action on email change based on the query parameters.
    * @param {Params} params - The query parameters.
-   * @returns {void}
+   * @returns {boolean}
    */
   handleVerifyNewEmailAction(params: Params): void {
     if (this.router.url.includes('verifyAndChangeEmail')) {
       applyActionCode(this.authService.firebaseAuth, params['oobCode']).then(() => {
         this.notificateUser('Neue E-Mail-Adresse bestätigt');
-        this.router.navigateByUrl('/');
+        this.navToLogin();
       });
     }
   }
@@ -259,13 +258,13 @@ export class AppComponent implements OnInit {
   /**
    * Handles the recovery of an email adress based on the query parameters.
    * @param {Params} params - The query parameters.
-   * @returns {void}
+   * @returns {boolean}
    */
   handleRecoverEmailAction(params: Params): void {
     if (this.router.url.includes('recoverEmail')) {
       applyActionCode(this.authService.firebaseAuth, params['oobCode']).then(() => {
         this.notificateUser('E-Mail-Adresse zurückgesetzt');
-        this.router.navigateByUrl('/');
+        this.navToLogin();
       });
     }
   }

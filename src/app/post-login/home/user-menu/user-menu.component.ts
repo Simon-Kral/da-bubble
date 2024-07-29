@@ -24,43 +24,22 @@ export class UserMenuComponent {
 
 	constructor(public appComponent: AppComponent) {}
 
-	async logout(): Promise<void> {
+	logout(): void {
 		// to-do OPTIONAL update user status to offline when close tab
-		try {	
-		if (this.authService.firebaseAuth.currentUser?.email != undefined) {
-			this.appComponent.notificateUser('Abmelden');
-
-		await this.firebaseService.unsubscribeAllLists();
-		await this.chatService.unsubscribeAllLists();
-		await this.threadService.unsubscribeAllLists();
-		await this.firebaseService.updateUserStatus(false);
-
-			this.authService.logout().subscribe({
-				next: () => {
-					sessionStorage.clear();
-				},
-				error: (err) => {
-					console.log(err);
-				},
-			});
-		} else {
-		
-			await this.firebaseService.unsubscribeAllLists();
-			await this.chatService.unsubscribeAllLists();
-			await this.threadService.unsubscribeAllLists();
-			await this.firebaseService.updateUserStatus(false);	
-
-			this.authService.logout().subscribe({
-				next: () => {
-					sessionStorage.clear();
-				},
-				error: (err) => {
-					console.log(err);
-				},
-			});
-		}
-	} catch (error) {
-		console.error('Error during cleanup before logout:', error);
-	  }
+		this.appComponent.notificateUser('Abmelden');
+		this.firebaseService.unsubscribeAllLists();
+		this.chatService.unsubscribeAllLists();
+		this.threadService.unsubscribeAllLists();
+		this.firebaseService.updateUserStatus(false)
+			.then(()=>{
+					this.authService.logout().subscribe({
+					next: () => {
+						sessionStorage.clear();
+					},
+					error: (err) => {
+						console.log(err);
+					},
+				});
+			})
 	}
 }
