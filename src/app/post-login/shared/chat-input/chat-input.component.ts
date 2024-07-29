@@ -20,10 +20,12 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   firebaseService = inject(FirebaseService);
   communicationService = inject(CommunicationService)
   storageService = inject(StorageService);
+  
 
 
   @Input() sourceComponent: string = ''; // Variable to hold the source component's name or identifier
   @Input() placeholderText: string = ''; // Variable to hold the placeholder text for the chat input
+  @Input() lableId: string = '';
   @Output() messageEvent = new EventEmitter<{
     message: string;
     source: string;   // to-do do we need this?

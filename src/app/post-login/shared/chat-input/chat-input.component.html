@@ -11,23 +11,24 @@
   }
 
   <!--tagged User end-->
-  <!--storage preview start-->
-  @if(this.storageData) {
-  <div class="preview-container">
-    <div (click)="this.closeAndDelete()" class="close-button pointer">X</div>
-    <div class="image-preview">
-      <img src="{{this.storageData}}" alt="">
-    </div>
-  </div>
-  }
+
+<!--storage preview start-->
+@if(this.storageData) {
+	<div class="preview-container">
+	  <div (click)="this.closeAndDelete()" class="close-button pointer">X</div>
+	  <div class="image-preview">
+		<img src="{{this.storageData}}" alt="">
+	  </div>
+	</div>
+	}
 
   <!--storage preview end-->
   <div class="button-container">
     <div class="left-section">
       <div class="add-data-container icon-container pointer">
-        <label for="fileUpload" class="button-white pointer">
+        <label for="{{this.lableId}}" class="button-white pointer">
           <img class="pointer" src="assets/img/icons/add_grey.png" alt="icon-add" />
-          <input type="file" accept=".jpg, .jpeg, .png, .pdf" id="fileUpload" (change)="this.uploadFile($event)" />
+          <input type="file" accept=".jpg, .jpeg, .png, .pdf" id="{{this.lableId}}" (change)="this.uploadFile($event)" />
         </label>
       </div>
       <img class="" src="assets/img/icons/vertical_line_grey.png" alt="icon-vertical-line" />
