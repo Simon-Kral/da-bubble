@@ -25,7 +25,9 @@
 		<div class="sidenav-wrapper" [ngClass]="{
 		 'slide-in': !this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive, 
 		 'slide-out': this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive && this.communicationService.isSidenavToggled,
-		 'd-none': this.communicationService.isSidenavAnimationComplete || (this.communicationService.isSidenavVisible && this.communicationService.isMobileViewActive),
+		 'd-none': this.communicationService.isSidenavAnimationComplete || (this.communicationService.isSidenavVisible && this.communicationService.isMobileViewActive) ||
+		 (!this.communicationService.isMobileViewActive &&  !this.communicationService.isRotateDeviceVisible && this.communicationService.isSmallScreenVisible && this.communicationService.isSidenavToggled) ||
+		(this.communicationService.isSmallScreenVisible && !this.communicationService.isMobileViewActive && this.communicationService.isSidenavToggled),
 		 'full-width': this.communicationService.isMobileViewActive,
 	   }">
 			<app-sidenav [isCreateChannelVisible]="isCreateChannelVisible"
@@ -36,7 +38,8 @@
 		<!--  router-outlet used for channels / prvt-msg & start-new-msg component  -->
 		@if (!this.communicationService.isWelcomeScreenVisible) {
 		<div class="app-wrapper" [ngClass]="{
-			'd-none':!this.communicationService.isMobileViewActive && this.communicationService.isRotateDeviceVisible,
+			'd-none':!this.communicationService.isMobileViewActive && this.communicationService.isRotateDeviceVisible ||
+			(this.communicationService.isSmallScreenVisible && !this.communicationService.isMobileViewActive && this.communicationService.isThreadVisible && this.communicationService.isSidenavVisible) ,
 		  }"
 		>
 			<router-outlet></router-outlet>
@@ -45,7 +48,8 @@
 		<!-- threads -->
 		@if (this.communicationService.isThreadVisible) {
 		<div class="app-wrapper" [ngClass]="{
-			'd-none':!this.communicationService.isMobileViewActive && this.communicationService.isRotateDeviceVisible,
+			'd-none':!this.communicationService.isMobileViewActive && this.communicationService.isRotateDeviceVisible ||
+			(this.communicationService.isSmallScreenVisible && !this.communicationService.isMobileViewActive && this.communicationService.isThreadVisible && !this.communicationService.isSidenavToggled && !this.communicationService.isSidenavVisible),
 		  }">
 			<app-thread></app-thread>
 		</div>
