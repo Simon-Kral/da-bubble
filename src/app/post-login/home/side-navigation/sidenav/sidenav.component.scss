@@ -214,3 +214,10 @@
     padding: 16px 10px 16px 10px;
   }
 }
+
+@media screen and (max-width: 376px) {
+
+  .sidenav-wrapper {
+    overflow-x: hidden;
+  }
+}
