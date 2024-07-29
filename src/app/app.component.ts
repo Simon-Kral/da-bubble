@@ -104,8 +104,14 @@ export class AppComponent implements OnInit {
     const ratio = width / height;
     const isSmallScreen = width < 1024;
     this.communicationService.isRotateDeviceVisible = ratio > 1.65 && isSmallScreen;
-
     console.log('Rotate device visible: ' + this.communicationService.isRotateDeviceVisible);
+
+    // Flag for small screen (tablet view)
+    const isTabletScreen = width < 1400;
+    this.communicationService.isSmallScreenVisible = isTabletScreen;
+
+    console.log('Small screen visible: ' + this.communicationService.isSmallScreenVisible);
+
   }
 
   /**

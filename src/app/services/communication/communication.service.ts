@@ -51,6 +51,8 @@ export class CommunicationService {
 	isMobileViewActive: boolean = false;      // main flag to check if mobile view is active
   
   isRotateDeviceVisible: boolean = false;         // flag to show rotate your device message
+  isSmallScreenVisible: boolean = false;          // flag to indicate if the screen is small (mobile view < 1200px for tablets)
+
   isMobileUserMenuVisible: boolean = false;
 
   constructor() {}
@@ -108,7 +110,7 @@ export class CommunicationService {
       } else {
         this.isSidenavAnimationComplete = false;
       }
-    } else {
+    }  else {
 	  this.isSidenavVisible = !this.isSidenavVisible;
 	  this.isSidenavToggled = !this.isSidenavToggled;
 	}
