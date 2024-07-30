@@ -21,9 +21,9 @@ export class SearchService {
   userSearchResults: string[] = [];
   channelSearchResults: string[] = [];
   //Private chat messages search
-  searchSpesificThreadMessageResaults: any[] = [];
+  searchSpecificThreadMessageResults: any[] = [];
   //channel messages search
-  searchSpesificChannelMessageResault: any[] = [];
+  searchSpecificChannelMessageResults: any[] = [];
 
   private channelSubscription: Subscription = new Subscription();
   private userSubscription: Subscription = new Subscription();
@@ -167,27 +167,6 @@ export class SearchService {
   }
 
   /**
-   * Handles the click event on a channel.
-   * Navigates to the specified channel and performs necessary cleanup.
-   * to-do: do we need that really here?!?!
-   * @param channelId - The ID of the channel to navigate to.
-   */
-  handleClickOnChannelAndUnSub(channelId: string) {
-    console.log('channelId on channelclick in header serach', channelId);
-    this.router.navigate(['/home/channels', channelId]);
-    this.channelSearchActive = false;
-    this.channelSearchResults = [];
-    this.unSubscribeOnChannelSearch();
-  }
-  //to-do: do we need that really here?!?!
-  handleClickOnUserAndUnSub(userId: string) {
-    this.chatService.initializePrivateChat(this.firebaseService.currentUserId, userId);
-    this.memberSearchActive = false;
-    this.userSearchResults = [];
-    this.unSubscribeOnUserSearch();
-  }
-
-  /**
    * Unsubscribes from the channel search subscription if it exists.
    */
   unSubscribeOnChannelSearch() {
@@ -215,14 +194,14 @@ export class SearchService {
    */
   searchSesificMessage(searchText: string) {
     if (searchText === '') {
-      this.searchSpesificThreadMessageResaults = [];
-      this.searchSpesificChannelMessageResault = [];
+      this.searchSpecificThreadMessageResults = [];
+      this.searchSpecificChannelMessageResults = [];
       return;
     }
     this.searchText = searchText.replace(/\\n/g, ' ');
     let searchTextTrimmed = searchText.toLowerCase().trim();
-    this.searchSpesificThreadMessageResaults = [];
-    this.searchSpesificChannelMessageResault = [];
+    this.searchSpecificThreadMessageResults = [];
+    this.searchSpecificChannelMessageResults = [];
     this.searchForSpecificChannelMessages(searchTextTrimmed);
     this.searchForSpecificThreadMessages(searchTextTrimmed);
     this.sortThreadSearchResults();
@@ -237,8 +216,8 @@ export class SearchService {
     if (this.chatService.msgList.length) {
       this.chatService.msgList.forEach((message) => {
         if (message.text.toLowerCase().includes(searchText)) {
-          this.searchSpesificChannelMessageResault.push(message);
-          console.log('searchSpesificChannelMessageResault', this.searchSpesificChannelMessageResault);
+          this.searchSpecificChannelMessageResults.push(message);
+          console.log('searchSpesificChannelMessageResault', this.searchSpecificChannelMessageResults);
         }
       });
     }
@@ -252,8 +231,8 @@ export class SearchService {
     if (this.threadService.msgAnswerList.length) {
       this.threadService.msgAnswerList.forEach((message) => {
         if (message.text.toLowerCase().includes(searchText)) {
-          this.searchSpesificThreadMessageResaults.push(message);
-          console.log('searchSpesificThreadMessageResaults', this.searchSpesificThreadMessageResaults);
+          this.searchSpecificThreadMessageResults.push(message);
+          console.log('searchSpesificThreadMessageResaults', this.searchSpecificThreadMessageResults);
         }
       });
     }
@@ -263,7 +242,7 @@ export class SearchService {
    * Sorts the search results for a specific thread based on the time property.
    */
   sortThreadSearchResults() {
-    this.searchSpesificThreadMessageResaults.sort((a, b) => {
+    this.searchSpecificThreadMessageResults.sort((a, b) => {
       return a.text - b.text;
     });
   }
@@ -272,7 +251,7 @@ export class SearchService {
    * Sorts the search results for a specific channel based on the time property.
    */
   sortChannelSearchResults() {
-    this.searchSpesificChannelMessageResault.sort((a, b) => {
+    this.searchSpecificChannelMessageResults.sort((a, b) => {
       return a.text - b.text;
     });
   }
