@@ -20,6 +20,7 @@ $email-blue: #1381ff;
 // background-color: $bg-color;
 $header-height: 120px;
 $footer-height: 90px;
+
 html {
 	scroll-behavior: smooth;
 }
@@ -50,16 +51,19 @@ body {
 	border: none;
 	padding: 12px 25px;
 	border-radius: 25px;
+
 	&:hover {
 		background-color: $purple-2;
 		transition: all 0.1s ease-in;
 		cursor: pointer;
 	}
+
 	&:active {
 		background-color: $purple-1;
 		color: $white;
 		transition: all 0.1s ease-in;
 	}
+
 	&:disabled {
 		background-color: $text-gray;
 		cursor: not-allowed;
@@ -73,17 +77,20 @@ body {
 	border: 1px solid $purple-2;
 	padding: 12px 25px;
 	border-radius: 25px;
+
 	&:hover {
 		background-color: $purple-3;
 		color: $white;
 		cursor: pointer;
 		transition: all 0.1s ease-in;
 	}
+
 	&:active {
 		background-color: $purple-1;
 		color: $white;
 		transition: all 0.1s ease-in;
 	}
+
 	&:disabled {
 		color: $text-gray;
 		border: $text-gray;
@@ -106,6 +113,7 @@ body {
 	width: 100%;
 	@include Nunito(400, 18px, 24.55px, $black);
 	outline: none;
+
 	&::placeholder {
 		@include Nunito(400, 18px, 24.55px, $text-gray);
 	}
@@ -113,7 +121,7 @@ body {
 
 @mixin Nunito($weight, $size, $line-height, $color) {
 	font-family: "Nunito", sans-serif;
-	font-variation-settings: "wght" $weight;
+	font-variation-settings: "wght"$weight;
 	font-size: $size;
 	line-height: $line-height;
 	color: $color;
@@ -121,7 +129,7 @@ body {
 
 @mixin OpenSans($weight, $size, $line-height, $color) {
 	font-family: "Open Sans", sans-serif;
-	font-variation-settings: "wght" $weight;
+	font-variation-settings: "wght"$weight;
 	font-size: $size;
 	line-height: $line-height;
 	color: $color;
@@ -129,7 +137,7 @@ body {
 
 @mixin Figtree($weight, $size, $line-height, $color) {
 	font-family: "Figtree", sans-serif;
-	font-variation-settings: "wght" $weight;
+	font-variation-settings: "wght"$weight;
 	font-size: $size;
 	line-height: $line-height;
 	color: $color;
@@ -152,8 +160,7 @@ body {
 
 @font-face {
 	font-family: "Nunito";
-	src: url("assets/fonts/Nunito/Nunito-VariableFont_wght.ttf")
-		format("truetype");
+	src: url("assets/fonts/Nunito/Nunito-VariableFont_wght.ttf") format("truetype");
 	font-weight: 125 950;
 	font-stretch: 75% 125%;
 	font-style: normal;
@@ -166,10 +173,10 @@ body {
 	font-stretch: 75% 125%;
 	font-style: normal;
 }
+
 @font-face {
 	font-family: "Figtree";
-	src: url("assets/fonts/Figtree/Figtree-VariableFont_wght.ttf")
-		format("truetype");
+	src: url("assets/fonts/Figtree/Figtree-VariableFont_wght.ttf") format("truetype");
 	font-weight: 125 950;
 	font-stretch: 75% 125%;
 	font-style: normal;
@@ -187,7 +194,8 @@ body {
 	height: 145px;
 	border-radius: 20px;
 	border: 1px solid $purple-2;
-	> textarea {
+
+	>textarea {
 		width: 100%;
 		height: 60%;
 		border: none;
@@ -195,16 +203,20 @@ body {
 		resize: none;
 		@include Nunito(400, 16px, 21.82px, $black);
 	}
-	> .button-container {
+
+	>.button-container {
 		@include dFlex(space-between, center);
-		> .left-section {
+
+		>.left-section {
 			@include dFlex(center, center);
 			gap: 16px;
-			> .icon {
+
+			>.icon {
 				width: 24px;
 				height: 24px;
 			}
-			> span {
+
+			>span {
 				@include Nunito(700, 16px, 21.82px, $text-gray);
 			}
 		}
@@ -239,7 +251,7 @@ body {
 }
 
 .absolute {
-	position: absolute!important;
+	position: absolute !important;
 }
 
 .d-flex {
@@ -250,12 +262,15 @@ body {
 .offline {
 	background-color: $offline-gray;
 }
+
 .online {
 	background-color: $online-green;
 }
+
 .offline-text {
 	color: $offline-gray !important;
 }
+
 .online-text {
 	color: $online-green !important;
 }
@@ -292,22 +307,22 @@ body {
 	border-radius: 30px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
-.content-container {
-	@include dFlex(row, space-between, center);
-	width: 100%;
-	height: 58px;
-	border-radius: 35px;
-	gap: 15px;
-	transition: ease-in-out 0.1s;
+	.content-container {
+		@include dFlex(row, space-between, center);
+		width: 100%;
+		height: 58px;
+		border-radius: 35px;
+		gap: 15px;
+		transition: ease-in-out 0.1s;
 
-	&:hover {
-		background-color: $bg-color;
-	  }
+		&:hover {
+			background-color: $bg-color;
+		}
 
-	span {
-		@include Nunito(400, 18px, 24.55px, $black);
+		span {
+			@include Nunito(400, 18px, 24.55px, $black);
+		}
 	}
-}
 }
 
 // glogal style for displaying selcted users in create-channel & add-member-to-channel & new-message
@@ -370,9 +385,11 @@ body {
 	border: none;
 	background-color: $bg-color;
 	@include dFlex(row, center, center);
+
 	&:hover {
 		@include btnHover($bg-color);
 	}
+
 	&:active {
 		@include btnActive($bg-color);
 	}
@@ -385,53 +402,60 @@ body {
 	border-radius: 50%;
 	transition: ease-in-out 0.1s;
 	z-index: 10;
+
 	&:hover {
 		background-color: $bg-color;
 	}
+
 	&:hover img {
 		filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
 	}
-  }
+}
+
 // global style for mobileViewActive
 
 .border-radius-unset {
-	border-radius: unset!important;
+	border-radius: unset !important;
 }
 
 .padding-unset {
-	padding: unset!important;
+	padding: unset !important;
 }
 
 .full-width {
-	width: 100%!important;
+	width: 100% !important;
+}
+
+.half-width {
+	width: 50% !important;
 }
 
 .margin-unset {
-	margin: unset!important;
+	margin: unset !important;
 }
 
 .svh-100 {
-	height: 100svh!important;
+	height: 100svh !important;
 }
 
 .svw-100 {
-	width: 100svw!important;
+	width: 100svw !important;
 }
 
 .svh-minus-header {
-	height: calc(100svh - 80px)!important;
+	height: calc(100svh - 80px) !important;
 }
 
 .overflow-y-auto {
-	overflow-y: auto!important;
+	overflow-y: auto !important;
 }
 
 .absolute-sidenav {
-	position: absolute!important;
-	left: 16px!important;
-	top: 16px!important;
-	width: 366px!important;
-	height: calc(100svh - 148px)!important;
+	position: absolute !important;
+	left: 16px !important;
+	top: 16px !important;
+	width: 366px !important;
+	height: calc(100svh - 148px) !important;
 	box-shadow: 10px 0px 10px -10px rgba(0, 0, 0, 0.1);
-	border-radius: unset!important;
+	border-radius: unset !important;
 }

@@ -39,7 +39,7 @@ export class CommunicationService {
   newChanId = '';
 
   //sidenav variables
-  isSidenavVisible: boolean = false;
+  isSidenavVisible: boolean = true;
   isSidenavToggled: boolean = false;
   isSidenavAnimationComplete: boolean = false;
 
@@ -99,21 +99,33 @@ export class CommunicationService {
    * Toggles the visibility of the sidenav and sets the toggled flag.
    */
   toggleSidenav(): void {
-    if (!this.isMobileViewActive) {
-      this.isSidenavVisible = !this.isSidenavVisible;
-      this.isSidenavToggled = !this.isSidenavToggled;
-      console.log('isSidenavToggled: ', this.isSidenavToggled);
-      console.log('isSidenavVisible: ', this.isSidenavVisible);
-      if (this.isSidenavToggled) {
+    console.log('State of toggleSidenav before:', this.isSidenavToggled);
+    console.log('State of isSidenavVisible before:', this.isSidenavVisible);
+
+    if (this.isSidenavVisible) {
+      this.isSidenavAnimationComplete = false;
+      this.isSidenavToggled = true;
+      setTimeout(() => {
+        this.isSidenavVisible = false;
         setTimeout(() => {
           this.isSidenavAnimationComplete = true;
-        }, 175);
-      } else {
-        this.isSidenavAnimationComplete = false;
-      }
+          console.log('Sidenav hidden');
+          console.log('State of toggleSidenav after hide:', this.isSidenavToggled);
+          console.log('State of isSidenavVisible after hide:', this.isSidenavVisible);
+        }, 175); // Match this duration with the CSS transition
+      }, 0); // Initial timeout to start the hide animation
     } else {
-      this.isSidenavVisible = !this.isSidenavVisible;
-      this.isSidenavToggled = !this.isSidenavToggled;
+      this.isSidenavAnimationComplete = false;
+      this.isSidenavToggled = false;
+      setTimeout(() => {
+        this.isSidenavVisible = true;
+        setTimeout(() => {
+          this.isSidenavAnimationComplete = true;
+          console.log('Sidenav shown');
+          console.log('State of toggleSidenav after show Animation:', this.isSidenavToggled);
+          console.log('State of isSidenavVisible after show Animation:', this.isSidenavVisible);
+        }, 175); // Match this duration with the CSS transition
+      }, 0); // Initial timeout to start the show animation
     }
   }
 

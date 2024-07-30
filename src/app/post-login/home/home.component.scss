@@ -14,12 +14,13 @@
   width: 100%;
   gap: 24px;
   box-sizing: border-box;
+  padding: 16px;
 }
 
 .sidenav-wrapper {
-  width: 366px;
   height: 100%;
   z-index: 3;
+  box-sizing: border-box;
   transform: translateX(0);
 
   &.slide-in {
@@ -38,6 +39,7 @@
     from {
       transform: translateX(-100%);
     }
+
     to {
       transform: translateX(0);
     }
@@ -47,24 +49,44 @@
     from {
       transform: translateX(0);
     }
+
     to {
       transform: translateX(-120%);
     }
   }
 }
 
-.app-container {
+
+
+.welcome-wrapper {
   @include dFlex(row, center, center);
+  height: 100%;
   width: 100%;
-  height: calc(100svh - 116px);
-  gap: 24px;
-  box-sizing: border-box;
-  padding: 16px;
-  .app-wrapper {
+  box-sizing: content-box;
+}
+
+// contains the router-outlet & thread
+.content-container {
+  @include dFlex(row, space-between, center);
+  width: 100%;
+
+  .router-wrapper {
+    @include dFlex(row, center, center);
     width: 100%;
-    height: 100%;
+    height: calc(100svh - 148px);
+    box-sizing: border-box;
+
+  }
+
+  .thread-wrapper {
+    @include dFlex(row, center, center);
+    width: 50%;
+    height: calc(100svh - 148px);
+    box-sizing: border-box;
   }
 }
+
+
 
 // sideNav controller
 .sidenav-controller {
@@ -157,6 +179,7 @@
     backdrop-filter 0.175s ease-in-out;
   background: rgba(0, 0, 0, 0);
   z-index: 55;
+
   &.visible {
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: brightness(0.8);
@@ -169,6 +192,7 @@
       from {
         transform: translateY(100%);
       }
+
       to {
         transform: translateY(0);
       }
@@ -182,6 +206,7 @@
       from {
         transform: translateY(0);
       }
+
       to {
         transform: translateY(100%);
       }
