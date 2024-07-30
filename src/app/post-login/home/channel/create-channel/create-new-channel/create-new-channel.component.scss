@@ -30,12 +30,18 @@
     @include dFlex(column, flex-start, flex-start);
     width: 100%;
     gap: 20px;
+    position: relative;
+
+    button {
+      margin-top: 24px;
+    }
   }
 
   .error-msg {
     @include Nunito(400, 14px, 19.09px, red);
     position: absolute;
-    top: 274px;
+    bottom: 72px;
+    text-align: center;
   }
 }
 
@@ -114,14 +120,17 @@
       width: 100%;
       gap: 24px;
       position: relative;
+
       span {
         @include Nunito(400, 18px, 24.55px, $black);
       }
+
       .user-list {
         position: absolute;
         top: 60px;
         left: 24px;
       }
+
       .channel-list {
         position: absolute;
         top: 60px;

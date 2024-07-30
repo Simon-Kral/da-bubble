@@ -5,27 +5,23 @@
       <img src="assets/img/icons/close_black.png" alt="close-icon" />
     </div>
   </div>
-  <span
-    >Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein #marketing zum
-    Beispiel.</span
-  >
+  <span>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein #marketing zum
+    Beispiel.</span>
   <form class="create-channel-form" [formGroup]="channelData" (ngSubmit)="createChannel()" *ngIf="channelData">
     <span>Channel-Name</span>
     <input placeholder="# z.B. Kooperationsprojekte" formControlName="channelName" />
-
-    @if (channelData.get("channelName")?.invalid && channelData.get("channelName")?.touched) {
-      <span class="error-msg">
-        {{ errorMsgChanNameInvalid }}
-      </span>
-    }
-    @if (chanNameExists) {
-      <span class="error-msg">
-        {{ errorMsgChanExists }}
-      </span>
-    }
     <span>Beschreibung</span>
     <input placeholder="Dein Text hier..." formControlName="channelDescription" />
-
+    @if (channelData.get("channelName")?.invalid && channelData.get("channelName")?.touched) {
+    <span class="error-msg">
+      {{ errorMsgChanNameInvalid }}
+    </span>
+    }
+    @if (chanNameExists) {
+    <span class="error-msg">
+      {{ errorMsgChanExists }}
+    </span>
+    }
     <button type="submit" [disabled]="channelData.invalid || chanNameExists">Erstellen</button>
   </form>
 </div>
@@ -46,33 +42,28 @@
     </div>
 
     @if (this.searchService.selectedChannel) {
-      <div class="show-selected-channel">
-        <div class="pointer added-data" (click)="removeSelectedChannel()">
-          <span>{{ this.firebaseService.getChannelNameById(this.searchService.selectedChannel) }}</span>
-          <div class="remove">
-            <img src="assets/img/icons/close_black.png" alt="close-icon" />
-          </div>
+    <div class="show-selected-channel">
+      <div class="pointer added-data" (click)="removeSelectedChannel()">
+        <span>{{ this.firebaseService.getChannelNameById(this.searchService.selectedChannel) }}</span>
+        <div class="remove">
+          <img src="assets/img/icons/close_black.png" alt="close-icon" />
         </div>
       </div>
+    </div>
     }
 
     @if (showChannelSerach) {
-      <form class="searchbar-container" [formGroup]="searchText">
-        <input
-          class="searchbar"
-          type="text"
-          placeholder="Channel Namen eingeben"
-          formControlName="searchText"
-          (focus)="searchService.onChannelFocus()"
-          (input)="searchService.onChannelSearch(searchText.get('searchText')?.value || '')"
-        />
+    <form class="searchbar-container" [formGroup]="searchText">
+      <input class="searchbar" type="text" placeholder="Channel Namen eingeben" formControlName="searchText"
+        (focus)="searchService.onChannelFocus()"
+        (input)="searchService.onChannelSearch(searchText.get('searchText')?.value || '')" />
 
-        @if (searchService.channelSearchActive && searchService.channelSearchResults.length > 0) {
-          <div class="channel-list">
-            <app-channel-selection></app-channel-selection>
-          </div>
-        }
-      </form>
+      @if (searchService.channelSearchActive && searchService.channelSearchResults.length > 0) {
+      <div class="channel-list">
+        <app-channel-selection></app-channel-selection>
+      </div>
+      }
+    </form>
     }
 
     <div class="selector-container">
@@ -83,51 +74,41 @@
     </div>
 
     @if (this.searchService.selectedUser.length > 0) {
-      <div class="show-selected-users">
-        @for (user of this.searchService.selectedUser; track user; let index = $index) {
-          <div class="pointer added-data" (click)="this.searchService.removeSelectedUserFromArray(user)">
-            <img [src]="this.firebaseService.getUserAvatar(user)" alt="profile-pic" />
-            <span>{{ this.firebaseService.getUserDisplayName(user) }}</span>
-            <div class="remove">
-              <img src="assets/img/icons/close_black.png" alt="close-icon" />
-            </div>
-          </div>
-        }
+    <div class="show-selected-users">
+      @for (user of this.searchService.selectedUser; track user; let index = $index) {
+      <div class="pointer added-data" (click)="this.searchService.removeSelectedUserFromArray(user)">
+        <img [src]="this.firebaseService.getUserAvatar(user)" alt="profile-pic" />
+        <span>{{ this.firebaseService.getUserDisplayName(user) }}</span>
+        <div class="remove">
+          <img src="assets/img/icons/close_black.png" alt="close-icon" />
+        </div>
       </div>
+      }
+    </div>
     }
 
     @if (showUserSearch) {
-      <form class="searchbar-container" [formGroup]="searchText">
-        <input
-          class="searchbar"
-          type="text"
-          placeholder="Benutzer Namen eingeben"
-          formControlName="searchText"
-          (input)="searchService.onUserSearch(searchText.get('searchText')?.value || '')"
-          (focus)="searchService.onUserFocus(searchText.get('searchText')?.value || '')"
-        />
+    <form class="searchbar-container" [formGroup]="searchText">
+      <input class="searchbar" type="text" placeholder="Benutzer Namen eingeben" formControlName="searchText"
+        (input)="searchService.onUserSearch(searchText.get('searchText')?.value || '')"
+        (focus)="searchService.onUserFocus(searchText.get('searchText')?.value || '')" />
 
-        @if (this.searchService.memberSearchActive && this.searchService.userSearchResults.length > 0) {
-          <div class="user-list">
-            <app-channel-member-selection></app-channel-member-selection>
-          </div>
-        }
-      </form>
+      @if (this.searchService.memberSearchActive && this.searchService.userSearchResults.length > 0) {
+      <div class="user-list">
+        <app-channel-member-selection></app-channel-member-selection>
+      </div>
+      }
+    </form>
     }
   </div>
   <div class="submit-btn-container">
-    <button
-      class="pointer submit-btn"
-      type="button"
+    <button class="pointer submit-btn" type="button"
       [disabled]="this.searchService.selectedUser.length == 0 && this.searchService.selectedChannel.length == 0"
-      (click)="handleAddMember()"
-    >
+      (click)="handleAddMember()">
       Ausgewählte hinzufügen
     </button>
-    <span
-      class="error-msg"
-      *ngIf="this.searchService.selectedUser.length == 0 && this.searchService.selectedChannel.length == 0"
-    >
+    <span class="error-msg"
+      *ngIf="this.searchService.selectedUser.length == 0 && this.searchService.selectedChannel.length == 0">
       Bitte wähle mindestens einen Nutzer oder Channel aus
     </span>
   </div>

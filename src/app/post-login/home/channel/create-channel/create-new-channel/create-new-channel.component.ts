@@ -32,7 +32,7 @@ export class CreateNewChannelComponent {
   showUserSearch: boolean = false;
   chanNameExists: boolean = false;
   errorMsgChanExists: string = 'Channel Name existiert bereits!';
-  errorMsgChanNameInvalid: string = 'Bitte geben Sie einen gültigen Channel-Namen ein.';
+  errorMsgChanNameInvalid: string = 'Bitte geben Sie einen Channel-Namen mit max 10 Zeichen ein.';
   searchText: FormGroup;
   selectedMembers: string[] = [];
 
@@ -44,7 +44,7 @@ export class CreateNewChannelComponent {
     private router: Router,
   ) {
     this.channelData = this.fb.group({
-      channelName: new FormControl('', [Validators.required, Validators.minLength(1)]),
+      channelName: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(10)]),
       channelDescription: new FormControl(''),
     });
     this.searchText = this.fb.group({
