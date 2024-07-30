@@ -195,27 +195,6 @@ app-welcome-screen {
   height: 100%;
 }
 
-// rotate wrapper
-.rotate-wrapper {
-  @include dFlex(column, center, center);
-  width: 100svw;
-  height: 100svh;
-  gap: 24px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: $bg-color;
-  z-index: 20;
-
-  span {
-    @include Nunito(700, 28px, 24px, $black);
-  }
-
-  img {
-    width: 100px;
-    height: 100px;
-  }
-}
 
 // channel details content
 
