@@ -3,5 +3,13 @@
 	<div class="content">
 		<router-outlet></router-outlet>
 	</div>
+	@if (this.router.url === '/') {
+		<div>
+			<div class="sign-up">
+				<span>Neu bei DABubble?</span>
+				<a routerLink="/signup">Konto erstellen</a>
+			</div>
+		</div>
+	}
 </div>
 <app-landing-footer></app-landing-footer>

@@ -40,12 +40,10 @@ export class ChannelComponent implements OnInit, OnDestroy{
 		this.route.params.subscribe((params) => {
 			this.chatService.docRef = params['id'];
 		});
-    // to-do settimeout is needed in case user refreshes the page, otherwise the placeholder is not set because the channelList is not yet loaded
-    setTimeout(() => {
-    this.chatService.initializeChannelPlaceholder(this.chatService.docRef);
-  }, 1500);
-  	this.chatService.editThreadId = '';
-  	this.threadService.editMessageId = '';
+    	// to-do settimeout is needed in case user refreshes the page, otherwise the placeholder is not set because the channelList is not yet loaded
+		this.chatService.initializeChannelPlaceholder(this.chatService.docRef);
+  		this.chatService.editThreadId = '';
+  		this.threadService.editMessageId = '';
 	}
 
 	ngOnInit(): void {

@@ -26,7 +26,7 @@ export const routes: Routes = [
 		component: LandingComponent,
 		children: [
 			{ path: '', component: LoginComponent },
-			{ path: 'register', component: SignupComponent },
+			{ path: 'signup', component: SignupComponent },
 			{ path: 'avatar', component: SelectAvatarComponent },
 			{
 				path: 'password-reset-request',

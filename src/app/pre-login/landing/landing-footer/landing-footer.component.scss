@@ -1,15 +1,17 @@
 @import './../../../../styles.scss';
 
 :host {
-    width: 100%;
+    display: block;
+    // width: 100%;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0
 }
 
 footer {
     @include dFlex();
     gap: 32px;
-    position: sticky;
-    bottom: 0;
-    left: 0;
     width: 100%;
     height: $footer-height;
     a {
@@ -23,6 +25,15 @@ footer {
             border: 1px solid $light-purple-lines;
             font-variation-settings: 'wght' 500;
             padding: 10px 14.5px;
+        }
+    }
+}
+
+@media screen and (max-width: 650px) {
+    footer {
+        height: 60px;
+        a {
+            font-size: 12px;
         }
     }
 }

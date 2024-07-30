@@ -1,8 +1,8 @@
-<h1>Konto erstellen</h1>
+<h1>Konto <br class="visible-mobile">erstellen</h1>
 <h2>
 	Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto
 </h2>
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" autocomplete="off">
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()" autocomplete="off">
 	<div class="input-with-error">
 		<div class="input-box">
 			<img src="assets/img/icons/person_filled.png" />
@@ -13,10 +13,10 @@
 				autocomplete="off"
 			/>
 		</div>
-		@if (formInvalid(registerForm.controls.username)) { @if
-		(registerForm.controls.username.errors?.['required']) {
+		@if (formInvalid(signupForm.controls.username)) { @if
+		(signupForm.controls.username.errors?.['required']) {
 		<p class="error-message">*Bitte schreiben Sie einen Namen.</p>
-		} @if (registerForm.controls.username.errors?.['minlength']) {
+		} @if (signupForm.controls.username.errors?.['minlength']) {
 		<p class="error-message">
 			*Der Name muss mindestens 5 Zeichen lang sein.
 		</p>
@@ -32,10 +32,10 @@
 				autocomplete="off"
 			/>
 		</div>
-		@if (formInvalid(registerForm.controls.email)) { @if
-		(registerForm.controls.email.errors?.['required']) {
+		@if (formInvalid(signupForm.controls.email)) { @if
+		(signupForm.controls.email.errors?.['required']) {
 		<p class="error-message">*Bitte schreiben Sie eine E-Mail-Adresse.</p>
-		} @if (registerForm.controls.email.errors?.['email']) {
+		} @if (signupForm.controls.email.errors?.['email']) {
 		<p class="error-message">*Dies ist keine gültige E-Mail-Adresse</p>
 		} }
 	</div>
@@ -55,10 +55,10 @@
 				(click)="changePasswordVisibility()"
 			/>
 		</div>
-		@if (formInvalid(registerForm.controls.password)) { @if
-		(registerForm.controls.password.errors?.['required']) {
+		@if (formInvalid(signupForm.controls.password)) { @if
+		(signupForm.controls.password.errors?.['required']) {
 		<p class="error-message">*Bitte geben Sie ein Passwort ein.</p>
-		} @if (registerForm.controls.password.errors?.['minlength']) {
+		} @if (signupForm.controls.password.errors?.['minlength']) {
 		<p class="error-message">
 			*Das Passwort muss mindestens 6 Zeichen lang sein.
 		</p>
@@ -71,8 +71,8 @@
 			<a href="">Datenschutzerklärung</a>
 			<span>zu.</span>
 		</div>
-		@if (formInvalid(registerForm.controls.privacy)) { @if
-		(registerForm.controls.privacy.errors?.['required']) {
+		@if (formInvalid(signupForm.controls.privacy)) { @if
+		(signupForm.controls.privacy.errors?.['required']) {
 		<p class="error-message">
 			*Bitte stimmen Sie der Datenschutzerklärung zu.
 		</p>
@@ -82,7 +82,7 @@
 		<button
 			class="button-blue"
 			type="submit"
-			[disabled]="!registerForm.valid"
+			[disabled]="!signupForm.valid"
 		>
 			Weiter
 		</button>
