@@ -3,7 +3,7 @@
 .sidenav-wrapper {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: calc(100svh - 148px);
   border-radius: 30px;
   padding: 32px 30px 32px 30px;
   background-color: $white;
@@ -24,6 +24,7 @@
   margin-top: 16px;
   gap: 4px;
   @include dFlex(row, space-between, center);
+
   h1 {
     margin: unset !important;
     white-space: nowrap;
@@ -52,12 +53,15 @@
   padding: 8px;
   gap: 10px;
   transition: ease-in-out 0.1s;
+
   &:hover {
     background-color: $bg-color;
   }
+
   &:hover img {
     filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
   }
+
   img {
     width: 24px;
     height: 24px;
@@ -74,6 +78,7 @@
 .channels-headline-wrapper {
   @include dFlex(row, space-between, center);
   width: 100%;
+
   h2 {
     @include Nunito(700, 20px, 27.28px, $black);
   }
@@ -86,9 +91,11 @@
   &:hover h2 {
     @include Nunito(700, 20px, 27.28px, $purple-3);
   }
+
   &:hover img {
     filter: invert(50%) sepia(37%) saturate(6446%) hue-rotate(220deg) brightness(99%) contrast(93%);
   }
+
   h2 {
     @include Nunito(700, 20px, 27.28px, $black);
   }
@@ -106,18 +113,22 @@
   &:hover {
     background-color: $bg-color;
   }
+
   &:hover img {
     filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
   }
+
   img {
     width: 24px;
     height: 24px;
   }
 }
+
 .channels-content {
   max-height: 300px;
   width: 100%;
   overflow-y: auto;
+
   span {
     @include Nunito(400, 18px, 24.55px, $black);
   }
@@ -127,6 +138,7 @@
   @include dFlex(row, flex-start, center);
   gap: 10px;
   margin-left: 12px;
+
   span {
     @include Nunito(400, 18px, 24.55px, $black);
   }
@@ -134,6 +146,7 @@
   &:hover span {
     color: $purple-3;
   }
+
   &:hover img {
     filter: invert(50%) sepia(37%) saturate(6446%) hue-rotate(220deg) brightness(99%) contrast(93%);
   }
@@ -143,6 +156,7 @@
   @include dFlex(column, flex-start, flex-start);
   width: 100%;
   max-height: 50%;
+
   span {
     @include Nunito(700, 20px, 27.28px, $black);
   }
@@ -155,11 +169,13 @@
   h2 {
     @include Nunito(700, 20px, 27.28px, $black);
   }
+
   &:hover {
     h2 {
       @include Nunito(700, 20px, 27.28px, $purple-3);
     }
   }
+
   &:hover img {
     filter: invert(50%) sepia(37%) saturate(6446%) hue-rotate(220deg) brightness(99%) contrast(93%);
   }
@@ -175,10 +191,12 @@
   transform: rotate(90deg);
   transition: transform 0.175s ease-in-out;
 }
+
 .rotate-back {
   transform: rotate(0deg);
   transition: transform 0.175s ease-in-out;
 }
+
 // SideNav end
 
 //<!--mobile button for new-message component-->
@@ -194,9 +212,11 @@
   position: absolute;
   bottom: 20px;
   right: 20px;
+
   &:hover {
     background-color: $purple-2;
   }
+
   &:hover img {
     transform: scale(1.1);
   }

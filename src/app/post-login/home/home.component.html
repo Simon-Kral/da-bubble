@@ -50,10 +50,10 @@
 	<!-- Sidenav Controller -->
 	@if (!this.communicationService.isMobileViewActive) {
 	<div class="sidenav-controller pointer" (click)="this.communicationService.toggleSidenav()">
-		<span>Workspace-Menü {{ !this.communicationService.isSidenavVisible ? "schließen" : "öffnen" }}</span>
+		<span>Workspace-Menü {{ this.communicationService.isSidenavVisible ? "schließen" : "öffnen" }}</span>
 		<img class="start-conversation" src="assets/img/icons/menu_black.png" alt="show-menu-icon"
-			[class.sidenav-open]="!this.communicationService.isSidenavVisible"
-			[class.sidenav-close]="this.communicationService.isSidenavVisible" />
+			[class.sidenav-open]="this.communicationService.isSidenavVisible"
+			[class.sidenav-close]="!this.communicationService.isSidenavVisible" />
 	</div>
 	}
 	<!-- Popup Overlay Create Channel -->

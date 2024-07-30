@@ -1,7 +1,7 @@
 <div class="channel-wrapper">
   @for (channel of this.firebaseService.channelList; track channel; let index = $index) {
   @if (channel.chanId === chatService.docRef) {
-  <div class="group-display">
+  <div class="top-section">
     <div class="active-group-chat" (click)="toggleShowChannelDetails()">
       <img src="assets/img/icons/hashtag_chat_black.png" alt="" />
       @if (channel.chanId === this.chatService.docRef) {

@@ -60,7 +60,7 @@
 
 .welcome-wrapper {
   @include dFlex(row, center, center);
-  height: 100%;
+  height: calc(100svh - 148px);
   width: 100%;
   box-sizing: content-box;
 }
@@ -69,9 +69,9 @@
 .content-container {
   @include dFlex(row, space-between, center);
   width: 100%;
+  gap: 24px;
 
   .router-wrapper {
-    @include dFlex(row, center, center);
     width: 100%;
     height: calc(100svh - 148px);
     box-sizing: border-box;
@@ -79,7 +79,6 @@
   }
 
   .thread-wrapper {
-    @include dFlex(row, center, center);
     width: 50%;
     height: calc(100svh - 148px);
     box-sizing: border-box;
