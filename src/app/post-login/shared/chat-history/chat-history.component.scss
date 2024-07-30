@@ -572,6 +572,39 @@
   }
 }
 
+// storage
+
+.storage-pic-container {
+  width: fit-content;
+  padding: 12px;
+  position: relative;
+  > .wrapper {
+    width: 180px;
+    height: 150px;
+    background: $white;
+    @include dFlex(column, center, center);
+    border-radius: 20px;
+    > .download {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 1;
+      > img {
+        width: 26px;
+        height: 26px;
+      }
+    }
+
+    > a {
+      > img {
+        border-radius: 20px 20px 20px 20px;
+        width: 120px;
+        height: 120px;
+      }
+    }
+  }
+}
+
 // delete msg dialog
 
 .delete-msg-dialog {
@@ -676,39 +709,6 @@
       margin-right: 4px;
       border-radius: 20px;
       @include Nunito(400, 14px, 19.1px, $black!important);
-    }
-  }
-
-  // storage
-
-  .storage-pic-container {
-    width: fit-content;
-    padding: 12px;
-    position: relative;
-    > .wrapper {
-      width: 180px;
-      height: 150px;
-      background: $white;
-      @include dFlex(column, center, center);
-      border-radius: 20px;
-      > .download {
-        position: absolute;
-        top: 18px;
-        right: 18px;
-        z-index: 1;
-        > img {
-          width: 26px;
-          height: 26px;
-        }
-      }
-
-      > a {
-        > img {
-          border-radius: 20px 20px 20px 20px;
-          width: 120px;
-          height: 120px;
-        }
-      }
     }
   }
 
