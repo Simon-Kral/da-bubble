@@ -160,6 +160,21 @@
     <!--current-user-msg-->
     @if (msg.messageSendBy == this.firebaseService.currentUserId) {
       <div class="current-user-msg" [id]="msg.messageId">
+        <!--popUp overlay for deleting specific current user msg-->
+        @if (this.communicationService.isDeleteMsgDialogVisible && msg.messageId === this.chatService.editMessageId) {
+          <div class="delete-msg-dialog">
+            <span>Möchtest du diese Nachricht wirklich löschen?</span>
+            <div class="dialog-btns">
+              <button class="cancel-btn pointer" (click)="this.handleClickOnCancelDeleteMsg()">
+                <span>Abbrechen</span>
+              </button>
+              <button class="delete-btn pointer" (click)="this.handleClickOnConfirmDeleteMsg(msg.storageData)">
+                <span>Löschen</span>
+              </button>
+            </div>
+          </div>
+        }
+
         <!--msg-menu only show for current user-->
         <div class="msg-menu">
           <div
@@ -338,20 +353,6 @@
                 </emoji-mart>
               </div>
             }
-          </div>
-        }
-        <!--popUp overlay for deleting specific current user msg-->
-        @if (this.communicationService.isDeleteMsgDialogVisible && msg.messageId === this.chatService.editMessageId) {
-          <div class="delete-msg-dialog">
-            <span>Möchtest du diese Nachricht wirklich löschen?</span>
-            <div class="dialog-btns">
-              <button class="cancel-btn pointer" (click)="this.handleClickOnCancelDeleteMsg()">
-                <span>Abbrechen</span>
-              </button>
-              <button class="delete-btn pointer" (click)="this.handleClickOnConfirmDeleteMsg(msg.storageData)">
-                <span>Löschen</span>
-              </button>
-            </div>
           </div>
         }
         <!-- emoji Picker-->

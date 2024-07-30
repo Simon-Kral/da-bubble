@@ -140,6 +140,24 @@
     <!--current-user-msg-->
     @if (msg.messageSendBy == this.firebaseService.currentUserId) {
       <div class="current-user-msg" [id]="msg.messageAnswerId">
+        <!--popUp overlay for deleting specific current user msg-->
+        @if (
+          this.communicationService.isDeleteThreadMsgDialogVisible &&
+          msg.messageAnswerId === this.threadService.editMessageAnswerId
+        ) {
+          <div class="delete-msg-dialog">
+            <span>Möchtest du diese Nachricht wirklich löschen?</span>
+            <div class="dialog-btns">
+              <button class="cancel-btn pointer" (click)="this.handleClickOnCancelDeleteMsg()">
+                <span>Abbrechen</span>
+              </button>
+              <button class="delete-btn pointer" (click)="this.handleClickOnConfirmDeleteMsg(msg.storageData)">
+                <span>Löschen</span>
+              </button>
+            </div>
+          </div>
+        }
+
         <!--msg-menu only displayed for current user-->
         <div class="msg-menu">
           <div
@@ -309,23 +327,7 @@
             }
           </div>
         }
-        <!--popUp overlay for deleting specific current user msg-->
-        @if (
-          this.communicationService.isDeleteThreadMsgDialogVisible &&
-          msg.messageAnswerId === this.threadService.editMessageAnswerId
-        ) {
-          <div class="delete-msg-dialog">
-            <span>Möchtest du diese Nachricht wirklich löschen?</span>
-            <div class="dialog-btns">
-              <button class="cancel-btn pointer" (click)="this.handleClickOnCancelDeleteMsg()">
-                <span>Abbrechen</span>
-              </button>
-              <button class="delete-btn pointer" (click)="this.handleClickOnConfirmDeleteMsg(msg.storageData)">
-                <span>Löschen</span>
-              </button>
-            </div>
-          </div>
-        }
+
         <!-- emoji Picker-->
         @if (index === this.reactionService.emojiPickerIndexThread && this.reactionService.showEmojiPickerThread) {
           <div class="current-user-emoji-picker-container">

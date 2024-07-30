@@ -241,6 +241,7 @@
 .current-user-msg {
   @include dFlex(row, flex-start, flex-start);
   width: 100%;
+  height: fit-content;
   gap: 20px;
   padding: 10px 45px 10px 0;
   position: relative;
@@ -602,11 +603,11 @@
 .delete-msg-dialog {
   @include dFlex(column, center, center);
   width: 100%;
-  height: 200px;
+  height: 100%;
   position: absolute;
   bottom: 0;
   left: 0;
-  z-index: 1;
+  z-index: 20;
   padding: 10px 45px 10px 45px;
   gap: 30px;
   background-color: $bg-color;

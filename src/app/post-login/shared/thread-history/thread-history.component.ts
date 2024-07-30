@@ -129,9 +129,11 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
     this.threadService.editMessageAnswerId = '';
   }
 
-  handleClickOnConfirmDeleteMsg(storageDataUrl: string) {
+  handleClickOnConfirmDeleteMsg(storageDataUrl: string = '') {
     this.communicationService.isDeleteThreadMsgDialogVisible = false;
-	this.storageService.deleteFileByUrl(storageDataUrl);
+	if (storageDataUrl) {
+	  this.storageService.deleteFileByUrl(storageDataUrl);
+	}
     this.threadService.deleteMessageAnswer();
   }
 

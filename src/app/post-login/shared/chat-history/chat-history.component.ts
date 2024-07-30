@@ -143,10 +143,12 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
     this.chatService.editMessageId = '';
   }
 
-  async handleClickOnConfirmDeleteMsg(storageDataUrl: string) {
+  async handleClickOnConfirmDeleteMsg(storageDataUrl: string = '') {
     this.communicationService.isDeleteMsgDialogVisible = false;
     this.communicationService.isThreadVisible = false;
-	this.storageService.deleteFileByUrl(storageDataUrl);
+	if (storageDataUrl) {
+	  this.storageService.deleteFileByUrl(storageDataUrl);
+	}
     await this.chatService.deleteMessage();
     this.chatService.unsubscribeAllLists();
     this.chatService.subscribeAllLists();
