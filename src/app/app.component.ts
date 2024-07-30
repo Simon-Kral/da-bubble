@@ -107,7 +107,7 @@ export class AppComponent implements OnInit {
     console.log('Rotate device visible: ' + this.communicationService.isRotateDeviceVisible);
 
     // Flag for small screen (tablet view)
-    const isTabletScreen = width < 1400;
+    const isTabletScreen = width < 1450;
     this.communicationService.isSmallScreenActive = isTabletScreen;
 
     console.log('Small screen visible: ' + this.communicationService.isSmallScreenActive);
