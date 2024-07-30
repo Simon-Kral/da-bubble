@@ -17,7 +17,8 @@
 	'slide-in': this.communicationService.isSidenavVisible && !this.communicationService.isSidenavAnimationComplete && !this.communicationService.isMobileViewActive,
 	'slide-out': !this.communicationService.isSidenavVisible && !this.communicationService.isSidenavAnimationComplete && !this.communicationService.isMobileViewActive,
 	'd-none': this.communicationService.isSidenavAnimationComplete && !this.communicationService.isSidenavVisible || 
-	this.communicationService.isMobileViewActive && this.communicationService.isSidenavVisible && this.communicationService.isRouterOutletVisible
+	this.communicationService.isMobileViewActive && this.communicationService.isSidenavVisible && this.communicationService.isRouterOutletVisible,
+	'full-width': this.communicationService.isMobileViewActive
   }">
 			<app-sidenav [isCreateChannelVisible]="isCreateChannelVisible"
 				(createChannelVisibilityChange)="toggleComponentVisibility('createChannel', $event)">

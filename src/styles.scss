@@ -463,3 +463,14 @@ body {
 .absolute {
 	position: absolute !important;
 }
+
+.header-mobile-in-sidenav {
+	width: 100% !important;
+	border: 1px solid $purple-3 !important;
+	border-radius: 42px;
+	margin: unset !important;
+
+	&:focus {
+		border: 2px solid $purple-3;
+	}
+}
