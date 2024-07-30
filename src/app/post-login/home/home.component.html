@@ -14,8 +14,8 @@
 	<div class="home-content" [ngClass]="{ 'padding-unset': this.communicationService.isMobileViewActive }">
 		<!-- SideNav -->
 		<div class="sidenav-wrapper" [ngClass]="{
-	'slide-in': this.communicationService.isSidenavVisible && !this.communicationService.isSidenavAnimationComplete && !this.communicationService.isMobileViewActive,
-	'slide-out': !this.communicationService.isSidenavVisible && !this.communicationService.isSidenavAnimationComplete && !this.communicationService.isMobileViewActive,
+	'slide-in': this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive,
+	'slide-out': !this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive,
 	'd-none': this.communicationService.isSidenavAnimationComplete && !this.communicationService.isSidenavVisible || 
 	this.communicationService.isMobileViewActive && this.communicationService.isSidenavVisible && this.communicationService.isRouterOutletVisible,
 	'full-width': this.communicationService.isMobileViewActive
