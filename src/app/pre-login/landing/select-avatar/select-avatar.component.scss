@@ -107,3 +107,83 @@ input {
     transition: all 0.1s;
   }
 }
+
+@media screen and (max-width: 650px) {
+	:host {
+		max-width: 100%;
+		gap: 22px;
+	}
+
+	h1 {
+		font-size: 32px;
+		line-height: normal;
+	}
+
+	.back-button {
+		top: 36px;
+		left: 28px;
+	}
+
+	h2 {
+		font-size: 14px;
+		line-height: normal;
+	}
+
+	form {
+		gap: 22px;
+	}
+
+	.avatar-preview {
+		gap: 22px;
+		img {
+			width: 116px;
+			height: 116px;
+			border-radius: 50%;
+		}
+	}
+
+	.select-avatar-from-list {
+		gap: 11px;
+		span {
+			font-size: 14px;
+		}
+	}
+
+	.avatar-list {
+		@include dFlex($jc: flex-start);
+		flex-wrap: wrap;
+		.input-box {
+			width: 50px;
+			height: 50px;
+			label {
+				img {
+					width: 45px;
+				}
+			}
+		}
+	}
+
+	.upload-image {
+		gap: 16px;
+		span {
+			font-size: 14px;
+		}
+	}
+
+	.button-wrap {
+		.button-blue {
+			font-size: 12px;
+			padding: 8px 18px;
+		}
+		.button-white {
+			font-size: 12px;
+			padding: 8px 18px;
+		}
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.upload-image {
+		@include dFlex($fd: column, $ai: flex-start);
+	}
+}

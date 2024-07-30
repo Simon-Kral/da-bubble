@@ -70,21 +70,24 @@ export class FirebaseService {
     }
   }
 
-  // current user code
-
-  /**
-   * Sets initial database entries for the logged-in user.
-   * @returns {void}
-   */
-
-  setInitialDatabaseEntries(username?: string): void {
-    const userId = this.authService.firebaseAuth.currentUser!.uid;
-    const userDoc = doc(this.firestore, 'users', userId);
-    const privateChatDoc = doc(this.firestore, 'privateNotes', userId);
-    setDoc(userDoc, this.setUserObject(username)).then(() => {
-      setDoc(privateChatDoc, this.setPrivateNoteObject());
-    });
-  }
+	/**
+	 * Sets initial database entries for the logged-in user.
+	 * @returns {void}
+	 */
+	setInitialDatabaseEntries(username?: string): void {
+		const userId = this.authService.firebaseAuth.currentUser!.uid;
+		const userQuery = query(collection(this.firestore, 'users'), where('userId', '==', userId));
+		getDocs(userQuery).then((snap)=>{
+			console.log(snap.docs.length)
+			if (snap.docs.length === 0) {
+				const userDoc = doc(this.firestore, 'users', userId);
+				const privateChatDoc = doc(this.firestore, 'privateNotes', userId);
+				setDoc(userDoc, this.setUserObject(username)).then(() => {
+					setDoc(privateChatDoc, this.setPrivateNoteObject());
+				});
+			}
+		})
+	}
 
   /**
    * Creates a user object for Firestore.

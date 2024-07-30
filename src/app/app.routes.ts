@@ -19,21 +19,21 @@ import { PrivacyPolicyComponent } from './pre-login/privacy-policy/privacy-polic
 import { ImprintComponent } from './pre-login/imprint/imprint.component';
 
 export const routes: Routes = [
-  // pre-login components
-  {
-    path: '',
-    component: LandingComponent,
-    children: [
-      { path: '', component: LoginComponent },
-      { path: 'register', component: SignupComponent },
-      { path: 'avatar', component: SelectAvatarComponent },
-      {
-        path: 'password-reset-request',
-        component: PasswordResetRequestComponent,
-      },
-      { path: 'reset-password', component: ResetPasswordComponent },
-    ],
-  },
+	// pre-login components
+	{
+		path: '',
+		component: LandingComponent,
+		children: [
+			{ path: '', component: LoginComponent },
+			{ path: 'signup', component: SignupComponent },
+			{ path: 'avatar', component: SelectAvatarComponent },
+			{
+				path: 'password-reset-request',
+				component: PasswordResetRequestComponent,
+			},
+			{ path: 'reset-password', component: ResetPasswordComponent },
+		],
+	},
 
   // post-login components
   {

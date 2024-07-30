@@ -20,21 +20,21 @@ export class SignupComponent {
   fb = inject(FormBuilder);
   router = inject(Router);
 
-  registerForm = this.fb.nonNullable.group({
-    username: ['', [Validators.required, Validators.minLength(5)]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    privacy: [false, Validators.requiredTrue],
-  });
-  visibilityIcon: string = 'assets/img/icons/visibility_off.png';
-  inputType: string = 'password';
+	signupForm = this.fb.nonNullable.group({
+		username: ['', [Validators.required, Validators.minLength(5)]],
+		email: ['', [Validators.required, Validators.email]],
+		password: ['', [Validators.required, Validators.minLength(6)]],
+		privacy: [false, Validators.requiredTrue],
+	});
+	visibilityIcon: string = 'assets/img/icons/visibility_off.png';
+	inputType: string = 'password';
 
-  /**
-   * Submits the registration form and attempts to register a new user.
-   * @returns {void}
-   */
-  onSubmit(): void {
-    const rawForm = this.registerForm.getRawValue();
+	/**
+	 * Submits the registration form and attempts to signup a new user.
+	 * @returns {void}
+	 */
+	onSubmit(): void {
+		const rawForm = this.signupForm.getRawValue();
 
     this.authService.signup(rawForm.email, rawForm.username, rawForm.password).subscribe({
       next: () => {
