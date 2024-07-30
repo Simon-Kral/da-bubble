@@ -61,7 +61,7 @@
                   </a>
                 </div>
               </div>
-            } @else {
+            } @else if(msg.storageData.includes(".pdf")) {
               <div class="storage-pic-container">
                 <div class="wrapper">
                   <a class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
@@ -254,7 +254,7 @@
                   </a>
                 </div>
               </div>
-            } @else {
+            } @else if(msg.storageData.includes(".pdf")) {
               <div class="storage-pic-container">
                 <div class="wrapper">
                   <a class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
