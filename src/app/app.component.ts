@@ -102,15 +102,15 @@ export class AppComponent implements OnInit {
 
     // Flag to show rotate device prompt (ratio greater than 1.65) only for smaller screens
     const ratio = width / height;
-    const isSmallScreen = width < 1024;
-    this.communicationService.isRotateDeviceVisible = ratio > 1.65 && isSmallScreen;
+    const isSmartPhoneScreen = width < 950;
+    this.communicationService.isRotateDeviceVisible = ratio > 1.65 && isSmartPhoneScreen;
     console.log('Rotate device visible: ' + this.communicationService.isRotateDeviceVisible);
 
     // Flag for small screen (tablet view)
     const isTabletScreen = width < 1400;
-    this.communicationService.isSmallScreenVisible = isTabletScreen;
+    this.communicationService.isSmallScreenActive = isTabletScreen;
 
-    console.log('Small screen visible: ' + this.communicationService.isSmallScreenVisible);
+    console.log('Small screen visible: ' + this.communicationService.isSmallScreenActive);
   }
 
   /**

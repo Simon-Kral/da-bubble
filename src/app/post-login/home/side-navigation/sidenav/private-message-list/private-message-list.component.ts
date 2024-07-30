@@ -36,8 +36,8 @@ export class PrivateMessageListComponent {
     this.communicationService.isThreadVisible = false;
     this.threadService.unsubscribeAllLists();
     this.threadService.msgAnswerList = [];
-    this.communicationService.toggleSidenav();
     this.communicationService.isWelcomeScreenVisible = false;
+    this.communicationService.isRouterOutletVisible = true;
   }
 
   /**
@@ -56,7 +56,7 @@ export class PrivateMessageListComponent {
     this.communicationService.isThreadVisible = false;
     this.threadService.unsubscribeAllLists();
     this.threadService.msgAnswerList = [];
-    this.communicationService.toggleSidenav();
     this.communicationService.isWelcomeScreenVisible = false;
+    this.communicationService.isRouterOutletVisible = true;
   }
 }

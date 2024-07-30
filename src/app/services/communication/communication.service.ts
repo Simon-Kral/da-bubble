@@ -22,6 +22,8 @@ export class CommunicationService {
 
   //thread variables
   isThreadVisible: boolean = false;
+  //router-outelt variables
+  isRouterOutletVisible: boolean = false;
 
   // user profile variabels
   userProfileId: string = ''; // is getting used to store userId of the user whose profile is being viewed
@@ -50,7 +52,7 @@ export class CommunicationService {
   isMobileViewActive: boolean = false; // main flag to check if mobile view is active
 
   isRotateDeviceVisible: boolean = false; // flag to show rotate your device message
-  isSmallScreenVisible: boolean = false; // flag to indicate if the screen is small (mobile view < 1200px for tablets)
+  isSmallScreenActive: boolean = false; // flag to indicate if the screen is small (mobile view < 1200px for tablets)
 
   isMobileUserMenuVisible: boolean = false;
 
@@ -101,7 +103,6 @@ export class CommunicationService {
   toggleSidenav(): void {
     console.log('State of toggleSidenav before:', this.isSidenavToggled);
     console.log('State of isSidenavVisible before:', this.isSidenavVisible);
-
     if (this.isSidenavVisible) {
       this.isSidenavAnimationComplete = false;
       this.isSidenavToggled = true;
@@ -112,8 +113,8 @@ export class CommunicationService {
           console.log('Sidenav hidden');
           console.log('State of toggleSidenav after hide:', this.isSidenavToggled);
           console.log('State of isSidenavVisible after hide:', this.isSidenavVisible);
-        }, 175); // Match this duration with the CSS transition
-      }, 0); // Initial timeout to start the hide animation
+        }, 175);
+      }, 0);
     } else {
       this.isSidenavAnimationComplete = false;
       this.isSidenavToggled = false;
@@ -124,9 +125,15 @@ export class CommunicationService {
           console.log('Sidenav shown');
           console.log('State of toggleSidenav after show Animation:', this.isSidenavToggled);
           console.log('State of isSidenavVisible after show Animation:', this.isSidenavVisible);
-        }, 175); // Match this duration with the CSS transition
-      }, 0); // Initial timeout to start the show animation
+        }, 175);
+      }, 0);
     }
+  }
+
+  toggleSideNavMobile() {
+    this.isSidenavVisible = !this.isSidenavVisible;
+    this.isThreadVisible = !this.isThreadVisible;
+    this.isRouterOutletVisible = !this.isRouterOutletVisible;
   }
 
   closeMobileMenuPopupOverlay(menu: string) {

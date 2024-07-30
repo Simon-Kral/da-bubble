@@ -19,7 +19,8 @@ export class MobileHeaderComponent {
 
   handleBackButtonClick() {
     this.router.navigate(['home/']);
-    this.communicationService.isSidenavVisible = false;
+    this.communicationService.isRouterOutletVisible = false;
     this.communicationService.isThreadVisible = false;
+    this.communicationService.isSidenavVisible = true;
   }
 }

@@ -3,9 +3,7 @@
 .channel-wrapper {
   @include dFlex(column, space-between, center);
   width: 100%;
-  height: calc(100svh - 148px);
-  border-radius: 30px;
-  background-color: $white;
+  height: 100%;
   position: relative;
 
 

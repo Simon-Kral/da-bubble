@@ -1,4 +1,6 @@
-<div class="home-wrapper">
+<div class="home-wrapper" [ngClass]="{ 'padding-unset': this.communicationService.isMobileViewActive,
+'d-none': this.communicationService.isRotateDeviceVisible
+}">
 	<!--Header app-->
 	@if (!this.communicationService.isMobileViewActive) {
 	<app-header (userProfileToggle)="toggleComponentVisibility('userMenu', $event)"></app-header>
@@ -12,27 +14,39 @@
 	<div class="home-content" [ngClass]="{ 'padding-unset': this.communicationService.isMobileViewActive }">
 		<!-- SideNav -->
 		<div class="sidenav-wrapper" [ngClass]="{
-	'slide-in': this.communicationService.isSidenavVisible && !this.communicationService.isSidenavAnimationComplete,
-	'slide-out': !this.communicationService.isSidenavVisible && !this.communicationService.isSidenavAnimationComplete,
-	'd-none': this.communicationService.isSidenavAnimationComplete && !this.communicationService.isSidenavVisible,
+	'slide-in': this.communicationService.isSidenavVisible && !this.communicationService.isSidenavAnimationComplete && !this.communicationService.isMobileViewActive,
+	'slide-out': !this.communicationService.isSidenavVisible && !this.communicationService.isSidenavAnimationComplete && !this.communicationService.isMobileViewActive,
+	'd-none': this.communicationService.isSidenavAnimationComplete && !this.communicationService.isSidenavVisible || 
+	this.communicationService.isMobileViewActive && this.communicationService.isSidenavVisible && this.communicationService.isRouterOutletVisible
   }">
 			<app-sidenav [isCreateChannelVisible]="isCreateChannelVisible"
 				(createChannelVisibilityChange)="toggleComponentVisibility('createChannel', $event)">
 			</app-sidenav>
 		</div>
 		@if (!this.communicationService.isWelcomeScreenVisible) {
-		<div class="content-container">
+		<div class="content-container" [ngClass]="{
+			'absolute': this.communicationService.isMobileViewActive && this.communicationService.isSidenavVisible
+		}">
 			<!--  router-outlet used for channels / prvt-msg & start-new-msg component  -->
-			@if (!this.communicationService.isWelcomeScreenVisible) {
+			@if (!this.communicationService.isWelcomeScreenVisible && this.communicationService.isRouterOutletVisible) {
 			<div class="router-wrapper" [ngClass]="{
-					'half-width': this.communicationService.isThreadVisible
+					'half-width': this.communicationService.isThreadVisible,
+					'border-radius-unset': this.communicationService.isMobileViewActive,
+					'svh-minus-header': this.communicationService.isMobileViewActive,
 		}">
 				<router-outlet></router-outlet>
 			</div>
 			}
 			<!-- threads -->
 			@if (this.communicationService.isThreadVisible) {
-			<div class="thread-wrapper">
+			<div class="thread-wrapper" [ngClass]="{
+				'half-width': this.communicationService.isThreadVisible && !this.communicationService.isSmallScreenActive,
+				'border-radius-unset': this.communicationService.isMobileViewActive,
+				'svh-minus-header': this.communicationService.isMobileViewActive,
+				'absolute': this.communicationService.isRouterOutletVisible && this.communicationService.isSidenavVisible && this.communicationService.isSmallScreenActive ||
+					this.communicationService.isMobileViewActive && this.communicationService.isSmallScreenActive,
+				'full-width': this.communicationService.isSmallScreenActive && this.communicationService.isMobileViewActive,
+	}">
 				<app-thread></app-thread>
 			</div>
 			}
@@ -40,7 +54,7 @@
 		}
 
 		<!-- welcome screen-->
-		@if (this.communicationService.isWelcomeScreenVisible) {
+		@if (this.communicationService.isWelcomeScreenVisible && !this.communicationService.isMobileViewActive) {
 		<div class="welcome-wrapper">
 			<app-welcome-screen></app-welcome-screen>
 		</div>
@@ -147,4 +161,14 @@
 		</div>
 	</div>
 	}
+
+
 </div>
+
+<!-- Popup overlay rotate your device-->
+@if ((this.communicationService.isRotateDeviceVisible && !this.communicationService.isMobileViewActive) ) {
+<div class="rotate-wrapper">
+	<span>Bitte drehe dein Gerät</span>
+	<img src="assets/img/icons/rotate_your_device.png" alt="rotate-device-icon" />
+</div>
+}
