@@ -21,6 +21,8 @@
         <img src="{{ this.storageData }}" alt="" />
       </div>
     </div>
+  } @else if (this.fileExists) {
+	<span class="warning">Der Dateiname existiert bereits in der Datenbank, bitte suchen Sie sich einen anderen Namen aus.</span>
   }
 
   <!--storage preview end-->

@@ -180,3 +180,10 @@ input[type='file'] {
     border-radius: 20px;
   }
 }
+
+.warning {
+	color: $rosa-error;
+	position: absolute;
+    top: -30px;
+    left: 0;
+}

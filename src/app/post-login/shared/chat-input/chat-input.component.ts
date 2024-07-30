@@ -6,7 +6,7 @@ import { ChatService } from '../../../services/chat/chat.service';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
 import { CommunicationService } from '../../../services/communication/communication.service';
-import { ref } from '@angular/fire/storage';
+import { getDownloadURL, ref, StorageReference } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-chat-input',
@@ -20,6 +20,7 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   firebaseService = inject(FirebaseService);
   communicationService = inject(CommunicationService);
   storageService = inject(StorageService);
+  fileExists: boolean = false;
 
   @Input() sourceComponent: string = ''; // Variable to hold the source component's name or identifier
   @Input() placeholderText: string = ''; // Variable to hold the placeholder text for the chat input
@@ -151,23 +152,35 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   }
 
   //upload file code
-  uploadFile(event: Event) {
-    const fileInput = event.target as HTMLInputElement;
-    const file = fileInput.files?.item(0);
-    this.fileName = file?.name || '';
-    if (file) {
-      const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
-      this.storageService.uploadFile(storageRef, file).subscribe({
-        next: (snapshot) => {
-          this.storageService.getURL(snapshot.ref).subscribe({
-            next: (url) => {
-              this.storageData = url;
-            },
-          });
-        },
-      });
-    }
-  }
+uploadFile(event: Event) {
+	this.fileExists = false;
+	const fileInput = event.target as HTMLInputElement;
+	const file = fileInput.files?.item(0);
+	this.fileName = file?.name || '';
+	if (file) {
+		const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
+	
+		// Check if storageRef already exists in the database
+		this.storageService.checkIfFileExists(storageRef).subscribe({
+			next: (exists) => {
+				if (exists) {
+					console.log('File already exists in the database');
+					this.fileExists = true;
+				} else {
+					this.storageService.uploadFile(storageRef, file).subscribe({
+						next: (snapshot) => {
+							this.storageService.getURL(snapshot.ref).subscribe({
+								next: (url) => {
+									this.storageData = url;
+								},
+							});
+						},
+					});
+				}
+			},
+		});
+	}
+}
 
   closeAndDelete() {
     this.delteFileFromStorage();

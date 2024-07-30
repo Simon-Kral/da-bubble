@@ -1,12 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { deleteObject, getDownloadURL, getStorage, ref, StorageReference, uploadBytes } from '@angular/fire/storage';
+import { deleteObject, getStorage, ref, StorageReference, uploadBytes } from '@angular/fire/storage';
+import { getDownloadURL } from 'firebase/storage';
 import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
+  getFile(storageRef: StorageReference) {
+    throw new Error('Method not implemented.');
+  }
   storage = getStorage();
   profilePicturesRef = ref(this.storage, 'profilePictures');
 
@@ -63,4 +67,20 @@ export class StorageService {
     xhr.open('GET', url);
     xhr.send();
   }
+
+  checkIfFileExists(storageRef: StorageReference): Observable<boolean> {
+	return new Observable<boolean>((observer) => {
+    getDownloadURL(storageRef).then(
+		() => {
+		  observer.next(true);
+		  observer.complete();
+		},
+		() => {
+		  observer.next(false);
+		  observer.complete();
+		}
+	  );
+	});
+  }
+  
 }
