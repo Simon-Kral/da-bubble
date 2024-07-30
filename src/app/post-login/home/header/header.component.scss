@@ -11,7 +11,7 @@
     height: 100px;
     @include dFlex(row, space-evenly, center);
 
-    > .logo-container {
+    >.logo-container {
       @include dFlex(center, center);
       gap: 16px;
     }
@@ -22,7 +22,7 @@
       margin: 0 24px;
 
       form {
-        > .header-searchbar {
+        >.header-searchbar {
           @include Nunito(400, 24px, 18.8px, $text-gray);
           width: 100%;
           padding: 17.5px 45px;
@@ -40,7 +40,7 @@
       }
     }
 
-    > .user-avatar {
+    >.user-avatar {
       @include dFlex(center, center);
       position: relative;
       gap: 16px;
@@ -54,7 +54,7 @@
         @include Nunito(700, 32px, 18.8px, $purple-3);
       }
 
-      > img {
+      >img {
         border-radius: 50%;
         width: 70px;
         height: 70px;
@@ -123,7 +123,7 @@ h3 {
   @include dFlex(column, start, start);
   gap: 12px;
 
-  > span {
+  >span {
     @include Nunito(400, 16px, 18.8px, $black);
   }
 
@@ -136,7 +136,7 @@ h3 {
   @include dFlex(start, start);
   gap: 8px;
 
-  > img {
+  >img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -148,26 +148,15 @@ h3 {
   @include dFlex(column, start, start);
   gap: 4px;
 
-  > span {
+  >span {
     @include Nunito(400, 14px, 18.8px, $text-gray);
   }
 
-  > span:nth-child(2) {
+  >span:nth-child(2) {
     @include Nunito(700, 16px, 18.8px, $black);
   }
 
-  > span:last-child {
+  >span:last-child {
     @include Nunito(400, 16px, 18.8px, $black);
-  }
-}
-
-//responsive for header inside sideNav when isMobileView is true
-
-@media screen and (max-width: 1100px) {
-  .header-searchbar {
-    border: 1px solid $purple-3 !important;
-    &:focus {
-      border: 2px solid $purple-3;
-    }
   }
 }

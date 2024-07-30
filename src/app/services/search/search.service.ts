@@ -1,24 +1,12 @@
 import { ThreadService } from './../thread/thread.service';
-import { PrivateMessageListComponent } from './../../post-login/home/side-navigation/sidenav/private-message-list/private-message-list.component';
 import { Channel } from './../../models/channel.class';
 import { inject, Injectable } from '@angular/core';
 import { FirebaseService } from '../firebase/firebase.service';
 import { Observable, of, Subscription } from 'rxjs';
-import {
-  DocumentData,
-  Firestore,
-  collection,
-  doc,
-  getDocs,
-  onSnapshot,
-  orderBy,
-  query,
-  where,
-} from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { User } from '../../../app/models/user.class';
 import { ChatService } from '../chat/chat.service';
-import { Message } from '../../models/message.class';
-import { TmplAstUnknownBlock } from '@angular/compiler';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +16,7 @@ export class SearchService {
   firebaseService = inject(FirebaseService);
   chatService = inject(ChatService);
   threadService = inject(ThreadService);
-  router: any;
+
   //subscriptions
   userSearchResults: string[] = [];
   channelSearchResults: string[] = [];
@@ -49,7 +37,7 @@ export class SearchService {
   memberSearchActive: boolean = false;
   channelSearchActive: boolean = false;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   // code for user search
   /**
@@ -185,6 +173,7 @@ export class SearchService {
    * @param channelId - The ID of the channel to navigate to.
    */
   handleClickOnChannelAndUnSub(channelId: string) {
+    console.log('channelId on channelclick in header serach', channelId);
     this.router.navigate(['/home/channels', channelId]);
     this.channelSearchActive = false;
     this.channelSearchResults = [];

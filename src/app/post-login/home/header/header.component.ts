@@ -107,6 +107,8 @@ export class HeaderComponent implements OnInit {
     this.isFocusActive = false;
     this.showUsers = false;
     this.showChannels = false;
+    this.communicationService.isWelcomeScreenVisible = false;
+    this.communicationService.isRouterOutletVisible = true;
     this.searchService.handleClickOnUserAndUnSub(userId);
   }
 
@@ -134,6 +136,8 @@ export class HeaderComponent implements OnInit {
     this.searchText.reset();
     this.isFocusActive = false;
     //unsubscribe from channel search
+    this.communicationService.isWelcomeScreenVisible = false;
+    this.communicationService.isRouterOutletVisible = true;
     this.searchService.handleClickOnChannelAndUnSub(channelId);
   }
 
