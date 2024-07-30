@@ -123,8 +123,8 @@ export class HeaderComponent implements OnInit {
       this.searchService.unSubscribeOnUserSearch();
     }
     this.isFocusActive = !this.isFocusActive;
-    this.searchService.searchSpesificChannelMessageResault = [];
-    this.searchService.searchSpesificThreadMessageResaults = [];
+    this.searchService.searchSpecificChannelMessageResults = [];
+    this.searchService.searchSpecificThreadMessageResults = [];
     this.searchText.reset();
   }
 
@@ -143,8 +143,8 @@ export class HeaderComponent implements OnInit {
 
   noMessageSearchResult() {
     return (
-      !this.searchService.searchSpesificChannelMessageResault.length ||
-      !this.searchService.searchSpesificChannelMessageResault.length
+      !this.searchService.searchSpecificChannelMessageResults.length ||
+      !this.searchService.searchSpecificChannelMessageResults.length
     );
   }
 

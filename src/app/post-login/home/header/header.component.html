@@ -22,8 +22,8 @@
       <!-- onFocus -->
       @if (
       isFocusActive &&
-      !this.searchService.searchSpesificChannelMessageResault.length &&
-      !this.searchService.searchSpesificThreadMessageResaults.length
+      !this.searchService.searchSpecificChannelMessageResults.length &&
+      !this.searchService.searchSpecificThreadMessageResults.length
       ) {
       <div class="search-results">
         <div class="close-btn pointer" (click)="this.handleToggleFocus()">
@@ -57,8 +57,8 @@
     @if (
     this.showUsers ||
     this.showChannels ||
-    this.searchService.searchSpesificChannelMessageResault.length ||
-    this.searchService.searchSpesificThreadMessageResaults.length
+    this.searchService.searchSpecificChannelMessageResults.length ||
+    this.searchService.searchSpecificThreadMessageResults.length
     ) {
     <div class="search-results">
       <div class="close-btn pointer" (click)="this.handleToggleFocus()">
@@ -66,12 +66,12 @@
       </div>
       <!--user search results-->
       @if (
-      this.searchService.searchSpesificThreadMessageResaults.length &&
+      this.searchService.searchSpecificThreadMessageResults.length &&
       !this.communicationService.isMobileViewActive
       ) {
       <h3>Thread Messages:</h3>
       @for (
-      threadMessage of this.searchService.searchSpesificThreadMessageResaults;
+      threadMessage of this.searchService.searchSpecificThreadMessageResults;
       track threadMessage;
       let index = $index
       ) {
@@ -95,12 +95,12 @@
       }
 
       @if (
-      this.searchService.searchSpesificChannelMessageResault.length &&
+      this.searchService.searchSpecificChannelMessageResults.length &&
       !this.communicationService.isMobileViewActive
       ) {
       <h3>Channel Messages:</h3>
       @for (
-      message of this.searchService.searchSpesificChannelMessageResault;
+      message of this.searchService.searchSpecificChannelMessageResults;
       track message;
       let index = $index
       ) {
@@ -142,7 +142,7 @@
     !this.showChannels &&
     this.searchText.value &&
     !this.searchService.searchForSpecificChannelMessages &&
-    !this.searchService.searchSpesificThreadMessageResaults
+    !this.searchService.searchSpecificThreadMessageResults
     ) {
     <h3>Es wurde kein Nutzer gefunden.</h3>
     }
@@ -160,7 +160,7 @@
     this.searchText.value &&
     !this.showUsers &&
     !this.searchService.searchForSpecificChannelMessages &&
-    !this.searchService.searchSpesificThreadMessageResaults
+    !this.searchService.searchSpecificThreadMessageResults
     ) {
     <h3>Es wurde kein Channel gefunden.</h3>
     }

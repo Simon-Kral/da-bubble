@@ -646,9 +646,7 @@
       &:hover {
         background-color: $online-red;
         transition: all 175ms ease-in-out;
-        span {
-        }
-
+  
         &:hover span {
           @include Nunito(700, 18px, 24.55px, $white);
         }
