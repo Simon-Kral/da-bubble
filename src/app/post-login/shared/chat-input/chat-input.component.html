@@ -14,13 +14,21 @@
   <!--tagged User end-->
 
   <!--storage preview start-->
-  @if (this.storageData) {
+  @if (this.storageData && this.fileType === "image/jpeg") {
     <div class="preview-container">
       <div (click)="this.closeAndDelete()" class="close-button pointer">X</div>
       <div class="image-preview">
         <img src="{{ this.storageData }}" alt="" />
       </div>
     </div>
+  }@else if (this.storageData && this.fileType === "application/pdf") {
+	<div class="preview-container">
+	  <div (click)="this.closeAndDelete()" class="close-button pointer">X</div>
+	  <div class="image-preview" style="background-color: black;">
+		<img src="assets/img/icons/pdf_white.png" alt="pdf-icon" />
+	  </div>
+	</div>
+
   } @else if (this.fileExists) {
 	<span class="warning">Der Dateiname existiert bereits in der Datenbank, bitte suchen Sie sich einen anderen Namen aus.</span>
   }

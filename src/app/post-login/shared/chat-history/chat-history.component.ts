@@ -10,6 +10,7 @@ import { ThreadService } from '../../../services/thread/thread.service';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { ReactionService } from '../../../services/reactions/reaction.service';
 import { Subscription } from 'rxjs';
+import { StorageReference } from '@angular/fire/storage';
 
 interface MsgData {
   text: string;
@@ -142,9 +143,12 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
     this.chatService.editMessageId = '';
   }
 
-  async handleClickOnConfirmDeleteMsg() {
+  async handleClickOnConfirmDeleteMsg(storageDataUrl: string = '') {
     this.communicationService.isDeleteMsgDialogVisible = false;
     this.communicationService.isThreadVisible = false;
+	if (storageDataUrl) {
+	  this.storageService.deleteFileByUrl(storageDataUrl);
+	}
     await this.chatService.deleteMessage();
     this.chatService.unsubscribeAllLists();
     this.chatService.subscribeAllLists();

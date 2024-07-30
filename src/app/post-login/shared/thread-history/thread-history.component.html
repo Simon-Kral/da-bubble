@@ -46,7 +46,11 @@
             }
             <span>{{ msg.text }}</span>
             <!--storage pic-->
-            @if (msg.storageData) {
+            @if (
+              (msg.storageData && msg.storageData.includes(".jpg")) ||
+              msg.storageData.includes(".png") ||
+              msg.storageData.includes(".jpeg")
+            ) {
               <div class="storage-pic-container">
                 <div class="wrapper">
                   <a class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
@@ -54,6 +58,17 @@
                   </a>
                   <a href="{{ msg.storageData }}" target="_blank">
                     <img src="{{ msg.storageData }}" />
+                  </a>
+                </div>
+              </div>
+            } @else {
+              <div class="storage-pic-container">
+                <div class="wrapper">
+                  <a class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
+                    <img class="download-icon" src="assets/img/icons/download_white.png" alt="" />
+                  </a>
+                  <a href="{{ msg.storageData }}" target="_blank">
+                    <img src="assets/img/icons/pdf_white.png" />
                   </a>
                 </div>
               </div>
@@ -140,6 +155,24 @@
     <!--current-user-msg-->
     @if (msg.messageSendBy == this.firebaseService.currentUserId) {
       <div class="current-user-msg" [id]="msg.messageAnswerId">
+        <!--popUp overlay for deleting specific current user msg-->
+        @if (
+          this.communicationService.isDeleteThreadMsgDialogVisible &&
+          msg.messageAnswerId === this.threadService.editMessageAnswerId
+        ) {
+          <div class="delete-msg-dialog">
+            <span>Möchtest du diese Nachricht wirklich löschen?</span>
+            <div class="dialog-btns">
+              <button class="cancel-btn pointer" (click)="this.handleClickOnCancelDeleteMsg()">
+                <span>Abbrechen</span>
+              </button>
+              <button class="delete-btn pointer" (click)="this.handleClickOnConfirmDeleteMsg(msg.storageData)">
+                <span>Löschen</span>
+              </button>
+            </div>
+          </div>
+        }
+
         <!--msg-menu only displayed for current user-->
         <div class="msg-menu">
           <div
@@ -206,7 +239,11 @@
             }
             <span>{{ msg.text }}</span>
             <!--storage pic-->
-            @if (msg.storageData) {
+            @if (
+              (msg.storageData && msg.storageData.includes(".jpg")) ||
+              msg.storageData.includes(".png") ||
+              msg.storageData.includes(".jpeg")
+            ) {
               <div class="storage-pic-container">
                 <div class="wrapper">
                   <a class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
@@ -214,6 +251,17 @@
                   </a>
                   <a href="{{ msg.storageData }}" target="_blank">
                     <img src="{{ msg.storageData }}" />
+                  </a>
+                </div>
+              </div>
+            } @else {
+              <div class="storage-pic-container">
+                <div class="wrapper">
+                  <a class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
+                    <img class="download-icon" src="assets/img/icons/download_white.png" alt="" />
+                  </a>
+                  <a href="{{ msg.storageData }}" target="_blank">
+                    <img src="assets/img/icons/pdf_white.png" />
                   </a>
                 </div>
               </div>
@@ -309,23 +357,7 @@
             }
           </div>
         }
-        <!--popUp overlay for deleting specific current user msg-->
-        @if (
-          this.communicationService.isDeleteThreadMsgDialogVisible &&
-          msg.messageAnswerId === this.threadService.editMessageAnswerId
-        ) {
-          <div class="delete-msg-dialog">
-            <span>Möchtest du diese Nachricht wirklich löschen?</span>
-            <div class="dialog-btns">
-              <button class="cancel-btn pointer" (click)="this.handleClickOnCancelDeleteMsg()">
-                <span>Abbrechen</span>
-              </button>
-              <button class="delete-btn pointer" (click)="this.handleClickOnConfirmDeleteMsg()">
-                <span>Löschen</span>
-              </button>
-            </div>
-          </div>
-        }
+
         <!-- emoji Picker-->
         @if (index === this.reactionService.emojiPickerIndexThread && this.reactionService.showEmojiPickerThread) {
           <div class="current-user-emoji-picker-container">
