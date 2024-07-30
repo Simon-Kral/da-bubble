@@ -52,6 +52,11 @@ export class StorageService {
       });
   }
 
+  /**
+   * Downloads a file from the specified URL directly.
+   *
+   * @param url - The URL of the file to download.
+   */
   downloadFromUrlDirectly(url: string) {
     const xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
@@ -68,19 +73,23 @@ export class StorageService {
     xhr.send();
   }
 
+  /**
+   * Checks if a file exists in the storage.
+   * @param storageRef - The reference to the file in the storage.
+   * @returns An Observable that emits a boolean value indicating whether the file exists or not.
+   */
   checkIfFileExists(storageRef: StorageReference): Observable<boolean> {
-	return new Observable<boolean>((observer) => {
-    getDownloadURL(storageRef).then(
-		() => {
-		  observer.next(true);
-		  observer.complete();
-		},
-		() => {
-		  observer.next(false);
-		  observer.complete();
-		}
-	  );
-	});
+    return new Observable<boolean>((observer) => {
+      getDownloadURL(storageRef).then(
+        () => {
+          observer.next(true);
+          observer.complete();
+        },
+        () => {
+          observer.next(false);
+          observer.complete();
+        },
+      );
+    });
   }
-  
 }

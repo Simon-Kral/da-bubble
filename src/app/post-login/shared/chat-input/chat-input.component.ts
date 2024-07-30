@@ -124,6 +124,14 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     this.showTagContainer = !this.showTagContainer;
   }
 
+/**
+ * Tags a channel member by adding their user ID and name to the respective arrays.
+ * If all channel members have been tagged, hides the tag container.
+ * 
+ * @param userName - The name of the channel member to be tagged.
+ * @param userId - The ID of the channel member to be tagged.
+ * @param index - The index of the channel in the channel list.
+ */
   tagChannelMember(userName: string, userId: string, index: number) {
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
@@ -132,12 +140,23 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     }
   }
 
+/**
+ * Tags a chat user by adding their ID and name to the respective arrays.
+ * @param userName - The name of the user being tagged.
+ * @param userId - The ID of the user being tagged.
+ */
   tagChatUser(userName: string, userId: string) {
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
     this.showTagContainer = false;
   }
 
+/**
+ * Adds a tagged user to the component's state.
+ * 
+ * @param userName - The name of the user being tagged.
+ * @param userId - The ID of the user being tagged.
+ */
   tagUser(userName: string, userId: string) {
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
@@ -146,47 +165,61 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     }
   }
 
+  /**
+   * Deletes a tagged user from the list.
+   *
+   * @param index - The index of the tagged user to delete.
+   */
   deleteTaggedUser(index: number) {
     this.taggedUser.splice(index, 1);
     this.taggedUserNames.splice(index, 1);
   }
 
   //upload file code
-uploadFile(event: Event) {
-	this.fileExists = false;
-	const fileInput = event.target as HTMLInputElement;
-	const file = fileInput.files?.item(0);
-	this.fileName = file?.name || '';
-	if (file) {
-		const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
-	
-		// Check if storageRef already exists in the database
-		this.storageService.checkIfFileExists(storageRef).subscribe({
-			next: (exists) => {
-				if (exists) {
-					console.log('File already exists in the database');
-					this.fileExists = true;
-				} else {
-					this.storageService.uploadFile(storageRef, file).subscribe({
-						next: (snapshot) => {
-							this.storageService.getURL(snapshot.ref).subscribe({
-								next: (url) => {
-									this.storageData = url;
-								},
-							});
-						},
-					});
-				}
-			},
-		});
-	}
-}
+  /**
+   * Uploads a file to the storage service and updates the file name and URL.
+   * @param event - The event object triggered by the file input change.
+   */
+  uploadFile(event: Event) {
+    this.fileExists = false;
+    const fileInput = event.target as HTMLInputElement;
+    const file = fileInput.files?.item(0);
+    this.fileName = file?.name || '';
+    if (file) {
+      const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
+      // Check if storageRef already exists in the database
+      this.storageService.checkIfFileExists(storageRef).subscribe({
+        next: (exists) => {
+          if (exists) {
+            console.log('File already exists in the database');
+            this.fileExists = true;
+          } else {
+            this.storageService.uploadFile(storageRef, file).subscribe({
+              next: (snapshot) => {
+                this.storageService.getURL(snapshot.ref).subscribe({
+                  next: (url) => {
+                    this.storageData = url;
+                  },
+                });
+              },
+            });
+          }
+        },
+      });
+    }
+  }
 
+/**
+ * Closes the chat input and deletes the file from storage.
+ */
   closeAndDelete() {
     this.delteFileFromStorage();
     this.storageData = '';
   }
 
+/**
+ * Deletes a file from the storage.
+ */
   delteFileFromStorage() {
     const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${this.fileName}`);
     this.storageService.deleteFile(storageRef);
