@@ -111,7 +111,6 @@ export class AppComponent implements OnInit {
     this.communicationService.isSmallScreenVisible = isTabletScreen;
 
     console.log('Small screen visible: ' + this.communicationService.isSmallScreenVisible);
-
   }
 
   /**

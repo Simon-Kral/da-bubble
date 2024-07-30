@@ -16,14 +16,20 @@ import { HeaderComponent } from '../../header/header.component';
   standalone: true,
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
-  imports: [ChannelListComponent, HeaderComponent, PrivateMessageListComponent, PrivateMessageComponent, CommonModule, RouterModule],
+  imports: [
+    ChannelListComponent,
+    HeaderComponent,
+    PrivateMessageListComponent,
+    PrivateMessageComponent,
+    CommonModule,
+    RouterModule,
+  ],
 })
 export class SidenavComponent {
   @Output() messageEvent = new EventEmitter<object>();
 
   @Input() isCreateChannelVisible: boolean = false;
   @Output() createChannelVisibilityChange = new EventEmitter<boolean>();
-
 
   communicationService = inject(CommunicationService);
 
@@ -60,5 +66,4 @@ export class SidenavComponent {
     this.router.navigate(['home/new-message']);
     this.communicationService.isWelcomeScreenVisible = false;
   }
-
 }

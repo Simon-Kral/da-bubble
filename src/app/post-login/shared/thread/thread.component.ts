@@ -10,7 +10,7 @@ import { ChatService } from '../../../services/chat/chat.service';
   standalone: true,
   imports: [ThreadHistoryComponent, CommonModule, ChatInputComponent],
   templateUrl: './thread.component.html',
-  styleUrl: './thread.component.scss'
+  styleUrl: './thread.component.scss',
 })
 export class ThreadComponent implements OnInit, OnDestroy {
   communicationService = inject(CommunicationService);
@@ -18,12 +18,11 @@ export class ThreadComponent implements OnInit, OnDestroy {
   chatService = inject(ChatService);
   constructor() {}
 
-
   ngOnInit(): void {
     this.threadService.subscribeAllLists();
     setTimeout(() => {
-			this.threadService.scrollToBottom();
-		}, 1500);
+      this.threadService.scrollToBottom();
+    }, 1500);
   }
 
   ngOnDestroy(): void {
@@ -33,24 +32,21 @@ export class ThreadComponent implements OnInit, OnDestroy {
     this.threadService.editMessageId = '';
   }
 
-
-/**
- * Handles the action when the close button is clicked in the thread interface.
- * 
- * This function performs two actions:
- * 1. Sets the visibility of the thread interface to true by calling `toggleThreadVisibility(true)` 
- *    on the `communicationService`. This is typically used to hide or show the thread UI.
- * 2. Unsubscribes from all active subscriptions related to threads by calling 
- *    `unsubscribeAllLists()` on the `threadService`. This is usually done to clean up resources
- *    and prevent memory leaks when closing or navigating away from the thread interface.
- * 
- * @returns {void}
- */
+  /**
+   * Handles the action when the close button is clicked in the thread interface.
+   *
+   * This function performs two actions:
+   * 1. Sets the visibility of the thread interface to true by calling `toggleThreadVisibility(true)`
+   *    on the `communicationService`. This is typically used to hide or show the thread UI.
+   * 2. Unsubscribes from all active subscriptions related to threads by calling
+   *    `unsubscribeAllLists()` on the `threadService`. This is usually done to clean up resources
+   *    and prevent memory leaks when closing or navigating away from the thread interface.
+   *
+   * @returns {void}
+   */
   handleClickOnClose() {
     this.communicationService.toggleThreadVisibility();
     this.threadService.unsubscribeAllLists();
     this.threadService.msgAnswerList = [];
   }
-
-
 }

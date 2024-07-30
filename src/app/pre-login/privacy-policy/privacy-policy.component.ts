@@ -6,8 +6,6 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './privacy-policy.component.html',
-  styleUrl: './privacy-policy.component.scss'
+  styleUrl: './privacy-policy.component.scss',
 })
-export class PrivacyPolicyComponent {
-
-}
+export class PrivacyPolicyComponent {}

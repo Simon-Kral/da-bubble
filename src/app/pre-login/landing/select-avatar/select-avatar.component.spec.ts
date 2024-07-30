@@ -8,10 +8,9 @@ describe('SelectAvatarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectAvatarComponent]
-    })
-    .compileComponents();
-    
+      imports: [SelectAvatarComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(SelectAvatarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

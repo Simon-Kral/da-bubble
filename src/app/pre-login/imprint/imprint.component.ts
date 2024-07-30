@@ -6,8 +6,6 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './imprint.component.html',
-  styleUrl: './imprint.component.scss'
+  styleUrl: './imprint.component.scss',
 })
-export class ImprintComponent {
-
-}
+export class ImprintComponent {}

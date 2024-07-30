@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
   searchService = inject(SearchService);
   threadService = inject(ThreadService);
   communicationService = inject(CommunicationService);
-  
+
   searchText: FormGroup;
   showUsers: boolean = false;
   showChannels: boolean = false;
@@ -40,25 +40,23 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {}
 
-
-  onScrollToMessageChat(messageId:string) {
+  onScrollToMessageChat(messageId: string) {
     this.chatService.scrollToMessage(messageId);
   }
 
-  onScrollToMessageThread(messageAnswerId:string) {
+  onScrollToMessageThread(messageAnswerId: string) {
     this.threadService.scrollToMessage(messageAnswerId);
   }
 
   closeSearchAfterMessageClick(id: string) {
-	this.chatService.scrollToMessage(id);
-	this.handleToggleFocus();
+    this.chatService.scrollToMessage(id);
+    this.handleToggleFocus();
   }
 
   closeSearchAfterThreadClick(id: string) {
-	this.threadService.scrollToMessage(id);
-	this.handleToggleFocus();
+    this.threadService.scrollToMessage(id);
+    this.handleToggleFocus();
   }
-
 
   handleSearch() {
     const searchInput = this.searchText.get('search')?.value || '';
@@ -123,9 +121,9 @@ export class HeaderComponent implements OnInit {
       this.searchService.unSubscribeOnUserSearch();
     }
     this.isFocusActive = !this.isFocusActive;
-	this.searchService.searchSpesificChannelMessageResault = [];
-	this.searchService.searchSpesificThreadMessageResaults = [];
-	this.searchText.reset();
+    this.searchService.searchSpesificChannelMessageResault = [];
+    this.searchService.searchSpesificThreadMessageResaults = [];
+    this.searchText.reset();
   }
 
   /**
@@ -140,7 +138,10 @@ export class HeaderComponent implements OnInit {
   }
 
   noMessageSearchResult() {
-	return !this.searchService.searchSpesificChannelMessageResault.length || !this.searchService.searchSpesificChannelMessageResault.length;
+    return (
+      !this.searchService.searchSpesificChannelMessageResault.length ||
+      !this.searchService.searchSpesificChannelMessageResault.length
+    );
   }
 
   convertUnixTimestampToTime(unixTimestamp: string): string {
@@ -149,8 +150,7 @@ export class HeaderComponent implements OnInit {
     const hours = date.getHours().toString().padStart(2, '0'); // Get hours and pad with leading zero if necessary.
     const minutes = date.getMinutes().toString().padStart(2, '0'); // Get minutes and pad with leading zero if necessary.
     const formattedTime = `${hours}:${minutes}`;
-  
+
     return formattedTime;
   }
-  
 }

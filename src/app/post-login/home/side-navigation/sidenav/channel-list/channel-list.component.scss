@@ -1,4 +1,4 @@
-@import "../../../../../../styles.scss";
+@import '../../../../../../styles.scss';
 
 .channel-list {
   @include dFlex(row, flex-start, flex-start);
@@ -21,21 +21,19 @@
     }
 
     &.active {
-        @include Nunito(700, 18px, 24.55px, $purple-3);
-        background-color: $bg-color;
+      @include Nunito(700, 18px, 24.55px, $purple-3);
+      background-color: $bg-color;
     }
   }
 }
 
-
 @media screen and (max-width: 600px) {
   .channel-list {
-	span {
-		width: 30ch;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
+    span {
+      width: 30ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
-	
 }

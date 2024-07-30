@@ -43,16 +43,14 @@ export class CommunicationService {
   isSidenavToggled: boolean = false;
   isSidenavAnimationComplete: boolean = false;
 
-	// welcome screen variables
-	isWelcomeScreenVisible: boolean = true;
+  // welcome screen variables
+  isWelcomeScreenVisible: boolean = true;
 
+  // mobile view variables
+  isMobileViewActive: boolean = false; // main flag to check if mobile view is active
 
-
-	// mobile view variables
-	isMobileViewActive: boolean = false;      // main flag to check if mobile view is active
-  
-  isRotateDeviceVisible: boolean = false;         // flag to show rotate your device message
-  isSmallScreenVisible: boolean = false;          // flag to indicate if the screen is small (mobile view < 1200px for tablets)
+  isRotateDeviceVisible: boolean = false; // flag to show rotate your device message
+  isSmallScreenVisible: boolean = false; // flag to indicate if the screen is small (mobile view < 1200px for tablets)
 
   isMobileUserMenuVisible: boolean = false;
 
@@ -102,7 +100,7 @@ export class CommunicationService {
    */
   toggleSidenav(): void {
     if (!this.isMobileViewActive) {
-		this.isSidenavVisible = !this.isSidenavVisible;
+      this.isSidenavVisible = !this.isSidenavVisible;
       this.isSidenavToggled = !this.isSidenavToggled;
       console.log('isSidenavToggled: ', this.isSidenavToggled);
       console.log('isSidenavVisible: ', this.isSidenavVisible);
@@ -113,10 +111,10 @@ export class CommunicationService {
       } else {
         this.isSidenavAnimationComplete = false;
       }
-    }  else {
-	  this.isSidenavVisible = !this.isSidenavVisible;
-	  this.isSidenavToggled = !this.isSidenavToggled;
-	}
+    } else {
+      this.isSidenavVisible = !this.isSidenavVisible;
+      this.isSidenavToggled = !this.isSidenavToggled;
+    }
   }
 
   closeMobileMenuPopupOverlay(menu: string) {

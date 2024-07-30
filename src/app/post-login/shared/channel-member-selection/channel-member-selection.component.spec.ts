@@ -8,10 +8,9 @@ describe('ChannelMemberSelectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChannelMemberSelectionComponent]
-    })
-    .compileComponents();
-    
+      imports: [ChannelMemberSelectionComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ChannelMemberSelectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

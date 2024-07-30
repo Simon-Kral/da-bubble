@@ -8,10 +8,9 @@ describe('MobileHeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MobileHeaderComponent]
-    })
-    .compileComponents();
-    
+      imports: [MobileHeaderComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(MobileHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -8,7 +8,7 @@
   border: 1px solid $purple-2;
   position: relative;
 
-  >textarea {
+  > textarea {
     width: 100%;
     height: 60%;
     border: none;
@@ -40,25 +40,25 @@
     }
   }
 
-  >.button-container {
+  > .button-container {
     @include dFlex(row, space-between, center);
 
-    >.left-section {
+    > .left-section {
       @include dFlex(row, center, center);
       gap: 16px;
 
-      >.icon {
+      > .icon {
         width: 24px;
         height: 24px;
       }
 
-      >span {
+      > span {
         @include Nunito(700, 16px, 21.82px, $text-gray);
       }
     }
 
-    >.right-section {
-      >button {
+    > .right-section {
+      > button {
         @include dFlex(row, center, center);
         border: none;
         background-color: $white;
@@ -119,7 +119,7 @@
 }
 
 // file upload
-input[type="file"] {
+input[type='file'] {
   display: none;
 }
 
@@ -147,7 +147,7 @@ input[type="file"] {
   border-radius: 20px;
   z-index: 555;
 
-  >.close-button {
+  > .close-button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -174,7 +174,7 @@ input[type="file"] {
   position: relative;
   @include dFlex(center, center);
 
-  >img {
+  > img {
     width: inherit;
     height: inherit;
     border-radius: 20px;

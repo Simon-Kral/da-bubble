@@ -18,17 +18,15 @@ import { ref } from '@angular/fire/storage';
 export class ChatInputComponent implements OnDestroy, OnInit {
   chatService = inject(ChatService);
   firebaseService = inject(FirebaseService);
-  communicationService = inject(CommunicationService)
+  communicationService = inject(CommunicationService);
   storageService = inject(StorageService);
-  
-
 
   @Input() sourceComponent: string = ''; // Variable to hold the source component's name or identifier
   @Input() placeholderText: string = ''; // Variable to hold the placeholder text for the chat input
   @Input() lableId: string = '';
   @Output() messageEvent = new EventEmitter<{
     message: string;
-    source: string;   // to-do do we need this?
+    source: string; // to-do do we need this?
     timestamp: number; // to-do do we need this?
     taggedUser: string[];
     storageData: string;
@@ -37,23 +35,20 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   messageData: FormGroup;
   iconSourceSend = 'assets/img/icons/send_dark_blue.png';
 
-
   //emoji picker
-  showEmojiPicker:boolean = false;
+  showEmojiPicker: boolean = false;
 
   // tag list
-  showTagContainer:boolean = false;
+  showTagContainer: boolean = false;
   // tag List for all users
-  showAllUser:boolean = false;
+  showAllUser: boolean = false;
   // tagged users
   taggedUser: string[] = [];
   taggedUserNames: string[] = [];
 
-
   // storgae data
   storageData: string = '';
   fileName: string = '';
-
 
   constructor(private fb: FormBuilder) {
     this.messageData = this.fb.group({
@@ -61,11 +56,10 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     });
   }
 
-ngOnInit(): void {
-  this.taggedUser = [];
-  this.storageData = '';
-}
-
+  ngOnInit(): void {
+    this.taggedUser = [];
+    this.storageData = '';
+  }
 
   ngOnDestroy(): void {
     this.taggedUser = [];
@@ -90,9 +84,9 @@ ngOnInit(): void {
     }
 
     const messageToSend = {
-      timestamp: this.getCurrentTime(),     // to-do do we need this?
+      timestamp: this.getCurrentTime(), // to-do do we need this?
       message: this.messageData.value.message,
-      source: this.sourceComponent,        // to-do do we need this?
+      source: this.sourceComponent, // to-do do we need this?
       storageData: this.storageData,
       taggedUser: this.taggedUser,
     };
@@ -102,8 +96,6 @@ ngOnInit(): void {
     console.log('Storage data in child before emit:', this.storageData);
     this.taggedUser = [];
     this.storageData = '';
-
-
   }
 
   //emoji code
@@ -126,7 +118,6 @@ ngOnInit(): void {
     this.toggleEmojiPicker();
   }
 
-
   //tag user code
   toggleTagUser() {
     this.showTagContainer = !this.showTagContainer;
@@ -135,7 +126,7 @@ ngOnInit(): void {
   tagChannelMember(userName: string, userId: string, index: number) {
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
-    if (this.taggedUser.length +1  == this.firebaseService.channelList[index].members.length) {
+    if (this.taggedUser.length + 1 == this.firebaseService.channelList[index].members.length) {
       this.showTagContainer = false;
     }
   }
@@ -146,10 +137,10 @@ ngOnInit(): void {
     this.showTagContainer = false;
   }
 
-  tagUser(userName: string, userId: string,) {
+  tagUser(userName: string, userId: string) {
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
-    if (this.taggedUser.length +1  == this.firebaseService.userList.length) {
+    if (this.taggedUser.length + 1 == this.firebaseService.userList.length) {
       this.showTagContainer = false;
     }
   }
@@ -163,30 +154,28 @@ ngOnInit(): void {
   uploadFile(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput.files?.item(0);
-  	this.fileName = file?.name || '';
-	if (file) {
-		const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
-		this.storageService.uploadFile(storageRef, file).subscribe({
-			next: (snapshot) => {
-				this.storageService.getURL(snapshot.ref).subscribe({
-					next: (url) => {
-						this.storageData = url;
-
-					},
-				});
-			},
-		});
-	}
+    this.fileName = file?.name || '';
+    if (file) {
+      const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
+      this.storageService.uploadFile(storageRef, file).subscribe({
+        next: (snapshot) => {
+          this.storageService.getURL(snapshot.ref).subscribe({
+            next: (url) => {
+              this.storageData = url;
+            },
+          });
+        },
+      });
+    }
   }
 
   closeAndDelete() {
-	  this.delteFileFromStorage();
-	  this.storageData = '';
+    this.delteFileFromStorage();
+    this.storageData = '';
   }
 
   delteFileFromStorage() {
-	const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${this.fileName}`);
-	this.storageService.deleteFile(storageRef);
+    const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${this.fileName}`);
+    this.storageService.deleteFile(storageRef);
   }
-	
 }

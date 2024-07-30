@@ -12,10 +12,9 @@ import { ThreadService } from '../../../services/thread/thread.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './mobile-user-menu.component.html',
-  styleUrl: './mobile-user-menu.component.scss'
+  styleUrl: './mobile-user-menu.component.scss',
 })
 export class MobileUserMenuComponent {
-
   communicationService = inject(CommunicationService);
   authService = inject(AuthService);
   appComponent = inject(AppComponent);
@@ -23,7 +22,6 @@ export class MobileUserMenuComponent {
   chatService = inject(ChatService);
   threadService = inject(ThreadService);
 
-  
   activeMenu: string = '';
 
   setActiveMenu(menu: string) {
@@ -31,21 +29,20 @@ export class MobileUserMenuComponent {
   }
 
   logout(): void {
-	// to-do OPTIONAL update user status to offline when close tab
-	this.appComponent.notificateUser('Abmelden');
-	this.firebaseService.unsubscribeAllLists();
-	this.chatService.unsubscribeAllLists();
-	this.threadService.unsubscribeAllLists();
-	this.firebaseService.updateUserStatus(false)
-		.then(()=>{
-				this.authService.logout().subscribe({
-				next: () => {
-					sessionStorage.clear();
-				},
-				error: (err) => {
-					console.log(err);
-				},
-			});
-		})
-	}
+    // to-do OPTIONAL update user status to offline when close tab
+    this.appComponent.notificateUser('Abmelden');
+    this.firebaseService.unsubscribeAllLists();
+    this.chatService.unsubscribeAllLists();
+    this.threadService.unsubscribeAllLists();
+    this.firebaseService.updateUserStatus(false).then(() => {
+      this.authService.logout().subscribe({
+        next: () => {
+          sessionStorage.clear();
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    });
+  }
 }

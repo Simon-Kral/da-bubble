@@ -1,4 +1,4 @@
-@import "../../../../src/styles.scss";
+@import '../../../../src/styles.scss';
 
 .private-msg-wrapper {
   @include dFlex(column, space-between, center);
@@ -49,7 +49,7 @@
     }
   }
 
-  // for empty privateNote-overlay 
+  // for empty privateNote-overlay
   .chat-history {
     position: relative;
     .empty-chat-overlay {

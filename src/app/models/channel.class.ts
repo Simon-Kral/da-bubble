@@ -1,5 +1,5 @@
-import { Message } from "./message.class";
-import { User } from "./user.class";
+import { Message } from './message.class';
+import { User } from './user.class';
 
 export class Channel {
   chanId: string;

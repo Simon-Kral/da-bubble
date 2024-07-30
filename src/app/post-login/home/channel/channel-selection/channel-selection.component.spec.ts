@@ -8,10 +8,9 @@ describe('ChannelSelectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChannelSelectionComponent]
-    })
-    .compileComponents();
-    
+      imports: [ChannelSelectionComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ChannelSelectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -8,7 +8,7 @@ import { CommunicationService } from '../../../services/communication/communicat
   standalone: true,
   imports: [CommonModule],
   templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.scss'
+  styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent {
   firebaseService = inject(FirebaseService);
@@ -18,22 +18,21 @@ export class UserProfileComponent {
   @Input() isUserProfileVisible: boolean = false;
   @Output() userProfileVisibilityChange = new EventEmitter<boolean>();
 
-  showDataOfUser = this.communicationService.userProfileId; 
+  showDataOfUser = this.communicationService.userProfileId;
   /**
-  * Closes the user profile by emitting an event to change its visibility.
-  * @returns {void}
-  */
+   * Closes the user profile by emitting an event to change its visibility.
+   * @returns {void}
+   */
   closeUserProfile(): void {
     this.userProfileVisibilityChange.emit(false);
   }
   /**
-  * Initiates a new private chat between the current user and the selected user profile.
-  * Hides the user profile after initiating the chat.
-  * @returns {void}
-  */
+   * Initiates a new private chat between the current user and the selected user profile.
+   * Hides the user profile after initiating the chat.
+   * @returns {void}
+   */
   startNewPrivateChat() {
     this.chatService.initializePrivateChat(this.firebaseService.currentUserId, this.communicationService.userProfileId);
     this.userProfileVisibilityChange.emit(false);
   }
-
 }

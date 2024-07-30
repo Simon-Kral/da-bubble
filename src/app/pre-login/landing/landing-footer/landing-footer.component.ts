@@ -6,10 +6,8 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './landing-footer.component.html',
-  styleUrl: './landing-footer.component.scss'
+  styleUrl: './landing-footer.component.scss',
 })
 export class LandingFooterComponent {
-	constructor() {
-
-	}
+  constructor() {}
 }

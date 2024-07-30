@@ -1,4 +1,4 @@
-@import "../../../styles.scss";
+@import '../../../styles.scss';
 
 .home-wrapper {
   @include dFlex(column, flex-start, flex-start);
@@ -53,7 +53,6 @@
   }
 }
 
-
 .app-container {
   @include dFlex(row, center, center);
   width: 100%;
@@ -67,8 +66,7 @@
   }
 }
 
-
-// sideNav controller	
+// sideNav controller
 .sidenav-controller {
   @include dFlex(row, center, center);
   width: 50px;
@@ -118,7 +116,9 @@
   left: 0;
   width: 100svw;
   height: 100svh;
-  transition: background, ease-in-out 0.175s backdrop-filter;
+  transition:
+    background,
+    ease-in-out 0.175s backdrop-filter;
   background: rgba(0, 0, 0, 0);
   z-index: 7;
 
@@ -144,7 +144,7 @@
   right: 140px;
 }
 
-// mobile view menu wrapper 
+// mobile view menu wrapper
 .mobile-popup-wrapper {
   @include dFlex(row, center, flex-end);
   position: fixed;
@@ -152,7 +152,9 @@
   left: 0;
   width: 100svw;
   height: 100svh;
-  transition: background 0.175s ease-in-out, backdrop-filter 0.175s ease-in-out;
+  transition:
+    background 0.175s ease-in-out,
+    backdrop-filter 0.175s ease-in-out;
   background: rgba(0, 0, 0, 0);
   z-index: 55;
   &.visible {
@@ -185,7 +187,6 @@
       }
     }
   }
-
 }
 
 // welcome screen
@@ -218,25 +219,21 @@ app-welcome-screen {
 
 // channel details content
 
-
 .channel-details-content {
   @include dFlex(column, center, center);
 }
 
-
-
- 
-@media  screen and (max-width: 850px) {
-	.home-content {
-		height: unset;
-	}
+@media screen and (max-width: 850px) {
+  .home-content {
+    height: unset;
+  }
 
   .app-wrapper {
-    position: absolute!important;
+    position: absolute !important;
   }
 
   .sidenav-wrapper {
-    width: 100%!important;
-    padding: unset!important;
+    width: 100% !important;
+    padding: unset !important;
   }
 }

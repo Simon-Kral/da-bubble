@@ -6,19 +6,14 @@ import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 
 @Component({
-	selector: 'app-landing',
-	standalone: true,
-	imports: [
-		LandingHeaderComponent,
-		LandingFooterComponent,
-		RouterOutlet,
-		NgIf,
-	],
-	animations: [],
-	templateUrl: './landing.component.html',
-	styleUrl: './landing.component.scss',
+  selector: 'app-landing',
+  standalone: true,
+  imports: [LandingHeaderComponent, LandingFooterComponent, RouterOutlet, NgIf],
+  animations: [],
+  templateUrl: './landing.component.html',
+  styleUrl: './landing.component.scss',
 })
 export class LandingComponent {
-	authService = inject(AuthService);
-	router = inject(Router);
+  authService = inject(AuthService);
+  router = inject(Router);
 }

@@ -28,7 +28,7 @@ export class ChannelListComponent {
    *
    * @param {string} chanId - The ID of the channel.
    */
-  handleChannelClick( chanId: string) {
+  handleChannelClick(chanId: string) {
     this.chatService.mainCollection = 'channels';
     this.chatService.docRef = chanId;
     this.chatService.initializeChannelPlaceholder(chanId);

@@ -5,7 +5,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ChatService } from '../../../../services/chat/chat.service';
 import { CommonModule } from '@angular/common';
 import { CommunicationService } from '../../../../services/communication/communication.service';
-import { doc, updateDoc } from 'firebase/firestore'; 
+import { doc, updateDoc } from 'firebase/firestore';
 import { ChannelMemberComponent } from '../channel-member/channel-member.component';
 
 @Component({

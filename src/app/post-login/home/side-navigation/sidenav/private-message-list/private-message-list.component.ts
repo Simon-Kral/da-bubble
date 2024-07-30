@@ -32,7 +32,7 @@ export class PrivateMessageListComponent {
     this.chatService.docRef = messageId;
     this.chatService.subscribeMsgList();
     this.chatService.placeholderName =
-    this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) + ' (Du)';
+      this.firebaseService.getUserDisplayName(this.firebaseService.currentUserId) + ' (Du)';
     this.communicationService.isThreadVisible = false;
     this.threadService.unsubscribeAllLists();
     this.threadService.msgAnswerList = [];

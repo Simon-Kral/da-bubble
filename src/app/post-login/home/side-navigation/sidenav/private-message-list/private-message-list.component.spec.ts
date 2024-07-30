@@ -8,10 +8,9 @@ describe('PrivateMessageListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PrivateMessageListComponent]
-    })
-    .compileComponents();
-    
+      imports: [PrivateMessageListComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(PrivateMessageListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

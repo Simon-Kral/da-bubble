@@ -12,4 +12,3 @@ export class PrivateChat {
     this.chatReciver = obj ? obj.chatReciver : '';
   }
 }
-

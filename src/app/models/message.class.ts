@@ -34,5 +34,4 @@ export class Message {
     this.storageData = obj ? obj.storageData : '';
     this.taggedUser = obj ? obj.taggedUser : [];
   }
-
 }

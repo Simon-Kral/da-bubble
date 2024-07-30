@@ -1,4 +1,4 @@
-@import "../../../../../styles.scss";
+@import '../../../../../styles.scss';
 
 .sidenav-wrapper {
   position: relative;
@@ -83,8 +83,8 @@
   @include dFlex(row, flex-start, center);
   gap: 10px;
 
-  &:hover h2{
-      @include Nunito(700, 20px, 27.28px, $purple-3);
+  &:hover h2 {
+    @include Nunito(700, 20px, 27.28px, $purple-3);
   }
   &:hover img {
     filter: invert(50%) sepia(37%) saturate(6446%) hue-rotate(220deg) brightness(99%) contrast(93%);
@@ -127,12 +127,12 @@
   @include dFlex(row, flex-start, center);
   gap: 10px;
   margin-left: 12px;
-  span{
+  span {
     @include Nunito(400, 18px, 24.55px, $black);
   }
- 
+
   &:hover span {
-      color: $purple-3;
+    color: $purple-3;
   }
   &:hover img {
     filter: invert(50%) sepia(37%) saturate(6446%) hue-rotate(220deg) brightness(99%) contrast(93%);
@@ -154,7 +154,6 @@
 
   h2 {
     @include Nunito(700, 20px, 27.28px, $black);
-
   }
   &:hover {
     h2 {
@@ -184,7 +183,7 @@
 
 //<!--mobile button for new-message component-->
 
-.mobile-new-msg-button{
+.mobile-new-msg-button {
   @include dFlex(row, center, center);
   width: 60px;
   height: 60px;
@@ -209,14 +208,12 @@
 }
 
 @media screen and (max-width: 850px) {
-
   .sidenav-wrapper {
     padding: 16px 10px 16px 10px;
   }
 }
 
 @media screen and (max-width: 376px) {
-
   .sidenav-wrapper {
     overflow-x: hidden;
   }

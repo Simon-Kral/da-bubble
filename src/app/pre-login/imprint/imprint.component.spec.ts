@@ -8,10 +8,9 @@ describe('ImprintComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ImprintComponent]
-    })
-    .compileComponents();
-    
+      imports: [ImprintComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ImprintComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

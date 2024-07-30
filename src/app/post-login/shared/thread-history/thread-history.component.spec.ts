@@ -8,10 +8,9 @@ describe('ThreadHistoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ThreadHistoryComponent]
-    })
-    .compileComponents();
-    
+      imports: [ThreadHistoryComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ThreadHistoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

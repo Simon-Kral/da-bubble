@@ -6,40 +6,39 @@ import { CommunicationService } from '../../../services/communication/communicat
 import { AppComponent } from '../../../app.component';
 import { ThreadService } from '../../../services/thread/thread.service';
 @Component({
-	selector: 'app-user-menu',
-	standalone: true,
-	imports: [],
-	templateUrl: './user-menu.component.html',
-	styleUrl: './user-menu.component.scss',
+  selector: 'app-user-menu',
+  standalone: true,
+  imports: [],
+  templateUrl: './user-menu.component.html',
+  styleUrl: './user-menu.component.scss',
 })
 export class UserMenuComponent {
-	authService = inject(AuthService);
-	firebaseService = inject(FirebaseService);
-	chatService = inject(ChatService);
-	communicationService = inject(CommunicationService);
-	threadService = inject(ThreadService);
-	
-	@Input() isUserMenuVisible: boolean = false;
-	@Output() userMenuVisibilityChange = new EventEmitter<boolean>();
+  authService = inject(AuthService);
+  firebaseService = inject(FirebaseService);
+  chatService = inject(ChatService);
+  communicationService = inject(CommunicationService);
+  threadService = inject(ThreadService);
 
-	constructor(public appComponent: AppComponent) {}
+  @Input() isUserMenuVisible: boolean = false;
+  @Output() userMenuVisibilityChange = new EventEmitter<boolean>();
 
-	logout(): void {
-		// to-do OPTIONAL update user status to offline when close tab
-		this.appComponent.notificateUser('Abmelden');
-		this.firebaseService.unsubscribeAllLists();
-		this.chatService.unsubscribeAllLists();
-		this.threadService.unsubscribeAllLists();
-		this.firebaseService.updateUserStatus(false)
-			.then(()=>{
-					this.authService.logout().subscribe({
-					next: () => {
-						sessionStorage.clear();
-					},
-					error: (err) => {
-						console.log(err);
-					},
-				});
-			})
-	}
+  constructor(public appComponent: AppComponent) {}
+
+  logout(): void {
+    // to-do OPTIONAL update user status to offline when close tab
+    this.appComponent.notificateUser('Abmelden');
+    this.firebaseService.unsubscribeAllLists();
+    this.chatService.unsubscribeAllLists();
+    this.threadService.unsubscribeAllLists();
+    this.firebaseService.updateUserStatus(false).then(() => {
+      this.authService.logout().subscribe({
+        next: () => {
+          sessionStorage.clear();
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    });
+  }
 }
