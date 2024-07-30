@@ -52,6 +52,11 @@ export class StorageService {
       });
   }
 
+  deleteFileByUrl(url: string) {
+	const storageRef = ref(this.storage, url);
+	this.deleteFile(storageRef);
+  }
+
   /**
    * Downloads a file from the specified URL directly.
    *

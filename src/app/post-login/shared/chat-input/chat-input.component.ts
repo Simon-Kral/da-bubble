@@ -224,4 +224,5 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${this.fileName}`);
     this.storageService.deleteFile(storageRef);
   }
+
 }
