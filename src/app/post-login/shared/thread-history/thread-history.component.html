@@ -46,7 +46,11 @@
             }
             <span>{{ msg.text }}</span>
             <!--storage pic-->
-            @if (msg.storageData) {
+            @if (
+              (msg.storageData && msg.storageData.includes(".jpg")) ||
+              msg.storageData.includes(".png") ||
+              msg.storageData.includes(".jpeg")
+            ) {
               <div class="storage-pic-container">
                 <div class="wrapper">
                   <a class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
@@ -54,6 +58,17 @@
                   </a>
                   <a href="{{ msg.storageData }}" target="_blank">
                     <img src="{{ msg.storageData }}" />
+                  </a>
+                </div>
+              </div>
+            } @else {
+              <div class="storage-pic-container">
+                <div class="wrapper">
+                  <a class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
+                    <img class="download-icon" src="assets/img/icons/download_white.png" alt="" />
+                  </a>
+                  <a href="{{ msg.storageData }}" target="_blank">
+                    <img src="assets/img/icons/pdf_white.png" />
                   </a>
                 </div>
               </div>
@@ -224,7 +239,11 @@
             }
             <span>{{ msg.text }}</span>
             <!--storage pic-->
-            @if (msg.storageData) {
+            @if (
+              (msg.storageData && msg.storageData.includes(".jpg")) ||
+              msg.storageData.includes(".png") ||
+              msg.storageData.includes(".jpeg")
+            ) {
               <div class="storage-pic-container">
                 <div class="wrapper">
                   <a class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
@@ -232,6 +251,17 @@
                   </a>
                   <a href="{{ msg.storageData }}" target="_blank">
                     <img src="{{ msg.storageData }}" />
+                  </a>
+                </div>
+              </div>
+            } @else {
+              <div class="storage-pic-container">
+                <div class="wrapper">
+                  <a class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
+                    <img class="download-icon" src="assets/img/icons/download_white.png" alt="" />
+                  </a>
+                  <a href="{{ msg.storageData }}" target="_blank">
+                    <img src="assets/img/icons/pdf_white.png" />
                   </a>
                 </div>
               </div>

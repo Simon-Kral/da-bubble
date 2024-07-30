@@ -50,6 +50,7 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   // storgae data
   storageData: string = '';
   fileName: string = '';
+  fileType: string = '';
 
   constructor(private fb: FormBuilder) {
     this.messageData = this.fb.group({
@@ -185,6 +186,10 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput.files?.item(0);
     this.fileName = file?.name || '';
+	this.fileType = file?.type || '';
+	console.log('File type:', this.fileType);
+	
+
     if (file) {
       const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
       // Check if storageRef already exists in the database

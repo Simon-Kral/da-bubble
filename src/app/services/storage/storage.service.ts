@@ -53,8 +53,8 @@ export class StorageService {
   }
 
   deleteFileByUrl(url: string) {
-	const storageRef = ref(this.storage, url);
-	this.deleteFile(storageRef);
+    const storageRef = ref(this.storage, url);
+    this.deleteFile(storageRef);
   }
 
   /**
