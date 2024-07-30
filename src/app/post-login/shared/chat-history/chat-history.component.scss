@@ -1,10 +1,24 @@
 @import '../../../../styles.scss';
-@import url('./chat-history.responsive.component.scss');
 @import '@ctrl/ngx-emoji-mart/picker';
 
 .chat-history-wrapper {
   @include dFlex(column, flex-end, flex-start);
   position: relative;
+}
+
+.current-user-msg-bottom {
+  @include dFlex(row, flex-start, center);
+  gap: 20px;
+
+  span {
+    @include Nunito(400, 18px, 24.55px, $purple-3);
+    text-wrap: nowrap;
+  }
+
+  p {
+    @include Nunito(400, 14px, 19.1px, $text-gray);
+    text-wrap: nowrap;
+  }
 }
 
 //msg date-->
@@ -383,21 +397,6 @@
       }
     }
 
-    .current-user-msg-bottom {
-      @include dFlex(row, flex-start, center);
-      gap: 20px;
-
-      span {
-        @include Nunito(400, 18px, 24.55px, $purple-3);
-        text-wrap: nowrap;
-      }
-
-      p {
-        @include Nunito(400, 14px, 19.1px, $text-gray);
-        text-wrap: nowrap;
-      }
-    }
-
     .reactions-container {
       @include dFlex(row, flex-end, center);
       width: 90%;
@@ -646,7 +645,7 @@
       &:hover {
         background-color: $online-red;
         transition: all 175ms ease-in-out;
-  
+
         &:hover span {
           @include Nunito(700, 18px, 24.55px, $white);
         }
@@ -710,78 +709,80 @@
       @include Nunito(400, 14px, 19.1px, $black!important);
     }
   }
+}
 
-  @media screen and (max-width: 600px) {
-    .user-msg {
-      gap: 8px !important;
-    }
-    .current-user-msg {
-      gap: 8px !important;
+@media screen and (max-width: 600px) {
+  .user-msg {
+    gap: 8px !important;
+  }
+  .current-user-msg {
+    gap: 8px !important;
 
-      .msg-menu {
-        top: -30px !important;
-        left: 8px !important;
-        .edit-msg-menu {
-          top: 45px !important;
-          left: 10% !important;
-          height: 88px !important;
-          gap: unset !important;
-        }
+    .msg-menu {
+      top: -30px !important;
+      left: 8px !important;
+      .edit-msg-menu {
+        top: 45px !important;
+        left: 10% !important;
+        height: 88px !important;
+        gap: unset !important;
       }
     }
-    .current-user-msg-bottom {
-      flex-direction: column !important;
-      align-items: flex-end !important;
-      gap: 4px !important;
-    }
+  }
 
-    .msg-bottom {
-      flex-direction: column !important;
-      align-items: flex-start !important;
-      gap: 4px !important;
-    }
+  .msg-bottom {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+  }
 
-    .current-user-msg-top {
-      gap: 8px !important;
-    }
+  .current-user-msg-top {
+    gap: 8px !important;
+  }
 
-    .msg-top {
-      gap: 8px !important;
+  .msg-top {
+    gap: 8px !important;
+  }
+  .tagged-user-container {
+    gap: 8px;
+    padding: 4px !important;
+    span {
+      @include Nunito(400, 12px, 17.1px, $black!important);
     }
-    .tagged-user-container {
-      gap: 8px;
-      padding: 4px !important;
-      span {
-        @include Nunito(400, 12px, 17.1px, $black!important);
+  }
+  .storage-pic-container {
+    padding: unset !important;
+    width: 130px;
+    height: 130px;
+    .wrapper {
+      width: 130px !important;
+      height: 130px !important;
+
+      a {
+        top: 4px !important;
+        right: 8px !important;
       }
     }
-    .storage-pic-container {
-      padding: unset !important;
+  }
 
-      .wrapper {
-        width: 160px !important;
-        height: 130px !important;
-
-        a {
-          top: 4px !important;
-          right: 8px !important;
-        }
-      }
-    }
-
-    .edit-msg-overlay {
-      .content-container {
-        .edit-msg-form {
-          .bottom-section {
+  .edit-msg-overlay {
+    .content-container {
+      .edit-msg-form {
+        .bottom-section {
+          gap: 8px !important;
+          .bottom-right {
+            flex-direction: column !important;
             gap: 8px !important;
-            .bottom-right {
-              flex-direction: column !important;
-              gap: 8px !important;
-            }
           }
         }
       }
     }
+  }
+
+  .current-user-msg-bottom {
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    gap: 4px !important;
   }
 }
 
