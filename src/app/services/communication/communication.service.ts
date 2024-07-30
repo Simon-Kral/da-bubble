@@ -101,29 +101,18 @@ export class CommunicationService {
    * Toggles the visibility of the sidenav and sets the toggled flag.
    */
   toggleSidenav(): void {
-    console.log('State of toggleSidenav before toggle:', this.isSidenavToggled);
-    console.log('State of isSidenavVisible before toggle:', this.isSidenavVisible);
-
     if (this.isSidenavVisible) {
       this.isSidenavAnimationComplete = false;
       this.isSidenavToggled = true;
-
       this.isSidenavVisible = false;
       setTimeout(() => {
         this.isSidenavAnimationComplete = true;
-        console.log('Sidenav hidden');
-        console.log('State of toggleSidenav after hide:', this.isSidenavToggled);
-        console.log('State of isSidenavVisible after hide:', this.isSidenavVisible);
       }, 175);
     } else {
       this.isSidenavAnimationComplete = false;
-
       this.isSidenavVisible = true;
       setTimeout(() => {
         this.isSidenavAnimationComplete = true;
-        console.log('Sidenav shown');
-        console.log('State of toggleSidenav after show Animation:', this.isSidenavToggled);
-        console.log('State of isSidenavVisible after show Animation:', this.isSidenavVisible);
       }, 175);
     }
   }
