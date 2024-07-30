@@ -23,7 +23,7 @@ export class SearchService {
   //Private chat messages search
   searchSpecificThreadMessageResults: any[] = [];
   //channel messages search
- searchSpecificChannelMessageResults: any[] = [];
+  searchSpecificChannelMessageResults: any[] = [];
 
   private channelSubscription: Subscription = new Subscription();
   private userSubscription: Subscription = new Subscription();
@@ -164,27 +164,6 @@ export class SearchService {
   onChannelFocus() {
     this.channelSearchActive = true;
     this.searchChannelsByName().subscribe((channels) => {});
-  }
-
-  /**
-   * Handles the click event on a channel.
-   * Navigates to the specified channel and performs necessary cleanup.
-   * to-do: do we need that really here?!?!
-   * @param channelId - The ID of the channel to navigate to.
-   */
-  handleClickOnChannelAndUnSub(channelId: string) {
-    console.log('channelId on channelclick in header serach', channelId);
-    this.router.navigate(['/home/channels', channelId]);
-    this.channelSearchActive = false;
-    this.channelSearchResults = [];
-    this.unSubscribeOnChannelSearch();
-  }
-  //to-do: do we need that really here?!?!
-  handleClickOnUserAndUnSub(userId: string) {
-    this.chatService.initializePrivateChat(this.firebaseService.currentUserId, userId);
-    this.memberSearchActive = false;
-    this.userSearchResults = [];
-    this.unSubscribeOnUserSearch();
   }
 
   /**

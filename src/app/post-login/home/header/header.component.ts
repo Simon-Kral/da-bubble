@@ -109,7 +109,10 @@ export class HeaderComponent implements OnInit {
     this.showChannels = false;
     this.communicationService.isWelcomeScreenVisible = false;
     this.communicationService.isRouterOutletVisible = true;
-    this.searchService.handleClickOnUserAndUnSub(userId);
+    this.chatService.initializePrivateChat(this.firebaseService.currentUserId, userId);
+    this.searchService.memberSearchActive = false;
+    this.searchService.userSearchResults = [];
+    this.searchService.unSubscribeOnUserSearch();
   }
 
   //user profile functions
@@ -138,7 +141,11 @@ export class HeaderComponent implements OnInit {
     //unsubscribe from channel search
     this.communicationService.isWelcomeScreenVisible = false;
     this.communicationService.isRouterOutletVisible = true;
-    this.searchService.handleClickOnChannelAndUnSub(channelId);
+    console.log('channelId on channelclick in header serach', channelId);
+    this.router.navigate(['/home/channels', channelId]);
+    this.searchService.channelSearchActive = false;
+    this.searchService.channelSearchResults = [];
+    this.searchService.unSubscribeOnChannelSearch();
   }
 
   noMessageSearchResult() {
