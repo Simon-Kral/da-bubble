@@ -165,7 +165,7 @@ ngOnInit(): void {
     const file = fileInput.files?.item(0);
   	this.fileName = file?.name || '';
 	if (file) {
-		const storageRef = ref(this.storageService.storage, `chatData/${file.name}`);
+		const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
 		this.storageService.uploadFile(storageRef, file).subscribe({
 			next: (snapshot) => {
 				this.storageService.getURL(snapshot.ref).subscribe({
