@@ -76,17 +76,15 @@ export class FirebaseService {
 	 */
 	setInitialDatabaseEntries(username?: string): void {
 		const userId = this.authService.firebaseAuth.currentUser!.uid;
-		const userQuery = query(collection(this.firestore, 'users'), where('userId', '==', userId));
-		getDocs(userQuery).then((snap)=>{
-			console.log(snap.docs.length)
-			if (snap.docs.length === 0) {
-				const userDoc = doc(this.firestore, 'users', userId);
-				const privateChatDoc = doc(this.firestore, 'privateNotes', userId);
-				setDoc(userDoc, this.setUserObject(username)).then(() => {
-					setDoc(privateChatDoc, this.setPrivateNoteObject());
-				});
-			}
-		})
+		const userDoc = doc(this.firestore, 'users', userId);
+		const privateChatDoc = doc(this.firestore, 'privateNotes', userId);
+		setDoc(userDoc, this.setUserObject(username)).then(() => {
+			console.log('userObject: success')
+			setDoc(privateChatDoc, this.setPrivateNoteObject()).then(()=>{
+				console.log('privateNote: success')
+			});
+		});
+
 	}
 
   /**

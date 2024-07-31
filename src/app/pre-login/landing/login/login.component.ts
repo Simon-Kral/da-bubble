@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/authentication/auth.service';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { collection, doc, Firestore, getDocs, query, setDoc, where } from '@angular/fire/firestore';
 import { AppComponent } from '../../../app.component';
 import { FirebaseService } from '../../../services/firebase/firebase.service';
 
@@ -90,7 +90,13 @@ export class LoginComponent {
 		this.appComponent.notificateUser('Anmelden');
 		this.authService.signupWithGoogle().subscribe({
 			next: () => {
-				this.firebase.setInitialDatabaseEntries();
+				const userQuery = query(collection(this.firestore, 'users'), where('userId', '==', this.authService.firebaseAuth.currentUser!.uid));
+				getDocs(userQuery).then((snap)=>{
+					console.log(snap.docs.length)
+					if (snap.docs.length === 0) {
+						this.firebase.setInitialDatabaseEntries();
+					}
+				})
 			},
 		});
 	}
