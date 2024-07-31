@@ -25,6 +25,8 @@ export class CommunicationService {
   //router-outelt variables
   isRouterOutletVisible: boolean = false;
 
+  isHeaderInputVisible: boolean = false;
+
   // user profile variabels
   userProfileId: string = ''; // is getting used to store userId of the user whose profile is being viewed
   // edit msg menu

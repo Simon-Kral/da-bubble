@@ -15,10 +15,7 @@
 
   <!--storage preview start-->
 
-  @if (
-    (this.storageData && this.fileType === "image/jpeg") ||
-    this.fileType === "image/png" ||
-    this.fileType === "image/jpg") {
+  @if (this.storageData && this.isStorageDataImage(this.storageData)) {
     <div class="preview-container">
       <div (click)="this.closeAndDelete()" class="close-button pointer">X</div>
       <div class="image-preview">

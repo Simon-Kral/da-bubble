@@ -21,6 +21,7 @@ import { ChannelMemberComponent } from './channel/channel-member/channel-member.
 import { SearchService } from '../../services/search/search.service';
 import { WelcomeScreenComponent } from './welcome-screen/welcome-screen.component';
 import { MobileHeaderComponent } from './mobile-header/mobile-header.component';
+import { flatMap } from 'rxjs';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -63,6 +64,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   isUserMenuVisible: boolean = false;
   //thread variables
   isThreadVisible: boolean = false;
+
+  searchInputNotActive: boolean = false;
 
   //Dragan: channel details variables
   isChannelDetailsVisible: boolean = false;
@@ -168,6 +171,16 @@ export class HomeComponent implements OnInit, OnDestroy {
       default:
         console.warn(`Unknown popup name: ${name}`);
         break;
+    }
+  }
+
+  setIsHeaderInputVisibleToFalse() {
+    if (this.searchInputNotActive) {
+      this.communicationService.isHeaderInputVisible = false;
+      this.searchInputNotActive = false;
+    } else {
+      this.searchInputNotActive = true;
+
     }
   }
 }

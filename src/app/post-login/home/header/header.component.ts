@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
   showChannels: boolean = false;
   //user profile
   @Output() userProfileToggle = new EventEmitter<boolean>();
-  isFocusActive: boolean = false;
+
 
   constructor(private fb: FormBuilder) {
     this.searchText = this.fb.group({
@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit {
    * @param searchInput - The search input string.
    */
   userSearchActive(searchInput: string) {
-    this.isFocusActive = false;
+    this.communicationService.isHeaderInputVisible = false;
     this.showUsers = true;
     this.showChannels = false;
     this.searchService.onUserSearch(searchInput.slice(1)); // Suche ohne das '@'-Zeichen
@@ -86,7 +86,7 @@ export class HeaderComponent implements OnInit {
    * @param searchInput - The search input string.
    */
   channelSearchActive(searchInput: string) {
-    this.isFocusActive = false;
+    this.communicationService.isHeaderInputVisible = false;
     this.showUsers = false;
     this.showChannels = true;
     this.searchService.onChannelSearch(searchInput.slice(1)); // Suche ohne das '#'-Zeichen
@@ -99,12 +99,12 @@ export class HeaderComponent implements OnInit {
   showAllUsersAndChannels() {
     this.showUsers = false;
     this.showChannels = false;
-    this.isFocusActive = true;
+    this.communicationService.isHeaderInputVisible = true;
   }
 
   handleClickOnMember(userId: string) {
     this.searchText.reset();
-    this.isFocusActive = false;
+    this.communicationService.isHeaderInputVisible = false;
     this.showUsers = false;
     this.showChannels = false;
     this.communicationService.isWelcomeScreenVisible = false;
@@ -121,11 +121,11 @@ export class HeaderComponent implements OnInit {
   }
 
   handleToggleFocus() {
-    if (this.isFocusActive) {
+    if (this.communicationService.isHeaderInputVisible) {
       this.searchService.unSubscribeOnChannelSearch();
       this.searchService.unSubscribeOnUserSearch();
     }
-    this.isFocusActive = !this.isFocusActive;
+    this.communicationService.isHeaderInputVisible = !this.communicationService.isHeaderInputVisible;
     this.searchService.searchSpecificChannelMessageResults = [];
     this.searchService.searchSpecificThreadMessageResults = [];
     this.searchText.reset();
@@ -137,7 +137,7 @@ export class HeaderComponent implements OnInit {
    */
   handleClickOnChannel(channelId: string) {
     this.searchText.reset();
-    this.isFocusActive = false;
+    this.communicationService.isHeaderInputVisible = false;
     //unsubscribe from channel search
     this.communicationService.isWelcomeScreenVisible = false;
     this.communicationService.isRouterOutletVisible = true;

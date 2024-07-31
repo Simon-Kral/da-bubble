@@ -1,4 +1,4 @@
-<div class="home-wrapper" [ngClass]="{ 'padding-unset': this.communicationService.isMobileViewActive,
+<div (click)="this.setIsHeaderInputVisibleToFalse()" class="home-wrapper" [ngClass]="{ 'padding-unset': this.communicationService.isMobileViewActive,
 'd-none': this.communicationService.isRotateDeviceVisible
 }">
 	<!--Header app-->
@@ -16,7 +16,7 @@
 		<div class="sidenav-wrapper" [ngClass]="{
 	'slide-in': this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive,
 	'slide-out': !this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive,
-	'd-none': this.communicationService.isSidenavAnimationComplete && !this.communicationService.isSidenavVisible || 
+	'd-none': this.communicationService.isSidenavAnimationComplete && !this.communicationService.isSidenavVisible ||
 	this.communicationService.isMobileViewActive && this.communicationService.isSidenavVisible && this.communicationService.isRouterOutletVisible,
 	'full-width': this.communicationService.isMobileViewActive
   }">
