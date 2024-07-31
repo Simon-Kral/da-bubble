@@ -149,7 +149,6 @@
         @include Nunito(400, 14px, 19.1px, $text-gray);
         text-wrap: nowrap;
       }
-
     }
 
     .msg {
@@ -283,6 +282,13 @@
   gap: 20px;
   padding: 10px 45px 10px 0;
   position: relative;
+
+  > span {
+    width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
+    height: auto;
+  }
 
   &:hover {
     background-color: $bg-color;
@@ -629,27 +635,27 @@
   position: relative;
   align-self: flex-end;
 
-  >.wrapper {
+  > .wrapper {
     width: 180px;
     height: 150px;
     background: $white;
     @include dFlex(column, center, center);
     border-radius: 20px;
 
-    >.download {
+    > .download {
       position: absolute;
       top: 18px;
       right: 18px;
       z-index: 1;
 
-      >img {
+      > img {
         width: 26px;
         height: 26px;
       }
     }
 
-    >a {
-      >img {
+    > a {
+      > img {
         border-radius: 20px 20px 20px 20px;
         width: 120px;
         height: 120px;
@@ -705,8 +711,6 @@
       }
     }
   }
-
-
 
   .user-emoji-picker-container {
     @include dFlex(column, flex-end, flex-end);
