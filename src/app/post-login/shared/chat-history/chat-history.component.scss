@@ -112,6 +112,25 @@
     }
   }
 
+  .user-emoji-picker-container {
+    @include dFlex(column, flex-end, flex-end);
+    position: absolute;
+    bottom: -16px;
+    right: 16px;
+    z-index: 7;
+    width: 200px;
+    height: 400px;
+    background-color: darken($color: $bg-color, $amount: 10%);
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+
+    .close-btn {
+      @include dFlex(row, center, center);
+      margin-right: 8px;
+      margin-bottom: 5px;
+    }
+  }
+
   .msg-content {
     @include dFlex(column, flex-start, flex-start);
     width: 85%;
@@ -130,6 +149,7 @@
         @include Nunito(400, 14px, 19.1px, $text-gray);
         text-wrap: nowrap;
       }
+
     }
 
     .msg {
@@ -197,6 +217,7 @@
         .emoji-counter {
           @include Nunito(400, 16px, 21.82px, $black);
         }
+
         .show-who-reacted {
           @include dFlex(column, center, center);
           width: 158px;
@@ -210,16 +231,19 @@
           left: 32px;
           z-index: 5;
           display: none;
+
           .emoji-container {
             @include dFlex(row, center, center);
             width: 30px;
             height: 30px;
           }
+
           span {
             @include dFlex(row, center, center);
             width: 100%;
             @include Nunito(500, 14px, 24.55px, $white);
           }
+
           p {
             @include Nunito(400, 12px, 24.55px, $white);
           }
@@ -423,6 +447,7 @@
         .emoji-counter {
           @include Nunito(400, 16px, 21.82px, $black);
         }
+
         .show-who-reacted {
           @include dFlex(column, center, center);
           width: 158px;
@@ -436,16 +461,19 @@
           left: 32px;
           z-index: 5;
           display: none;
+
           .emoji-container {
             @include dFlex(row, center, center);
             width: 30px;
             height: 30px;
           }
+
           span {
             @include dFlex(row, center, center);
             width: 100%;
             @include Nunito(500, 14px, 24.55px, $white);
           }
+
           p {
             @include Nunito(400, 12px, 24.55px, $white);
           }
@@ -474,6 +502,25 @@
         }
       }
     }
+  }
+}
+
+.current-user-emoji-picker-container {
+  @include dFlex(column, flex-end, flex-end);
+  position: absolute;
+  bottom: -16px;
+  left: 16px;
+  z-index: 7;
+  width: 200px;
+  height: 400px;
+  background-color: darken($color: $bg-color, $amount: 10%);
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+
+  .close-btn {
+    @include dFlex(row, center, center);
+    margin-right: 8px;
+    margin-bottom: 5px;
   }
 }
 
@@ -508,6 +555,7 @@
       .top-section {
         width: 100%;
         height: 60%;
+
         textarea {
           @include Nunito(400, 18px, 24.55px, $text-gray);
           width: 100%;
@@ -520,6 +568,7 @@
       .bottom-section {
         @include dFlex(row, space-between, center);
         width: 100%;
+
         .bottom-left {
           @include dFlex(row, center, center);
           width: 40px;
@@ -546,6 +595,7 @@
         .bottom-right {
           @include dFlex(row, space-between, center);
           gap: 32px;
+
           .save-btn {
             @include buttonBlue();
           }
@@ -578,25 +628,28 @@
   padding: 12px;
   position: relative;
   align-self: flex-end;
-  > .wrapper {
+
+  >.wrapper {
     width: 180px;
     height: 150px;
     background: $white;
     @include dFlex(column, center, center);
     border-radius: 20px;
-    > .download {
+
+    >.download {
       position: absolute;
       top: 18px;
       right: 18px;
       z-index: 1;
-      > img {
+
+      >img {
         width: 26px;
         height: 26px;
       }
     }
 
-    > a {
-      > img {
+    >a {
+      >img {
         border-radius: 20px 20px 20px 20px;
         width: 120px;
         height: 120px;
@@ -653,24 +706,7 @@
     }
   }
 
-  .current-user-emoji-picker-container {
-    @include dFlex(column, flex-end, flex-end);
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    z-index: 7;
-    width: 200px;
-    height: 400px;
-    background-color: darken($color: $bg-color, $amount: 10%);
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
 
-    .close-btn {
-      @include dFlex(row, center, center);
-      margin-right: 8px;
-      margin-bottom: 5px;
-    }
-  }
 
   .user-emoji-picker-container {
     @include dFlex(column, flex-end, flex-end);
@@ -697,8 +733,9 @@
     width: 100%;
     flex-wrap: wrap;
     gap: 16px;
+
     span {
-      @include Nunito(400, 14px, 19.1px, $black!important);
+      @include Nunito(400, 14px, 19.1px, $black !important);
     }
 
     .tagged-user {
@@ -706,7 +743,7 @@
       padding: 10px;
       margin-right: 4px;
       border-radius: 20px;
-      @include Nunito(400, 14px, 19.1px, $black!important);
+      @include Nunito(400, 14px, 19.1px, $black !important);
     }
   }
 }
@@ -715,12 +752,14 @@
   .user-msg {
     gap: 8px !important;
   }
+
   .current-user-msg {
     gap: 8px !important;
 
     .msg-menu {
       top: -30px !important;
       left: 8px !important;
+
       .edit-msg-menu {
         top: 45px !important;
         left: 10% !important;
@@ -743,17 +782,21 @@
   .msg-top {
     gap: 8px !important;
   }
+
   .tagged-user-container {
     gap: 8px;
     padding: 4px !important;
+
     span {
-      @include Nunito(400, 12px, 17.1px, $black!important);
+      @include Nunito(400, 12px, 17.1px, $black !important);
     }
   }
+
   .storage-pic-container {
     padding: unset !important;
     width: 130px;
     height: 130px;
+
     .wrapper {
       width: 130px !important;
       height: 130px !important;
@@ -770,6 +813,7 @@
       .edit-msg-form {
         .bottom-section {
           gap: 8px !important;
+
           .bottom-right {
             flex-direction: column !important;
             gap: 8px !important;
@@ -788,6 +832,7 @@
 
 .cancel-btn {
   @include buttonWhite();
+
   &:hover {
     span {
       color: $white;
