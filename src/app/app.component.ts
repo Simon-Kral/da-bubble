@@ -13,7 +13,7 @@ import { ThreadComponent } from './post-login/shared/thread/thread.component';
 import { ChannelMemberComponent } from './post-login/home/channel/channel-member/channel-member.component';
 import { ChannelMemberSelectionComponent } from './post-login/shared/channel-member-selection/channel-member-selection.component';
 import { ChannelSelectionComponent } from './post-login/home/channel/channel-selection/channel-selection.component';
-import { applyActionCode, User } from '@angular/fire/auth';
+import { applyActionCode, getAuth, User } from '@angular/fire/auth';
 import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { WelcomeScreenComponent } from './post-login/home/welcome-screen/welcome-screen.component';
 import { CommunicationService } from './services/communication/communication.service';
@@ -80,7 +80,6 @@ export class AppComponent implements OnInit {
         },
       });
     }, 1);
-
     this.checkViewport();
   }
 

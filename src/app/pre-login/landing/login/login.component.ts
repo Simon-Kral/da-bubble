@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
 	FormBuilder,
 	FormControl,
@@ -32,8 +32,24 @@ export class LoginComponent {
 	});
 	visibilityIcon: string = 'assets/img/icons/visibility_off.png';
 	inputType: string = 'password';
+	months = [
+		'Jan',
+		'Feb',
+		'Mar',
+		'Apr',
+		'May',
+		'Jun',
+		'Jul',
+		'Aug',
+		'Sep',
+		'Oct',
+		'Nov',
+		'Dec',
+	  ];
 
-	constructor(public appComponent: AppComponent) {}
+	constructor(public appComponent: AppComponent) {
+		
+	}
 
 	/**
 	 * Submits the login form and attempts to authenticate the user.
@@ -90,13 +106,19 @@ export class LoginComponent {
 		this.appComponent.notificateUser('Anmelden');
 		this.authService.signupWithGoogle().subscribe({
 			next: () => {
-				getDoc(doc(this.firestore, `users/${this.authService.firebaseAuth.currentUser!.uid}`)).then((snap) => {
-					console.log(snap.exists())
-					if (!snap.exists()) {
-						this.firebase.setInitialDatabaseEntries();
-					}
-				})
+				const creationAsUTC = this.authService.firebaseAuth.currentUser?.metadata.creationTime;
+				const creationAsTimestamp = Number(this.convertToTimestamp(creationAsUTC!));
+				if ((Date.now() - creationAsTimestamp) < (1000 * 10)) {
+					this.firebase.setInitialDatabaseEntries();
+				}
 			},
 		});
 	}
+
+	convertToTimestamp(dateString: string) {
+		const date = new Date(dateString);
+		const timestamp = date.getTime();
+		const timestampString = timestamp.toString();
+		return timestampString;
+	  }	
 }

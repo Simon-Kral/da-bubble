@@ -4,6 +4,7 @@ import {
   confirmPasswordReset,
   createUserWithEmailAndPassword,
   EmailAuthProvider,
+  getAuth,
   GoogleAuthProvider,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
