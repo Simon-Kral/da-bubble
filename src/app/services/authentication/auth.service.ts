@@ -84,8 +84,10 @@ export class AuthService {
       photoURL: avatar,
     })
       .then(() => {
-        sendEmailVerification(this.firebaseAuth.currentUser!).catch((error) => {
-          console.log(error);
+        sendEmailVerification(this.firebaseAuth.currentUser!)
+          .then(() => {})
+          .catch((error) => {
+            console.log(error);
         });
       })
       .catch((error) => {
