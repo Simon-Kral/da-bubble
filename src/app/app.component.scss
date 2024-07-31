@@ -38,3 +38,26 @@
     right: -50%;
   }
 }
+
+
+// rotate wrapper
+.rotate-wrapper {
+  @include dFlex(column, center, center);
+  width: 100%;
+  height: 100%;
+  gap: 24px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: $bg-color;
+  z-index: 55;
+
+  span {
+    @include Nunito(700, 28px, 24px, $black);
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+  }
+}

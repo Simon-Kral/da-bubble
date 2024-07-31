@@ -141,7 +141,6 @@ export class ThreadService {
    * Creates a initial messageAnswer in the Firestore subcollection 'messageAnswers' for privateChats / privateNotes  or channels.
    *
    * @param {Message} message - The message object containing the details of the messageAnswer to be created.
-   * @returns {Promise<void>} A promise that resolves when the message answer is successfully created and updated.
    */
   async createMessageAnswer(message: Message) {
     let newMessage: MessageAnswer = {
