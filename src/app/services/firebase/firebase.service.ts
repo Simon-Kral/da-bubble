@@ -78,13 +78,12 @@ export class FirebaseService {
 		const userId = this.authService.firebaseAuth.currentUser!.uid;
 		const userDoc = doc(this.firestore, 'users', userId);
 		const privateChatDoc = doc(this.firestore, 'privateNotes', userId);
-		setDoc(userDoc, this.setUserObject(username)).then(() => {
-			console.log('userObject: success')
-			setDoc(privateChatDoc, this.setPrivateNoteObject()).then(()=>{
-				console.log('privateNote: success')
-			});
-		});
-
+    setDoc(userDoc, this.setUserObject(username)).then(() => {
+      console.log('userObject: success')
+      setDoc(privateChatDoc, this.setPrivateNoteObject()).then(()=>{
+        console.log('privateNote: success')
+      });
+    });
 	}
 
   /**
