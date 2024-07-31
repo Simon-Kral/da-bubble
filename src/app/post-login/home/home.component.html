@@ -31,9 +31,10 @@
 			<!--  router-outlet used for channels / prvt-msg & start-new-msg component  -->
 			@if (!this.communicationService.isWelcomeScreenVisible && this.communicationService.isRouterOutletVisible) {
 			<div class="router-wrapper" [ngClass]="{
-					'half-width': this.communicationService.isThreadVisible,
+					'half-width': this.communicationService.isThreadVisible && !this.communicationService.isSmallScreenActive,
 					'border-radius-unset': this.communicationService.isMobileViewActive,
 					'svh-minus-header': this.communicationService.isMobileViewActive,
+					'full-width': this.communicationService.isSmallScreenActive && this.communicationService.isThreadVisible && !this.communicationService.isSidenavVisible
 		}">
 				<router-outlet></router-outlet>
 			</div>
@@ -46,7 +47,8 @@
 				'svh-minus-header': this.communicationService.isMobileViewActive,
 				'absolute': this.communicationService.isRouterOutletVisible && this.communicationService.isSidenavVisible && this.communicationService.isSmallScreenActive ||
 					this.communicationService.isMobileViewActive && this.communicationService.isSmallScreenActive,
-				'full-width': this.communicationService.isSmallScreenActive && this.communicationService.isMobileViewActive
+				'full-width': this.communicationService.isSmallScreenActive && this.communicationService.isMobileViewActive,
+				'full-width-minus-sidenav': this.communicationService.isSmallScreenActive &&  this.communicationService.isSidenavVisible && !this.communicationService.isMobileViewActive
 	}">
 				<app-thread></app-thread>
 			</div>
