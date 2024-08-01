@@ -62,7 +62,7 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     this.taggedUser = [];
     this.storageData = '';
     this.messageData.get('message')?.valueChanges.subscribe((value: string) => {
-      this.handleMessageInput(value);
+      this.handleMessageInput(value || '');
     });
   }
 
@@ -72,14 +72,18 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   }
 
   handleMessageInput(value: string) {
-    //check if @ is in the message
+    if (typeof value !== 'string') {
+      value = '';
+    }
+
+    // Check if @ is in the message
     const atSymbolEntered = value.endsWith('@');
 
-    // check if the @ is at the beginning of the message or if there is a space before the @
+    // Check if the @ is at the beginning of the message or if there is a space before the @
     const atIndex = value.lastIndexOf('@');
     const isAtSymbolValid = atIndex !== -1 && (atIndex === 0 || value.charAt(atIndex - 1) === ' ');
 
-    // make sure the @ is not part of an email address
+    // Make sure the @ is not part of an email address
     const isEmail = /\S+@\S+\.\S+/.test(value);
 
     if (atSymbolEntered && isAtSymbolValid && !isEmail) {
@@ -110,17 +114,32 @@ export class ChatInputComponent implements OnDestroy, OnInit {
       return;
     }
 
+    // Remove '@' before each tagged user name in the message
+    let message = this.messageData.value.message;
+    this.taggedUserNames.forEach((userName) => {
+      // Escape special characters in userName for use in regex
+      const escapedUserName = userName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // Create regex to find '@userName'
+      const regex = new RegExp(`@${escapedUserName}`, 'g');
+      message = message.replace(regex, userName); // Replace '@userName' with 'userName'
+    });
+
+    // Construct the message to send
     const messageToSend = {
       timestamp: this.getCurrentTime(), // to-do do we need this?
-      message: this.messageData.value.message,
+      message: message,
       source: this.sourceComponent, // to-do do we need this?
       storageData: this.storageData,
       taggedUser: this.taggedUser,
     };
+
+    // Emit the message and reset form data
     this.messageEvent.emit(messageToSend);
     this.messageData.reset();
     console.log('Message sent chat input:', messageToSend);
     console.log('Storage data in child before emit:', this.storageData);
+
+    // Clear tagged users and storage data
     this.taggedUser = [];
     this.storageData = '';
   }
