@@ -38,7 +38,7 @@
       </div>
       @if (
       (chatService.mainCollection === 'channels' && !isAllChannelMembersTagged()) ||
-      (chatService.mainCollection === 'newMessage' && !isAllUsersTagged())
+      (chatService.mainCollectionNewMessage === 'newMessage' && !isAllUsersTagged())
       ) {
       <div class="icon-container pointer" (click)="this.toggleTagUser()">
         <img src="assets/img/icons/alternate_email_grey.png" alt="icon-email" />
