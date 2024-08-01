@@ -173,6 +173,30 @@
         height: fit-content;
         text-align: end;
       }
+
+      // tagged user container
+      .tagged-user-container {
+        @include dFlex(row, flex-start, center);
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 16px;
+
+        .tagged-user {
+          background-color: $bg-color;
+          padding: 10px;
+          margin-right: 4px;
+          border-radius: 20px;
+          @include Nunito(400, 14px, 19.1px, $black !important);
+        }
+
+        .highlight-current-user {
+          background-color: yellow;
+          padding: 10px;
+          margin-right: 4px;
+          border-radius: 20px;
+          @include Nunito(400, 14px, 19.1px, red !important);
+        }
+      }
     }
 
     .msg-bottom {
@@ -283,7 +307,7 @@
   padding: 10px 45px 10px 0;
   position: relative;
 
-  > span {
+  >span {
     width: 100%;
     white-space: normal;
     word-wrap: break-word;
@@ -424,6 +448,30 @@
         text-wrap: wrap;
         height: fit-content;
         text-align: end;
+      }
+
+      // tagged user container
+      .tagged-user-container {
+        @include dFlex(row, flex-start, center);
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 16px;
+
+        .tagged-user {
+          background-color: $bg-color;
+          padding: 10px;
+          margin-right: 4px;
+          border-radius: 20px;
+          @include Nunito(400, 14px, 19.1px, $black !important);
+        }
+
+        .highlight-current-user {
+          background-color: yellow;
+          padding: 10px;
+          margin-right: 4px;
+          border-radius: 20px;
+          @include Nunito(400, 14px, 19.1px, red !important);
+        }
       }
     }
 
@@ -635,27 +683,27 @@
   position: relative;
   align-self: flex-end;
 
-  > .wrapper {
+  >.wrapper {
     width: 180px;
     height: 150px;
     background: $white;
     @include dFlex(column, center, center);
     border-radius: 20px;
 
-    > .download {
+    >.download {
       position: absolute;
       top: 18px;
       right: 18px;
       z-index: 1;
 
-      > img {
+      >img {
         width: 26px;
         height: 26px;
       }
     }
 
-    > a {
-      > img {
+    >a {
+      >img {
         border-radius: 20px 20px 20px 20px;
         width: 120px;
         height: 120px;
@@ -731,27 +779,8 @@
       margin-bottom: 5px;
     }
   }
-
-  // tagged user container
-  .tagged-user-container {
-    @include dFlex(row, flex-start, center);
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 16px;
-
-    span {
-      @include Nunito(400, 14px, 19.1px, $black !important);
-    }
-
-    .tagged-user {
-      background-color: $bg-color;
-      padding: 10px;
-      margin-right: 4px;
-      border-radius: 20px;
-      @include Nunito(400, 14px, 19.1px, $black !important);
-    }
-  }
 }
+
 
 @media screen and (max-width: 600px) {
   .user-msg {
