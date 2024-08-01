@@ -514,7 +514,6 @@ export class ChatService {
   }
 
   handleClickOnUser(userId: string) {
-    console.log('User clicked:', userId);
     this.communicationService.toggleChannelMemberVisibility(false);
     if (this.firebaseService.currentUserId === userId) {
       this.communicationService.toggleCurrentUserProfileVisibility(true);
