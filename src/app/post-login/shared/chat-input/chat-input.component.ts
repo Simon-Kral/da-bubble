@@ -60,6 +60,7 @@ export class ChatInputComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.taggedUser = [];
+    this.taggedUserNames = [];
     this.storageData = '';
     this.messageData.get('message')?.valueChanges.subscribe((value: string) => {
       this.handleMessageInput(value || '');
@@ -68,6 +69,7 @@ export class ChatInputComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.taggedUser = [];
+    this.taggedUserNames = [];
     this.storageData = '';
   }
 
