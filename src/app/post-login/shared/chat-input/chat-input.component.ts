@@ -186,9 +186,24 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   tagUser(userName: string, userId: string) {
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
-    if (this.taggedUser.length + 1 == this.firebaseService.userList.length) {
+
+    if (this.getAvailableMembers().length === 0) {
       this.showTagContainer = false;
     }
+  }
+
+  /**
+   * Retrieves the list of available members who can be tagged in the current channel.
+   * This excludes the current user and members who have already been tagged.
+   *
+   * @returns {string[]} An array of member IDs who are not the current user and have not yet been tagged.
+   */
+  getAvailableMembers(): string[] {
+    const allMembers = this.firebaseService.channelList.flatMap((channel) => channel.members);
+    const taggedMembers = new Set(this.taggedUser);
+    return allMembers.filter(
+      (memberId) => memberId !== this.firebaseService.currentUserId && !taggedMembers.has(memberId),
+    );
   }
 
   //upload file code

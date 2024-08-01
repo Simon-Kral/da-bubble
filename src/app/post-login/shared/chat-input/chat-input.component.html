@@ -63,7 +63,7 @@
 }
 
 <!--tag a channel Member-->
-@if (this.showTagContainer && this.chatService.mainCollection == "channels") {
+@if (this.showTagContainer && this.chatService.mainCollection == "channels" && this.getAvailableMembers().length > 0) {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
@@ -83,9 +83,9 @@
       <div class="user-avatar">
         <img [src]="this.firebaseService.getUserAvatar(user)" alt="User Avatar" />
         <div class="user-status" [ngClass]="{
-                    online: this.firebaseService.getUserOnlineStatus(user),
-                    offline: !this.firebaseService.getUserOnlineStatus(user)
-                  }"></div>
+                      online: this.firebaseService.getUserOnlineStatus(user),
+                      offline: !this.firebaseService.getUserOnlineStatus(user)
+                    }"></div>
       </div>
       <span>{{ this.firebaseService.getUserDisplayName(user) }}</span>
     </div>
