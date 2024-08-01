@@ -98,9 +98,11 @@ export class CurrentUserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchProvider();
+    const provider = this.authService.searchProvider();
+    this.googleProviderExists = provider.googleProviderExists;
+    this.userIsGuest = provider.userIsGuest;
     this.newUserData.get('email')?.valueChanges.subscribe(() => {
-      if (this.emailHasChanged(this.newUserData.controls['email'])) {
+      if (this.emailHasChanged(this.newUserData.controls['email']) && !this.googleProviderExists) {
         this.newUserData.controls['password'].addValidators([Validators.required, Validators.minLength(6)]);
         this.newUserData.controls['password'].updateValueAndValidity();
       } else {
@@ -108,20 +110,6 @@ export class CurrentUserProfileComponent implements OnInit {
         this.newUserData.controls['password'].updateValueAndValidity();
       }
     });
-  }
-
-  /**
-   * Searches for the google provider in the current user's list of providers and sets googleProviderExists true or false.
-   * Users that are authenticated with google signup must not change their profile.
-   * @returns {void}
-   */
-  searchProvider(): void {
-    const providers: string[] = [];
-    this.authService.firebaseAuth.currentUser!.providerData.forEach((provider) => {
-      providers.push(provider.providerId);
-    });
-    this.googleProviderExists = providers.includes('google.com');
-    this.userIsGuest = providers.length === 0;
   }
 
   /**
@@ -159,26 +147,29 @@ export class CurrentUserProfileComponent implements OnInit {
    */
   saveProfile(): void {
     const updates: Partial<UserData> = this.newUserData.value;
-    // todo don't changeEmail if not changed
-    // todo update displayName in authService
-    if (this.emailHasChanged(this.newUserData.controls['email'])) {
-      this.authService.changeEmail(this.newUserData.value.email, this.newUserData.value.password).subscribe({
-        next: () => {
-          this.appComponent.notificateUser('E-Mail gesendet');
-          this.updateFirebaseData(updates).then(() => {
-            this.logout();
-          });
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+    if (this.emailHasChanged(this.newUserData.controls['email']) && !this.googleProviderExists) {
+      this.fullChange(updates)
     } else {
-      this.updateFirebaseData(updates).then(() => {
-        this.communicationService.toggleCurrentUserProfileVisibility(true);
-        this.toggleEditProfile();
-      });
+      this.changeInDatabaseOnly(updates);
     }
+    this.communicationService.toggleCurrentUserProfileVisibility(true);
+    this.toggleEditProfile();
+  }
+
+  fullChange(updates: Partial<UserData>): void {
+    this.authService.changeEmail(this.newUserData.value.email, this.newUserData.value.password).subscribe({
+      next: () => {
+        this.appComponent.notificateUser('E-Mail gesendet');
+        this.updateFirebaseData(updates).then(() => {
+          this.logout();
+        });
+      },
+    });
+  }
+
+  changeInDatabaseOnly(updates: Partial<UserData>) {
+    this.appComponent.notificateUser('Änderungen gespeichert');
+    this.updateFirebaseData(updates);
   }
 
   /**

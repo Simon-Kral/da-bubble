@@ -138,43 +138,12 @@ export class AuthService {
    * @returns {Observable<void>}
    */
   changeEmail(newEmail: string, password: string): Observable<void> {
-    const promise = this.reauthenticateUser(false, password).then(() => {
-      verifyBeforeUpdateEmail(this.firebaseAuth.currentUser!, newEmail).catch((error) => {
-        console.log(error);
+      const promise = this.reauthPassword(password).then(() => {
+        verifyBeforeUpdateEmail(this.firebaseAuth.currentUser!, newEmail).catch((error) => {
+          console.log(error);
+        });
       });
-    });
-    return from(promise);
-  }
-
-  /**
-   * Reauthenticates the current user either using Google authentication
-   * or email/password credentials, based on the `providerGoogle` parameter.
-   * @param {boolean} providerGoogle - If true, reauthenticates using Google; otherwise, uses email and password.
-   * @param {string} password - The user's password, required if not using Google for reauthentication.
-   * @returns {Promise<void>} A promise that resolves when reauthentication completes.
-   */
-  reauthenticateUser(providerGoogle: boolean, password: string): Promise<void> {
-    let promise: Promise<void>;
-    if (providerGoogle) {
-      promise = this.reauthGoogle();
-    } else {
-      promise = this.reauthPassword(password);
-    }
-    return promise;
-  }
-
-  /**
-   * Reauthenticates the current user using a Google popup.
-   * @returns {Promise<void>} A promise that resolves when reauthentication completes.
-   */
-  async reauthGoogle(): Promise<void> {
-    return reauthenticateWithPopup(this.firebaseAuth.currentUser!, new GoogleAuthProvider())
-      .then(() => {
-        console.log('reautchenticated with popup');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      return from(promise);
   }
 
   /**
@@ -203,4 +172,17 @@ export class AuthService {
       });
     return from(promise);
   }
+
+    /**
+   * Searches for the google provider in the current user's list of providers and sets googleProviderExists true or false.
+   * Users that are authenticated with google signup must not change their profile.
+   * @returns {Object}
+   */
+    searchProvider(): {googleProviderExists: boolean, userIsGuest: boolean} {
+      const providers: string[] = [];
+      this.firebaseAuth.currentUser!.providerData.forEach((provider) => {
+        providers.push(provider.providerId);
+      });
+      return {googleProviderExists: providers.includes('google.com'), userIsGuest: providers.length === 0}
+    }
 }

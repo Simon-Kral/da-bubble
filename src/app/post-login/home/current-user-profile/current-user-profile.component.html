@@ -23,10 +23,7 @@
 				)
 				}}
 			</h2>
-			<!--to do i changed flag temporary enanbeling google user to change user.name-->
-			@if(!this.googleProviderExists ||this.googleProviderExists ){
 			<p class="pointer" (click)="toggleEditProfile()">Bearbeiten</p>
-			}
 		</div>
 		<div class="profile-status">
 			<div class="online-status" [ngClass]="{
@@ -118,38 +115,35 @@
 			<span class="error-msg-email">Gib eine E-Mail Adresse ein!</span>
 			} @if (hasError('email', 'email')) {
 			<span class="error-msg-email">Adresse ungültig!</span>
-			}@if(this.emailHasChanged(newUserData.controls['email'])){
+			} @if (this.emailHasChanged(newUserData.controls['email']) && !googleProviderExists && !(hasError('email', 'required') || hasError('email', 'email'))) {
 			<span class="info-msg-email">Sie werden abgemeldet und erhalten eine E-Mail mit einem
 				Bestätigungslink, um die neue E-Mail-Adresse zu
 				verifizieren.</span>
 			}
 		</div>
-		@if((newUserData.controls['email'].touched ||
-		newUserData.controls['email'].dirty) &&
-		this.emailHasChanged(newUserData.controls['email'])){
-
-		<div class="edit-input-container">
-			<div class="input-description">
-				<img src="assets/img/icons/password_black.png" alt="password-icon" />
-				<p>Passwort</p>
-			</div>
-			<input formControlName="password" type="text" id="password" name="password"
-				placeholder="Bestätige dein Passwort" autocomplete="off" />
-			@if (hasError('password', 'required') &&
-			(newUserData.controls['password'].touched ||
-			newUserData.controls['password'].dirty)) {
-			<span class="error-msg-email">Gib dein Passwort ein!</span>
-			} @if (hasError('password', 'minlength')) {
-			<span class="error-msg-email">Passwort zu kurz!</span>
-			}@if (this.emailHasChanged(newUserData.controls['email']) &&
-			!(newUserData.controls['password'].touched ||
-			newUserData.controls['password'].dirty)) {
-			<span class="error-msg-email">{{
-				this.emailHasChanged(newUserData.controls["email"])
-				}}</span>
-			}
-		</div>
+		@if(!googleProviderExists){
+			@if((newUserData.controls['email'].touched || newUserData.controls['email'].dirty) && this.emailHasChanged(newUserData.controls['email'])){
+				<div class="edit-input-container">
+					<div class="input-description">
+						<img src="assets/img/icons/password_black.png" alt="password-icon" />
+						<p>Passwort</p>
+					</div>
+					<input formControlName="password" type="text" id="password" name="password" placeholder="Bestätige dein Passwort" autocomplete="off" />
+					@if (hasError('password', 'required') &&
+						(newUserData.controls['password'].touched ||
+						newUserData.controls['password'].dirty)) {
+						<span class="error-msg-email">Gib dein Passwort ein!</span>
+					} @if (hasError('password', 'minlength')) {
+						<span class="error-msg-email">Passwort zu kurz!</span>
+					} @if (this.emailHasChanged(newUserData.controls['email']) &&
+						!(newUserData.controls['password'].touched ||
+						newUserData.controls['password'].dirty)) {
+						<span class="error-msg-email">{{ this.emailHasChanged(newUserData.controls["email"]) }}</span>
+					}
+				</div>
+				}
 		}
+
 		<div class="btn-container">
 			<button type="button" class="pointer cancel-btn" (click)="onCancel('editProfile')">
 				Abbrechen
