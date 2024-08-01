@@ -146,6 +146,8 @@ input[type='file'] {
   left: 10px;
   border-radius: 20px;
   z-index: 555;
+  box-shadow: 5px -5px 9px 3px gray;
+
 
   > .close-button {
     position: absolute;
@@ -169,7 +171,7 @@ input[type='file'] {
   width: 100px;
   height: 100px;
   padding: 20px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 20px;
   position: relative;
   @include dFlex(center, center);
@@ -182,8 +184,8 @@ input[type='file'] {
 }
 
 .warning {
-	@include Nunito(400, 16px, 16.36px, $rosa-error);
-	position: absolute;
-    top: -30px;
-    left: 0;
+  @include Nunito(400, 16px, 16.36px, $rosa-error);
+  position: absolute;
+  top: -30px;
+  left: 0;
 }

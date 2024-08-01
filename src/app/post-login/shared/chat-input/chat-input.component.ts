@@ -76,6 +76,10 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     return new Date().getTime();
   }
 
+  isStorageDataImage(storageDataUrl: string) {
+    return storageDataUrl.includes('jpg') || storageDataUrl.includes('jpeg') || storageDataUrl.includes('png');
+  }
+
   /**
    * Handles the form submission when the user clicks the submit button.
    * Emits the message to be sent and resets the form.
