@@ -39,6 +39,7 @@ export class NewMessageComponent implements OnDestroy {
     this.chatService.placeholderName = '';
     if (this.router.url === '/home/new-message') {
       this.communicationService.showAllUsers = true;
+      this.chatService.mainCollection = 'newMessage';
     }
   }
 

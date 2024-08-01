@@ -146,17 +146,6 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * Tags a chat user by adding their ID and name to the respective arrays.
-   * @param userName - The name of the user being tagged.
-   * @param userId - The ID of the user being tagged.
-   */
-  tagChatUser(userName: string, userId: string) {
-    this.taggedUser.push(userId);
-    this.taggedUserNames.push(userName);
-    this.showTagContainer = false;
-  }
-
-  /**
    * Adds a tagged user to the component's state.
    *
    * @param userName - The name of the user being tagged.
