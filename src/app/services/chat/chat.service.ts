@@ -36,7 +36,6 @@ export class ChatService {
   placeholderName: string = '';
   chatCreator = '';
   mainCollection: string = '';
-  mainCollectionNewMessage: string = 'newMessage'; // needed for tagging
   docRef: string = '';
   editMessageId: string = '';
   editThreadId: string = '';
