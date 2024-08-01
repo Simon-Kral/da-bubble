@@ -300,12 +300,12 @@ body {
 	margin: 10px;
 }
 
-// search results for header and new-message 
+// search results for header and new-message
 .search-results {
 	width: 100%;
 	padding: 20px;
 	border-radius: 30px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	box-shadow: -2px 11px 12px 0px rgba(0, 0, 0, 0.5);
 
 	.content-container {
 		@include dFlex(row, space-between, center);
