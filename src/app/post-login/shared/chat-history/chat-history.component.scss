@@ -165,6 +165,10 @@
         @include Nunito(400, 18px, 24.55px, $black);
         text-wrap: wrap;
         text-align: start;
+
+        >span {
+          color: red;
+        }
       }
 
       p {
@@ -274,6 +278,8 @@
   }
 }
 
+
+
 //current-user-msg-->
 .current-user-msg {
   @include dFlex(row, flex-start, flex-start);
@@ -283,7 +289,7 @@
   padding: 10px 45px 10px 0;
   position: relative;
 
-  > span {
+  >span {
     width: 100%;
     white-space: normal;
     word-wrap: break-word;
@@ -329,6 +335,7 @@
       &:hover img {
         filter: invert(57%) sepia(94%) saturate(4679%) hue-rotate(221deg) brightness(100%) contrast(91%);
       }
+
     }
 
     .edit-msg-menu {
@@ -393,6 +400,7 @@
       span {
         @include Nunito(700, 18px, 24.55px, $black);
         text-wrap: nowrap;
+
       }
 
       p {
@@ -417,7 +425,13 @@
         text-wrap: wrap;
         height: fit-content;
         text-align: end;
+
+        >span {
+          color: red;
+        }
       }
+
+
 
       p {
         @include Nunito(400, 14px, 19.1px, $white);
@@ -627,6 +641,8 @@
   }
 }
 
+
+
 // storage
 
 .storage-pic-container {
@@ -635,27 +651,27 @@
   position: relative;
   align-self: flex-end;
 
-  > .wrapper {
+  >.wrapper {
     width: 180px;
     height: 150px;
     background: $white;
     @include dFlex(column, center, center);
     border-radius: 20px;
 
-    > .download {
+    >.download {
       position: absolute;
       top: 18px;
       right: 18px;
       z-index: 1;
 
-      > img {
+      >img {
         width: 26px;
         height: 26px;
       }
     }
 
-    > a {
-      > img {
+    >a {
+      >img {
         border-radius: 20px 20px 20px 20px;
         width: 120px;
         height: 120px;
@@ -732,69 +748,43 @@
     }
   }
 
-  // tagged user container
-  .tagged-user-container {
-    @include dFlex(row, flex-start, center);
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 16px;
 
-    span {
-      @include Nunito(400, 14px, 19.1px, $black !important);
+
+  @media screen and (max-width: 600px) {
+    .user-msg {
+      gap: 8px !important;
     }
 
-    .tagged-user {
-      background-color: $bg-color;
-      padding: 10px;
-      margin-right: 4px;
-      border-radius: 20px;
-      @include Nunito(400, 14px, 19.1px, $black !important);
-    }
-  }
-}
+    .current-user-msg {
+      gap: 8px !important;
 
-@media screen and (max-width: 600px) {
-  .user-msg {
-    gap: 8px !important;
-  }
+      .msg-menu {
+        top: -30px !important;
+        left: 8px !important;
 
-  .current-user-msg {
-    gap: 8px !important;
-
-    .msg-menu {
-      top: -30px !important;
-      left: 8px !important;
-
-      .edit-msg-menu {
-        top: 45px !important;
-        left: 10% !important;
-        height: 88px !important;
-        gap: unset !important;
+        .edit-msg-menu {
+          top: 45px !important;
+          left: 10% !important;
+          height: 88px !important;
+          gap: unset !important;
+        }
       }
     }
-  }
 
-  .msg-bottom {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 4px !important;
-  }
-
-  .current-user-msg-top {
-    gap: 8px !important;
-  }
-
-  .msg-top {
-    gap: 8px !important;
-  }
-
-  .tagged-user-container {
-    gap: 8px;
-    padding: 4px !important;
-
-    span {
-      @include Nunito(400, 12px, 17.1px, $black !important);
+    .msg-bottom {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 4px !important;
     }
+
+    .current-user-msg-top {
+      gap: 8px !important;
+    }
+
+    .msg-top {
+      gap: 8px !important;
+    }
+
   }
 
   .storage-pic-container {
@@ -841,6 +831,18 @@
   &:hover {
     span {
       color: $white;
+    }
+  }
+}
+
+.current-user-msg {
+  .current-user-msg-content {
+    .current-user-msg {
+      >span {
+        >span {
+          color: red;
+        }
+      }
     }
   }
 }

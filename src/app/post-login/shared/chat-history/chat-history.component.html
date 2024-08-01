@@ -47,17 +47,9 @@
       </div>
 
       <div class="msg">
-        <!--tagged user-->
-        @if (msg.taggedUser) {
-        <div class="tagged-user-container">
-          @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
-          <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{
-            "@" + this.firebaseService.getUserDisplayName(taggedUser)
-            }}</span>
-          }
-        </div>
-        }
-        <span>{{ msg.text }}</span>
+        <!--msg text-->
+        <span [innerHTML]="msg.text"></span>
+
         <!--storage pic-->
         @if (
         (msg.storageData && msg.storageData.includes(".jpg")) ||
@@ -66,7 +58,7 @@
         ) {
         <div class="storage-pic-container">
           <div class="wrapper">
-            <a  class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
+            <a class="download pointer" (click)="this.storageService.downloadFromUrlDirectly(msg.storageData)">
               <img class="download-icon" src="assets/img/icons/download_white.png" alt="" />
             </a>
             <a href="{{ msg.storageData }}" target="_blank">
@@ -220,17 +212,10 @@
       </div>
 
       <div class="current-user-msg">
-        <!--tagged user-->
-        @if (msg.taggedUser) {
-        <div class="tagged-user-container">
-          @for (taggedUser of msg.taggedUser; track taggedUser; let index = $index) {
-          <span (click)="this.chatService.handleClickOnUser(taggedUser)" class="tagged-user pointer">{{
-            "@" + this.firebaseService.getUserDisplayName(taggedUser)
-            }}</span>
-          }
-        </div>
-        }
-        <span>{{ msg.text }}</span>
+
+        <!--msg text-->
+        <span>{{msg.text}}</span>
+
         <!--storage pic-->
         @if (
         (msg.storageData && msg.storageData.includes(".jpg")) ||

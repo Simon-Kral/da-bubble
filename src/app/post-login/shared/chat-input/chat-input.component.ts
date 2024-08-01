@@ -39,6 +39,9 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   //emoji picker
   showEmojiPicker: boolean = false;
 
+  // message text
+  fullMessageText: string = '';
+
   // tag list
   showTagContainer: boolean = false;
   // tag List for all users
@@ -89,19 +92,29 @@ export class ChatInputComponent implements OnDestroy, OnInit {
       return;
     }
 
+    let messageText = this.messageData.value.message;
+
+    // replace @Usernames
+    this.taggedUserNames.forEach((userName) => {
+      const tagPattern = new RegExp(`@${userName}`, 'g');
+      messageText = messageText.replace(tagPattern, `<span style="color: red;">@${userName}</span>`);
+    });
+
     const messageToSend = {
-      timestamp: this.getCurrentTime(), // to-do do we need this?
-      message: this.messageData.value.message,
-      source: this.sourceComponent, // to-do do we need this?
+      timestamp: this.getCurrentTime(), // to-do: brauchen wir das?
+      message: messageText,
+      source: this.sourceComponent, // to-do: brauchen wir das?
       storageData: this.storageData,
       taggedUser: this.taggedUser,
     };
+
     this.messageEvent.emit(messageToSend);
     this.messageData.reset();
     console.log('Message sent chat input:', messageToSend);
     console.log('Storage data in child before emit:', this.storageData);
     this.taggedUser = [];
     this.storageData = '';
+    this.taggedUserNames = [];
   }
 
   //emoji code
@@ -140,6 +153,12 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   tagChannelMember(userName: string, userId: string, index: number) {
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
+    let { message } = this.messageData.value;
+
+    // only @Username in inputfield
+    let displayMessage = `${message} @${userName}`;
+    this.messageData.setValue({ message: displayMessage });
+
     if (this.taggedUser.length + 1 == this.firebaseService.channelList[index].members.length) {
       this.showTagContainer = false;
     }
@@ -154,19 +173,13 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   tagUser(userName: string, userId: string) {
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
+    let { message } = this.messageData.value;
+    let text = `${message} @${userName}`;
+    this.messageData.setValue({ message: text });
+
     if (this.taggedUser.length + 1 == this.firebaseService.userList.length) {
       this.showTagContainer = false;
     }
-  }
-
-  /**
-   * Deletes a tagged user from the list.
-   *
-   * @param index - The index of the tagged user to delete.
-   */
-  deleteTaggedUser(index: number) {
-    this.taggedUser.splice(index, 1);
-    this.taggedUserNames.splice(index, 1);
   }
 
   //upload file code
