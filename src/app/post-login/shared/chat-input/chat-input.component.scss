@@ -8,7 +8,7 @@
   border: 1px solid $purple-2;
   position: relative;
 
-  > textarea {
+  >textarea {
     width: 100%;
     height: 60%;
     border: none;
@@ -17,48 +17,26 @@
     @include Nunito(400, 16px, 21.82px, $black);
   }
 
-  .tagged-user-container {
-    @include dFlex(row, flex-start, center);
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 20px;
 
-    span {
-      @include dFlex(row, center, center);
-      @include Nunito(400, 16px, 21.82px, $black);
-      margin-right: 8px;
-      width: fit-content;
-      padding: 4px 8px;
-      height: 22px;
-      border-radius: 20px;
-
-      &:hover {
-        @include Nunito(400, 16px, 21.82px, $rosa-error);
-        background-color: $bg-color;
-      }
-    }
-  }
-
-  > .button-container {
+  >.button-container {
     @include dFlex(row, space-between, center);
 
-    > .left-section {
+    >.left-section {
       @include dFlex(row, center, center);
       gap: 16px;
 
-      > .icon {
+      >.icon {
         width: 24px;
         height: 24px;
       }
 
-      > span {
+      >span {
         @include Nunito(700, 16px, 21.82px, $text-gray);
       }
     }
 
-    > .right-section {
-      > button {
+    >.right-section {
+      >button {
         @include dFlex(row, center, center);
         border: none;
         background-color: $white;
@@ -149,7 +127,7 @@ input[type='file'] {
   box-shadow: 5px -5px 9px 3px gray;
 
 
-  > .close-button {
+  >.close-button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -176,7 +154,7 @@ input[type='file'] {
   position: relative;
   @include dFlex(center, center);
 
-  > img {
+  >img {
     width: inherit;
     height: inherit;
     border-radius: 20px;

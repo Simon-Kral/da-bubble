@@ -159,16 +159,6 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     }
   }
 
-  /**
-   * Deletes a tagged user from the list.
-   *
-   * @param index - The index of the tagged user to delete.
-   */
-  deleteTaggedUser(index: number) {
-    this.taggedUser.splice(index, 1);
-    this.taggedUserNames.splice(index, 1);
-  }
-
   //upload file code
   /**
    * Uploads a file to the storage service and updates the file name and URL.

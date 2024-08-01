@@ -1,17 +1,5 @@
 <form class="input-container" [formGroup]="this.messageData" (ngSubmit)="this.onSubmit()">
   <textarea [placeholder]="'Nachricht an ' + this.chatService.placeholderName" formControlName="message"></textarea>
-  <!--tagged User start-->
-  @if (this.taggedUser) {
-  <div class="tagged-user-container">
-    @for (taggedUser of this.taggedUser; track taggedUser; let index = $index) {
-    <span (click)="this.deleteTaggedUser(index)" class="pointer">{{
-      "@" + this.firebaseService.getUserDisplayName(taggedUser)
-      }}</span>
-    }
-  </div>
-  }
-
-  <!--tagged User end-->
 
   <!--storage preview start-->
 
