@@ -125,14 +125,14 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     this.showTagContainer = !this.showTagContainer;
   }
 
-/**
- * Tags a channel member by adding their user ID and name to the respective arrays.
- * If all channel members have been tagged, hides the tag container.
- * 
- * @param userName - The name of the channel member to be tagged.
- * @param userId - The ID of the channel member to be tagged.
- * @param index - The index of the channel in the channel list.
- */
+  /**
+   * Tags a channel member by adding their user ID and name to the respective arrays.
+   * If all channel members have been tagged, hides the tag container.
+   *
+   * @param userName - The name of the channel member to be tagged.
+   * @param userId - The ID of the channel member to be tagged.
+   * @param index - The index of the channel in the channel list.
+   */
   tagChannelMember(userName: string, userId: string, index: number) {
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
@@ -141,23 +141,12 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     }
   }
 
-/**
- * Tags a chat user by adding their ID and name to the respective arrays.
- * @param userName - The name of the user being tagged.
- * @param userId - The ID of the user being tagged.
- */
-  tagChatUser(userName: string, userId: string) {
-    this.taggedUser.push(userId);
-    this.taggedUserNames.push(userName);
-    this.showTagContainer = false;
-  }
-
-/**
- * Adds a tagged user to the component's state.
- * 
- * @param userName - The name of the user being tagged.
- * @param userId - The ID of the user being tagged.
- */
+  /**
+   * Adds a tagged user to the component's state.
+   *
+   * @param userName - The name of the user being tagged.
+   * @param userId - The ID of the user being tagged.
+   */
   tagUser(userName: string, userId: string) {
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
@@ -186,9 +175,8 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput.files?.item(0);
     this.fileName = file?.name || '';
-	this.fileType = file?.type || '';
-	console.log('File type:', this.fileType);
-	
+    this.fileType = file?.type || '';
+    console.log('File type:', this.fileType);
 
     if (file) {
       const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
@@ -214,20 +202,19 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     }
   }
 
-/**
- * Closes the chat input and deletes the file from storage.
- */
+  /**
+   * Closes the chat input and deletes the file from storage.
+   */
   closeAndDelete() {
     this.delteFileFromStorage();
     this.storageData = '';
   }
 
-/**
- * Deletes a file from the storage.
- */
+  /**
+   * Deletes a file from the storage.
+   */
   delteFileFromStorage() {
     const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${this.fileName}`);
     this.storageService.deleteFile(storageRef);
   }
-
 }
