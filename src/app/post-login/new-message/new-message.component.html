@@ -45,7 +45,7 @@
 
     <!-- onFocus -->
     @if (isFocusActive) {
-      <div class="search-results">
+      <div class="search-results shadow">
         <div class="close-btn pointer" (click)="this.handleFocus()">
           <img src="assets/img/icons/close_black.png" alt="" />
         </div>
@@ -78,7 +78,7 @@
 
     <!-- Search results -->
     @if ((!isFocusActive && this.showUsers) || this.showChannels || this.showUsersByEmail) {
-      <div class="search-results">
+      <div class="search-results shadow">
         <!--user search results by name-->
         @if (showUsers && this.searchInput.length > 0 && this.searchService.userSearchResults.length > 0) {
           <h3>Users:</h3>

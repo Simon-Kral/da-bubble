@@ -40,7 +40,7 @@
         !this.searchService.searchSpecificChannelMessageResults.length &&
         !this.searchService.searchSpecificThreadMessageResults.length
       ) {
-        <div class="search-results">
+        <div class="search-results shadow">
           <div class="close-btn pointer" (click)="this.handleToggleFocus()">
             <img src="assets/img/icons/close_black.png" alt="" />
           </div>
@@ -78,7 +78,7 @@
         this.searchService.searchSpecificChannelMessageResults.length ||
         this.searchService.searchSpecificThreadMessageResults.length
       ) {
-        <div class="search-results">
+        <div class="search-results shadow">
           <div class="close-btn pointer" (click)="this.handleToggleFocus()">
             <img src="assets/img/icons/close_black.png" alt="" />
           </div>
