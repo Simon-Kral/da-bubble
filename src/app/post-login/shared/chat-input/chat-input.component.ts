@@ -61,11 +61,32 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.taggedUser = [];
     this.storageData = '';
+    this.messageData.get('message')?.valueChanges.subscribe((value: string) => {
+      this.handleMessageInput(value);
+    });
   }
 
   ngOnDestroy(): void {
     this.taggedUser = [];
     this.storageData = '';
+  }
+
+  handleMessageInput(value: string) {
+    //check if @ is in the message
+    const atSymbolEntered = value.endsWith('@');
+
+    // check if the @ is at the beginning of the message or if there is a space before the @
+    const atIndex = value.lastIndexOf('@');
+    const isAtSymbolValid = atIndex !== -1 && (atIndex === 0 || value.charAt(atIndex - 1) === ' ');
+
+    // make sure the @ is not part of an email address
+    const isEmail = /\S+@\S+\.\S+/.test(value);
+
+    if (atSymbolEntered && isAtSymbolValid && !isEmail) {
+      this.showTagContainer = true;
+    } else {
+      this.showTagContainer = false;
+    }
   }
 
   /**
@@ -138,9 +159,20 @@ export class ChatInputComponent implements OnDestroy, OnInit {
    * @param index - The index of the channel in the channel list.
    */
   tagChannelMember(userName: string, userId: string, index: number) {
+    let { message } = this.messageData.value;
+
+    if (message.endsWith('@') || message.endsWith(' ')) {
+      message = message.trim();
+    }
+
+    let displayMessage = `${message}${userName}`;
+    this.messageData.setValue({ message: displayMessage });
+
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
-    if (this.taggedUser.length + 1 == this.firebaseService.channelList[index].members.length) {
+    this.showTagContainer = false;
+
+    if (this.taggedUser.length + 1 === this.firebaseService.channelList[index].members.length) {
       this.showTagContainer = false;
     }
   }
