@@ -178,9 +178,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.searchInputNotActive) {
       this.communicationService.isHeaderInputVisible = false;
       this.searchInputNotActive = false;
+    } else if(!this.communicationService.isHeaderInputVisible) {
+        this.communicationService.isHeaderInputVisible = false
     } else {
       this.searchInputNotActive = true;
-
     }
   }
 }
