@@ -36,7 +36,10 @@
       <div class="icon-container pointer" (click)="this.toggleEmojiPicker()">
         <img src="assets/img/icons/smiley_grey.png" alt="icon-smiley" />
       </div>
-      @if (chatService.mainCollection === 'channels' || chatService.mainCollection === 'newMessage') {
+      @if (
+      (chatService.mainCollection === 'channels' && !isAllChannelMembersTagged()) ||
+      (chatService.mainCollection === 'newMessage' && !isAllUsersTagged())
+      ) {
       <div class="icon-container pointer" (click)="this.toggleTagUser()">
         <img src="assets/img/icons/alternate_email_grey.png" alt="icon-email" />
       </div>
@@ -96,11 +99,11 @@
 </div>
 }
 
-<!--tag a user-->
+<!-- tag a user -->
 @if (
 this.communicationService.showAllUsers &&
-showTagContainer &&
-this.taggedUser.length + 1 != this.firebaseService.userList.length
+this.showTagContainer &&
+!this.isAllUsersTagged()
 ) {
 <div class="tag-container">
   <div class="member-selection-wrapper">
@@ -109,19 +112,17 @@ this.taggedUser.length + 1 != this.firebaseService.userList.length
         <img src="assets/img/icons/close_black.png" alt="close-icon" />
       </div>
     </div>
-    @for (user of this.firebaseService.userList; track user; let index = $index) {
-    @if (user.userId !== this.firebaseService.currentUserId && !this.taggedUser.includes(user.userId)) {
+    @for (user of this.getAvailableUsers(); track user; let index = $index) {
     <div class="member-container pointer" (click)="this.tagUser(user.name, user.userId)">
       <div class="user-avatar">
-        <img [src]="this.firebaseService.getUserAvatar(user.userId)" alt="User Avatar" />
+        <img [src]="user.photoURL" alt="User Avatar" />
         <div class="user-status" [ngClass]="{
-                  online: this.firebaseService.getUserOnlineStatus(user.userId),
-                  offline: !this.firebaseService.getUserOnlineStatus(user.userId)
-                }"></div>
+                        online: user.status,
+                        offline: !user.status
+                      }"></div>
       </div>
-      <span>{{ this.firebaseService.getUserDisplayName(user.userId) }}</span>
+      <span>{{ user.name }}</span>
     </div>
-    }
     }
   </div>
 </div>

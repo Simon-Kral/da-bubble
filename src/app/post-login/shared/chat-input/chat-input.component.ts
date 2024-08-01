@@ -145,7 +145,7 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     this.toggleEmojiPicker();
   }
 
-  //tag user code
+  //tag channel member code
   toggleTagUser() {
     this.showTagContainer = !this.showTagContainer;
   }
@@ -178,21 +178,6 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * Adds a tagged user to the component's state.
-   *
-   * @param userName - The name of the user being tagged.
-   * @param userId - The ID of the user being tagged.
-   */
-  tagUser(userName: string, userId: string) {
-    this.taggedUser.push(userId);
-    this.taggedUserNames.push(userName);
-
-    if (this.getAvailableMembers().length === 0) {
-      this.showTagContainer = false;
-    }
-  }
-
-  /**
    * Retrieves the list of available members who can be tagged in the current channel.
    * This excludes the current user and members who have already been tagged.
    *
@@ -204,6 +189,67 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     return allMembers.filter(
       (memberId) => memberId !== this.firebaseService.currentUserId && !taggedMembers.has(memberId),
     );
+  }
+
+  /**
+   * Checks if all channel members are tagged.
+   *
+   * @returns {boolean} True if all channel members are tagged; otherwise, false.
+   */
+  isAllChannelMembersTagged(): boolean {
+    const allChannelMembers =
+      this.firebaseService.channelList.find((channel) => channel.chanId === this.chatService.docRef)?.members || [];
+    return allChannelMembers
+      .filter((memberId) => memberId !== this.firebaseService.currentUserId)
+      .every((memberId) => this.taggedUser.includes(memberId));
+  }
+
+  // tag all user code
+
+  /**
+   * Tags a user by adding their ID and name to the taggedUser array and updates the message.
+   *
+   * @param userName - The name of the user being tagged.
+   * @param userId - The ID of the user being tagged.
+   */
+  tagUser(userName: string, userId: string) {
+    let { message } = this.messageData.value;
+
+    if (message.endsWith('@') || message.endsWith(' ')) {
+      message = message.trim();
+    }
+
+    let displayMessage = `${message}${userName}`;
+    this.messageData.setValue({ message: displayMessage });
+
+    this.taggedUser.push(userId);
+    this.taggedUserNames.push(userName);
+
+    this.showTagContainer = false;
+  }
+
+  /**
+   * Retrieves the list of users who are not yet tagged and excludes the current user.
+   *
+   * @returns {any[]} An array of user objects from the userList that are not present in the taggedUser array and are not the current user.
+   */
+  getAvailableUsers(): any[] {
+    const taggedUserIds = new Set(this.taggedUser);
+    return this.firebaseService.userList.filter(
+      (user) => user.userId !== this.firebaseService.currentUserId && !taggedUserIds.has(user.userId),
+    );
+  }
+
+  /**
+   * Checks if all users are tagged.
+   *
+   * @returns {boolean} True if all users are tagged; otherwise, false.
+   */
+  isAllUsersTagged(): boolean {
+    const allUserIds = this.firebaseService.userList
+      .filter((user) => user.userId !== this.firebaseService.currentUserId)
+      .map((user) => user.userId);
+    return allUserIds.every((userId) => this.taggedUser.includes(userId));
   }
 
   //upload file code
