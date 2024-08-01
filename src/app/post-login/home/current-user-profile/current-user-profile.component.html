@@ -24,7 +24,7 @@
 				}}
 			</h2>
 			<!--to do i changed flag temporary enanbeling google user to change user.name-->
-			@if(this.googleProviderExists){
+			@if(!this.googleProviderExists ||this.googleProviderExists ){
 			<p class="pointer" (click)="toggleEditProfile()">Bearbeiten</p>
 			}
 		</div>
