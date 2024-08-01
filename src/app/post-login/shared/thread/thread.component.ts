@@ -26,7 +26,6 @@ export class ThreadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.chatService.unsubscribeAllLists();
     this.threadService.unsubscribeAllLists();
     this.chatService.editThreadId = '';
     this.threadService.editMessageId = '';
