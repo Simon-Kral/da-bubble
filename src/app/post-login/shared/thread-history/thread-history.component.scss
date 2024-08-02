@@ -35,3 +35,9 @@
 .edit-msg-overlay .bottom-right {
   gap: 16px !important;
 }
+
+@media screen and (max-width: 600px) {
+  .thread-history-wrapper {
+    overflow-x: hidden;
+  }
+}

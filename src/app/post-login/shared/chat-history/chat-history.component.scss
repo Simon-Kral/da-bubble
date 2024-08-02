@@ -307,7 +307,7 @@
   padding: 10px 45px 10px 0;
   position: relative;
 
-  >span {
+  > span {
     width: 100%;
     white-space: normal;
     word-wrap: break-word;
@@ -683,27 +683,27 @@
   position: relative;
   align-self: flex-end;
 
-  >.wrapper {
+  > .wrapper {
     width: 180px;
     height: 150px;
     background: $white;
     @include dFlex(column, center, center);
     border-radius: 20px;
 
-    >.download {
+    > .download {
       position: absolute;
       top: 18px;
       right: 18px;
       z-index: 1;
 
-      >img {
+      > img {
         width: 26px;
         height: 26px;
       }
     }
 
-    >a {
-      >img {
+    > a {
+      > img {
         border-radius: 20px 20px 20px 20px;
         width: 120px;
         height: 120px;
@@ -780,7 +780,6 @@
     }
   }
 }
-
 
 @media screen and (max-width: 600px) {
   .user-msg {
@@ -871,5 +870,11 @@
     span {
       color: $white;
     }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .chat-history-wrapper {
+    overflow-x: hidden;
   }
 }
