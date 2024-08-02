@@ -1,5 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { Router, RouterLink } from '@angular/router';
@@ -20,21 +27,32 @@ export class SignupComponent {
   fb = inject(FormBuilder);
   router = inject(Router);
 
-	signupForm = this.fb.nonNullable.group({
-		username: ['', [Validators.required, Validators.minLength(4)]],
-		email: ['', [Validators.required, Validators.email]],
-		password: ['', [Validators.required, Validators.minLength(6)]],
-		privacy: [false, Validators.requiredTrue],
-	});
-	visibilityIcon: string = 'assets/img/icons/visibility_off.png';
-	inputType: string = 'password';
+  signupForm = this.fb.nonNullable.group({
+    username: ['', [Validators.required, this.fullNameValidator]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    privacy: [false, Validators.requiredTrue],
+  });
+  visibilityIcon: string = 'assets/img/icons/visibility_off.png';
+  inputType: string = 'password';
 
-	/**
-	 * Submits the registration form and attempts to signup a new user.
-	 * @returns {void}
-	 */
-	onSubmit(): void {
-		const rawForm = this.signupForm.getRawValue();
+  /**
+   * Custom validator to check if the input is a full name (two words).
+   * @param {AbstractControl} control - The form control to validate.
+   * @returns {ValidationErrors | null} An object with validation errors or null if the control is valid.
+   */
+  fullNameValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value.trim();
+    const fullNamePattern = /^[a-zA-ZäöüÄÖÜß]+\s+[a-zA-ZäöüÄÖÜß]+$/;
+    return fullNamePattern.test(value) ? null : { fullNameValidator: true };
+  }
+
+  /**
+   * Submits the registration form and attempts to signup a new user.
+   * @returns {void}
+   */
+  onSubmit(): void {
+    const rawForm = this.signupForm.getRawValue();
 
     this.authService.signup(rawForm.email, rawForm.username, rawForm.password).subscribe({
       next: () => {
