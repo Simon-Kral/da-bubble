@@ -2,7 +2,6 @@
 
 :host {
     display: block;
-    // width: 100%;
     position: sticky;
     bottom: 0;
     left: 0;
@@ -30,6 +29,9 @@ footer {
 }
 
 @media screen and (max-width: 650px) {
+    :host {
+        position: static;
+    }
     footer {
         height: 60px;
         a {

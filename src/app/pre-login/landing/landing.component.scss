@@ -32,10 +32,21 @@
 }
 
 @media screen and (max-width: 650px) {
+    :host {
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+    }
+    .page-wrapper {
+        @include dFlex($fd: column);
+        height: 100vh;
+        overflow-y: auto;
+    }
     .content-wrap {
+        @include dFlex($fd: column, $jc: flex-start);
         gap: 32px;
         padding: 8px;
-        height: calc(100vh - 80px - 60px);
+        height: auto;
         .content {
             padding: 24px 20px;
         }

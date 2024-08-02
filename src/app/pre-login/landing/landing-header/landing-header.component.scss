@@ -64,6 +64,9 @@ header {
 }
 
 @media screen and (max-width: 650px) {
+    :host {
+        position: static;
+    }
     .sign-up {
         display: none !important;
     }
