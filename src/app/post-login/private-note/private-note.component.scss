@@ -6,6 +6,7 @@
   height: calc(100svh - 148px);
   border-radius: 30px;
   background-color: $white;
+  position: relative;
 
   .top-section {
     @include dFlex(row, flex-start, center);
