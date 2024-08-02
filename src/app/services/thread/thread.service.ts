@@ -79,6 +79,7 @@ export class ThreadService {
         snapshot.forEach((doc) => {
           const msg = this.setMessageAnswer(doc.data(), doc.id);
           this.msgAnswerList.push(msg);
+          this.scrollToBottom();
         });
         console.log('MsgAnswers List:', this.msgAnswerList);
       },
@@ -172,7 +173,6 @@ export class ThreadService {
   async onMessageSent(event: { message: string; taggedUser?: string[]; storageData?: string }): Promise<void> {
     console.log('Received event in THREAD SERVICE:', event); // Debug-Ausgabe
     await this.sendMessageAnswer(event);
-    this.scrollToBottom();
   }
 
   /**

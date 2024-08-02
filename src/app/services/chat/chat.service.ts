@@ -366,7 +366,6 @@ export class ChatService {
    */
   async onMessageSent(event: { message: string; taggedUser?: string[]; storageData?: string }): Promise<void> {
     await this.sendMessage(event);
-    this.scrollToBottom();
   }
 
   /**
