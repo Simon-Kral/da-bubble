@@ -31,7 +31,8 @@
 <!--add Member to channel code-->
 <div [ngClass]="{ 'd-none': !isAddMemberVisibleForm,
     'border-radius-unset': this.communicationService.isMobileViewActive,
-    'svh-100': this.communicationService.isMobileViewActive
+    'svh-100': this.communicationService.isMobileViewActive,
+    'svw-100': this.communicationService.isMobileViewActive
  }" class="add-member-wrapper">
   <div class="top-section" (click)="this.toggleAddMemberFormVisibility()">
     <h1>Leute hinzufügen</h1>
