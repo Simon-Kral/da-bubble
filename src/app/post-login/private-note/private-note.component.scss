@@ -55,6 +55,7 @@
   // for empty privateNote-overlay
   .chat-history {
     position: relative;
+    overflow-y: auto;
 
     .empty-chat-overlay {
       @include dFlex(column, flex-end, flex-start);
