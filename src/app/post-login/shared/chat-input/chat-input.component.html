@@ -100,8 +100,14 @@
 }
 
 <!-- tag a user -->
-@if ( ( this.showTagContainer && (this.chatService.mainCollection == "newMessage" || "privateChats" || "privateNotes")
-&& !this.isAllUsersTagged() )
+@if (
+this.showTagContainer &&
+(
+this.chatService.mainCollection == "newMessage" ||
+this.chatService.mainCollection == "privateChats" ||
+this.chatService.mainCollection == "privateNotes"
+) &&
+!this.isAllUsersTagged()
 ) {
 <div class="tag-container">
   <div class="member-selection-wrapper">
