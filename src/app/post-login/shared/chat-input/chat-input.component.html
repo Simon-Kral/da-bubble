@@ -2,7 +2,6 @@
   <textarea [placeholder]="'Nachricht an ' + this.chatService.placeholderName" formControlName="message"></textarea>
 
   <!--storage preview start-->
-
   @if (this.storageData && this.isStorageDataImage(this.storageData)) {
   <div class="preview-container">
     <div (click)="this.closeAndDelete()" class="close-button pointer">X</div>
@@ -21,7 +20,6 @@
   <span class="warning">Der Dateiname existiert bereits in der Datenbank, bitte suchen Sie sich einen anderen Namen
     aus.</span>
   }
-
   <!--storage preview end-->
   <div class="button-container">
     <div class="left-section">
@@ -37,10 +35,11 @@
         <img src="assets/img/icons/smiley_grey.png" alt="icon-smiley" />
       </div>
       @if (
-      (chatService.mainCollection === 'channels' && !isAllChannelMembersTagged()) ||
-      (chatService.mainCollectionNewMessage === 'newMessage' && !isAllUsersTagged())
+      (this.chatService.mainCollection == "channels" && this.getAvailableMembers().length > 0) ||
+      ((this.chatService.mainCollection == "newMessage" || "privateChats" || "privateNotes") &&
+      this.getAvailableUsers().length > 0)
       ) {
-      <div class="icon-container pointer" (click)="this.toggleTagUser()">
+      <div class="icon-container pointer" (click)="this.toggleTagContainer()">
         <img src="assets/img/icons/alternate_email_grey.png" alt="icon-email" />
       </div>
       }
@@ -66,11 +65,12 @@
 }
 
 <!--tag a channel Member-->
-@if (this.showTagContainer && this.chatService.mainCollection == "channels" && this.getAvailableMembers().length > 0) {
+@if ((this.showTagContainer && this.chatService.mainCollection == "channels" && this.getAvailableMembers().length > 0))
+{
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
-      <div class="pointer close-btn" (click)="this.toggleTagUser()">
+      <div class="pointer close-btn" (click)="this.toggleTagContainer()">
         <img src="assets/img/icons/close_black.png" alt="close-icon" />
       </div>
     </div>
@@ -100,15 +100,13 @@
 }
 
 <!-- tag a user -->
-@if (
-this.communicationService.showAllUsers &&
-this.showTagContainer &&
-!this.isAllUsersTagged()
+@if ( ( this.showTagContainer && (this.chatService.mainCollection == "newMessage" || "privateChats" || "privateNotes")
+&& !this.isAllUsersTagged() )
 ) {
 <div class="tag-container">
   <div class="member-selection-wrapper">
     <div class="top-section">
-      <div class="pointer close-btn" (click)="this.toggleTagUser()">
+      <div class="pointer close-btn" (click)="this.toggleTagContainer()">
         <img src="assets/img/icons/close_black.png" alt="close-icon" />
       </div>
     </div>

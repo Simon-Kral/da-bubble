@@ -36,7 +36,6 @@ export class ChatService {
   placeholderName: string = '';
   chatCreator = '';
   mainCollection: string = '';
-  mainCollectionNewMessage: string = 'newMessage';
   docRef: string = '';
   editMessageId: string = '';
   editThreadId: string = '';

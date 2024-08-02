@@ -29,6 +29,7 @@ export class PrivateNoteComponent implements OnInit, OnDestroy {
       this.chatService.docRef = params['id'];
     });
     console.log('component initialised', this.chatService.docRef);
+    console.log('chatService maincollection', this.chatService.mainCollection);
     // to-do settimeout is needed in case user refreshes the page, otherwise the placeholder is not set because the channelList is not yet loaded
     setTimeout(() => {
       this.chatService.placeholderName =

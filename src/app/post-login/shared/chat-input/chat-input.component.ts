@@ -167,8 +167,9 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   }
 
   //tag channel member code
-  toggleTagUser() {
+  toggleTagContainer() {
     this.showTagContainer = !this.showTagContainer;
+    console.log('showTagContainer:', this.showTagContainer);
   }
 
   /**

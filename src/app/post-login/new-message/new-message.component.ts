@@ -38,7 +38,6 @@ export class NewMessageComponent implements OnDestroy {
     });
     this.chatService.placeholderName = '';
     if (this.router.url === '/home/new-message') {
-      this.communicationService.showAllUsers = true;
       this.chatService.mainCollection = 'newMessage';
     }
   }
@@ -47,7 +46,6 @@ export class NewMessageComponent implements OnDestroy {
     this.searchService.selectedUser = [];
     this.chatService.selectedPrivateChatReciver = '';
     this.searchService.selectedChannel = '';
-    this.communicationService.showAllUsers = false;
   }
   // to-do shorten this function
   handleSearch() {
