@@ -1,4 +1,7 @@
-<div [ngClass]="{ 'd-none': !isCreateChannelFormVisible }" class="create-new-channel-form-wrapper">
+<div [ngClass]="{ 'd-none': !this.isCreateChannelFormVisible,
+  'border-radius-unset': this.communicationService.isMobileViewActive,
+  'svh-100': this.communicationService.isMobileViewActive
+ }" class="create-new-channel-form-wrapper">
   <div class="top-section">
     <h1>Channel erstellen</h1>
     <div class="pointer close-btn" (click)="toggleCreateChannelVisibility()">
@@ -26,7 +29,10 @@
   </form>
 </div>
 <!--add Member to channel code-->
-<div [ngClass]="{ 'd-none': !isAddMemberVisibleForm }" class="add-member-wrapper">
+<div [ngClass]="{ 'd-none': !isAddMemberVisibleForm,
+    'border-radius-unset': this.communicationService.isMobileViewActive,
+    'svh-100': this.communicationService.isMobileViewActive
+ }" class="add-member-wrapper">
   <div class="top-section" (click)="this.toggleAddMemberFormVisibility()">
     <h1>Leute hinzufügen</h1>
     <div class="pointer close-btn" (click)="toggleCreateChannelVisibility()">
