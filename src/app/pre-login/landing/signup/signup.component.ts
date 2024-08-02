@@ -21,7 +21,7 @@ export class SignupComponent {
   router = inject(Router);
 
 	signupForm = this.fb.nonNullable.group({
-		username: ['', [Validators.required, Validators.minLength(5)]],
+		username: ['', [Validators.required, Validators.minLength(4)]],
 		email: ['', [Validators.required, Validators.email]],
 		password: ['', [Validators.required, Validators.minLength(6)]],
 		privacy: [false, Validators.requiredTrue],

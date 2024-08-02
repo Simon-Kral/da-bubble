@@ -147,7 +147,7 @@ export class AppComponent implements OnInit {
         user.photoURL.includes('assets/img/logos/profile_logo.png'))
     ) {
       this.navToAvatar();
-    } else if (!user.emailVerified && user.email != undefined) {
+    } else if (!user.emailVerified && user.email != 'gast@gast.com') {
       this.handleEmailVerification();
     } else {
       this.navToHome();
