@@ -6,8 +6,7 @@
   height: 100%;
   position: relative;
 
-
-  >.top-section {
+  > .top-section {
     @include dFlex(row, space-between, center);
     width: 100%;
     height: 110px;
@@ -17,14 +16,14 @@
     box-shadow: 0px 3px 4px -2px rgba(0, 0, 0, 0.1);
     box-sizing: content-box;
 
-    >.active-group-chat {
+    > .active-group-chat {
       @include buttonWhite();
       @include dFlex(row, center, center);
       border: none;
       gap: 16px;
 
       &:hover {
-        >span {
+        > span {
           color: $purple-1;
         }
 
@@ -40,13 +39,13 @@
         @include btnActive($bg-color);
       }
 
-      >img:first-child {
+      > img:first-child {
         width: 22px;
         height: 23px;
       }
 
-      >span {
-        @include Nunito(700, 24px, 18.8px, $black);
+      > span {
+        @include Nunito(700, 24px, 27.8px, $black);
         display: inline-block;
         width: 100%;
         max-width: 20ch;
@@ -55,19 +54,19 @@
         text-overflow: ellipsis;
       }
 
-      >img:last-child {
+      > img:last-child {
         width: 24px;
         height: 24px;
       }
     }
 
-    >.avatar-collection {
+    > .avatar-collection {
       position: relative;
       @include dFlex(row, center, center);
       gap: 16px;
       padding: 12px 25px;
 
-      >.user-profile-img-container {
+      > .user-profile-img-container {
         position: relative;
         width: 110px;
         height: 45px;
@@ -75,7 +74,7 @@
         border-radius: 20px;
         left: 8px;
 
-        >.user-profile-img {
+        > .user-profile-img {
           position: absolute;
           bottom: calc(50% - 20px);
           width: 40px;
@@ -167,9 +166,9 @@
   }
 
   .group-chat-container {
-    >.group-display {
-      >.active-group-chat {
-        >span {
+    > .group-display {
+      > .active-group-chat {
+        > span {
           max-width: 10ch;
         }
       }
