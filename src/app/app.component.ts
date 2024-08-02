@@ -278,6 +278,6 @@ export class AppComponent implements OnInit {
     this.notificate = true;
     setTimeout(() => {
       this.notificate = false;
-    }, 5000);
+    }, 3000);
   }
 }

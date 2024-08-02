@@ -77,7 +77,7 @@ const enterIntro = document.body.clientWidth > 650 ? transition(':enter', [
 			animate(
 				'200ms 500ms',
 				style({
-					marginLeft: '0',
+					marginLeft: 'calc(-56px / 2)',
 				})
 			),
 		]),
@@ -96,12 +96,15 @@ const enterIntro = document.body.clientWidth > 650 ? transition(':enter', [
 			style({
 				height: '140px',
 				top: 'calc(50vh - 70px)',
+				left: '0',
+
 			}),
 			animate(
 				'500ms 2.5s',
 				style({
 					height: '70px',
 					top: '0',
+					left: '28px',
 				})
 			),
 		]),

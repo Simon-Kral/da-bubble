@@ -8,10 +8,10 @@
 }
 
 .content-wrap {
-    @include dFlex($fd: column, $jc: flex-start);
+    @include dFlex($fd: column, $jc: center);
     width: 100%;
     height: calc(100vh - $header-height - $footer-height);
-    overflow-y: scroll;
+    overflow-y: auto;
     .content {
         position: relative;
         background-color: $white;
