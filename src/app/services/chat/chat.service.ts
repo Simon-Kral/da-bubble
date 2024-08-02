@@ -509,8 +509,7 @@ export class ChatService {
    * @returns {string} The formatted date string in the format "Weekday, Day. Month".
    */
   convertDate() {
-    const date = new Date();
-    return `${this.weekday[date.getDay()]}, ${date.getDate()}. ${this.months[date.getMonth()]}`;
+    return `${this.weekday[new Date().getDay()]}, ${new Date().getDate()}. ${this.months[new Date().getMonth()]}`;
   }
 
   handleClickOnUser(userId: string) {

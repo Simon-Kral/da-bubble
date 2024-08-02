@@ -165,12 +165,22 @@ export class AuthService {
   }
 
   loginAsGuest(): Observable<void> {
-    const promise = signInAnonymously(this.firebaseAuth)
+    // const promise = signInAnonymously(this.firebaseAuth)
+    //   .then(() => {})
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // return from(promise);
+
+
+    const promise = signInWithEmailAndPassword(this.firebaseAuth, 'gast@gast.com', '123456')
       .then(() => {})
       .catch((error) => {
         console.log(error);
       });
     return from(promise);
+
+
   }
 
     /**

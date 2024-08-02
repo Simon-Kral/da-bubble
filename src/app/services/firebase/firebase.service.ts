@@ -11,6 +11,9 @@ import {
   getDocs,
   arrayUnion,
   setDoc,
+  addDoc,
+  CollectionReference,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { AuthService } from '../authentication/auth.service';
 import { Channel } from '../../models/channel.class';
@@ -42,6 +45,23 @@ export class FirebaseService {
   unsubscribeUserList: any;
   unsubscribePrivateChatList: any;
   unsubscribePrivateNoteList: any;
+
+  // date conversion
+  weekday = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  months = [
+    'Januar',
+    'Februar',
+    'März',
+    'April',
+    'Mai',
+    'Juni',
+    'Juli',
+    'August',
+    'September',
+    'Oktober',
+    'November',
+    'Dezember',
+  ];
 
   constructor() {
     this.getCurrentUserId();
@@ -79,12 +99,160 @@ export class FirebaseService {
 		const userDoc = doc(this.firestore, 'users', userId);
 		const privateChatDoc = doc(this.firestore, 'privateNotes', userId);
     setDoc(userDoc, this.setUserObject(username)).then(() => {
-      console.log('userObject: success')
       setDoc(privateChatDoc, this.setPrivateNoteObject()).then(()=>{
-        console.log('privateNote: success')
       });
     });
 	}
+
+  setGuestExampleData(): void {
+		const userId = 'zk9QdkeUKIMaqGA7ySU1pUyP8d62';
+    setDoc(doc(this.firestore, 'users', userId), this.setUserObject()).then(() => {
+      setDoc(doc(this.firestore, 'privateNotes', userId), this.setPrivateNoteObject()).then(() => {
+        this.addGuestChannel().then(() => {
+          this.addGuestPrivateChat().then(() => {})
+        })
+      });
+    });
+	}
+
+  addGuestChannel() {
+    const ids = {userId: 'zk9QdkeUKIMaqGA7ySU1pUyP8d62', channelId: 'yh1LXpvXcOWY2hZOEfZ2', messageId: 'wcn0pm1gYnyxdnGakVQo', initialThreadMessageId: 'uZMq0kPFjgNhfsrqj2wr', threadAnswerId: 'qxrtLFBMzSjENsgCAUqO'}
+    const channelsDoc = doc(this.firestore, 'channels', ids.channelId);
+    const messageDoc = doc(channelsDoc, 'messages', ids.messageId);
+    const initialThreadMessageDoc = doc(messageDoc, 'messageAnswers', ids.initialThreadMessageId);
+    const threadAnswerDoc = doc(messageDoc, 'messageAnswers', ids.threadAnswerId);
+    const promise = 
+    this.deleteMessagesWithAnswers(ids).then(() => {
+      deleteDoc(doc(this.firestore, 'channels', ids.channelId)).then(() => {
+        setDoc(doc(this.firestore, 'channels', ids.channelId), this.setGuestChannel(ids.userId)).then(() => {
+          const newMessage = this.setGuestMessage(ids.channelId);
+          setDoc(messageDoc, newMessage).then(() => {
+            setDoc(initialThreadMessageDoc, newMessage).then(() => {
+              const threadAnswer = this.setGuestMessageAnswer(ids.channelId);
+              setDoc(threadAnswerDoc, threadAnswer).then(() => {})
+            })
+          })
+        })
+      })
+    })
+    return promise;
+  }
+
+  deleteMessagesWithAnswers(ids: {userId: string, channelId: string, messageId: string, initialThreadMessageId: string, threadAnswerId: string}) {
+    const promise = getDocs(collection(this.firestore, 'channels', ids.channelId, 'messages')).then((docs) => {
+      docs.docs.forEach((doc) => {
+        getDocs(collection(this.firestore, 'channels', ids.channelId, 'messages', doc.id, 'messageAnswers')).then((docs) => {
+          docs.docs.forEach((doc) => {
+            deleteDoc(doc.ref).then(() => {})
+          })
+        })
+        deleteDoc(doc.ref).then(() => {})
+      })
+    })
+    return promise;
+  }
+
+  addGuestPrivateChat() {
+    const privateChatId = 'jCOseDfos4U2G9XkG5S0'
+    const promise =
+    this.deleteMessages(privateChatId).then(() => {
+      setDoc(doc(this.firestore, 'privateChats', privateChatId), this.setGuestPrivateChat()).then(() => {
+        setDoc(doc(this.firestore, 'privateChats', privateChatId, 'messages', '9hgkOYlnJN5GXPI3CBoF'), this.setGuestPrivateMessage(privateChatId)).then(() => {})
+      })
+    })
+    return promise;
+  }
+
+  deleteMessages(privateChatId: string) {
+    const promise = getDocs(collection(this.firestore, 'privateChats', privateChatId, 'messages')).then((docs) => {
+      docs.docs.forEach((doc) => {
+        deleteDoc(doc.ref).then(() => {})
+      })
+    })
+    return promise
+  }
+
+  setGuestPrivateMessage(chatId: string) {
+    return {
+      messageId: '',
+      text: 'Hallo, wie geht es dir?',
+      chatId: chatId,
+      date: this.convertDate(),
+      time: Date.now().toString(),
+      messageSendBy: 'tacaNwHF8SPuTfJFbpCz2J2aIPH2',
+      reactions: [],
+      threadId: '',
+      answerCount: 0,
+      lastAnswer: Date.now().toString(),
+      editCount: 0,
+      lastEdit: '',
+      taggedUser: [],
+      storageData: '',
+    }
+  }
+
+  setGuestPrivateChat() {
+    return { chatCreator: "zk9QdkeUKIMaqGA7ySU1pUyP8d62", chatReciver: "tacaNwHF8SPuTfJFbpCz2J2aIPH2", privatChatId: "jCOseDfos4U2G9XkG5S0" }
+  }
+
+  setGuestChannel(userId: string) {
+    return {
+      chanId: '',
+      name: 'Gast-Channel',
+      description: 'Dies ist ein Beispiel-Channel für den Gast-Benutzer',
+      members: [userId, 'tacaNwHF8SPuTfJFbpCz2J2aIPH2'],
+      createdAt: this.convertDate(),
+      createdBy: userId,
+    }
+  }
+
+  setGuestMessage(channelId: string) {
+    return {
+      messageId: '',
+      text: 'Welche Version von Angular ist die aktuelle?',
+      chatId: channelId,
+      date: this.convertDate(),
+      time: Date.now().toString(),
+      messageSendBy: 'tacaNwHF8SPuTfJFbpCz2J2aIPH2',
+      reactions: [{
+        amount: 1,
+        messageId: "wcn0pm1gYnyxdnGakVQo",
+        nativeEmoji: "👍",
+        reactionId: "1F44D",
+        user: ["zk9QdkeUKIMaqGA7ySU1pUyP8d62"]
+      }],
+      threadId: '',
+      answerCount: 2,
+      lastAnswer: Date.now().toString(),
+      editCount: 0,
+      lastEdit: '',
+      taggedUser: [],
+      storageData: '',
+    }
+  }
+
+  setGuestMessageAnswer(channelId: string) {
+    return {
+      messageId: '',
+      text: 'Es scheint die Version 18.1.1 zu sein.',
+      chatId: channelId,
+      date: this.convertDate(),
+      time: Date.now().toString(),
+      messageSendBy: 'zk9QdkeUKIMaqGA7ySU1pUyP8d62',
+      reactions: [],
+      threadId: '',
+      answerCount: 0,
+      lastAnswer: '',
+      editCount: 0,
+      lastEdit: '',
+      taggedUser: [],
+      storageData: '',
+    }
+  }
+
+  convertDate() {
+    return `${this.weekday[new Date().getDay()]}, ${new Date().getDate()}. ${this.months[new Date().getMonth()]}`;
+  }
 
   /**
    * Creates a user object for Firestore.

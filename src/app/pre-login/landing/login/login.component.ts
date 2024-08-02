@@ -70,6 +70,7 @@ export class LoginComponent {
 			this.authService.loginAsGuest().subscribe({
 			next: () => {
 				this.firebase.setInitialDatabaseEntries('Gast');
+				this.firebase.setGuestExampleData();
 			},
 			error: (err) => {
 				console.log(err);
