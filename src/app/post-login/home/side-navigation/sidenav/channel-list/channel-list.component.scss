@@ -30,7 +30,7 @@
 @media screen and (max-width: 600px) {
   .channel-list {
     span {
-      width: 30ch;
+      width: calc(100vw - 18px);
       overflow-x: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
