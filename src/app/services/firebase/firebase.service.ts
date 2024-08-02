@@ -125,10 +125,11 @@ export class FirebaseService {
     this.deleteMessagesWithAnswers(ids).then(() => {
       deleteDoc(doc(this.firestore, 'channels', ids.channelId)).then(() => {
         setDoc(doc(this.firestore, 'channels', ids.channelId), this.setGuestChannel(ids.userId)).then(() => {
-          const newMessage = this.setGuestMessage(ids.channelId);
+          const newMessage = this.setGuestMessage(ids);
           setDoc(messageDoc, newMessage).then(() => {
-            setDoc(initialThreadMessageDoc, newMessage).then(() => {
-              const threadAnswer = this.setGuestMessageAnswer(ids.channelId);
+            const threadMessage = this.setGuestThreadMessage(ids);
+            setDoc(initialThreadMessageDoc, threadMessage).then(() => {
+              const threadAnswer = this.setGuestThreadAnswer(ids);
               setDoc(threadAnswerDoc, threadAnswer).then(() => {})
             })
           })
@@ -206,11 +207,11 @@ export class FirebaseService {
     }
   }
 
-  setGuestMessage(channelId: string) {
+  setGuestMessage(ids: {userId: string, channelId: string, messageId: string, initialThreadMessageId: string, threadAnswerId: string}) {
     return {
       messageId: '',
       text: 'Welche Version von Angular ist die aktuelle?',
-      chatId: channelId,
+      chatId: ids.channelId,
       date: this.convertDate(),
       time: Date.now().toString(),
       messageSendBy: 'tacaNwHF8SPuTfJFbpCz2J2aIPH2',
@@ -231,22 +232,35 @@ export class FirebaseService {
     }
   }
 
-  setGuestMessageAnswer(channelId: string) {
+  setGuestThreadMessage(ids: {userId: string, channelId: string, messageId: string, initialThreadMessageId: string, threadAnswerId: string}) {
     return {
-      messageId: '',
-      text: 'Es scheint die Version 18.1.1 zu sein.',
-      chatId: channelId,
-      date: this.convertDate(),
+      messageAnswerId: '',
+      text: 'Welche Version von Angular ist die aktuelle?',
+      messageId: ids.initialThreadMessageId,
+      date: new Date().toLocaleDateString(),
       time: Date.now().toString(),
-      messageSendBy: 'zk9QdkeUKIMaqGA7ySU1pUyP8d62',
+      messageSendBy: 'tacaNwHF8SPuTfJFbpCz2J2aIPH2',
       reactions: [],
-      threadId: '',
-      answerCount: 0,
-      lastAnswer: '',
       editCount: 0,
       lastEdit: '',
-      taggedUser: [],
       storageData: '',
+      taggedUser: [],
+    }
+  }
+
+  setGuestThreadAnswer(ids: {userId: string, channelId: string, messageId: string, initialThreadMessageId: string, threadAnswerId: string}) {
+    return {
+      messageAnswerId: ids.threadAnswerId,
+      text: 'Es scheint die Version 18.1.1 zu sein.',
+      messageId: ids.initialThreadMessageId,
+      date: new Date().toLocaleDateString(),
+      time: Date.now().toString(),
+      messageSendBy: ids.userId,
+      reactions: [],
+      editCount: 0,
+      lastEdit: '',
+      storageData: '',
+      taggedUser: [],
     }
   }
 
