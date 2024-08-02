@@ -30,21 +30,18 @@ export class ChannelComponent implements OnInit, OnDestroy {
   @Input() isChannelMemberVisible: boolean = false;
   @Output() channelMemberVisibilityChange = new EventEmitter<boolean>();
 
-	constructor(private route: ActivatedRoute) {
-		this.route.params.subscribe((params) => {
-			this.chatService.docRef = params['id'];
-		});
-    	// to-do settimeout is needed in case user refreshes the page, otherwise the placeholder is not set because the channelList is not yet loaded
-		this.chatService.initializeChannelPlaceholder(this.chatService.docRef);
-  		this.chatService.editThreadId = '';
-  		this.threadService.editMessageId = '';
-	}
+  constructor(private route: ActivatedRoute) {
+    this.route.params.subscribe((params) => {
+      this.chatService.docRef = params['id'];
+    });
+    // to-do settimeout is needed in case user refreshes the page, otherwise the placeholder is not set because the channelList is not yet loaded
+    this.chatService.initializeChannelPlaceholder(this.chatService.docRef);
+    this.chatService.editThreadId = '';
+    this.threadService.editMessageId = '';
+  }
 
   ngOnInit(): void {
     this.chatService.subscribeAllLists();
-    setTimeout(() => {
-      this.chatService.scrollToBottom();
-    }, 1500);
   }
 
   ngOnDestroy(): void {
