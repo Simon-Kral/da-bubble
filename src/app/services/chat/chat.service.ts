@@ -110,6 +110,7 @@ export class ChatService {
         snapshot.forEach((doc) => {
           const msg = this.setMessage(doc.data(), doc.id);
           this.msgList.push(msg);
+          this.scrollToBottom();
         });
         console.log('Msg List:', this.msgList);
       },
