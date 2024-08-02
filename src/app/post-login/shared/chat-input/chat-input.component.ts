@@ -24,7 +24,7 @@ export class ChatInputComponent implements OnDestroy, OnInit {
 
   @Input() sourceComponent: string = ''; // Variable to hold the source component's name or identifier
   @Input() placeholderText: string = ''; // Variable to hold the placeholder text for the chat input
-  @Input() lableId: string = '';
+  @Input() labelId: string = '';
   @Output() messageEvent = new EventEmitter<{
     message: string;
     source: string; // to-do do we need this?
