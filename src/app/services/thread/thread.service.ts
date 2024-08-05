@@ -34,7 +34,6 @@ export class ThreadService {
 
   msgAnswerList: MessageAnswer[] = [];
   unsubscribeMsgAnswerList: any;
-
   editMessageAnswerId: string = '';
   editMessageId: string = '';
 
@@ -81,10 +80,9 @@ export class ThreadService {
           this.msgAnswerList.push(msg);
           this.scrollToBottom();
         });
-        console.log('MsgAnswers List:', this.msgAnswerList);
       },
       (error) => {
-        console.error('Error fetching messages: ', error);
+        console.warn('Error fetching messages: ', error);
       },
     );
   }
@@ -111,6 +109,7 @@ export class ThreadService {
       taggedUser: obj.taggedUser || [],
     };
   }
+
   /**
    * Retrieves the text of a message from a specific doc in Firestore.
    * @param {string} mainCollection - The name of the main collection.
@@ -133,7 +132,7 @@ export class ThreadService {
         throw new Error('No such document!');
       }
     } catch (error) {
-      console.error('Error getting message:', error);
+      console.warn('Error getting message:', error);
       throw error;
     }
   }
@@ -171,18 +170,26 @@ export class ThreadService {
    * @returns {Promise<void>} A promise that resolves when the message is successfully sent.
    */
   async onMessageSent(event: { message: string; taggedUser?: string[]; storageData?: string }): Promise<void> {
-    console.log('Received event in THREAD SERVICE:', event); // Debug-Ausgabe
     await this.sendMessageAnswer(event);
   }
 
   /**
-   * Sends a new messageAnswer and updates its document ID in Firestore.
+   * Sends a message answer and performs related updates.
    *
-   * @param {string} messageText - The text of the message answer to be sent.
-   * @returns {Promise<void>} A promise that resolves when the message answer is successfully sent and updated.
+   * This method creates a new `MessageAnswer` object with the provided details, including the message text,
+   * tagged users, and any additional storage data. It then performs the following operations:
+   * 1. Adds the new message answer to the database.
+   * 2. Updates the message answer ID with the document reference returned from the database.
+   * 3. Updates the message count and timestamp for the original message.
+   *
+   * @param event - An object containing details of the message answer.
+   * @param event.message - The text of the message answer.
+   * @param [event.taggedUser] - An optional array of user IDs tagged in the message.
+   * @param [event.storageData] - An optional string of additional storage data related to the message.
+   *
+   * @returns {Promise<void>} A promise that resolves when the message answer has been sent and updates are complete.
    */
   async sendMessageAnswer(event: { message: string; taggedUser?: string[]; storageData?: string }): Promise<void> {
-    console.log('Storage data in thread service:', event.storageData);
     let newMessage: MessageAnswer = {
       messageAnswerId: '',
       text: event.message,
@@ -202,11 +209,15 @@ export class ThreadService {
   }
 
   /**
-   * Adds a new messageAnswer doc to the Firestore.
+   * Adds a message answer to the Firestore database.
    *
-   * @param {MessageAnswer} answerData - The message answer object to be added.
+   * This method creates a new document in the `messageAnswers` subcollection of a specific message document.
+   * It stores the provided `MessageAnswer` data in the new document.
+   *
+   * @param answerData - An object containing the data of the message answer to be added.
+   *
    * @returns {Promise<any>} A promise that resolves with the document reference of the added message answer.
-   * @throws {Error} Throws an error if adding the document fails.
+   * @throws {Error} Throws an error if there is an issue adding the message document to the database.
    */
   async addMessageAnswer(answerData: MessageAnswer): Promise<any> {
     try {
@@ -220,7 +231,7 @@ export class ThreadService {
       );
       return addDoc(collectionRef, answerData);
     } catch (e) {
-      console.error('Error adding message document: ', e);
+      console.warn('Error adding message document: ', e);
       throw e;
     }
   }
@@ -244,19 +255,21 @@ export class ThreadService {
         },
       );
     } catch (e) {
-      console.error('Error updating message document: ', e);
+      console.warn('Error updating message document: ', e);
       throw e;
     }
   }
 
   /**
-   * Updates the text of a message in a specific doc in Firestore.
-   * @param {string} mainCollection - The name of the main collection.
-   * @param {string} docRef - The document reference in the main collection.
-   * @param {string} messageId - The ID of the message document in the subcollection messages.
-   * @param {string} editMessageAnswerId - The ID of the message document in the subcollection messageAnswers.
-   * @param {string} newText - The new text to update in the message document.
-   * @returns {Promise<void>} A promise that resolves when the message text is updated.
+   * Updates the text of a specific message answer in Firestore.
+   *
+   * This method modifies the `text` field of the specified message answer document. It also increments
+   * the `editCount` and updates the `lastEdit` timestamp.
+   *
+   * @param newText - The new text content to update in the message answer.
+   *
+   * @returns {Promise<void>} A promise that resolves when the update operation completes.
+   * @throws {Error} Throws an error if there is an issue updating the message answer in the database.
    */
   async updateMessageAnswer(newText: string): Promise<void> {
     try {
@@ -270,7 +283,7 @@ export class ThreadService {
         lastEdit: Date.now().toString(),
       });
     } catch (error) {
-      console.error('Error updating message text:', error);
+      console.warn('Error updating message text:', error);
       throw error;
     }
   }
@@ -301,7 +314,7 @@ export class ThreadService {
       };
       await updateDoc(messageDocRef, updateData);
     } catch (error) {
-      console.error(`Error ${operation}ing message document:`, error);
+      console.warn(`Error ${operation}ing message document:`, error);
       throw error;
     }
   }
@@ -325,7 +338,7 @@ export class ThreadService {
         lastEdit: Date.now().toString(),
       });
     } catch (error) {
-      console.error('Error updating message text:', error);
+      console.warn('Error updating message text:', error);
       throw error;
     }
   }
@@ -346,7 +359,7 @@ export class ThreadService {
       const latestTime = await this.findLatestMsgTime();
       await this.updateMessageAnswerCountAndTime(this.editMessageId, latestTime, 'decrease');
     } catch (error) {
-      console.error('Error deleting message:', error);
+      console.warn('Error deleting message:', error);
       throw error;
     }
   }
@@ -354,30 +367,36 @@ export class ThreadService {
   //general helper functions
 
   /**
-   * Handles the creation of a new thread for a given message.
+   * Handles the creation of a new thread in the chat by updating the thread visibility and subscribing to the message answers.
    *
-   * @param {Message} message - The message for which a new thread is being created.
-   * @returns {Promise<void>} A promise that resolves when the thread is successfully created and subscribed.
+   * This method hides the thread, toggles its visibility, sets the current message ID for the chat service,
+   * initiates the creation of a message answer, and subscribes to the list of message answers.
+   *
+   * @param message - The message object containing information about the thread to be created.
+   *
    */
-  async handleCreateThread(message: Message) {
+  handleCreateThread(message: Message) {
     this.communicationService.isThreadVisible = false;
     this.communicationService.toggleThreadVisibility();
     this.chatService.messageId = message.messageId;
     this.createMessageAnswer(message);
-    await this.subscribeMsgAnswerList();
+    this.subscribeMsgAnswerList();
   }
 
   /**
-   * Opens an existing thread and subscribes to its message answers.
+   * Opens an existing thread in the chat by updating the thread visibility and subscribing to the message answers.
    *
-   * @param {string} threadId - The ID of the thread to be opened.
-   * @returns {Promise<void>} A promise that resolves when the thread is successfully opened and subscribed.
+   * This method hides the thread if it's currently visible, toggles its visibility to ensure it is shown,
+   * sets the current thread ID for the chat service, and subscribes to the list of message answers for the given thread.
+   *
+   * @param threadId - The ID of the thread to be opened.
+   *
    */
-  async openExistingThread(threadId: string) {
+  openExistingThread(threadId: string) {
     this.communicationService.isThreadVisible = false;
     this.communicationService.toggleThreadVisibility();
     this.chatService.messageId = threadId;
-    await this.subscribeMsgAnswerList();
+    this.subscribeMsgAnswerList();
   }
 
   /**
@@ -400,18 +419,24 @@ export class ThreadService {
   }
 
   /**
-   * Scrolls to a specific message by its answer ID.
+   * Emits an event with the given message ID to scroll to that message.
+   * This method sends the message ID through the `messageScrolledSource` observable,
+   * which can be subscribed to in order to perform the scrolling action.
    *
-   * @param {string} messageAnswerId - The ID of the message to scroll to.
+   * @param messageAnswerId - The ID of the message to scroll to.
+   *
+   * @returns void
    */
   scrollToMessage(messageAnswerId: string) {
-    console.log('Scroll to message:', messageAnswerId);
     this.messageScrolledSource.next(messageAnswerId);
   }
 
   /**
-   * Scrolls to the bottom of the message list.
-   * Finds the last message in the list and scrolls to it.
+   * Scrolls to the last message in the message list.
+   * If the message list is empty, the method does nothing.
+   * Otherwise, it retrieves the ID of the last message and calls `scrollToMessage` to perform the scroll.
+   *
+   * @returns void
    */
   scrollToBottom() {
     if (this.msgAnswerList.length === 0) {

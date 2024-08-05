@@ -67,28 +67,19 @@ export class ChatService {
     private route: ActivatedRoute,
   ) {}
 
+  /**
+   * Subscribes to all necessary lists for the chat service.
+   */
   subscribeAllLists() {
     this.subscribeMsgList();
   }
 
+  /**
+   * Unsubscribes to all lists for the chat service.
+   */
   unsubscribeAllLists() {
     if (this.unsubscribeMsgList) {
       this.unsubscribeMsgList();
-    }
-  }
-
-  scrollToMessage(messageId: string) {
-    console.log('Scroll to message:', messageId);
-    this.messageScrolledSource.next(messageId);
-  }
-
-  scrollToBottom() {
-    if (this.msgList.length === 0) {
-      return;
-    } else {
-      const lastMessage = this.msgList[this.msgList.length - 1];
-      const messageId = lastMessage.messageId;
-      this.scrollToMessage(messageId);
     }
   }
 
@@ -112,10 +103,9 @@ export class ChatService {
           this.msgList.push(msg);
           this.scrollToBottom();
         });
-        console.log('Msg List:', this.msgList);
       },
       (error) => {
-        console.error('Error fetching messages: ', error);
+        console.warn('Error fetching messages: ', error);
       },
     );
   }
@@ -147,11 +137,15 @@ export class ChatService {
   }
 
   /**
-   * Retrieves the text of a message from a specific doc in Firestore.
-   * @param {string} mainCollection - The name of the main collection.
-   * @param {string} docRef - The document reference in the main collection.
-   * @param {string} editMessageId - The ID of the message document in the subcollection.
-   * @returns {Promise<string>} A promise that resolves to the text of the message.
+   * Retrieves a specific message from Firestore based on the document reference and message ID.
+   *
+   * This method fetches the message document from the Firestore database, extracts the 'text' field from the document,
+   * and returns it as a string. If the document does not exist or if there is an error during retrieval, the method
+   * will throw an error. The method uses async/await for asynchronous operations and handles errors with a try/catch block.
+   *
+   * @returns {Promise<string>} A promise that resolves to the text of the message. If the message field does not exist,
+   *                            an empty string is returned.
+   * @throws {Error} Throws an error if the document does not exist or if there is an issue retrieving the document.
    */
   async getMessage(): Promise<string> {
     try {
@@ -164,18 +158,24 @@ export class ChatService {
         throw new Error('No such document!');
       }
     } catch (error) {
-      console.error('Error getting message:', error);
+      console.warn('Error getting message:', error);
       throw error;
     }
   }
 
   /**
-   * Updates the text of a message in a specific doc in Firestore.
-   * @param {string} mainCollection - The name of the main collection.
-   * @param {string} docRef - The document reference in the main collection.
-   * @param {string} editMessageId - The ID of the message document in the subcollection.
-   * @param {string} newText - The new text to update in the message document.
-   * @returns {Promise<void>} A promise that resolves when the message text is updated.
+   * Updates the text of a specific message in Firestore and increments its edit count.
+   *
+   * This method updates the 'text' field of a message document in the Firestore database with the provided new text.
+   * Additionally, it increments the 'editCount' field to track how many times the message has been edited and updates
+   * the 'lastEdit' field with the current timestamp. The method uses async/await for asynchronous operations and handles
+   * errors with a try/catch block.
+   *
+   * @param {string} newText - The new text to set for the message. This string will replace the existing text in the
+   *                            Firestore document.
+   * @returns {Promise<void>} A promise that resolves when the update operation is complete. It does not return any
+   *                          value.
+   * @throws {Error} Throws an error if the update operation fails.
    */
   async updateMessage(newText: string): Promise<void> {
     try {
@@ -186,7 +186,7 @@ export class ChatService {
         lastEdit: Date.now().toString(),
       });
     } catch (error) {
-      console.error('Error updating message text:', error);
+      console.warn('Error updating message text:', error);
       throw error;
     }
   }
@@ -214,7 +214,7 @@ export class ChatService {
         lastEdit: Date.now().toString(),
       });
     } catch (error) {
-      console.error('Error updating message text:', error);
+      console.warn('Error updating message text:', error);
       throw error;
     }
   }
@@ -230,9 +230,8 @@ export class ChatService {
       const messageDocRef = doc(this.firestore, `${this.mainCollection}/${this.docRef}/messages/${this.editMessageId}`);
       await this.deleteSubcollection(messageDocRef);
       await deleteDoc(messageDocRef);
-      console.log('Message deleted:', this.editMessageId);
     } catch (error) {
-      console.error('Error deleting message:', error);
+      console.warn('Error deleting message:', error);
       throw error;
     }
   }
@@ -250,9 +249,8 @@ export class ChatService {
       const querySnapshot = await getDocs(subcollectionRef);
       const deletePromises = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
       await Promise.all(deletePromises);
-      console.log('Subcollection deleted for message:', messageDocRef.id);
     } catch (error) {
-      console.error('Error deleting subcollection:', error);
+      console.warn('Error deleting subcollection:', error);
       throw error;
     }
   }
@@ -264,7 +262,6 @@ export class ChatService {
    * If the chat does not exist, creates a new chat in the Firestore database updateds to new doc with its own Id and navigates to it.
    * @param {string} chatCreator - The user ID of the person initiating the chat.
    * @param {string} chatReceiver - The user ID of the person receiving the chat invitation.
-   * @returns {Promise<void>} A promise that resolves when the new chat has been created and updated.
    */
   async initializePrivateChat(chatCreator: string, chatReceiver: string) {
     try {
@@ -280,7 +277,7 @@ export class ChatService {
       const docRef = await this.addPrivateChat(newPrivateChat);
       await this.updatePrivateChatId(docRef);
     } catch (error) {
-      console.error('Error starting new private chat:', error);
+      console.warn('Error starting new private chat:', error);
       throw error;
     }
   }
@@ -298,10 +295,11 @@ export class ChatService {
       this.router.navigate(['/home/privateChats', docRef.id]);
       return docRef;
     } catch (e) {
-      console.error('Error adding document: ', e);
+      console.warn('Error adding document: ', e);
       throw e;
     }
   }
+
   /**
    * Checks if a private chat between the given chatCreator and chatReceiver exists.
    * @param {string} chatReceiver - The ID of the chat receiver.
@@ -352,7 +350,7 @@ export class ChatService {
       await updateDoc(doc(this.firestore, 'privateChats', docRef.id), { privatChatId: docRef.id });
       this.newPrivateChatId = docRef.id;
     } catch (e) {
-      console.error('Error updating document: ', e);
+      console.warn('Error updating document: ', e);
       throw e;
     }
   }
@@ -369,12 +367,21 @@ export class ChatService {
   }
 
   /**
-   * Sends a message to a private chat or channel by creating a new message document in the messages subcollection.
-   * @param {string} messageText - The text of the message to be sent.
-   * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and updated.
+   * Sends a message to a private chat or channel by creating a new message document in the messages subcollection to the Firestore database and updates the message document with the generated message ID.
+   *
+   * This method creates a new message object with the provided details, including the message text, optionally tagged users,
+   * and any associated storage data. It then adds this message to the Firestore collection and updates the document with
+   * the generated message ID. The method uses async/await for asynchronous operations and handles errors with a try/catch block.
+   *
+   * @param {Object} event - An object containing the details of the message to be sent.
+   * @param {string} event.message - The text content of the message to be sent.
+   * @param {string[]} [event.taggedUser] - Optional. An array of user IDs representing the users tagged in the message.
+   * @param {string} [event.storageData] - Optional. A string representing any associated storage data (e.g., file URL).
+   * @returns {Promise<void>} A promise that resolves when the message has been successfully sent and the message ID has
+   *                          been updated. It does not return any value.
+   * @throws {Error} Throws an error if adding the message to Firestore or updating the message ID fails.
    */
   async sendMessage(event: { message: string; taggedUser?: string[]; storageData?: string }): Promise<void> {
-    console.log('Storage data in chat service:', event.storageData);
     let newMessage: Message = {
       messageId: '',
       text: event.message,
@@ -406,7 +413,7 @@ export class ChatService {
       const collectionRef = collection(this.firestore, this.mainCollection, this.docRef, 'messages');
       return addDoc(collectionRef, messageData);
     } catch (e) {
-      console.error('Error adding message document: ', e);
+      console.warn('Error adding message document: ', e);
       throw e;
     }
   }
@@ -425,7 +432,7 @@ export class ChatService {
         messageId: docRef.id,
       });
     } catch (e) {
-      console.error('Error updating message document: ', e);
+      console.warn('Error updating message document: ', e);
       throw e;
     }
   }
@@ -444,7 +451,7 @@ export class ChatService {
         threadId: threadId,
       });
     } catch (e) {
-      console.error('Error updating message document: ', e);
+      console.warn('Error updating message document: ', e);
       throw e;
     }
   }
@@ -504,14 +511,36 @@ export class ChatService {
   }
 
   /**
-   * Converts the current date to a formatted string.
+   * Converts the current date into a formatted string representation.
    *
-   * @returns {string} The formatted date string in the format "Weekday, Day. Month".
+   * The method returns a string that represents the current date in the format:
+   * `[Weekday], [Day of Month]. [Month]`.
+   * For example, if today is August 5, 2024, and it's a Monday, it will return:
+   * `"Monday, 5. August"`.
+   *
+   * The formatting is based on the `weekday` and `months` arrays, which should contain the names of the days of the week
+   * and months, respectively. The method uses the current date obtained from `new Date()` to generate the formatted string.
+   *
+   * @returns {string} A formatted string representing the current date.
    */
   convertDate() {
     return `${this.weekday[new Date().getDay()]}, ${new Date().getDate()}. ${this.months[new Date().getMonth()]}`;
   }
 
+  /**
+   * Handles the user click event by toggling the visibility of user profiles and updating
+   * the profile ID based on the selected user.
+   *
+   * This method performs the following actions:
+   * - Hides the channel member list by setting its visibility to false.
+   * - Checks if the clicked user is the current user. If so, it toggles the visibility
+   *   of the current user's profile.
+   * - If the clicked user is not the current user, it toggles the visibility of that user's profile
+   *   and updates the profile ID to the ID of the clicked user.
+   *
+   * @param {string} userId - The ID of the user that was clicked.
+   *
+   */
   handleClickOnUser(userId: string) {
     this.communicationService.toggleChannelMemberVisibility(false);
     if (this.firebaseService.currentUserId === userId) {
@@ -519,6 +548,36 @@ export class ChatService {
     } else {
       this.communicationService.toggleUserProfileVisibility(true);
       this.communicationService.userProfileId = userId;
+    }
+  }
+
+  /**
+   * Emits an event with the given message ID to scroll to that message.
+   * This method sends the message ID through the `messageScrolledSource` observable,
+   * which can be subscribed to in order to perform the scrolling action.
+   *
+   * @param messageId - The ID of the message to scroll to.
+   *
+   * @returns void
+   */
+  scrollToMessage(messageId: string) {
+    this.messageScrolledSource.next(messageId);
+  }
+
+  /**
+   * Scrolls to the last message in the message list.
+   * If the message list is empty, the method does nothing.
+   * Otherwise, it retrieves the ID of the last message and calls `scrollToMessage` to perform the scroll.
+   *
+   * @returns void
+   */
+  scrollToBottom() {
+    if (this.msgList.length === 0) {
+      return;
+    } else {
+      const lastMessage = this.msgList[this.msgList.length - 1];
+      const messageId = lastMessage.messageId;
+      this.scrollToMessage(messageId);
     }
   }
 }
