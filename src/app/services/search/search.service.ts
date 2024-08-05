@@ -198,7 +198,6 @@ export class SearchService {
       this.searchSpecificChannelMessageResults = [];
       return;
     }
-    this.searchText = searchText.replace(/\\n/g, ' ');
     let searchTextTrimmed = searchText.toLowerCase().trim();
     this.searchSpecificThreadMessageResults = [];
     this.searchSpecificChannelMessageResults = [];

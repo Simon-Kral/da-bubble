@@ -178,8 +178,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.searchInputNotActive) {
       this.communicationService.isHeaderInputVisible = false;
       this.searchInputNotActive = false;
-    } else if(!this.communicationService.isHeaderInputVisible) {
-        this.communicationService.isHeaderInputVisible = false
+      this.communicationService.showChannels = false;
+      this.communicationService.showUsers = false;
+      this.searchService.searchSpecificChannelMessageResults = [];
+      this.searchService.searchSpecificThreadMessageResults = [];
+    } else if (!this.communicationService.isHeaderInputVisible) {
+      this.communicationService.isHeaderInputVisible = false;
+      this.communicationService.showChannels = false;
+      this.communicationService.showUsers = false;
+      this.searchService.searchSpecificChannelMessageResults = [];
+      this.searchService.searchSpecificThreadMessageResults = [];
     } else {
       this.searchInputNotActive = true;
     }

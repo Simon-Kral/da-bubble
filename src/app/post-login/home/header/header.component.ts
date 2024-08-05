@@ -26,11 +26,8 @@ export class HeaderComponent implements OnInit {
   communicationService = inject(CommunicationService);
 
   searchText: FormGroup;
-  showUsers: boolean = false;
-  showChannels: boolean = false;
   //user profile
   @Output() userProfileToggle = new EventEmitter<boolean>();
-
 
   constructor(private fb: FormBuilder) {
     this.searchText = this.fb.group({
@@ -60,14 +57,10 @@ export class HeaderComponent implements OnInit {
 
   handleSearch() {
     const searchInput = this.searchText.get('search')?.value || '';
-    if (searchInput.startsWith('@')) {
-      this.userSearchActive(searchInput);
-    } else if (searchInput.startsWith('#')) {
-      this.channelSearchActive(searchInput);
-    } else {
-      this.showAllUsersAndChannels();
-      this.searchService.searchSesificMessage(searchInput);
-    }
+    this.userSearchActive(searchInput);
+    this.channelSearchActive(searchInput);
+    this.showAllUsersAndChannels();
+    this.searchService.searchSesificMessage(searchInput);
   }
 
   /**
@@ -76,8 +69,7 @@ export class HeaderComponent implements OnInit {
    */
   userSearchActive(searchInput: string) {
     this.communicationService.isHeaderInputVisible = false;
-    this.showUsers = true;
-    this.showChannels = false;
+    this.communicationService.showUsers = true;
     this.searchService.onUserSearch(searchInput.slice(1)); // Suche ohne das '@'-Zeichen
   }
 
@@ -87,8 +79,7 @@ export class HeaderComponent implements OnInit {
    */
   channelSearchActive(searchInput: string) {
     this.communicationService.isHeaderInputVisible = false;
-    this.showUsers = false;
-    this.showChannels = true;
+    this.communicationService.showChannels = true;
     this.searchService.onChannelSearch(searchInput.slice(1)); // Suche ohne das '#'-Zeichen
   }
 
@@ -97,16 +88,18 @@ export class HeaderComponent implements OnInit {
    * Hides the users and channels, sets the focus to active, and unsubscribes from channel and user search.
    */
   showAllUsersAndChannels() {
-    this.showUsers = false;
-    this.showChannels = false;
-    this.communicationService.isHeaderInputVisible = true;
+    if (!this.searchText.value) {
+      this.communicationService.showUsers = false;
+      this.communicationService.showChannels = false;
+      this.communicationService.isHeaderInputVisible = true;
+    }
   }
 
   handleClickOnMember(userId: string) {
     this.searchText.reset();
     this.communicationService.isHeaderInputVisible = false;
-    this.showUsers = false;
-    this.showChannels = false;
+    this.communicationService.showUsers = false;
+    this.communicationService.showChannels = false;
     this.communicationService.isWelcomeScreenVisible = false;
     this.communicationService.isRouterOutletVisible = true;
     this.chatService.initializePrivateChat(this.firebaseService.currentUserId, userId);
@@ -125,10 +118,16 @@ export class HeaderComponent implements OnInit {
       this.searchService.unSubscribeOnChannelSearch();
       this.searchService.unSubscribeOnUserSearch();
     }
+    console.log('handleToggleFocus', this.communicationService.isHeaderInputVisible);
+
     this.communicationService.isHeaderInputVisible = !this.communicationService.isHeaderInputVisible;
     this.searchService.searchSpecificChannelMessageResults = [];
     this.searchService.searchSpecificThreadMessageResults = [];
+    this.searchService.userSearchResults = [];
+    this.searchService.channelSearchResults = [];
     this.searchText.reset();
+    this.communicationService.showChannels = false;
+    this.communicationService.showUsers = false;
   }
 
   /**

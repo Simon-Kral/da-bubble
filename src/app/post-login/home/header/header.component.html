@@ -36,6 +36,7 @@
 
       <!-- onFocus -->
       @if (
+        this.searchText.value &&
         this.communicationService.isHeaderInputVisible &&
         !this.searchService.searchSpecificChannelMessageResults.length &&
         !this.searchService.searchSpecificThreadMessageResults.length
@@ -64,17 +65,19 @@
           }
           <h3>Channels:</h3>
           @for (channel of this.firebaseService.channelList; track channel; let index = $index) {
-            <div class="content-container pointer" (click)="handleClickOnChannel(channel.chanId)">
-              <span>{{ "#" + channel.name }}</span>
-            </div>
+            @if (index < 5) {
+              <div class="content-container pointer" (click)="handleClickOnChannel(channel.chanId)">
+                <span>{{ "#" + channel.name }}</span>
+              </div>
+            }
           }
         </div>
       }
 
-      <!-- Search resault -->
+      <!-- Search resault msg -->
       @if (
-        this.showUsers ||
-        this.showChannels ||
+        (this.communicationService.showUsers && this.communicationService.isHeaderInputVisible) ||
+        this.communicationService.showChannels ||
         this.searchService.searchSpecificChannelMessageResults.length ||
         this.searchService.searchSpecificThreadMessageResults.length
       ) {
@@ -82,7 +85,7 @@
           <div class="close-btn pointer" (click)="this.handleToggleFocus()">
             <img src="assets/img/icons/close_black.png" alt="" />
           </div>
-          <!--user search results-->
+          <!--thread msg-->
           @if (
             this.searchService.searchSpecificThreadMessageResults.length &&
             !this.communicationService.isMobileViewActive
@@ -117,6 +120,7 @@
             }
           }
 
+          <!-- channel msg search result -->
           @if (
             this.searchService.searchSpecificChannelMessageResults.length &&
             !this.communicationService.isMobileViewActive
@@ -144,7 +148,12 @@
               }
             }
           }
-          @if (showUsers && this.searchService.userSearchResults.length) {
+          @if (
+            this.communicationService.showUsers &&
+            !this.communicationService.isHeaderInputVisible &&
+            this.searchService.userSearchResults.length &&
+            this.searchText.value
+          ) {
             <h3>Users:</h3>
             @for (userId of this.searchService.userSearchResults; track userId; let index = $index) {
               @if (index < 5 && userId !== this.firebaseService.currentUserId) {
@@ -163,30 +172,24 @@
                 </div>
               }
             }
-          } @else if (
-            !this.searchService.userSearchResults.length &&
-            !this.showChannels &&
-            this.searchText.value &&
-            !this.searchService.searchForSpecificChannelMessages &&
-            !this.searchService.searchSpecificThreadMessageResults
-          ) {
+          } @else if (!this.searchService.userSearchResults.length && this.searchText.value) {
+            <h3>Users:</h3>
             <h3>Es wurde kein Nutzer gefunden.</h3>
           }
+
           <!--channel search results-->
-          @if (showChannels && this.searchService.channelSearchResults.length) {
+          @if (this.communicationService.showChannels && this.searchService.channelSearchResults.length) {
             <h3>Channels:</h3>
             @for (channel of this.searchService.channelSearchResults; track channel; let index = $index) {
-              <div class="content-container pointer" (click)="handleClickOnChannel(channel)">
-                <span>#{{ this.firebaseService.getChannelNameById(channel) }} </span>
-              </div>
+              @if (index < 5) {
+                <div class="content-container pointer" (click)="handleClickOnChannel(channel)">
+                  <span>#{{ this.firebaseService.getChannelNameById(channel) }} </span>
+                </div>
+              }
             }
-          } @else if (
-            !this.searchService.channelSearchResults.length &&
-            this.searchText.value &&
-            !this.showUsers &&
-            !this.searchService.searchForSpecificChannelMessages &&
-            !this.searchService.searchSpecificThreadMessageResults
-          ) {
+          } @else if (!this.searchService.channelSearchResults.length && this.searchText.value) {
+            <h3>Channels:</h3>
+
             <h3>Es wurde kein Channel gefunden.</h3>
           }
         </div>

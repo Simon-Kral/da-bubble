@@ -26,6 +26,8 @@ export class CommunicationService {
   isRouterOutletVisible: boolean = false;
 
   isHeaderInputVisible: boolean = false;
+  showChannels = false;
+  showUsers = false;
 
   // user profile variabels
   userProfileId: string = ''; // is getting used to store userId of the user whose profile is being viewed
