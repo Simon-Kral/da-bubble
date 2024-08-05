@@ -47,6 +47,9 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   taggedUser: string[] = [];
   taggedUserNames: string[] = [];
 
+  // previous message value
+  previousMessage: string = '';
+
   // storgae data
   storageData: string = '';
   fileName: string = '';
@@ -63,7 +66,9 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     this.taggedUserNames = [];
     this.storageData = '';
     this.messageData.get('message')?.valueChanges.subscribe((value: string) => {
+      this.checkForRemovedTags(value || '');
       this.handleMessageInput(value || '');
+      this.previousMessage = value || '';
     });
   }
 
@@ -73,21 +78,28 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     this.storageData = '';
   }
 
+  /**
+   * Handles the input value of the message field to determine if the tag container should be shown.
+   * Displays the tag container if the input ends with an '@' symbol and it is a valid tagging scenario.
+   * Hides the tag container otherwise.
+   *
+   * @param value - The current input value from the message field.
+   *
+   * This method performs the following checks:
+   * 1. Ensures the input value is a string; if not, it sets the value to an empty string.
+   * 2. Checks if the input ends with an '@' symbol.
+   * 3. Verifies if the '@' symbol is in a valid position for tagging (e.g., preceded by a space or at the start).
+   * 4. Ensures the '@' symbol is not part of an email address.
+   * 5. Shows or hides the tag container based on the results of these checks.
+   */
   handleMessageInput(value: string) {
     if (typeof value !== 'string') {
       value = '';
     }
-
-    // Check if @ is in the message
     const atSymbolEntered = value.endsWith('@');
-
-    // Check if the @ is at the beginning of the message or if there is a space before the @
     const atIndex = value.lastIndexOf('@');
     const isAtSymbolValid = atIndex !== -1 && (atIndex === 0 || value.charAt(atIndex - 1) === ' ');
-
-    // Make sure the @ is not part of an email address
     const isEmail = /\S+@\S+\.\S+/.test(value);
-
     if (atSymbolEntered && isAtSymbolValid && !isEmail) {
       this.showTagContainer = true;
     } else {
@@ -108,25 +120,29 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * Handles the form submission when the user clicks the submit button.
-   * Emits the message to be sent and resets the form.
+   * Handles the form submission for sending a message.
+   * Processes the message data, replaces tagged usernames with their actual names,
+   * and emits an event with the formatted message data. Resets the form and clears the tagged users list.
+   *
+   * This method performs the following steps:
+   * 1. Checks if the form is valid; if not, exits the method.
+   * 2. Retrieves the current message and processes it to replace tagged usernames with their actual names.
+   * 3. Constructs the message object to be sent, including timestamp, message content, source component, storage data, and tagged users.
+   * 4. Emits the message event with the constructed message object.
+   * 5. Resets the form, clears the tagged users list, and resets storage data.
+   *
+   * @returns void
    */
   onSubmit(): void {
     if (this.messageData.invalid) {
       return;
     }
-
-    // Remove '@' before each tagged user name in the message
     let message = this.messageData.value.message;
     this.taggedUserNames.forEach((userName) => {
-      // Escape special characters in userName for use in regex
       const escapedUserName = userName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      // Create regex to find '@userName'
       const regex = new RegExp(`@${escapedUserName}`, 'g');
-      message = message.replace(regex, userName); // Replace '@userName' with 'userName'
+      message = message.replace(regex, userName);
     });
-
-    // Construct the message to send
     const messageToSend = {
       timestamp: this.getCurrentTime(), // to-do do we need this?
       message: message,
@@ -134,15 +150,10 @@ export class ChatInputComponent implements OnDestroy, OnInit {
       storageData: this.storageData,
       taggedUser: this.taggedUser,
     };
-
-    // Emit the message and reset form data
     this.messageEvent.emit(messageToSend);
     this.messageData.reset();
-    console.log('Message sent chat input:', messageToSend);
-    console.log('Storage data in child before emit:', this.storageData);
-
-    // Clear tagged users and storage data
     this.taggedUser = [];
+    this.taggedUserNames = [];
     this.storageData = '';
   }
 
@@ -169,31 +180,30 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   //tag channel member code
   toggleTagContainer() {
     this.showTagContainer = !this.showTagContainer;
-    console.log('showTagContainer:', this.showTagContainer);
   }
 
   /**
-   * Tags a channel member by adding their user ID and name to the respective arrays.
-   * If all channel members have been tagged, hides the tag container.
+   * Tags a channel member by appending their username to the current message.
+   * If the current message does not end with an '@' symbol, it appends one before adding the username.
+   * Updates the message field, adds the user ID and username to the respective arrays,
+   * and hides the tag container if all members have been tagged.
    *
    * @param userName - The name of the channel member to be tagged.
    * @param userId - The ID of the channel member to be tagged.
    * @param index - The index of the channel in the channel list.
+   *
+   * @returns void
    */
   tagChannelMember(userName: string, userId: string, index: number) {
     let { message } = this.messageData.value;
-
-    if (message.endsWith('@')) {
-      message = message.trim();
+    if (!message.endsWith('@')) {
+      message += '@';
     }
-
-    let displayMessage = `${message}${' ' + userName + ' '}`;
+    let displayMessage = `${message}${userName + ' '}`;
     this.messageData.setValue({ message: displayMessage });
-
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
     this.showTagContainer = false;
-
     if (this.taggedUser.length + 1 === this.firebaseService.channelList[index].members.length) {
       this.showTagContainer = false;
     }
@@ -229,24 +239,25 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   // tag all user code
 
   /**
-   * Tags a user by adding their ID and name to the taggedUser array and updates the message.
+   * Tags a user by appending their username to the current message.
+   * If the current message does not end with an '@' symbol, it appends one before adding the username.
+   * Updates the message field, adds the user ID and username to the respective arrays,
+   * and hides the tag container.
    *
-   * @param userName - The name of the user being tagged.
-   * @param userId - The ID of the user being tagged.
+   * @param userName - The name of the user to be tagged.
+   * @param userId - The ID of the user to be tagged.
+   *
+   * @returns void
    */
   tagUser(userName: string, userId: string) {
     let { message } = this.messageData.value;
-
-    if (message.endsWith('@')) {
-      message = message.trim();
+    if (!message.endsWith('@')) {
+      message += '@';
     }
-
-    let displayMessage = `${message}${' ' + userName + ' '}`;
+    let displayMessage = `${message}${userName + ' '}`;
     this.messageData.setValue({ message: displayMessage });
-
     this.taggedUser.push(userId);
     this.taggedUserNames.push(userName);
-
     this.showTagContainer = false;
   }
 
@@ -272,6 +283,37 @@ export class ChatInputComponent implements OnDestroy, OnInit {
       .filter((user) => user.userId !== this.firebaseService.currentUserId)
       .map((user) => user.userId);
     return allUserIds.every((userId) => this.taggedUser.includes(userId));
+  }
+
+  /**
+   * Checks for removed tags in the current message compared to the previous message.
+   * Updates the tagged users and their IDs by removing any tags that are no longer present in the current message.
+   *
+   * @param currentMessage - The current message to compare against the previous message.
+   *
+   * This method performs the following steps:
+   * 1. Extracts tags from the previous and current messages.
+   * 2. Identifies which tags were present in the previous message but are missing in the current message.
+   * 3. Removes the corresponding users from the tagged users list.
+   */
+  checkForRemovedTags(currentMessage: string) {
+    const previousTags: string[] = this.previousMessage.match(/@\w+\s\w+/g) || [];
+    const currentTags: string[] = currentMessage.match(/@\w+\s\w+/g) || [];
+    const removedTags: string[] = previousTags.filter((tag) => !currentTags.includes(tag));
+
+    removedTags.forEach((tag: string) => {
+      const userName = tag.slice(1).trim();
+      const index = this.taggedUserNames.indexOf(userName);
+      if (index !== -1) {
+        this.taggedUserNames.splice(index, 1);
+        this.taggedUser.splice(index, 1);
+      }
+    });
+
+    console.log('chat input MSG', currentMessage);
+    console.log('Removed tags:', removedTags);
+    console.log('Tagged users:', this.taggedUserNames);
+    console.log('Tagged users IDs:', this.taggedUser);
   }
 
   //upload file code
