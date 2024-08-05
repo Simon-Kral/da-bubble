@@ -21,7 +21,7 @@ export class ReactionService {
 
   constructor() {}
 
-  currentThreadId: string = ''; // getting used to store the current thread id of chat
+  currentThreadId: string = '';
 
   /**
    * Handles adding a predefined reaction to a specific message.
@@ -72,10 +72,6 @@ export class ReactionService {
    * @throws Will throw an error if there is an issue accessing or updating the Firestore document.
    */
   async handleClickOnLastReaction(reaction: Reaction, messageId: string, source: string): Promise<void> {
-    console.log('reactionId:', reaction.reactionId);
-    console.log('messageId:', messageId);
-    console.log('source:', source);
-
     const messageDocRef = this.getDocRef(source, messageId);
     const messageDoc = await getDoc(messageDocRef);
 
@@ -100,8 +96,6 @@ export class ReactionService {
         // Case 3: Another user has reacted, but the current user has not (reaction does not exist for current user)
         await this.updateReactionAmount(reaction.reactionId, messageId, 'increase', source);
       }
-    } else {
-      console.log('Message document does not exist.');
     }
   }
 
@@ -112,10 +106,7 @@ export class ReactionService {
    * @param {string} messageId - The ID of the message to which the reaction is to be added or updated.
    */
   handleReaction(event: any, messageId: string, source: string) {
-    console.log('event:', event);
-    console.log('messageId:', messageId);
     let nativeEmoji = event.emoji.native;
-    console.log('nativeEmoji:', nativeEmoji);
     let reactionId = event.emoji.unified;
     let newReaction: Reaction = {
       reactionId: reactionId,
@@ -124,11 +115,7 @@ export class ReactionService {
       amount: 1,
       nativeEmoji: nativeEmoji,
     };
-
-    console.log('newReaction:', newReaction);
-
     this.addSpecificReaction(messageId, newReaction, source);
-
     this.showEmojiPicker = false;
     this.showEmojiPickerThread = false;
   }
@@ -142,8 +129,6 @@ export class ReactionService {
    * @throws Will throw an error if there is an issue updating the Firestore document.
    */
   async addSpecificReaction(messageId: string, reaction: Reaction, source: string): Promise<void> {
-    console.log('messageId:', messageId);
-    console.log('reaction:', reaction);
     try {
       const messageDocRef = this.getDocRef(source, messageId);
       const messageDoc = await getDoc(messageDocRef);
@@ -156,26 +141,22 @@ export class ReactionService {
           if (existingReaction) {
             if (!existingReaction.user.includes(this.firebaseService.currentUserId)) {
               await this.updateReactionAmount(reaction.reactionId, messageId, 'increase', source);
-            } else {
-              console.log('User has already reacted with this reaction');
             }
           } else {
             await updateDoc(messageDocRef, {
               reactions: arrayUnion(reaction),
             });
-            console.log('reaction added', reaction);
           }
         } else {
           await updateDoc(messageDocRef, {
             reactions: [reaction],
           });
-          console.log('reaction added', reaction);
         }
       } else {
         throw new Error('Message document does not exist.');
       }
     } catch (error) {
-      console.error('Error updating message text:', error);
+      console.warn('Error updating message text:', error);
       throw error;
     }
   }
@@ -201,13 +182,10 @@ export class ReactionService {
         if (userReaction) {
           const updatedReactions = this.updateReactions(data['reactions'], userReaction, reactionId);
           await updateDoc(messageDocRef, { reactions: updatedReactions });
-          console.log(userReaction.user.length > 1 ? 'User removed from reaction' : 'Reaction deleted');
-        } else {
-          console.log('No reaction found for the current user');
         }
       }
     } catch (error) {
-      console.error('Error deleting reaction:', error);
+      console.warn('Error deleting reaction:', error);
       throw error;
     }
   }
@@ -262,7 +240,6 @@ export class ReactionService {
     try {
       const messageDocRef = this.getDocRef(source, messageId);
       const messageDoc = await getDoc(messageDocRef);
-
       if (messageDoc.exists()) {
         const data = messageDoc.data();
         if (data && data['reactions']) {
@@ -284,13 +261,11 @@ export class ReactionService {
               return reaction;
             })
             .filter((reaction: Reaction) => reaction.amount > 0);
-
           await updateDoc(messageDocRef, { reactions: updatedReactions });
-          console.log(`Reaction amount ${operation === 'increase' ? 'increased' : 'decreased'}`);
         }
       }
     } catch (error) {
-      console.error(`Error updating reaction amount:`, error);
+      console.warn(`Error updating reaction amount:`, error);
       throw error;
     }
   }
