@@ -183,11 +183,11 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   tagChannelMember(userName: string, userId: string, index: number) {
     let { message } = this.messageData.value;
 
-    if (message.endsWith('@') || message.endsWith(' ')) {
+    if (message.endsWith('@')) {
       message = message.trim();
     }
 
-    let displayMessage = `${message}${userName}`;
+    let displayMessage = `${message}${' ' + userName + ' '}`;
     this.messageData.setValue({ message: displayMessage });
 
     this.taggedUser.push(userId);
@@ -237,11 +237,11 @@ export class ChatInputComponent implements OnDestroy, OnInit {
   tagUser(userName: string, userId: string) {
     let { message } = this.messageData.value;
 
-    if (message.endsWith('@') || message.endsWith(' ')) {
+    if (message.endsWith('@')) {
       message = message.trim();
     }
 
-    let displayMessage = `${message}${userName}`;
+    let displayMessage = `${message}${' ' + userName + ' '}`;
     this.messageData.setValue({ message: displayMessage });
 
     this.taggedUser.push(userId);
