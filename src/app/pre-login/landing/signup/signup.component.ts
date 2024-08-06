@@ -74,13 +74,13 @@ export class SignupComponent {
   }
 
   /**
- * Toggles the visibility of the password input field.
- * 
- * If the current input type is 'password', it changes the input type to 'text' 
- * and updates the visibility icon to indicate that the password is visible.
- * If the current input type is 'text', it changes the input type back to 'password' 
- * and updates the visibility icon to indicate that the password is hidden.
- */
+   * Toggles the visibility of the password input field.
+   *
+   * If the current input type is 'password', it changes the input type to 'text'
+   * and updates the visibility icon to indicate that the password is visible.
+   * If the current input type is 'text', it changes the input type back to 'password'
+   * and updates the visibility icon to indicate that the password is hidden.
+   */
   changePasswordVisibility() {
     if (this.inputType === 'password') {
       this.inputType = 'text';

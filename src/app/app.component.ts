@@ -131,8 +131,10 @@ export class AppComponent implements OnInit {
    */
   setUserData(user: User): Promise<void> {
     this.setSessionStorage(user);
-    const promise = updateDoc(doc(this.firestore, `users/${this.authService.firebaseAuth.currentUser!.uid}`), { status: true });
-    return promise
+    const promise = updateDoc(doc(this.firestore, `users/${this.authService.firebaseAuth.currentUser!.uid}`), {
+      status: true,
+    });
+    return promise;
   }
 
   /**

@@ -31,7 +31,7 @@ export class AuthService {
 
   /**
    * Registers a new user with email, username, and password.
-   * 
+   *
    * @param {string} email - The user's email.
    * @param {string} username - The user's username.
    * @param {string} password - The user's password.
@@ -46,7 +46,7 @@ export class AuthService {
 
   /**
    * Signs up a user with Google.
-   * 
+   *
    * @returns {Observable<void>}
    */
   signupWithGoogle(): Observable<void> {
@@ -60,7 +60,7 @@ export class AuthService {
 
   /**
    * Logs in a user with email and password.
-   * 
+   *
    * @param {string} email - The user's email.
    * @param {string} password - The user's password.
    * @returns {Observable<void>}
@@ -76,7 +76,7 @@ export class AuthService {
 
   /**
    * Sets the user's avatar.
-   * 
+   *
    * @param {string} avatar - The URL of the avatar.
    * @returns {Observable<void>}
    */
@@ -89,7 +89,7 @@ export class AuthService {
           .then(() => {})
           .catch((error) => {
             console.log(error);
-        });
+          });
       })
       .catch((error) => {
         console.log(error);
@@ -99,7 +99,7 @@ export class AuthService {
 
   /**
    * Logs out the current user.
-   * 
+   *
    * @returns {Observable<void>}
    */
   logout(): Observable<void> {
@@ -109,7 +109,7 @@ export class AuthService {
 
   /**
    * Sends a password reset link to the specified email.
-   * 
+   *
    * @param {string} email - The user's email.
    * @returns {Observable<void>}
    */
@@ -122,7 +122,7 @@ export class AuthService {
 
   /**
    * Resets the user's password using the action code and new password.
-   * 
+   *
    * @param {string} actionCode - The action code from the password reset email.
    * @param {string} password - The new password.
    * @returns {Observable<void>}
@@ -138,22 +138,22 @@ export class AuthService {
 
   /**
    * Reauthenticates the user and sends an email to verify the new email adress.
-   * 
+   *
    * @param {string} newEmail - The new email address.
    * @returns {Observable<void>}
    */
   changeEmail(newEmail: string, password: string): Observable<void> {
-      const promise = this.reauthPassword(password).then(() => {
-        verifyBeforeUpdateEmail(this.firebaseAuth.currentUser!, newEmail).catch((error) => {
-          console.log(error);
-        });
+    const promise = this.reauthPassword(password).then(() => {
+      verifyBeforeUpdateEmail(this.firebaseAuth.currentUser!, newEmail).catch((error) => {
+        console.log(error);
       });
-      return from(promise);
+    });
+    return from(promise);
   }
 
   /**
    * Reauthenticates the current user using their email and password credentials.
-   * 
+   *
    * @param {string} password - The user's password.
    * @returns {Promise<void>} A promise that resolves when reauthentication completes.
    */
@@ -171,10 +171,10 @@ export class AuthService {
   }
 
   /**
- * Logs in a guest user with predefined credentials.
- * 
- * @returns {Observable<void>} An observable that resolves when the login operation is complete.
- */
+   * Logs in a guest user with predefined credentials.
+   *
+   * @returns {Observable<void>} An observable that resolves when the login operation is complete.
+   */
   loginAsGuest(): Observable<void> {
     const promise = signInWithEmailAndPassword(this.firebaseAuth, 'MaxMustermann@gast.com', '123456')
       .then(() => {})
@@ -184,17 +184,17 @@ export class AuthService {
     return from(promise);
   }
 
-    /**
+  /**
    * Searches for the google provider in the current user's list of providers and sets googleProviderExists true or false.
    * Users that are authenticated with google signup must not change their profile.
-   * 
+   *
    * @returns {Object}
    */
-    searchProvider(): {googleProviderExists: boolean, userIsGuest: boolean} {
-      const providers: string[] = [];
-      this.firebaseAuth.currentUser!.providerData.forEach((provider) => {
-        providers.push(provider.providerId);
-      });
-      return {googleProviderExists: providers.includes('google.com'), userIsGuest: providers.length === 0}
-    }
+  searchProvider(): { googleProviderExists: boolean; userIsGuest: boolean } {
+    const providers: string[] = [];
+    this.firebaseAuth.currentUser!.providerData.forEach((provider) => {
+      providers.push(provider.providerId);
+    });
+    return { googleProviderExists: providers.includes('google.com'), userIsGuest: providers.length === 0 };
+  }
 }
