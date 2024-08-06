@@ -131,7 +131,8 @@ export class AppComponent implements OnInit {
    */
   setUserData(user: User): Promise<void> {
     this.setSessionStorage(user);
-    return updateDoc(doc(this.firestore, `users/${this.authService.firebaseAuth.currentUser!.uid}`), { status: true });
+    const promise = updateDoc(doc(this.firestore, `users/${this.authService.firebaseAuth.currentUser!.uid}`), { status: true });
+    return promise
   }
 
   /**
@@ -147,10 +148,10 @@ export class AppComponent implements OnInit {
         user.photoURL.includes('assets/img/logos/profile_logo.png'))
     ) {
       this.navToAvatar();
-    } else if (!user.emailVerified && user.email != 'gast@gast.com') {
+    } else if (!user.emailVerified && user.uid != 'RsgU38XPWoSUezBf8JT5HOJVdja2') {
       this.handleEmailVerification();
     } else {
-      this.navToHome();
+      this.navToHome(user);
     }
   }
 
@@ -189,8 +190,8 @@ export class AppComponent implements OnInit {
    * Navigates to the home page if the user is authenticated and the current URL is the root.
    * @returns {boolean}
    */
-  navToHome(): boolean {
-    if (this.router.url === '/') {
+  navToHome(user?: User): boolean {
+    if (this.router.url === '/' && sessionStorage.getItem('currentUserId') === user!.uid) {
       this.router.navigateByUrl('/home');
     }
     return false;

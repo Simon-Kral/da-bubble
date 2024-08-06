@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
 	FormBuilder,
 	FormControl,
@@ -8,9 +8,9 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/authentication/auth.service';
-import { collection, doc, Firestore, getDoc, getDocs, query, setDoc, where } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { AppComponent } from '../../../app.component';
-import { FirebaseService } from '../../../services/firebase/firebase.service';
+import { InitUserService } from '../../../services/initUser/init-user.service';
 
 @Component({
 	selector: 'app-login',
@@ -21,7 +21,7 @@ import { FirebaseService } from '../../../services/firebase/firebase.service';
 })
 export class LoginComponent {
 	authService = inject(AuthService);
-	firebase = inject(FirebaseService);
+	initUserService = inject(InitUserService);
 	firestore: Firestore = inject(Firestore);
 	fb = inject(FormBuilder);
 	router = inject(Router);
@@ -69,8 +69,8 @@ export class LoginComponent {
 		this.appComponent.notificateUser('Anmelden');
 			this.authService.loginAsGuest().subscribe({
 			next: () => {
-				this.firebase.setInitialDatabaseEntries('Gast');
-				this.firebase.setGuestExampleData();
+				this.initUserService.setInitialDatabaseEntries('Max Mustermann');
+				this.initUserService.setGuestExampleData();
 			},
 			error: (err) => {
 				console.log(err);
@@ -110,7 +110,7 @@ export class LoginComponent {
 				const creationAsUTC = this.authService.firebaseAuth.currentUser?.metadata.creationTime;
 				const creationAsTimestamp = Number(this.convertToTimestamp(creationAsUTC!));
 				if ((Date.now() - creationAsTimestamp) < (1000 * 10)) {
-					this.firebase.setInitialDatabaseEntries();
+					this.initUserService.setInitialDatabaseEntries();
 				}
 			},
 		});

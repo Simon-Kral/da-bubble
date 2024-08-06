@@ -10,8 +10,8 @@ import {
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { Router, RouterLink } from '@angular/router';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
-import { FirebaseService } from '../../../services/firebase/firebase.service';
+import { Firestore } from '@angular/fire/firestore';
+import { InitUserService } from '../../../services/initUser/init-user.service';
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +22,7 @@ import { FirebaseService } from '../../../services/firebase/firebase.service';
 })
 export class SignupComponent {
   authService = inject(AuthService);
-  firebase = inject(FirebaseService);
+  initUserService = inject(InitUserService);
   firestore: Firestore = inject(Firestore);
   fb = inject(FormBuilder);
   router = inject(Router);
@@ -56,7 +56,7 @@ export class SignupComponent {
 
     this.authService.signup(rawForm.email, rawForm.username, rawForm.password).subscribe({
       next: () => {
-        this.firebase.setInitialDatabaseEntries(rawForm.username);
+        this.initUserService.setInitialDatabaseEntries(rawForm.username);
       },
       error: (err) => {
         console.log(err);
@@ -73,6 +73,14 @@ export class SignupComponent {
     return formControl.invalid && (formControl.touched || formControl.dirty);
   }
 
+  /**
+ * Toggles the visibility of the password input field.
+ * 
+ * If the current input type is 'password', it changes the input type to 'text' 
+ * and updates the visibility icon to indicate that the password is visible.
+ * If the current input type is 'text', it changes the input type back to 'password' 
+ * and updates the visibility icon to indicate that the password is hidden.
+ */
   changePasswordVisibility() {
     if (this.inputType === 'password') {
       this.inputType = 'text';
