@@ -45,7 +45,7 @@ export class StorageService {
   deleteFile(storageRef: StorageReference) {
     deleteObject(storageRef)
       .then(() => {
-        console.log('File deleted successfully');
+        //console.log('File deleted successfully');
       })
       .catch((error) => {
         console.log('Error deleting file:', error);

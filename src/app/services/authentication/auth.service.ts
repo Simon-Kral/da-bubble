@@ -163,7 +163,7 @@ export class AuthService {
       EmailAuthProvider.credential(this.firebaseAuth.currentUser!.email!, password),
     )
       .then(() => {
-        console.log('reautchenticated with credential');
+        //  console.log('reautchenticated with credential');
       })
       .catch((error) => {
         console.log(error);

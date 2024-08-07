@@ -148,7 +148,7 @@ export class CurrentUserProfileComponent implements OnInit {
   saveProfile(): void {
     const updates: Partial<UserData> = this.newUserData.value;
     if (this.emailHasChanged(this.newUserData.controls['email']) && !this.googleProviderExists) {
-      this.fullChange(updates)
+      this.fullChange(updates);
     } else {
       this.changeInDatabaseOnly(updates);
     }
@@ -181,7 +181,6 @@ export class CurrentUserProfileComponent implements OnInit {
     return this.firebaseService
       .updateUserProfile(updates)
       .then(() => {
-        console.log('User profile updated successfully');
         this.toggleCurrentUserProfile(false);
       })
       .catch((error) => {

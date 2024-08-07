@@ -118,8 +118,6 @@ export class HeaderComponent implements OnInit {
       this.searchService.unSubscribeOnChannelSearch();
       this.searchService.unSubscribeOnUserSearch();
     }
-    console.log('handleToggleFocus', this.communicationService.isHeaderInputVisible);
-
     this.communicationService.isHeaderInputVisible = !this.communicationService.isHeaderInputVisible;
     this.searchService.searchSpecificChannelMessageResults = [];
     this.searchService.searchSpecificThreadMessageResults = [];
@@ -140,7 +138,6 @@ export class HeaderComponent implements OnInit {
     //unsubscribe from channel search
     this.communicationService.isWelcomeScreenVisible = false;
     this.communicationService.isRouterOutletVisible = true;
-    console.log('channelId on channelclick in header serach', channelId);
     this.router.navigate(['/home/channels', channelId]);
     this.searchService.channelSearchActive = false;
     this.searchService.channelSearchResults = [];

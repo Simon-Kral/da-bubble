@@ -92,7 +92,6 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
    * @param {any} event - The event object from the emoji picker, which contains the clicked emoji.
    */
   handleEditMsgEmojiClick(event: any) {
-    console.log('Emoji clicked:', event.emoji.native);
     this.toggleEditMsgEmojiPicker();
     const currentText = this.newMsgData.get('text')?.value || '';
     const newText = currentText + event.emoji.native;
@@ -131,9 +130,9 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
 
   handleClickOnConfirmDeleteMsg(storageDataUrl: string = '') {
     this.communicationService.isDeleteThreadMsgDialogVisible = false;
-	if (storageDataUrl) {
-	  this.storageService.deleteFileByUrl(storageDataUrl);
-	}
+    if (storageDataUrl) {
+      this.storageService.deleteFileByUrl(storageDataUrl);
+    }
     this.threadService.deleteMessageAnswer();
   }
 
@@ -148,10 +147,8 @@ export class ThreadHistoryComponent implements OnInit, OnDestroy {
       const updatedText = this.newMsgData.value.text;
       try {
         await this.threadService.updateMessageAnswer(updatedText);
-        console.log('Message text updated successfully');
         if (this.threadService.editMessageId) {
           await this.threadService.updateInitialMessage(updatedText);
-          console.log('Thread message text updated successfully');
         }
         this.threadService.editMessageId = '';
         this.showEditMsgOverlay = false;

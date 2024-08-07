@@ -78,8 +78,6 @@ export class NewMessageComponent implements OnDestroy {
       this.searchService.channelSearchResults = [];
       this.showUsersByEmail = false;
     }
-
-    console.log('Search text received by searchService:', searchInput);
   }
 
   removeSelectedChannel() {

@@ -309,11 +309,6 @@ export class ChatInputComponent implements OnDestroy, OnInit {
         this.taggedUser.splice(index, 1);
       }
     });
-
-    console.log('chat input MSG', currentMessage);
-    console.log('Removed tags:', removedTags);
-    console.log('Tagged users:', this.taggedUserNames);
-    console.log('Tagged users IDs:', this.taggedUser);
   }
 
   //upload file code
@@ -327,7 +322,6 @@ export class ChatInputComponent implements OnDestroy, OnInit {
     const file = fileInput.files?.item(0);
     this.fileName = file?.name || '';
     this.fileType = file?.type || '';
-    console.log('File type:', this.fileType);
 
     if (file) {
       const storageRef = ref(this.storageService.storage, `chatData/${this.chatService.docRef}/${file.name}`);
@@ -335,7 +329,6 @@ export class ChatInputComponent implements OnDestroy, OnInit {
       this.storageService.checkIfFileExists(storageRef).subscribe({
         next: (exists) => {
           if (exists) {
-            console.log('File already exists in the database');
             this.fileExists = true;
           } else {
             this.storageService.uploadFile(storageRef, file).subscribe({

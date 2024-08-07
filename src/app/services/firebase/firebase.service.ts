@@ -44,7 +44,6 @@ export class FirebaseService {
 
   constructor() {
     this.getCurrentUserId();
-    console.log('Current User ID:', this.currentUserId); // to-do remove after developement is finished
   }
 
   subscribeAllLists() {
@@ -78,7 +77,7 @@ export class FirebaseService {
   /**
    * Fetches the current user data as an object from the Firestore database.
    * The user ID is used to query the 'users' collection in Firestore.
-   * // to-do remove after developement is finished
+   *
    * @returns {Promise<User>} A promise that resolves to a User object containing user data.
    */
   async getCurrentUserAsObject() {
@@ -100,19 +99,17 @@ export class FirebaseService {
   /**
    * Sets the current user property by fetching the user data as an object from Firestore.
    * Logs the current user object to the console.
-   */ // to-do remove after developement is finished
+   */
   async setCurrentUserAsObjekt() {
     this.currentUser = await this.getCurrentUserAsObject();
-    console.log('Current User Object', this.currentUser);
   }
 
   /**
    * Clears the current user property by setting it to a new instance of User.
    * Logs that the current user has been cleared.
-   */ // to-do remove after developement is finished
+   */
   clearCurrentUser() {
     this.currentUser = new User();
-    console.log('Current User has been cleared');
   }
 
   // channel code
@@ -134,7 +131,6 @@ export class FirebaseService {
             this.channelList.push(channel);
           }
         });
-        console.log('Channel List:', this.channelList);
       },
       (error) => {
         console.error('Error fetching channels: ', error);
@@ -194,7 +190,6 @@ export class FirebaseService {
       await updateDoc(channelDocRef, {
         members: arrayUnion(...userIds),
       });
-      console.log(`Members array updated for channel ID: ${chanId}`);
     } catch (e) {
       console.error(`Error updating members array for channel ID: ${chanId}`, e);
       throw e;
@@ -219,7 +214,6 @@ export class FirebaseService {
         snapshot.forEach((doc) => {
           this.userList.push(this.setUser(doc.data(), doc.id));
         });
-        console.log('User List:', this.userList);
       },
       (error) => {
         console.error('Error fetching Users: ', error);
@@ -396,7 +390,6 @@ export class FirebaseService {
             this.privateChatList.push(chat);
           }
         });
-        console.log('Private Chat List:', this.privateChatList);
       },
       (error) => {
         console.error('Error fetching Private Chats: ', error);
@@ -445,7 +438,6 @@ export class FirebaseService {
             this.privateNoteList.push(note);
           }
         });
-        console.log('Private Note List:', this.privateNoteList);
       },
       (error) => {
         console.error('Error fetching Private Notes: ', error);
@@ -480,5 +472,3 @@ export class FirebaseService {
     });
   }
 }
-
-

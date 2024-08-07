@@ -21,7 +21,7 @@ interface MsgData {
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, PickerComponent],
   templateUrl: './chat-history.component.html',
-  styleUrl: './chat-history.component.scss'
+  styleUrl: './chat-history.component.scss',
 })
 export class ChatHistoryComponent implements OnInit, OnDestroy {
   firebaseService = inject(FirebaseService);
@@ -54,7 +54,6 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
       const id = urlSegments[1]?.path; // id aka docRef of the channel or privateChat or privateNote
       this.chatService.mainCollection = mainCollection; //sets the main collection
       this.chatService.docRef = id; //sets the docRef
-      console.log('Chat initialisiert', this.chatService.mainCollection, this.chatService.docRef);
     });
   }
 
@@ -109,7 +108,6 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
    * @param {any} event - The event object from the emoji picker, which contains the clicked emoji.
    */
   handleEditMsgEmojiClick(event: any) {
-    console.log('Emoji clicked:', event.emoji.native);
     this.toggleEditMsgEmojiPicker();
     const currentText = this.newMsgData.get('text')?.value || '';
     const newText = currentText + event.emoji.native;
@@ -146,9 +144,9 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
   async handleClickOnConfirmDeleteMsg(storageDataUrl: string = '') {
     this.communicationService.isDeleteMsgDialogVisible = false;
     this.communicationService.isThreadVisible = false;
-	if (storageDataUrl) {
-	  this.storageService.deleteFileByUrl(storageDataUrl);
-	}
+    if (storageDataUrl) {
+      this.storageService.deleteFileByUrl(storageDataUrl);
+    }
     await this.chatService.deleteMessage();
     this.chatService.unsubscribeAllLists();
     this.chatService.subscribeAllLists();
@@ -171,10 +169,8 @@ export class ChatHistoryComponent implements OnInit, OnDestroy {
       const updatedText = this.newMsgData.value.text;
       try {
         await this.chatService.updateMessage(updatedText);
-        console.log('Main message text updated successfully');
         if (this.chatService.editThreadId) {
           await this.chatService.updateInitialThreadMessage(updatedText, this.chatService.editThreadId);
-          console.log('Thread message text updated successfully');
         }
         this.showEditMsgOverlay = false;
         this.chatService.editThreadId = '';

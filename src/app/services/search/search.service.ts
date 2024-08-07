@@ -216,7 +216,6 @@ export class SearchService {
       this.chatService.msgList.forEach((message) => {
         if (message.text.toLowerCase().includes(searchText)) {
           this.searchSpecificChannelMessageResults.push(message);
-          console.log('searchSpesificChannelMessageResault', this.searchSpecificChannelMessageResults);
         }
       });
     }
@@ -231,7 +230,6 @@ export class SearchService {
       this.threadService.msgAnswerList.forEach((message) => {
         if (message.text.toLowerCase().includes(searchText)) {
           this.searchSpecificThreadMessageResults.push(message);
-          console.log('searchSpesificThreadMessageResaults', this.searchSpecificThreadMessageResults);
         }
       });
     }
